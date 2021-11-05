@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Model;
 
-import com.example.fishingbooker.Enum.UserType;
+import com.example.fishingbooker.Enum.UserCategory;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,14 +20,14 @@ public class User {
     private String city;
     private String country;
     private String phone;
-    private UserType userType;
+    private UserCategory userCategory;
     private boolean isDeleted;
-
+    private boolean isApproved;
     public User() {
     }
 
     public User(String username, String password, String name, String surname, String email,
-                String address, String city, String country, String phone, UserType userType) {
+                String address, String city, String country, String phone, UserCategory userCategory) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -37,8 +37,9 @@ public class User {
         this.city = city;
         this.country = country;
         this.phone = phone;
-        this.userType = userType;
+        this.userCategory = userCategory;
         this.isDeleted = false;
+        this.isApproved = false;
     }
 
     public String getUsername() {
@@ -113,12 +114,12 @@ public class User {
         this.phone = phone;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public UserCategory getUserCategory() {
+        return userCategory;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserCategory(UserCategory userCategory) {
+        this.userCategory = userCategory;
     }
 
     public boolean isDeleted() {
@@ -127,5 +128,13 @@ public class User {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 }

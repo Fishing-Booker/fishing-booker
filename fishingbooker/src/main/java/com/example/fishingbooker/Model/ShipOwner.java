@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Model;
 
-import com.example.fishingbooker.Enum.UserType;
+import com.example.fishingbooker.Enum.UserCategory;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,8 +16,8 @@ public class ShipOwner extends User{
     }
 
     public ShipOwner(String username, String password, String name, String surname, String email, String address, String city, String country,
-                     String phone, UserType userType, boolean isCaptain, boolean isOfficer) {
-        super(username, password, name, surname, email, address, city, country, phone, userType);
+                     String phone, UserCategory userCategory, boolean isCaptain, boolean isOfficer) {
+        super(username, password, name, surname, email, address, city, country, phone, userCategory);
         this.isCaptain = isCaptain;
         this.isOfficer = isOfficer;
     }
