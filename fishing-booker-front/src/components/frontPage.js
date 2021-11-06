@@ -1,31 +1,40 @@
-import menuIcon from "../images/menu.png"
 import Entities from "./entities";
+import { useState } from "react";
+import RegistrationForm from "./registrationForm";
+import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import LoginForm from "./loginForm";
 
-const FrontPage = () =>  {
+const FrontPage = () => {
+
     return (
+        <Router>
         <div>
-            <div class="container">
-                <div class="navbar">
+            <div className="container">
+                <div className="navbar">
                     <nav>
                         <ul>
-                            <li><a href="">HOME</a></li>
-                            <li><a href="">REGISTER</a></li>
-                            <li><a href="">LOG IN</a></li>
+                            <li><Link to="/"> HOME</Link></li>
+                            <li><Link to="/register">REGISTER </Link></li>
+                            <li><Link to="/login">LOG IN</Link></li>
                         </ul>
                     </nav>
-                    <img src={menuIcon} class="menu-icon"/>
                 </div>
 
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <h1> Fishing booker </h1>
-                        <p class="main-description"> Book your next fishing trip! </p>
-                        <button class="explore-btn" type="button">Explore</button>
+                        <p className="main-description"> Book your next fishing trip! </p>
+                        <button className="explore-btn" type="button">Explore</button>
                     </div>
-                    <Entities/>
+                    <Switch>
+                        <Route exact path="/"><Entities/></Route>
+                        <Route path="/register"><RegistrationForm/></Route>
+                        <Route path="/login"><LoginForm/></Route>
+                    </Switch>
                 </div>
 	        </div>
         </div>
+        </Router>
     )
 }
 
