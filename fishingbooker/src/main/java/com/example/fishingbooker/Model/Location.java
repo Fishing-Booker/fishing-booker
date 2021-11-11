@@ -1,25 +1,36 @@
 package com.example.fishingbooker.Model;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "location")
 public class Location {
 
     @Id
-    private int id;
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "longitude")
     private double longitude;
+
+    @Column(name = "latitude")
     private double latitude;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "country")
     private String country;
 
     public Location() {
     }
 
-    public Location(int id, double longitude, double latitude, String address, String city, String country) {
+    public Location(Integer id, double longitude, double latitude, String address, String city, String country) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -28,11 +39,11 @@ public class Location {
         this.country = country;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

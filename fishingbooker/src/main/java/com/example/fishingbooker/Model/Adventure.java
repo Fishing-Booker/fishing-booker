@@ -1,18 +1,26 @@
 package com.example.fishingbooker.Model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.List;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "adventure")
-public class Adventure extends Entity {
+public class Adventure extends ReservationEntity {
+
+    @Column(name = "biography")
     private String biography;
-    private int maxPersons;
+
+    @Column(name = "max_persons")
+    private Integer maxPersons;
 
     public Adventure() {
     }
 
-    public Adventure(int id, String ownerUsername, String name, int locationId, String description, String rules, String cancelConditions, double averageGrade, String biography, int maxPersons) {
-        super(id, ownerUsername, name, locationId, description, rules, cancelConditions, averageGrade);
+    public Adventure(Integer id, User owner, String name, Location location, String description, String rules,
+                     String cancelConditions, double averageGrade, String biography, Integer maxPersons, List<Image> images) {
+        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, images);
         this.biography = biography;
         this.maxPersons = maxPersons;
     }
@@ -25,11 +33,11 @@ public class Adventure extends Entity {
         this.biography = biography;
     }
 
-    public int getMaxPersons() {
+    public Integer getMaxPersons() {
         return maxPersons;
     }
 
-    public void setMaxPersons(int maxPersons) {
+    public void setMaxPersons(Integer maxPersons) {
         this.maxPersons = maxPersons;
     }
 }

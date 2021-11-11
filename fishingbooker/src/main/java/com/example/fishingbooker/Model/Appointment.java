@@ -1,29 +1,44 @@
 package com.example.fishingbooker.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "appointment")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Appointment {
 
     @Id
-    private int id;
-    private int entityId;
+    @Column(name = "appointment_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    private ReservationEntity reservationEntity;
+
+    @Column(name = "start_date")
     private Date startDate;
+
+    @Column(name = "end_date")
     private Date endDate;
+
+    @Column(name = "is_booked")
     private boolean isBooked;
-    private int maxPersons;
+
+    @Column(name = "max_persons")
+    private Integer maxPersons;
+
+    @Column(name = "price")
     private double price;
 
     public Appointment() {
     }
 
-    public Appointment(int id, int entityId, Date startDate, Date endDate, boolean isBooked, int maxPersons, double price) {
+    public Appointment(Integer id, ReservationEntity reservationEntity, Date startDate, Date endDate, boolean isBooked,
+                       Integer maxPersons, double price) {
         this.id = id;
-        this.entityId = entityId;
+        this.reservationEntity = reservationEntity;
         this.startDate = startDate;
         this.endDate = endDate;
         this.isBooked = isBooked;
@@ -31,20 +46,20 @@ public class Appointment {
         this.price = price;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public ReservationEntity getReservationEntity() {
+        return reservationEntity;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setReservationEntity(ReservationEntity reservationEntity) {
+        this.reservationEntity = reservationEntity;
     }
 
     public Date getStartDate() {
@@ -71,11 +86,11 @@ public class Appointment {
         isBooked = booked;
     }
 
-    public int getMaxPersons() {
+    public Integer getMaxPersons() {
         return maxPersons;
     }
 
-    public void setMaxPersons(int maxPersons) {
+    public void setMaxPersons(Integer maxPersons) {
         this.maxPersons = maxPersons;
     }
 

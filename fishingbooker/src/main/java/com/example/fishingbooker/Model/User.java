@@ -2,32 +2,61 @@ package com.example.fishingbooker.Model;
 
 import com.example.fishingbooker.Enum.UserCategory;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
+    @Column(name = "user_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "username", nullable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "surname")
     private String surname;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "city")
     private String city;
+
+    @Column(name = "country")
     private String country;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name="user_category")
+    @Enumerated(EnumType.STRING)
     private UserCategory userCategory;
+
+    @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @Column(name = "is_approved")
     private boolean isApproved;
     public User() {
     }
 
-    public User(String username, String password, String name, String surname, String email,
+    public User(Integer id, String username, String password, String name, String surname, String email,
                 String address, String city, String country, String phone, UserCategory userCategory) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -40,6 +69,14 @@ public class User {
         this.userCategory = userCategory;
         this.isDeleted = false;
         this.isApproved = false;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {

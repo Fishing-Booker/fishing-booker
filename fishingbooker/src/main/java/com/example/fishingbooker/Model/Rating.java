@@ -1,52 +1,61 @@
 package com.example.fishingbooker.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "rating")
 public class Rating {
 
     @Id
-    private int id;
-    private int entityId;
-    private int grade;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    private ReservationEntity reservationEntity;
+
+    @Column(name = "grade")
+    private Integer grade;
+
+    @Column(name = "comment")
     private String comment;
+
+    @Column(name = "is_approved")
     private boolean isApproved;
 
     public Rating() {
     }
 
-    public Rating(int id, int entityId, int grade, String comment) {
+    public Rating(Integer id, ReservationEntity reservationEntity, Integer grade, String comment) {
         this.id = id;
-        this.entityId = entityId;
+        this.reservationEntity = reservationEntity;
         this.grade = grade;
         this.comment = comment;
         this.isApproved = false;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public ReservationEntity getReservationEntity() {
+        return reservationEntity;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setReservationEntity(ReservationEntity reservationEntity) {
+        this.reservationEntity = reservationEntity;
     }
 
-    public int getGrade() {
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 

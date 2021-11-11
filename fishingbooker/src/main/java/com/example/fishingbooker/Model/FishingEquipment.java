@@ -1,43 +1,50 @@
 package com.example.fishingbooker.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "fishingEquipment")
 public class FishingEquipment {
 
     @Id
-    private int id;
-    private int entityId;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    private ReservationEntity reservationEntity;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "is_deleted")
     private boolean isDeleted;
 
     public FishingEquipment() {
     }
 
-    public FishingEquipment(int id, int entityId, String name) {
+    public FishingEquipment(Integer id, ReservationEntity reservationEntity, String name) {
         this.id = id;
-        this.entityId = entityId;
+        this.reservationEntity = reservationEntity;
         this.name = name;
         this.isDeleted = false;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public ReservationEntity getReservationEntity() {
+        return reservationEntity;
     }
 
-    public void setEntityId(int entityId) {
-        this.entityId = entityId;
+    public void setReservationEntity(ReservationEntity reservationEntity) {
+        this.reservationEntity = reservationEntity;
     }
 
     public String getName() {

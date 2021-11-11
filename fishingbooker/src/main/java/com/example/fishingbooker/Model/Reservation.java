@@ -2,32 +2,37 @@ package com.example.fishingbooker.Model;
 
 import com.example.fishingbooker.Enum.ReservationType;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
 public class Reservation extends Appointment {
 
-    private String clientUsername;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="client_id", referencedColumnName = "user_id")
+    private User client;
+
+    @Column(name = "reservation_type")
+    @Enumerated(EnumType.STRING)
     private ReservationType reservationType;
 
     public Reservation() {
     }
 
-    public Reservation(int id, int entityId, Date startDate, Date endDate, boolean isBooked, int maxPersons, double price, String clientUsername, ReservationType reservationType) {
-        super(id, entityId, startDate, endDate, isBooked, maxPersons, price);
-        this.clientUsername = clientUsername;
+    public Reservation(Integer id, ReservationEntity reservationEntity, Date startDate, Date endDate, boolean isBooked, Integer maxPersons, double price,
+                       User client, ReservationType reservationType) {
+        super(id, reservationEntity, startDate, endDate, isBooked, maxPersons, price);
+        this.client = client;
         this.reservationType = reservationType;
     }
 
-    public String getClientUsername() {
-        return clientUsername;
+    public User getClient() {
+        return client;
     }
 
-    public void setClientUsername(String clientUsername) {
-        this.clientUsername = clientUsername;
+    public void setClient(User client) {
+        this.client = client;
     }
 
     public ReservationType getReservationType() {

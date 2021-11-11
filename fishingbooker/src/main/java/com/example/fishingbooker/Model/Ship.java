@@ -1,25 +1,38 @@
 package com.example.fishingbooker.Model;
 
-import javax.persistence.ForeignKey;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.List;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "ship")
-public class Ship extends Entity {
+public class Ship extends ReservationEntity {
 
+    @Column(name = "ship_type")
     private String shipType;
+
+    @Column(name = "length")
     private double length;
-    private int engineNumber;
+
+    @Column(name = "engine_num")
+    private Integer engineNumber;
+
+    @Column(name = "engine_power")
     private double enginePower;
+
+    @Column(name = "max_speed")
     private double maxSpeed;
-    private int capacity;
+
+    @Column(name = "capacity")
+    private Integer capacity;
 
     public Ship() {
     }
 
-    public Ship(int id, String ownerUsername, String name, int locationId, String description, String rules, String cancelConditions,
-                double averageGrade, String shipType, double length, int engineNumber, double enginePower, double maxSpeed, int capacity) {
-        super(id, ownerUsername, name, locationId, description, rules, cancelConditions, averageGrade);
+    public Ship(Integer id, User owner, String name, Location location, String description, String rules, String cancelConditions,
+                double averageGrade, List<Image> images, String shipType, double length, Integer engineNumber, double enginePower, double maxSpeed, Integer capacity) {
+        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, images);
         this.shipType = shipType;
         this.length = length;
         this.engineNumber = engineNumber;
@@ -44,11 +57,11 @@ public class Ship extends Entity {
         this.length = length;
     }
 
-    public int getEngineNumber() {
+    public Integer getEngineNumber() {
         return engineNumber;
     }
 
-    public void setEngineNumber(int engineNumber) {
+    public void setEngineNumber(Integer engineNumber) {
         this.engineNumber = engineNumber;
     }
 
@@ -68,11 +81,11 @@ public class Ship extends Entity {
         this.maxSpeed = maxSpeed;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

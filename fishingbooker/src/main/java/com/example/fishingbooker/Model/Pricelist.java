@@ -1,26 +1,36 @@
 package com.example.fishingbooker.Model;
 
 import com.example.fishingbooker.Enum.ServiceType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pricelist")
 public class Pricelist {
 
     @Id
-    private int id;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+
     private int entityId;
     private int reservationId;
+
+    @Column(name = "service_name")
     private String serviceName;
+
+    @Column(name = "service_price")
     private double servicePrice;
+
+    @Column(name = "service_type")
+    @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
 
     public Pricelist() {
     }
 
-    public Pricelist(int id, int entityId, int reservationId, String serviceName, double servicePrice, ServiceType serviceType) {
+    public Pricelist(Integer id, int entityId, int reservationId, String serviceName, double servicePrice, ServiceType serviceType) {
         this.id = id;
         this.entityId = entityId;
         this.reservationId = reservationId;
@@ -29,11 +39,11 @@ public class Pricelist {
         this.serviceType = serviceType;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

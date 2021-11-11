@@ -1,43 +1,50 @@
 package com.example.fishingbooker.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "navigationEquipemnt")
 public class NavigationEquipment {
 
     @Id
-    private int id;
-    private int shipId;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "ship_id", referencedColumnName = "entity_id")
+    private Ship ship;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "is_deleted")
     private boolean isDeleted;
 
     public NavigationEquipment() {
     }
 
-    public NavigationEquipment(int id, int shipId, String name) {
+    public NavigationEquipment(Integer id, Ship ship, String name) {
         this.id = id;
-        this.shipId = shipId;
+        this.ship = ship;
         this.name = name;
         this.isDeleted = false;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getShipId() {
-        return shipId;
+    public Ship getShip() {
+        return ship;
     }
 
-    public void setShipId(int shipId) {
-        this.shipId = shipId;
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     public String getName() {
