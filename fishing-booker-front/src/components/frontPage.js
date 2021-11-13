@@ -4,6 +4,8 @@ import RegistrationForm from "./registrationForm";
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginForm from "./loginForm";
 import Navbar from "./navbar";
+import UserProfilPage from "./userProfilePage";
+import Homepage from "./homepage";
 
 const FrontPage = () => {
 
@@ -13,15 +15,11 @@ const FrontPage = () => {
             <div className="container">
                 <Navbar/>
                 <div className="row">
-                    <div className="col">
-                        <h1> Fishing booker </h1>
-                        <p className="main-description"> Book your next fishing trip! </p>
-                        <button className="explore-btn" type="button">Explore</button>
-                    </div>
                     <Switch>
-                        <Route exact path="/"><Entities/></Route>
-                        <Route path="/register"><RegistrationForm/></Route>
-                        <Route path="/login"><LoginForm/></Route>
+                        <Route exact path="/"><Homepage/><Entities/></Route>
+                        <Route path="/register"><Homepage/><RegistrationForm/></Route>
+                        <Route path="/login"><Homepage/><LoginForm/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
                     </Switch>
                 </div>
 	        </div>

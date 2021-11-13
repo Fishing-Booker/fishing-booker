@@ -2,16 +2,17 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
-
-    const [visible, setVisible] = useState(false);
+    const [isLogged, setIsLogged] = useState(true);
 
     return (
             <div className="navbar">
                 <nav>
                     <ul>
                         <li><Link to="/"> HOME</Link></li>
-                        {!visible ? <li><Link to="/register">REGISTER </Link></li> : null}
-                        <li><Link to="/login">LOG IN</Link></li>
+                        {isLogged ? (<li><Link to="/profile">MY PROFILE</Link></li>) : null}
+                        {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
+                        {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
+                        {isLogged ? (<li><Link to="/logout">LOG OUT</Link></li>) : null}
                     </ul>
                 </nav>
             </div>
