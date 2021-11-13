@@ -3,6 +3,7 @@ import { useState } from "react";
 import RegistrationForm from "./registrationForm";
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginForm from "./loginForm";
+import Navbar from "./navbar";
 
 const FrontPage = () => {
 
@@ -10,16 +11,7 @@ const FrontPage = () => {
         <Router>
         <div>
             <div className="container">
-                <div className="navbar">
-                    <nav>
-                        <ul>
-                            <li><Link to="/"> HOME</Link></li>
-                            <li><Link to="/register">REGISTER </Link></li>
-                            <li><Link to="/login">LOG IN</Link></li>
-                        </ul>
-                    </nav>
-                </div>
-
+                <Navbar/>
                 <div className="row">
                     <div className="col">
                         <h1> Fishing booker </h1>

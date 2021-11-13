@@ -1,4 +1,3 @@
-
 const Entities = () => {
     return (
         <div className="col">
