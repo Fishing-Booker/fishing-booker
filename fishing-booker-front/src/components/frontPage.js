@@ -4,6 +4,8 @@ import RegistrationForm from "./registrationForm";
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginForm from "./loginForm";
 import Navbar from "./navbar";
+import React from 'react'
+import RegistrationType from "./registrationType";
 
 const FrontPage = () => {
 
@@ -20,7 +22,8 @@ const FrontPage = () => {
                     </div>
                     <Switch>
                         <Route exact path="/"><Entities/></Route>
-                        <Route path="/register"><RegistrationForm/></Route>
+                        <Route path="/register"><RegistrationType/></Route>
+                        <Route path="/registrationForm"><RegistrationForm/></Route>
                         <Route path="/login"><LoginForm/></Route>
                     </Switch>
                 </div>

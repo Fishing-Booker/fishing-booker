@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions/users";
 import { useState } from "react";
 import { useToasts } from "react-toast-notifications";
-
+import React from 'react'
 
 const RegistrationForm = ({...props}) => {
 
@@ -53,47 +53,51 @@ const RegistrationForm = ({...props}) => {
         <div className="user-details">
           <div className="input-box">
             <span className="details">Name</span>
-            <input type="text" placeholder="Enter your name" required onChange = {(e) => {setName(e.target.value); console.log(name)}} value={name}/>
+            <input type="text" placeholder="Enter your name" required onChange={(e) => {setName(e.target.value); console.log(name)}} value={name}/>
           </div>
           <div className="input-box">
             <span className="details">Phone Number</span>
-            <input type="text" placeholder="Enter your phone number" required onChange = {(e) => setPhone(e.target.value)} value={phone}/>
+            <input type="text" placeholder="Enter your phone number" required onChange={(e) => setPhone(e.target.value)} value={phone}/>
           </div>
           <div className="input-box">
             <span className="details">Surname</span>
-            <input type="text" placeholder="Enter your surname" required onChange = {(e) => setSurname(e.target.value)} value={surname}/>
+            <input type="text" placeholder="Enter your surname" required onChange={(e) => setSurname(e.target.value)} value={surname}/>
           </div>
           <div className="input-box">
             <span className="details">Email</span>
-            <input type="text" placeholder="Enter your email" required onChange = {(e) => setEmail(e.target.value)} value={email}/>
+            <input type="text" placeholder="Enter your email" required onChange={(e) => setEmail(e.target.value)} value={email}/>
           </div>
           <div className="input-box">
             <span className="details">Address</span>
-            <input type="text" placeholder="Enter your address" required onChange = {(e) => setAddress(e.target.value)} value={address}/>
+            <input type="text" placeholder="Enter your address" required onChange={(e) => setAddress(e.target.value)} value={address}/>
           </div>
           <div className="input-box">
             <span className="details">Username</span>
-            <input type="text" placeholder="Choose your username" required onChange = {(e) => setUsername(e.target.value)} value={username}/>
+            <input type="text" placeholder="Choose your username" required onChange={(e) => setUsername(e.target.value)} value={username}/>
           </div>
           <div className="input-box">
             <span className="details">City</span>
-            <input type="text" placeholder="Enter your city" required onChange = {(e) => setCity(e.target.value)} value={city}/>
+            <input type="text" placeholder="Enter your city" required onChange={(e) => setCity(e.target.value)} value={city}/>
           </div>
           <div className="input-box">
             <span className="details">Password</span>
-            <input type="password" placeholder="Enter your password" required onChange = {(e) => setPassword(e.target.value)} value={password}/>
+            <input type="password" placeholder="Enter your password" required onChange={(e) => setPassword(e.target.value)} value={password}/>
           </div>
           <div className="input-box">
             <span className="details">Country</span>
-            <input type="text" placeholder="Enter your country" required onChange = {(e) => setCountry(e.target.value)} value={country}/>
+            <input type="text" placeholder="Enter your country" required onChange={(e) => setCountry(e.target.value)} value={country}/>
           </div>
           <div className="input-box">
             <span className="details">Confirm Password</span>
             <input type="text" placeholder="Confirm your password" required/>
           </div>
+          <div className="input-box-reasons">
+            <span className="details">Registration reason</span>
+            <textarea type="text" placeholder="Registration reason" required/>
+          </div>
         </div>
+        <p className="reg-message">Alredy have an account? <Link className="link" to="/login">Log in</Link></p>
         <div className="button">
-          <p className="reg-message">Alredy have an account? <Link className="link" to="/login">Log in</Link></p> <br/>
           <input type="submit" value="Register"/>
         </div>
       </form>

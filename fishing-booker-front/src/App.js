@@ -4,6 +4,7 @@ import FrontPage from './components/frontPage';
 import { ToastProvider } from "react-toast-notifications";
 import { Provider } from "react-redux";
 import { store } from "./actions/store";
+import React from 'react'
 
 class App extends Component {
   render() {

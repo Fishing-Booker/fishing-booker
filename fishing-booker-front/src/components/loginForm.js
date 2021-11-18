@@ -1,9 +1,10 @@
 import './../css/registration.css';
 import { Link } from "react-router-dom";
+import React from 'react'
 
 const LoginForm = () => {
     return (
-        <div class="container-reg">
+        <div class="container-log">
         <div class="title">Log In</div>
         <div class="content">
           <form action="#">
@@ -17,8 +18,8 @@ const LoginForm = () => {
                 <input type="text" placeholder="Enter your password" required/>
               </div>
             </div>
+            <p className="reg-message">Don't have an account? <Link className="link" to="/register">Register</Link></p>
             <div class="button">
-              <p className="reg-message">Don't have an account? <Link className="link" to="/register">Register</Link></p> <br/>
               <input type="submit" value="Log in"/>
             </div>
           </form>
@@ -28,3 +29,4 @@ const LoginForm = () => {
 }
 
 export default LoginForm;
+

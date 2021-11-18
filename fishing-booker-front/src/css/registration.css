@@ -9,11 +9,17 @@
 .container-reg{
   max-width: 700px;
   width: 100%;
+  height: 95%;
   background-color: #fff;
   padding: 25px 30px;
   border-radius: 5px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.15);
   margin-left: 60px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
 }
 .container-reg .title{
   font-size: 25px;
@@ -36,6 +42,7 @@
   justify-content: space-between;
   margin: 20px 0 12px 0;
 }
+
 form .user-details .input-box{
   margin-bottom: 15px;
   width: calc(100% / 2 - 20px);
@@ -58,6 +65,32 @@ form .input-box span.details{
 }
 .user-details .input-box input:focus,
 .user-details .input-box input:valid{
+  border-color: #5078ad;
+}
+
+
+form .user-details .input-box-reasons{
+  margin-bottom: 15px;
+  width: calc(100%);
+}
+form .input-box-reasons span.details{
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.user-details .input-box-reasons textarea{
+  height: 100px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+.user-details .input-box-reasons textarea:focus,
+.user-details .input-box-reaons textarea:valid{
   border-color: #5078ad;
 }
  form .gender-details .gender-title{
@@ -93,14 +126,14 @@ form .input-box span.details{
  form input[type="radio"]{
    display: none;
  }
- form .button{
+ .button{
    height: 45px;
    margin: 35px 0
  }
- form .button input{
+ .button input{
    height: 100%;
    width: 100%;
-   border-radius: 5px;
+   border-radius: 20px;
    border: none;
    color: #fff;
    font-size: 18px;
@@ -110,7 +143,7 @@ form .input-box span.details{
    transition: all 0.3s ease;
    background: linear-gradient(135deg, #2f5e3d, #5078ad);
  }
- form .button input:hover{
+  .button input:hover{
   /* transform: scale(0.99);  */
   background: linear-gradient(-135deg, #2f5e3d, #5078ad);
   }
@@ -149,4 +182,58 @@ form .user-details .input-box{
   text-decoration: none;
   color: #2f5e3d;
   font-weight: 500;
+}
+
+.option{
+  margin-top: 10px;
+  font-size: larger;
+  font-weight: 500;
+  padding: 5px;
+  border-style:solid;
+  border: 1;
+  border-radius: 15px;
+  border-color: white;
+}
+
+.option:hover{
+  border-style:solid;
+  border: 1;
+  border-radius: 15px;
+  border-color: #2f5e3d;
+}
+
+.typeName{
+  margin-left: 5px;
+}
+
+.description{
+  font-weight:normal;
+  font-size: small;
+  font-style: italic;
+}
+
+.container-log{
+  max-width: 700px;
+  max-height: 330px;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  margin-left: 60px;
+}
+.container-log .title{
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+.container-log .title::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #2f5e3d, #5078ad);
 }

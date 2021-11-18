@@ -1,3 +1,5 @@
+import React from 'react'
+
 const Entities = () => {
     return (
         <div className="col">
