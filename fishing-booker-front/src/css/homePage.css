@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
+}
+
+.container-home{
+    max-width: 1200px;
+    max-height: 600px;
+    width: 100%;
+    height: 95%;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-left: 10px;
+    overflow-y: scroll;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  .container-home .title{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+  }
+  .container-home .title::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+  }
+
+  .lodge-card{
+    margin-top: 30px;
+    width: 100%;
+    height: 410px;
+    border: 2px;
+    border-style: solid;
+    border-color: #2f5e3d;
+    border-radius: 5px;
+  }
+
+  .lodge-image{
+    height: 300px;
+  }
+
+  .lodge-image img{
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .lodge-card .title{
+    margin-top: 2px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .lodge-card .title::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+  }
+
+  .lodge-card .text{
+      margin-top: 10px;
+      font-style: italic;
+  }
+
+  .lodge-card .buttons{
+    display: flex;
+    margin-left: 1000px;
+  }
+
+  .lodge-card .buttons button{
+      height: 35px;
+      width: 35px;
+      margin-bottom: 5px;
+      margin-left: 20px;
+      border-style: white;
+      border-width: 2px;
+      border-color: #2f5e3d;
+      border-radius: 3px;
+  }
+
+  .lodge-card .buttons button:hover{
+    cursor: pointer;
+  }
+
+  .lodge-card .buttons button img{
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    object-fit: fill;
+  }
+
+  .input-box{
+    display: flex;
+  }
+
+  .input-box input{
+      margin-top: 20px;
+      border-width: 2px;
+      border-radius: 4px;
+      height: 35px;
+      width: 250px;
+  }
+
+  .input-box button {
+    height: 35px;
+    width: 35px;
+    margin-top: 20px;
+    margin-left: 830px;
+    border-style: white;
+    border-width: 2px;
+    border-color: #2f5e3d;
+    border-radius: 3px;
+    background-color: white;
+  }
+
+  .input-box button:hover{
+    cursor: pointer;
+  }
+
+  .input-box button img{
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    object-fit: fill;
+  }
