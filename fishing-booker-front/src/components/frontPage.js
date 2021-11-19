@@ -8,6 +8,7 @@ import React from 'react'
 import RegistrationType from "./registrationType";
 import UserProfilPage from "./userProfilePage";
 import LodgeOwnerHomePage from "./lodgeOwnerHomePage";
+import Lodge from "./lodge";
 
 const FrontPage = () => {
 
@@ -30,7 +31,7 @@ const FrontPage = () => {
                         <Route path="/register"><RegistrationType/></Route>
                         <Route path="/registrationForm"><RegistrationForm/></Route>
                         <Route path="/login"><LoginForm/></Route>
-                        <Route path="/profile"><UserProfilPage/></Route>
+                        
                     </Switch>
                 </div>
                     
@@ -39,6 +40,7 @@ const FrontPage = () => {
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/lodge"><Lodge/></Route>
                     </Switch>
 
                 )}

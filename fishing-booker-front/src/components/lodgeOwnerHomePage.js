@@ -29,7 +29,7 @@ const LodgeOwnerHomePage = () => {
                         <div class="lodge-image">
                             <img  src={lodge}  />
                         </div>
-                        <div class="title">Lodge1</div>
+                        <Link to='/lodge' style={{textDecoration: 'none', color: 'black'}}><div class="title">Lodge1</div></Link>
                         <div class="text">
                             Address
                         </div>

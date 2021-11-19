@@ -2,18 +2,18 @@ import React from 'react'
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import '../css/userProfile.css'
 
-const UserProfilPage = () => {
+const Lodge = () => {
     return (
         <div class="wrapper">
             <div class="left">
-                <h4>Marija Petrovic</h4>
-                <p>admin</p><br/>
-                <a href="">Password change</a><br/><br/>
-                <a href="">Delete your account</a>
+                <h4>Lodge name</h4><br/>
+                <a href="">Reservation calendar</a><br/><br/>
+                <a href="">Actions for reservations</a><br/><br/>
+                <a href="">Reservations reports</a><br/><br/>
             </div>
             <div class="right">
                 <div class="info">
-                    <h3>Information</h3>
+                    <h3>LODGE NAME</h3>
                     <div class="info_data">
                         <div class="data">
                             <h4>Email</h4>
@@ -43,4 +43,4 @@ const UserProfilPage = () => {
     )
 }
 
-export default UserProfilPage;
+export default Lodge;
