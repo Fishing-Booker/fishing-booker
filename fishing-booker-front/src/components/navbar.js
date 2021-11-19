@@ -12,6 +12,7 @@ const Navbar = () => {
                     <ul>
                         <li><Link to="/"> HOME</Link></li>
                         {!visible ? <li><Link to="/register">REGISTER </Link></li> : null}
+                        <li><Link to="/profile"> MY PROFILE</Link></li>
                         <li><Link to="/login">LOG IN</Link></li>
                     </ul>
                 </nav>

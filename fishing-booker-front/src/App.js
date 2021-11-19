@@ -6,15 +6,13 @@ import { Provider } from "react-redux";
 import { store } from "./actions/store";
 import React from 'react'
 
-import LodgeOwnerHomePage from './components/lodgeOwnerHomePage'
-
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <ToastProvider autoDismiss={true}>
           <div>
-            <LodgeOwnerHomePage/>
+            <FrontPage/>
           </div>
         </ToastProvider>
       </Provider>

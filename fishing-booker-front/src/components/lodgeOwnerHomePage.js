@@ -12,15 +12,12 @@ import addImg from '../images/plus.png'
 const LodgeOwnerHomePage = () => {
 
     return (
-        <Router>
         <div>
-            <div className="container">
-                <Navbar/>
                 
                 <div class="container-home">
                     <div className="title">Welcome Lodge Owner!</div>
 
-                    <div className="input-box">
+                    <div className="input-box-lodge">
                         <input type="text" placeholder="Search " />
                         <button title="Add lodge">
                         <img src={addImg}/>
@@ -70,8 +67,6 @@ const LodgeOwnerHomePage = () => {
                 </div>
             
             </div>
-        </div>
-        </Router>
     )
 }
 

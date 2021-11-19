@@ -107,19 +107,19 @@
     object-fit: fill;
   }
 
-  .input-box{
+  .input-box-lodge{
     display: flex;
   }
 
-  .input-box input{
+  .input-box-lodge input{
       margin-top: 20px;
-      border-width: 2px;
+      border-width: 1px;
       border-radius: 4px;
       height: 35px;
       width: 250px;
   }
 
-  .input-box button {
+  .input-box-lodge button {
     height: 35px;
     width: 35px;
     margin-top: 20px;
@@ -131,11 +131,11 @@
     background-color: white;
   }
 
-  .input-box button:hover{
+  .input-box-lodge button:hover{
     cursor: pointer;
   }
 
-  .input-box button img{
+  .input-box-lodge button img{
     height: 30px;
     width: 30px;
     background-color: white;

@@ -6,15 +6,20 @@ import LoginForm from "./loginForm";
 import Navbar from "./navbar";
 import React from 'react'
 import RegistrationType from "./registrationType";
+import UserProfilPage from "./userProfilePage";
+import LodgeOwnerHomePage from "./lodgeOwnerHomePage";
 
 const FrontPage = () => {
+
+    const [isLogged, setIsLogged] = useState(true);
 
     return (
         <Router>
         <div>
             <div className="container">
                 <Navbar/>
-                <div className="row">
+                {!isLogged ? (
+                    <div className="row">
                     <div className="col">
                         <h1> Fishing booker </h1>
                         <p className="main-description"> Book your next fishing trip! </p>
@@ -25,8 +30,19 @@ const FrontPage = () => {
                         <Route path="/register"><RegistrationType/></Route>
                         <Route path="/registrationForm"><RegistrationForm/></Route>
                         <Route path="/login"><LoginForm/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
                     </Switch>
                 </div>
+                    
+                ) : (
+
+                    <Switch>
+                        <Route exact path="/"><LodgeOwnerHomePage/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                    </Switch>
+
+                )}
+                
 	        </div>
         </div>
         </Router>
