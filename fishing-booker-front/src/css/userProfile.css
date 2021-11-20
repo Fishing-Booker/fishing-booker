@@ -100,10 +100,36 @@ body{
     margin-bottom: 5px;
     height: 35px;
     width: 500px;
-    border-color: #919aa3;
+    border: 1px solid #5078ad;
     border-width: 1px;
     border-radius: 5px;
     padding-left: 11px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.wrapper .right .info_data .data input:hover{
+  border-color: #5078ad;
+  border-width: 2px;
+}
+
+.wrapper .right .info_data .data textarea,
+.wrapper .right .projects_data .data textarea{
+    color: #353c4e;
+    margin-bottom: 5px;
+    height: 120px;
+    width: 500px;
+    border: 1px solid #5078ad;
+    border-radius: 5px;
+    padding-left: 11px;
+    padding-top: 5px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.wrapper .right .info_data .data textarea:hover{
+  border-color: #5078ad;
+  border-width: 2px;
 }
 
 .wrapper .right .info_data .data p,

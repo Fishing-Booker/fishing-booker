@@ -7,6 +7,9 @@ const Lodge = () => {
         <div class="wrapper">
             <div class="left">
                 <h4>Lodge name</h4><br/>
+                <a href="">Images</a><br/><br/>
+                <a href="">Rules</a><br/><br/>
+                <a href="">Procelist</a><br/><br/>
                 <a href="">Reservation calendar</a><br/><br/>
                 <a href="">Actions for reservations</a><br/><br/>
                 <a href="">Reservations reports</a><br/><br/>
@@ -16,24 +19,20 @@ const Lodge = () => {
                     <h3>LODGE NAME</h3>
                     <div class="info_data">
                         <div class="data">
-                            <h4>Email</h4>
-                            <input disabled value="marija@gmail.com"/>
-                        </div>
-                        <div class="data">
-                            <h4>Phone Number</h4>
-                            <input disabled value="1234567"/>
-                        </div>
-                        <div class="data">
                             <h4>Address</h4>
-                            <input disabled value="Save Kovacevica 2"/>
+                            <input  value="Lodge name"/>
                         </div>
                         <div class="data">
-                            <h4>City</h4>
-                            <input disabled  value="Novi Sad"/>
+                            <h4>Bedrooms</h4>
+                            <input   value="Number of rooms and beds in them"/>
                         </div>
                         <div class="data">
-                            <h4>Country</h4>
-                            <input disabled value="Serbia"/>
+                            <h4>Additional services</h4>
+                            <input  value="List of services"/>
+                        </div>
+                        <div class="data">
+                            <h4>Description</h4>
+                            <textarea   value="Lodge description"/>
                         </div>
                     </div> <br/> <br/>
                     <button className="edit-profile-btn" >Save changes</button>

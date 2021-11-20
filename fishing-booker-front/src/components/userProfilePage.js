@@ -8,7 +8,7 @@ const UserProfilPage = () => {
             <div class="left">
                 <h4>Marija Petrovic</h4>
                 <p>admin</p><br/>
-                <a href="">Password change</a><br/><br/>
+                <a href="">Change password</a><br/><br/>
                 <a href="">Delete your account</a>
             </div>
             <div class="right">
