@@ -8,7 +8,11 @@ import React from 'react'
 import RegistrationType from "./registrationType";
 import UserProfilPage from "./userProfilePage";
 import LodgeOwnerHomePage from "./lodgeOwnerHomePage";
-import Lodge from "./lodge";
+import LodgeProfile from "./lodgeProfile";
+import LodgeImages from "./lodgeImages";
+import LodgeRules from "./lodgeRules";
+import LodgePriceList from "./lodgePricelist";
+
 
 const FrontPage = () => {
 
@@ -40,7 +44,10 @@ const FrontPage = () => {
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/lodge"><Lodge/></Route>
+                        <Route path="/lodge"><LodgeProfile/></Route>
+                        <Route path="/lodgeImages"><LodgeImages/></Route>
+                        <Route path="/lodgeRules"><LodgeRules/></Route>
+                        <Route path="/lodgePricelist"><LodgePriceList/></Route>
                     </Switch>
 
                 )}

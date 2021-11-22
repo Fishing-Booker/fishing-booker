@@ -26,7 +26,7 @@ body{
 }
 
 .wrapper .left{
-  width: 25%;
+  width: 20%;
   height: 600px;
   background: linear-gradient(150deg,#2f5e3d,#5078ad);
   padding: 30px 25px;
@@ -34,7 +34,7 @@ body{
   border-bottom-left-radius: 5px;
   text-align: center;
   color: #fff;
-  
+  position: fixed;
 }
 
 .wrapper .left h4{
@@ -161,7 +161,7 @@ body{
 
 .edit-profile-btn{
     height: 40px;
-    width: 35%;
+    width: 30%;
     border-radius: 20px;
     border: none;
     color: #fff;
@@ -172,6 +172,7 @@ body{
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #2f5e3d, #5078ad);
     margin-left: 70%;
+    margin-bottom: 10px;
 }
 
 .edit-profile-btn:hover{

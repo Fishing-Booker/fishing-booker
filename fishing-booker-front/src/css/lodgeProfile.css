@@ -1,0 +1,27 @@
+
+.right{
+    margin-left: 300px;
+}
+
+.info-data-images{
+    display: flex;
+}
+
+.card-image{
+    display: inline-flex;
+    margin-left: 30px;
+    margin-top: 20px;
+    height: 204px;
+    width: 204px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 3px;
+    border-color: #2f5e3d;
+}
+
+.card-image img{
+    height: 200px;
+    width: 200px;
+    border-radius: 3px;
+    object-fit: fill;
+}

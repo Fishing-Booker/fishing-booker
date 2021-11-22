@@ -141,3 +141,7 @@
     background-color: white;
     object-fit: fill;
   }
+
+  .sidebar-link{
+    color: rgb(90, 29, 160);
+  }
