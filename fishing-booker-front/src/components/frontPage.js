@@ -44,9 +44,9 @@ const FrontPage = () => {
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/lodge"><LodgeProfile/></Route>
-                        <Route path="/lodgeImages"><LodgeImages/></Route>
-                        <Route path="/lodgeRules"><LodgeRules/></Route>
+                        <Route path="/lodge/:lodgeId"><LodgeProfile/></Route>
+                        <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
+                        <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist"><LodgePriceList/></Route>
                     </Switch>
 
