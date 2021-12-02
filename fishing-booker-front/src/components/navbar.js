@@ -4,7 +4,7 @@ import React from 'react'
 
 const Navbar = () => {
 
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(true);
 
     return (
             <div className="navbar">
@@ -12,7 +12,9 @@ const Navbar = () => {
                     <ul>
                         <li><Link to="/"> HOME</Link></li>
                         {!visible ? <li><Link to="/register">REGISTER </Link></li> : null}
-                        <li><Link to="/login">LOG IN</Link></li>
+                        {!visible && <li><Link to="/login">LOG IN</Link></li>}
+                        {visible && <li><Link to="/myProfile">MY PROFILE</Link></li>}
+                        {visible && <li><Link to="/">LOG OUT</Link></li>}
                     </ul>
                 </nav>
             </div>
