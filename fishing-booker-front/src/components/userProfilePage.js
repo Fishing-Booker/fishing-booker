@@ -1,19 +1,15 @@
 import React from 'react'
-import "./../css/userProfile.css";
-import { useState } from "react";
+import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import '../css/userProfile.css'
 
-const UserProfilePage = () => {
-    const [canEdit, setCanEdit] = useState(false);
-
-    const handleEdit = () => {
-        setCanEdit(true);
-    }
-
+const UserProfilPage = () => {
     return (
         <div class="wrapper">
             <div class="left">
                 <h4>Marija Petrovic</h4>
-                <p>admin</p>
+                <p>admin</p><br/>
+                <a href="">Change password</a><br/><br/>
+                <a href="">Delete your account</a>
             </div>
             <div class="right">
                 <div class="info">
@@ -21,33 +17,30 @@ const UserProfilePage = () => {
                     <div class="info_data">
                         <div class="data">
                             <h4>Email</h4>
-                            <input disabled={!canEdit} className="input-edit-profile" type="text" required value="marija@gmail.com"/>
+                            <input  value="marija@gmail.com"/>
                         </div>
                         <div class="data">
                             <h4>Phone Number</h4>
-                            <input disabled={!canEdit} className="input-edit-profile" type="text" required value="1234567"/>
+                            <input  value="1234567"/>
                         </div>
                         <div class="data">
                             <h4>Address</h4>
-                            <input disabled={!canEdit} className="input-edit-profile" type="text" required value="Save Kovacevica 2"/>
+                            <input  value="Save Kovacevica 2"/>
                         </div>
                         <div class="data">
                             <h4>City</h4>
-                            <input disabled={!canEdit} className="input-edit-profile" type="text" required value="Novi Sad"/>
+                            <input   value="Novi Sad"/>
                         </div>
                         <div class="data">
                             <h4>Country</h4>
-                            <input disabled={!canEdit} className="input-edit-profile" type="text" required value="Serbia"/>
+                            <input  value="Serbia"/>
                         </div>
                     </div> <br/> <br/>
-                    <button className="edit-profile-btn" onClick={handleEdit}>edit profile</button>
-                </div>
-                <div class="projects">
-                    <h3>Reservations</h3>
+                    <button className="edit-profile-btn" >Save changes</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default UserProfilePage;
+export default UserProfilPage;

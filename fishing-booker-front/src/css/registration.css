@@ -91,7 +91,7 @@ form .input-box-reasons span.details{
   transition: all 0.3s ease;
 }
 .user-details .input-box-reasons textarea:focus,
-.user-details .input-box-reaons textarea:valid{
+.user-details .input-box-reasons textarea:valid{
   border-color: #5078ad;
 }
  form .gender-details .gender-title{
