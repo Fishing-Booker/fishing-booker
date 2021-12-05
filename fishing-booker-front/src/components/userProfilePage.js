@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import '../css/userProfile.css'
+import '../css/adminsProfile.css'
 
 const UserProfilPage = () => {
     return (

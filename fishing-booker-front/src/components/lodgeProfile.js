@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
-import '../css/userProfile.css'
+import '../css/adminsProfile.css'
 
 class LodgeProfile extends Component {
 
