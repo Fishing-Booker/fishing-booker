@@ -13,6 +13,8 @@ import LodgeImages from "./lodgeImages";
 import LodgeRules from "./lodgeRules";
 import LodgePriceList from "./lodgePricelist";
 import Homepage from "./homepage";
+import AdminsProfile from "./adminsProfile";
+import ChangePassword from "./changePassword";
 
 
 const FrontPage = () => {
@@ -45,6 +47,8 @@ const FrontPage = () => {
                         <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
                         <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist"><LodgePriceList/></Route>
+                        <Route exact path="/myProfile"><AdminsProfile/></Route>
+                        <Route exact path="/changePassword"><ChangePassword/></Route>
                     </Switch>
 
                 )}
