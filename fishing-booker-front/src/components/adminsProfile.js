@@ -3,11 +3,11 @@ import { useState } from 'react';
 import './../css/adminsProfile.css';
 const AdminsProfile = () => {
     const [user,setUser] = useState({
-        name: "Marija",
+        name: "Petar",
         surname: "Petrović",
-        role: "admin",
-        email: "marija@gmail.com",
-        username: "marijap",
+        role: "instructor",
+        email: "petar@gmail.com",
+        username: "petarp",
         password: "123456",
         phone: "0659876543",
         address: "Save Kovačevića 2",
