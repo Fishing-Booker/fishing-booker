@@ -4,11 +4,16 @@ import com.example.fishingbooker.Enum.UserCategory;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -51,11 +56,15 @@ public class User {
 
     @Column(name = "is_approved")
     private boolean isApproved;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
     public User() {
     }
 
     public User(Integer id, String username, String password, String name, String surname, String email,
-                String address, String city, String country, String phone, UserCategory userCategory) {
+                String address, String city, String country, String phone, UserCategory userCategory, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -69,6 +78,13 @@ public class User {
         this.userCategory = userCategory;
         this.isDeleted = false;
         this.isApproved = false;
+        this.roles = roles;
+    }
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -173,5 +189,13 @@ public class User {
 
     public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
