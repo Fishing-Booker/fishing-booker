@@ -1,4 +1,4 @@
-package com.example.fishingbooker.Repository;
+package com.example.fishingbooker.IRepository;
 
 import com.example.fishingbooker.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

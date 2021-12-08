@@ -15,19 +15,9 @@ public class ReservationEntityController {
     @Autowired
     private ReservationEntityService entityService;
 
-    @GetMapping("/allReservationEntities")
-    public List<ReservationEntity> getEntities(){
-        return entityService.getEntities();
-    }
-
-    @GetMapping("/lodges")
-    public List<ReservationEntity> getLodges() {
-        return entityService.getLodges();
-    }
-
-    @PostMapping("/add")
-    public ReservationEntity addEntity(ReservationEntity entity){
-        return entityService.addEntity(entity);
+    @GetMapping("/ownerLodges")
+    public List<ReservationEntity> getOwnerLodges(int ownerId) {
+        return entityService.findOwnerEntities(ownerId);
     }
 
 }

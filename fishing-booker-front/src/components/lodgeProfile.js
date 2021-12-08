@@ -66,12 +66,12 @@ class LodgeProfile extends Component {
         return (
             <div className="wrapper">
                 <div className="left">
-                    <h4>{lodge.name}</h4><br/>
+                    <h4>LODGE PROFILE</h4><br/>
                     <Link className="sidebar-link" to={"/lodgeImages/" + lodge.id }>Images</Link><br/><br/>
                     <Link className="sidebar-link" to={"/lodgeRules/" + lodge.id}>Rules</Link><br/><br/>
                     <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
-                    <a href="">Reservation calendar</a><br/><br/>
-                    <a href="">Actions for reservations</a><br/><br/>
+                    <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
+                    <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
                     <a href="">Reservations reports</a><br/><br/>
                 </div>
                 <div className="right">
@@ -80,22 +80,26 @@ class LodgeProfile extends Component {
                         <div className="info_data">
                             <div className="data">
                                 <h4>Address</h4>
-                                <input  value={lodge.location}/>
+                                <input  value={lodge.location} disabled/>
                             </div>
                             <div className="data">
                                 <h4>Bedrooms</h4>
-                                <input value="Number of rooms and beds in them"/>
+                                <input value="Number of rooms and beds in them" disabled/>
                             </div>
                             <div className="data">
                                 <h4>Additional services</h4>
-                                <input  value="List of services"/>
+                                <input  value="List of services" disabled/>
                             </div>
                             <div className="data">
                                 <h4>Description</h4>
-                                <textarea value={lodge.description}/>
+                                <textarea value={lodge.description} disabled/>
                             </div>
                         </div> <br/> <br/>
-                        <button className="edit-profile-btn" >Save changes</button>
+                        <Link to="/editLodge">
+                            <button className="edit-profile-btn" >
+                                Edit
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,215 @@
+.adding-wrapper{
+    max-width: 600px;
+    max-height: 600px;
+    width: 100%;
+    height: 95%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-left: 25%;
+    display: flex;
+    overflow-y: scroll;
+}
+
+.deleting-wrapper{
+    margin-top: 15%;
+    max-width: 40%;
+    max-height: 30%;
+    width: 100%;
+    height: 95%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-left: 30%;
+    display: flex;
+    overflow-y: scroll;
+}
+
+.adding-wrapper .right .info{
+    margin-left: -100%;
+}
+.deleting-wrapper .right .info{
+    margin-left: -160%;
+}
+
+.adding-wrapper .right .info h3{
+    margin-top: 5%;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #353c4e;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.deleting-wrapper .right .info h3{
+    margin-top: 2%;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #353c4e;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.adding-wrapper .right .info_data .data{
+  width: 45%;
+  margin-left: 5%;
+  margin-top: 5%;
+}
+
+.deleting-wrapper .right .info_data .data{
+    width: 100%;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+
+.adding-wrapper .right .info_data .client-data{
+    width: 60%;
+    margin-left: 5%;
+    margin-top: 8%;
+}
+
+.adding-wrapper .right .info_data .data h4{
+    color: #353c4e;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.adding-wrapper .right .info_data .client-data h4{
+    color: #353c4e;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.adding-wrapper .right .info_data .data input{
+    color: #353c4e;
+    height: 35px;
+    width: 200%;
+    border: 1px solid #5078ad;
+    border-width: 1px;
+    border-radius: 5px;
+    padding-left: 11px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.adding-wrapper .right .info_data .data select{
+    color: #353c4e;
+    height: 35px;
+    width: 200%;
+    border: 1px solid #5078ad;
+    border-width: 1px;
+    border-radius: 5px;
+    padding-left: 11px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.adding-wrapper .right .info_data .data textarea{
+    color: #353c4e;
+    height: 70px;
+    width: 200%;
+    border: 1px solid #5078ad;
+    border-width: 1px;
+    border-radius: 5px;
+    padding-left: 11px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.adding-wrapper .right .info_data .data input:hover,
+.adding-wrapper .right .info_data .data textarea:hover,
+.adding-wrapper .right .info_data .data select:hover{
+  border-color: #5078ad;
+  border-width: 2px;
+}
+
+.adding-wrapper .right .info_data button{
+    height: 40px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 25%;
+    margin-top: 5%;
+}
+
+.adding-wrapper .right .info_data .client-btn{
+    height: 40px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 25%;
+    margin-top: 10%;
+}
+
+.adding-wrapper .right .info_data .reservation-period-btn{
+    height: 40px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 25%;
+    margin-top: 10%;
+}
+
+.deleting-wrapper .right .info_data .buttons{
+    width: 100%;
+    margin-top: 10%;
+    display: flex;
+    margin-left: 18%;
+}
+
+.deleting-wrapper .right .info_data .buttons .delete{
+    height: 40px;
+    width: 250%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 200%;
+    margin-top: 5%;
+}
+
+.deleting-wrapper .right .info_data .buttons .cancel{
+    height: 40px;
+    width: 250%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+

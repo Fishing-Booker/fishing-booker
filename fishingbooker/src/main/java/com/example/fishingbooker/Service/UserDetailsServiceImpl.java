@@ -1,7 +1,7 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.Model.User;
-import com.example.fishingbooker.Repository.UserRepository;
+import com.example.fishingbooker.IRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

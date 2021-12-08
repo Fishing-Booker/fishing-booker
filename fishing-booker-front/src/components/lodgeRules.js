@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 class LodgeRules extends Component {
 
     state = {
-        rules: "",
+        rules: [],
         lodgeId: 0
     }
 
@@ -23,7 +23,11 @@ class LodgeRules extends Component {
                 name: "Lodge1",
                 location: "Novi Sad",
                 description: "Our lodge is the best",
-                rules: "RULE1, RULE2, RULE3",
+                rules: [
+                    "RULE1",
+                    "RULE2",
+                    "RULE3"
+                ],
                 images: []
             },
             {
@@ -31,7 +35,11 @@ class LodgeRules extends Component {
                 name: "Lodge2",
                 location: "Beograd",
                 description: "Our lodge is the best too",
-                rules: "RULE4, RULE5, RULE6",
+                rules: [
+                    "RULE1",
+                    "RULE2",
+                    "RULE3"
+                ],
                 images: []
             }
         ]
@@ -52,22 +60,36 @@ class LodgeRules extends Component {
         const {rules} = this.state;
         const {lodgeId} = this.state;
 
+        const allRules = rules.length ? (
+            rules.map(rule => {
+                return (
+                    <div>
+                        # {rule}
+                        <br/><br/>
+                    </div>
+                )
+            })
+        ) : (
+            <div>
+
+            </div>
+        );
+
         return (
             <div className="wrapper">
                 <div className="left">
                     <h4>Lodge name</h4><br/>
-                    <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
-                    <a href="">Rules</a><br/><br/>
+                    <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
+                    <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
                     <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
-                    <a href="">Reservation calendar</a><br/><br/>
-                    <a href="">Actions for reservations</a><br/><br/>
-                    <a href="">Reservations reports</a><br/><br/>
+                    <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
+                    <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
                 </div>
                 <div className="right">
                     <div className="info">
                         <h3>LODGE RULES</h3>
                         <div className="info_data">
-                            {rules}
+                            {allRules}
                         </div> <br/> <br/>
                         <button className="edit-profile-btn" >Save changes</button>
                     </div>

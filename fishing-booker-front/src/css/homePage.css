@@ -10,13 +10,14 @@
     max-width: 1200px;
     max-height: 600px;
     width: 100%;
-    height: 95%;
+    height: 90%;
     background-color: #fff;
     padding: 25px 30px;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
     margin-left: 10px;
     overflow-y: scroll;
+    margin-bottom: 20px;
   }
   
   ::-webkit-scrollbar {
@@ -41,7 +42,7 @@
   .lodge-card{
     margin-top: 30px;
     width: 100%;
-    height: 410px;
+    height: 300;
     border: 2px;
     border-style: solid;
     border-color: #2f5e3d;
@@ -82,7 +83,7 @@
 
   .lodge-card .buttons{
     display: flex;
-    margin-left: 1000px;
+    margin-left: 88%;
   }
 
   .lodge-card .buttons button{
@@ -123,7 +124,7 @@
     height: 35px;
     width: 35px;
     margin-top: 20px;
-    margin-left: 830px;
+    margin-left: 2400%;
     border-style: white;
     border-width: 2px;
     border-color: #2f5e3d;

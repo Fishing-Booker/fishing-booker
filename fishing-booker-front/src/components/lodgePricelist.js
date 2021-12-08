@@ -7,12 +7,11 @@ const LodgePriceList = () => {
         <div class="wrapper">
             <div class="left">
                 <h4>Lodge name</h4><br/>
-                <Link className="sidebar-link" to="/lodgeImages" >Images</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeRules">Rules</Link><br/><br/>
-                <a href="">Pricelist</a><br/><br/>
-                <a href="">Reservation calendar</a><br/><br/>
-                <a href="">Actions for reservations</a><br/><br/>
-                <a href="">Reservations reports</a><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
+                    <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
+                    <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
+                    <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
+                    <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
             </div>
             <div class="right">
                 <div class="info">
