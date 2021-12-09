@@ -78,7 +78,7 @@ class LodgeRules extends Component {
         return (
             <div className="wrapper">
                 <div className="left">
-                    <h4>Lodge name</h4><br/>
+                    <h4>LODGE PROFILE</h4><br/>
                     <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
                     <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
                     <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>

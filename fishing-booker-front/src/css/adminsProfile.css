@@ -175,7 +175,7 @@ a:hover {
 
 .edit-profile-btn{
     height: 40px;
-    width: 50%;
+    width: 30%;
     border-radius: 20px;
     border: none;
     color: #fff;
@@ -191,6 +191,42 @@ a:hover {
 
 .edit-profile-btn:hover{
     background: linear-gradient(-135deg, #2f5e3d, #5078ad);
+}
+
+.edit-profile-btns{
+  display: flex;
+  margin-left: 20%;
+}
+
+.edit-profile-cancel{
+  height: 40px;
+  width: 30%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2f5e3d, #5078ad);
+  margin-bottom: 10px;
+}
+
+.edit-profile-save{
+  height: 40px;
+  width: 30%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2f5e3d, #5078ad);
+  margin-bottom: 10px;
+  margin-left: 5%;
 }
 
 .input-edit-profile {

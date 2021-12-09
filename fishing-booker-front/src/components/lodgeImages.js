@@ -73,7 +73,7 @@ class LodgeImages extends Component {
         return (
             <div class="wrapper">
                 <div class="left">
-                    <h4>Lodge name</h4><br/>
+                    <h4>LODGE PROFILE</h4><br/>
                     <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
                     <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
                     <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
