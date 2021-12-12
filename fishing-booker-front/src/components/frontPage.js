@@ -29,7 +29,7 @@ import LodgeReservationCalendar from "./lodgeReservationCalendar";
 
 const FrontPage = () => {
 
-    const [isLogged, setIsLogged] = useState(true);
+    const [isLogged, setIsLogged] = useState(false);
 
     return (
         <Router>

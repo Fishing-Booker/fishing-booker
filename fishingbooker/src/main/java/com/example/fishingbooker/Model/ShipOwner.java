@@ -1,12 +1,9 @@
 package com.example.fishingbooker.Model;
 
-import com.example.fishingbooker.Enum.UserCategory;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "shipOwner")
@@ -22,8 +19,8 @@ public class ShipOwner extends User{
     }
 
     public ShipOwner(Integer id, String username, String password, String name, String surname, String email, String address, String city, String country,
-                     String phone, UserCategory userCategory, Set<Role> roles, boolean isCaptain, boolean isOfficer) {
-        super(id, username, password, name, surname, email, address, city, country, phone, userCategory, roles);
+                     String phone, List<Role> roles, boolean isCaptain, boolean isOfficer) {
+        super(id, username, password, name, surname, email, address, city, country, phone, roles);
         this.isCaptain = isCaptain;
         this.isOfficer = isOfficer;
     }

@@ -1,7 +1,10 @@
 package com.example.fishingbooker.Enum;
 
 public enum ERole {
-    ROLE_USER,
-    ROLE_ADMIN,
-    ROLE_MODERATOR
+    lodgeOwner,
+    shipOwner,
+    admin,
+    defaultAdmin,
+    instructor,
+    client
 }

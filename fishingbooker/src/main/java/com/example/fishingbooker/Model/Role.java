@@ -1,13 +1,14 @@
 package com.example.fishingbooker.Model;
 
 import com.example.fishingbooker.Enum.ERole;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name="roles")
-public class Role implements Serializable {
+public class Role implements Serializable, GrantedAuthority {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -40,5 +41,10 @@ public class Role implements Serializable {
 
     public void setName(ERole name) {
         this.name = name;
+    }
+
+    @Override
+    public String getAuthority() {
+        return name.toString();
     }
 }

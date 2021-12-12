@@ -1,19 +1,17 @@
 package com.example.fishingbooker.Model;
 
-import com.example.fishingbooker.Enum.UserCategory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -47,10 +45,6 @@ public class User implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name="user_category")
-    @Enumerated(EnumType.STRING)
-    private UserCategory userCategory;
-
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
@@ -58,13 +52,16 @@ public class User implements Serializable {
     private boolean isApproved;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @JoinTable(name = "users_roles",
+    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     public User() {
     }
 
     public User(Integer id, String username, String password, String name, String surname, String email,
-                String address, String city, String country, String phone, UserCategory userCategory, Set<Role> roles) {
+                String address, String city, String country, String phone, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -75,7 +72,6 @@ public class User implements Serializable {
         this.city = city;
         this.country = country;
         this.phone = phone;
-        this.userCategory = userCategory;
         this.isDeleted = false;
         this.isApproved = false;
         this.roles = roles;
@@ -174,14 +170,6 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public UserCategory getUserCategory() {
-        return userCategory;
-    }
-
-    public void setUserCategory(UserCategory userCategory) {
-        this.userCategory = userCategory;
-    }
-
     public boolean isDeleted() {
         return isDeleted;
     }
@@ -198,11 +186,38 @@ public class User implements Serializable {
         isApproved = approved;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+    //metode koje smo override-ovali iz UserDetails interfejsa koji je deo spring security-a
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isApproved;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
+
 }
