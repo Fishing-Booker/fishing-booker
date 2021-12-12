@@ -1,14 +1,18 @@
 import './../css/registration.css';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions/users";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
+import axios from 'axios';
 import React from 'react'
 
 const RegistrationForm = ({...props}) => {
 
   const { addToast } = useToasts();
+  const { registrationType } = useParams();
+
+  const SERVER_URL = process.env.REACT_APP_API; 
 
   const [name, setName] = useState("")
   const [surname, setSurname] = useState("")
@@ -19,8 +23,10 @@ const RegistrationForm = ({...props}) => {
   const [city, setCity] = useState("")
   const [country, setCountry] = useState("")
   const [phone, setPhone] = useState("")
+  const [registrationReason, setRegistrationReason] = useState("")
   const [isDeleted, setIsDeleted] = useState(false)
   const [isApproved, setIsApproved] = useState(false)
+  const [userType, setUserType] = useState("")
 
   const values = {
     name, 
@@ -36,13 +42,37 @@ const RegistrationForm = ({...props}) => {
     isApproved
   }
 
+  const owner = {
+    name, 
+    surname,
+    username,
+    email,
+    password,
+    address, 
+    city,
+    country,
+    phone,
+    registrationReason,
+    registrationType
+  }
+
+  useEffect(() => {
+    setUserType(registrationType);
+  }, [])
+
   const handleSubmit = e => {
     e.preventDefault();
 
-    const onSuccess = () => {
-      addToast("User is registrated successfully", { appearance: "success" });
+    if(registrationType != "client") {
+      axios.post(SERVER_URL + 'newOwner/', owner)
+            .then(response => console.log(response.data));
+    } 
+    else {
+      const onSuccess = () => {
+        addToast("User is registrated successfully", { appearance: "success" });
+      }
+      props.addUser(values, onSuccess)
     }
-    props.addUser(values, onSuccess)
   }
 
   return (
@@ -91,10 +121,11 @@ const RegistrationForm = ({...props}) => {
             <span className="details">Confirm Password</span>
             <input type="text" placeholder="Confirm your password" required/>
           </div>
-          <div className="input-box-reasons">
-            <span className="details">Registration reason</span>
-            <textarea type="text" placeholder="Registration reason" required/>
-          </div>
+          {registrationType != "client" ? (
+            <div className="input-box-reasons">
+              <span className="details">Registration reason</span>
+              <textarea type="text" placeholder="Registration reason" required onChange={(e) => setRegistrationReason(e.target.value)} value={registrationReason}/>
+            </div>) : null}
         </div>
         <p className="reg-message">Alredy have an account? <Link className="link" to="/login">Log in</Link></p>
         <div className="button">

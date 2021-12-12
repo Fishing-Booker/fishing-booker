@@ -1,14 +1,17 @@
 import './../css/registration.css';
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
 const RegistrationType = () => {
+
+  const [registrationType, setRegistrationType] = useState("");
+
     return (
       <div class="container-reg">
       <div className="title">Choose registration type</div>
       <div className="optins">
       <div class="option">
-        <input type="radio" name="card" id="client" value="client" />
+        <input type="radio" name="card" id="client" onChange={(e) => setRegistrationType(e.target.value)} value="client" />
         <label class="typeName" for="client" aria-label="client">
           <span></span>
           
@@ -22,7 +25,7 @@ const RegistrationType = () => {
       </div>
       
       <div class="option">
-        <input type="radio" name="card" id="boatOwner" value="boatOwner" />
+        <input type="radio" name="card" id="boatOwner" onChange={(e) => setRegistrationType(e.target.value)} value="boatOwner" />
         <label class="typeName" for="boatOwner" aria-label="boatOwner">
           <span></span>
           
@@ -36,7 +39,7 @@ const RegistrationType = () => {
       </div>
       
       <div class="option">
-        <input type="radio" name="card" id="lodgeOwner" value="lodgeOwner" />
+        <input type="radio" name="card" id="lodgeOwner" onChange={(e) => setRegistrationType(e.target.value)} value="lodgeOwner" />
         <label class="typeName" for="lodgeOwner" aria-label="lodgeOwner">
           <span></span>
           
@@ -50,7 +53,7 @@ const RegistrationType = () => {
       </div>
 
       <div class="option">
-        <input type="radio" name="card" id="instructor" value="instructor" />
+        <input type="radio" name="card" id="instructor" onChange={(e) => setRegistrationType(e.target.value)} value="instructor" />
         <label class="typeName" for="instructor" aria-label="instructor">
           <span></span>
           
@@ -63,7 +66,7 @@ const RegistrationType = () => {
         </label>
       </div>
 
-      <Link to='/registrationForm'>
+      <Link to={'/registrationForm/' + registrationType}>
         <div class="button">
             <input type="submit" value="Registration"/>
         </div>
