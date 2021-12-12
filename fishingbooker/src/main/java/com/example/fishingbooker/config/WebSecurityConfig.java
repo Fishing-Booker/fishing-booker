@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -54,7 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/api/foo").permitAll()
                 .anyRequest().authenticated().and()
-                .cors().and();
+                .cors().and()
+                .addFilterBefore(new TokenAuthenticationFIlter(tokenUtils, userService), BasicAuthenticationFilter.class);
+
+        http.csrf().disable();
 
     }
 
