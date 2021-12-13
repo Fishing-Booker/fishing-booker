@@ -39,11 +39,11 @@ public class AuthenticationController {
     private IUserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> creareAuthenticationToken(
+    public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody JwtAuthenticationDTO authenticationRequest, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-
+        //ubacivanje u sesiju
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
