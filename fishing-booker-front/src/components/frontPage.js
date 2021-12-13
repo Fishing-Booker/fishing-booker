@@ -1,5 +1,5 @@
 import Entities from "./entities";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RegistrationForm from "./registrationForm";
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginForm from "./loginForm";
@@ -31,6 +31,15 @@ const FrontPage = () => {
 
     const [isLogged, setIsLogged] = useState(false);
 
+    useEffect(() => {
+        let token = localStorage.getItem('jwtToken');
+        if (token != null) {
+            setIsLogged(true)
+        } else {
+            setIsLogged(false)
+        }
+    })
+
     return (
         <Router>
         <div>
@@ -38,7 +47,6 @@ const FrontPage = () => {
                 <Navbar/>
                 {!isLogged ? (
                     <div className="row">
-                    
                     <Switch>
                         <Route exact path="/"><Homepage/><Entities/></Route>
                         <Route path="/register"><Homepage/><RegistrationType/></Route>
