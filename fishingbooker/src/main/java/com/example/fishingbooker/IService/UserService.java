@@ -57,8 +57,8 @@ public class UserService implements IUserService, UserDetailsService {
         u.setCity(userDTO.getCity());
         u.setCountry(userDTO.getCountry());
         u.setDeleted(false);
-        u.setPhone(userDTO.getPhoneNumer());
-        List<Role> roles = roleService.findByName(userDTO.getRolename());
+        u.setPhoneNumber(userDTO.getPhoneNumber());
+        List<Role> roles = roleService.findByName(userDTO.getRole());
         u.setRoles(roles);
 
         return this.userRepository.save(u);

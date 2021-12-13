@@ -21,10 +21,10 @@ public class UserDTO {
         this.role = role;
     }
 
-    public UserDTO(String username, String rolename, String name, String surname, String address, String city,
+    public UserDTO(String username, String role, String name, String surname, String address, String city,
                    String country, String phoneNumber, String email, String password, String registrationReason) {
         this.username = username;
-        this.role = rolename;
+        this.role = role;
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -76,12 +76,12 @@ public class UserDTO {
         this.country = country;
     }
 
-    public String getPhoneNumer() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumer(String phoneNumer) {
-        this.phoneNumber = phoneNumer;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -116,11 +116,11 @@ public class UserDTO {
         this.username = username;
     }
 
-    public String getRolename() {
+    public String getRole() {
         return role;
     }
 
-    public void setRolename(String rolename) {
-        this.role = rolename;
+    public void setRole(String role) {
+        this.role = role;
     }
 }

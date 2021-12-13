@@ -61,7 +61,7 @@ public class User implements Serializable, UserDetails {
     }
 
     public User(Integer id, String username, String password, String name, String surname, String email,
-                String address, String city, String country, String phone, List<Role> roles) {
+                String address, String city, String country, String phoneNumber, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -71,7 +71,7 @@ public class User implements Serializable, UserDetails {
         this.address = address;
         this.city = city;
         this.country = country;
-        this.phoneNumber = phone;
+        this.phoneNumber = phoneNumber;
         this.isDeleted = false;
         this.isApproved = false;
         this.roles = roles;
@@ -162,12 +162,12 @@ public class User implements Serializable, UserDetails {
         this.country = country;
     }
 
-    public String getPhone() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phoneNumber = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public boolean isDeleted() {
