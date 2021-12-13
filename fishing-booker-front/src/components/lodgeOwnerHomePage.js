@@ -54,7 +54,7 @@ const LodgeOwnerHomePage = () => {
                 <div className="lodge-card" key={lodge.id}>
                     <div className="lodge-card-body">
                         <div className="lodge-image">
-                            <img  src={lodge1}  />
+                            <img  src={lodge.images[0]}  />
                         </div>
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
                         

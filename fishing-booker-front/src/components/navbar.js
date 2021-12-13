@@ -4,7 +4,7 @@ import React from 'react'
 
 const Navbar = () => {
 
-    const [isLogged, setIsLogged] = useState(false);
+    const [isLogged, setIsLogged] = useState(true);
     const [userRole, setUserRole] = useState("lodgeOwner");
 
 

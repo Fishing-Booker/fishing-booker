@@ -122,7 +122,36 @@ a:hover {
     transition: all 0.3s ease;
 }
 
-.wrapper .right .info_data .data input:hover{
+.rules-input{
+  color: #353c4e;
+  margin-bottom: 5px;
+  height: 35px;
+  width: 80%;
+  border: 1px solid #5078ad;
+  border-width: 1px;
+  border-radius: 5px;
+  padding-left: 11px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.wrapper .right .info_data .data .bedroom-input{
+    color: #353c4e;
+    margin-bottom: 5px;
+    margin-left: 2%;
+    margin-top: 2%;
+    height: 22px;
+    width: 12%;
+    border: 1px solid #5078ad;
+    border-width: 1px;
+    border-radius: 5px;
+    padding-left: 11px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.wrapper .right .info_data .data input:hover,
+.rules-input:hover{
   border-color: #5078ad;
   border-width: 2px;
 }
@@ -294,5 +323,24 @@ a:hover {
   margin-left: 1%;
   margin-bottom: 10px;
   margin-top: 1%
+}
+
+.rules-btn{
+  height: 30px;
+  width: 30px;
+  margin-top: 5px;
+  margin-left: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #2f5e3d;
+  border-radius: 3px;
+}
+
+.rules-btn img{
+  height: 22px;
+  width: 22px;
+  background-color: white;
+  object-fit: fill;
+  margin-top: 1px;
 }
 

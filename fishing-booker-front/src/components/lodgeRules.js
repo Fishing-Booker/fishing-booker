@@ -1,105 +1,125 @@
 import React, { Component } from 'react'
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import '../css/lodgeProfile.css';
-import { withRouter } from 'react-router-dom'
+import { Link, useParams } from "react-router-dom";
+import '../css/adminsProfile.css';
+import { useState, useEffect } from 'react';
+import deleteImg from '../images/trash.png';
+import addImg from '../images/plus.png'
 
-class LodgeRules extends Component {
+const LodgeRules = () => {
 
-    state = {
-        rules: [],
-        lodgeId: 0
-    }
+    const {lodgeId} = useParams();
 
-    componentDidMount() {
-        const lodgeId = this.props.match.params.lodgeId;
-        this.setState({
-            lodgeId: lodgeId
-        })
+    const [rules, setRules] = useState([]);
+    const [editRules, setEditRules] = useState(false);
 
-        /* OVO TREBA OBRISATI KADA SE URADI GET */
-        const allLodges = [
+    useEffect(() => {
+
+        /*axios.get(SERVER_URL + 'lodgeRules/' + lodgeId)
+            .then(response => {setRules(response.data); console.log(response.data)});
+        }, [])*/
+
+        setRules([
             {
-                id: 1,
-                name: "Lodge1",
-                location: "Novi Sad",
-                description: "Our lodge is the best",
-                rules: [
-                    "RULE1",
-                    "RULE2",
-                    "RULE3"
-                ],
-                images: []
+                "id" : 1,
+                "text": "Rule1"
             },
             {
-                id: 2,
-                name: "Lodge2",
-                location: "Beograd",
-                description: "Our lodge is the best too",
-                rules: [
-                    "RULE1",
-                    "RULE2",
-                    "RULE3"
-                ],
-                images: []
+                "id" : 2,
+                "text": "Rule2"
+            },
+            {
+                "id" : 3,
+                "text": "Rule3"
+            },
+            {
+                "id" : 4,
+                "text": "Rule4"
+            },
+            {
+                "id" : 5,
+                "text": "Rule5"
+            },
+            {
+                "id" : 6,
+                "text": "Rule6"
             }
-        ]
+        ])
 
-        for (let l of allLodges) {
-            if(l.id == lodgeId){
-                this.setState({
-                    rules: l.rules
-                })
-                break;
-            }
-        }
+    }, [])
 
-        /* SVE IZNAD SE BRISE */
-    }
+    const allRules = rules.length ? (
+        rules.map(rule => {
+            return (
+                <div key={rule.id}>
+                    * {rule.text}
+                    <br/><br/>
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            Add rules for your lodge!
+        </div>
+    );
 
-    render() {
-        const {rules} = this.state;
-        const {lodgeId} = this.state;
+    const editRulesForm = rules.length ? (
+        rules.map(rule => {
+            return (
+                <div key={rule.id}>
+                    * {rule.text} 
+                    <button className='rules-btn' >
+                        <img src={deleteImg} />
+                    </button>
+                    <br/><br/>
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            Add rules for your lodge!
+        </div>
+    );
 
-        const allRules = rules.length ? (
-            rules.map(rule => {
-                return (
-                    <div>
-                        # {rule}
-                        <br/><br/>
-                    </div>
-                )
-            })
+    const rulesForm = editRules ? (
+            <div className="info-data">
+                { editRulesForm }
+                <p style={{color:'black', fontSize: 'small', fontStyle: 'italic'}}>Add new rule</p>
+                <input className='rules-input' type="text" /> 
+                <button className='rules-btn'>
+                    <img src={addImg} />
+                </button><br/><br/>
+                <button className="edit-profile-btn" onClick={() => setEditRules(false)}>
+                    Done
+                </button>
+            </div>
         ) : (
             <div>
-
+                <div className="rules-info-data">
+                    {allRules}
+                </div> <br/> <br/>
+                <button className="edit-profile-btn" onClick={() => setEditRules(true)}>Edit rules</button>
             </div>
-        );
+    )
 
-        return (
-            <div className="wrapper">
-                <div className="left">
-                    <h4>LODGE PROFILE</h4><br/>
-                    <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
-                    <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
-                    <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
-                    <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
-                    <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
-                </div>
-                <div className="right">
-                    <div className="info">
-                        <h3>LODGE RULES</h3>
-                        <div className="info_data">
-                            {allRules}
-                        </div> <br/> <br/>
-                        <button className="edit-profile-btn" >Save changes</button>
-                    </div>
+    return (
+        <div className="wrapper">
+            <div className="left">
+                <h4>LODGE PROFILE</h4><br/>
+                <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
+                <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
+                <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
+            </div>
+            <div className="right">
+                <div className="info">
+                    <h3>LODGE RULES</h3>
+                    { rulesForm }
                 </div>
             </div>
-        )
+        </div>
+    )
 
-    }
-
-    
 }
 
-export default withRouter(LodgeRules);
+export default LodgeRules;

@@ -29,7 +29,7 @@ import LodgeReservationCalendar from "./lodgeReservationCalendar";
 
 const FrontPage = () => {
 
-    const [isLogged, setIsLogged] = useState(false);
+    const [isLogged, setIsLogged] = useState(true);
 
     return (
         <Router>
@@ -54,8 +54,8 @@ const FrontPage = () => {
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/lodge/:lodgeId"><LodgeProfile/></Route>
-                        <Route path="/lodgeImages"><LodgeImages/></Route>
-                        <Route path="/lodgeRules"><LodgeRules/></Route>
+                        <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
+                        <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist"><LodgePriceList/></Route>
                         <Route exact path="/myProfile"><AdminsProfile/></Route>
                         <Route exact path="/changePassword"><ChangePassword/></Route>
