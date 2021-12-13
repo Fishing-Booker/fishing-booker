@@ -49,10 +49,11 @@ public class UserService implements IUserService, UserDetailsService {
         User u = new User();
         u.setUsername(userDTO.getUsername());
         u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        u.setEmail(userDTO.getEmail());
         u.setName(userDTO.getName());
         u.setSurname(userDTO.getSurname());
         u.setAddress(userDTO.getAddress());
-        u.setApproved(false);
+        u.setApproved(true);
         u.setCity(userDTO.getCity());
         u.setCountry(userDTO.getCountry());
         u.setDeleted(false);

@@ -42,32 +42,32 @@ class LodgeActions extends Component {
                                 Create new action
                             </button>
                         </Link><br/><br/>
-                        <div class="container-table">
-                            <ul class="responsive-table">
-                                <li class="table-header">
-                                <div class="col col-1">Action start</div>
-                                <div class="col col-3">Action end</div>
-                                <div class="col col-4">Price</div>
+                        <div className="container-table">
+                            <ul className="responsive-table">
+                                <li className="table-header">
+                                <div className="col col-1">Action start</div>
+                                <div className="col col-3">Action end</div>
+                                <div className="col col-4">Price</div>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >20.11.2021.</div>
-                                <div class="col col-3" >30.11.2021.</div>
-                                <div class="col col-4" >$350</div>
+                                <li className="table-row">
+                                <div className="col col-1" >20.11.2021.</div>
+                                <div className="col col-3" >30.11.2021.</div>
+                                <div className="col col-4" >$350</div>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >20.11.2021.</div>
-                                <div class="col col-3" >30.11.2021.</div>
-                                <div class="col col-4" >$220</div>
+                                <li className="table-row">
+                                <div className="col col-1" >20.11.2021.</div>
+                                <div className="col col-3" >30.11.2021.</div>
+                                <div className="col col-4" >$220</div>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >20.11.2021.</div>
-                                <div class="col col-3" >30.11.2021.</div>
-                                <div class="col col-4" >$341</div>
+                                <li className="table-row">
+                                <div className="col col-1" >20.11.2021.</div>
+                                <div className="col col-3" >30.11.2021.</div>
+                                <div className="col col-4" >$341</div>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >20.11.2021.</div>
-                                <div class="col col-3" >30.11.2021.</div>
-                                <div class="col col-4" >$115</div>
+                                <li className="table-row">
+                                <div className="col col-1" >20.11.2021.</div>
+                                <div className="col col-3" >30.11.2021.</div>
+                                <div className="col col-4" >$115</div>
                                 </li>
                             </ul>
                         </div>

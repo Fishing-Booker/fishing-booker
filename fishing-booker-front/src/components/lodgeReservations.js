@@ -34,59 +34,59 @@ class LodgeReservations extends Component {
                                 Create new reservation
                             </button>
                         </Link><br/><br/>
-                        <div class="container-table-reservations">
-                            <ul class="responsive-table">
-                                <li class="table-header">
-                                <div class="col col-1">Lodge</div>
-                                <div class="col col-3">Reservation period</div>
-                                <div class="col col-4">Client</div>
+                        <div className="container-table-reservations">
+                            <ul className="responsive-table">
+                                <li className="table-header">
+                                <div className="col col-1">Lodge</div>
+                                <div className="col col-3">Reservation period</div>
+                                <div className="col col-4">Client</div>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>
-                                <li class="table-row">
-                                <div class="col col-1" >Lodge 1</div>
-                                <div class="col col-3" >30.11.2021. - 02.12.2021.</div>
-                                <Link to="/clientProfile" class="col col-4" style={{textDecoration: 'none'}}>
+                                <li className="table-row">
+                                <div className="col col-1" >Lodge 1</div>
+                                <div className="col col-3" >30.11.2021. - 02.12.2021.</div>
+                                <Link to="/clientProfile" className="col col-4" style={{textDecoration: 'none'}}>
                                     Marko Markovic
                                 </Link>
                                 </li>

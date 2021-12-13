@@ -2,13 +2,13 @@ package com.example.fishingbooker.DTO;
 
 public class UserDTO {
     private String username;
-    private String rolename;
+    private String role;
     private String name;
     private String surname;
     private String address;
     private String city;
     private String country;
-    private String phoneNumer;
+    private String phoneNumber;
     private String email;
     private String password;
     private String registrationReason;
@@ -16,21 +16,21 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(String username, String rolename) {
+    public UserDTO(String username, String role) {
         this.username = username;
-        this.rolename = rolename;
+        this.role = role;
     }
 
     public UserDTO(String username, String rolename, String name, String surname, String address, String city,
-                   String country, String phoneNumer, String email, String password, String registrationReason) {
+                   String country, String phoneNumber, String email, String password, String registrationReason) {
         this.username = username;
-        this.rolename = rolename;
+        this.role = rolename;
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.city = city;
         this.country = country;
-        this.phoneNumer = phoneNumer;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.registrationReason = registrationReason;
@@ -77,11 +77,11 @@ public class UserDTO {
     }
 
     public String getPhoneNumer() {
-        return phoneNumer;
+        return phoneNumber;
     }
 
     public void setPhoneNumer(String phoneNumer) {
-        this.phoneNumer = phoneNumer;
+        this.phoneNumber = phoneNumer;
     }
 
     public String getEmail() {
@@ -117,10 +117,10 @@ public class UserDTO {
     }
 
     public String getRolename() {
-        return rolename;
+        return role;
     }
 
     public void setRolename(String rolename) {
-        this.rolename = rolename;
+        this.role = rolename;
     }
 }

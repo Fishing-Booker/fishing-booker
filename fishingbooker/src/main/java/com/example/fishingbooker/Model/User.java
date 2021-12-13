@@ -43,7 +43,7 @@ public class User implements Serializable, UserDetails {
     private String country;
 
     @Column(name = "phone")
-    private String phone;
+    private String phoneNumber;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -71,7 +71,7 @@ public class User implements Serializable, UserDetails {
         this.address = address;
         this.city = city;
         this.country = country;
-        this.phone = phone;
+        this.phoneNumber = phone;
         this.isDeleted = false;
         this.isApproved = false;
         this.roles = roles;
@@ -163,11 +163,11 @@ public class User implements Serializable, UserDetails {
     }
 
     public String getPhone() {
-        return phone;
+        return phoneNumber;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phoneNumber = phone;
     }
 
     public boolean isDeleted() {
@@ -197,17 +197,17 @@ public class User implements Serializable, UserDetails {
     //metode koje smo override-ovali iz UserDetails interfejsa koji je deo spring security-a
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

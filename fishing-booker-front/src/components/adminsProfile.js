@@ -31,53 +31,53 @@ const AdminsProfile = () => {
     }
 
     return (
-        <div class="wrapper">
-            <div class="left">
+        <div className="wrapper">
+            <div className="left">
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
                 <a  href="http://localhost:3000/changePassword">Change password</a><br/><br/>
                 <a href="">Delete your account</a>
             </div>
-            <div class="right">
-                <div class="info">
+            <div className="right">
+                <div className="info">
                     <h3>Information</h3>
-                    <div class="info_data">
-                    <div class="data">
+                    <div className="info_data">
+                    <div className="data">
                             <h4>Name</h4>
                             {!isEditting && <label>{user.name}</label>}
                             {isEditting && <input  value={user.name}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Surname</h4>
                             {!isEditting && <label>{user.surname}</label>}
                             {isEditting && <input  value={user.surname}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Username</h4>
                             {!isEditting && <label>{user.username}</label>}
                             {isEditting && <input  value={user.username}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Email</h4>
                             {!isEditting && <label>{user.email}</label>}
                             {isEditting && <input  value={user.email}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Phone Number</h4>
                             {!isEditting && <label>{user.phone}</label>}
                             {isEditting && <input  value={user.phone}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Address</h4>
                             {!isEditting && <label>{user.address}</label>}
                             {isEditting && <input  value={user.address}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>City</h4>
                             {!isEditting && <label>{user.city}</label>}
                             {isEditting && <input   value={user.city}/>}
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Country</h4>
                             {!isEditting && <label>{user.country}</label>}
                             {isEditting && <input  value={user.country}/>}

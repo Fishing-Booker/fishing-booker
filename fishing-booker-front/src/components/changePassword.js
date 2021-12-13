@@ -16,26 +16,26 @@ const ChangePassword = () => {
     });
     const [isEditting, setVisibility] = useState(false);
     return (
-        <div class="wrapper">
-            <div class="left">
+        <div className="wrapper">
+            <div className="left">
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
                 <a href="">Delete your account</a>
             </div>
-            <div class="right">
-                <div class="info">
+            <div className="right">
+                <div className="info">
                     <h3>Information</h3>
-                    <div class="info_data">
-                    <div class="data">
+                    <div className="info_data">
+                    <div className="data">
                             <h4>Password</h4>
                             <input type="password"/>
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h4>Confirm password</h4>
                             <input type="password"/>
                         </div>
                     </div> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                    <button class="edit-profile-btn">Save password</button>
+                    <button className="edit-profile-btn">Save password</button>
                 </div>
             </div>
         </div>

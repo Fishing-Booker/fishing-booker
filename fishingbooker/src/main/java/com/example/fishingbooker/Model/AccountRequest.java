@@ -14,11 +14,15 @@ public class AccountRequest {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
+    @Column(name = "registration_reason")
+    private String registrationReason;
+
     public AccountRequest() { }
 
-    public AccountRequest(Integer id, String userId) {
+    public AccountRequest(Integer id, String userId, String registrationReason) {
         this.id = id;
         this.userId = userId;
+        this.registrationReason = registrationReason;
     }
 
     public Integer getId() {
@@ -35,5 +39,13 @@ public class AccountRequest {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getRegistrationReason() {
+        return registrationReason;
+    }
+
+    public void setRegistrationReason(String registrationReason) {
+        this.registrationReason = registrationReason;
     }
 }

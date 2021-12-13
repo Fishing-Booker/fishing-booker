@@ -28,7 +28,7 @@ const AddLodgeReservationPeriod = () => {
                             <input type="date"/>
                         </div>
                         <Link to="/lodgeReservationCalendar">
-                            <button class="reservation-period-btn">
+                            <button className="reservation-period-btn">
                                 Add
                             </button>
                         </Link>

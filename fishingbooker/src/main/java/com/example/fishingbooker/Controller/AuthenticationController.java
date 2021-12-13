@@ -54,7 +54,7 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<User> addUser(@RequestBody UserDTO userRequest, UriComponentsBuilder ucBuilder) {
 
         User existUser = this.userService.findByUsername(userRequest.getUsername());
@@ -65,6 +65,6 @@ public class AuthenticationController {
 
         User user = this.userService.save(userRequest);
 
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);//201
     }
 }

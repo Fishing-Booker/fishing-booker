@@ -1,15 +1,14 @@
 import './../css/registration.css';
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import * as actions from "../actions/users";
-import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
 import React from 'react'
+import axios from 'axios';
 
-const RegistrationForm = ({...props}) => {
-
+const RegistrationForm = () => {
   const { addToast } = useToasts();
-
+  const url = window.location.href;
+  const [role, setRole] = useState("");
   const [name, setName] = useState("")
   const [surname, setSurname] = useState("")
   const [username, setUsername] = useState("")
@@ -18,31 +17,37 @@ const RegistrationForm = ({...props}) => {
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
   const [country, setCountry] = useState("")
-  const [phone, setPhone] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
   const [isDeleted, setIsDeleted] = useState(false)
-  const [isApproved, setIsApproved] = useState(false)
+  const [isApproved, setIsApproved] = useState(true)
+  const [registrationReason, setRegistrationReason] = useState("")
+
+  useEffect(() => {
+    const splitted = url.split("/")
+    setRole(splitted[splitted.length-1])
+  })
 
   const values = {
     name, 
     surname,
     username,
     email,
+    registrationReason,
     password,
     address, 
     city,
     country,
-    phone,
+    phoneNumber,
     isDeleted,
-    isApproved
+    isApproved,
+    role
   }
 
   const handleSubmit = e => {
+    console.log(values);
     e.preventDefault();
-
-    const onSuccess = () => {
-      addToast("User is registrated successfully", { appearance: "success" });
-    }
-    props.addUser(values, onSuccess)
+    axios.post("http://localhost:8080/auth/register", values)
+         .then(response => console.log(response.data));
   }
 
   return (
@@ -53,11 +58,11 @@ const RegistrationForm = ({...props}) => {
         <div className="user-details">
           <div className="input-box">
             <span className="details">Name</span>
-            <input type="text" placeholder="Enter your name" required onChange={(e) => {setName(e.target.value); console.log(name)}} value={name}/>
+            <input type="text" placeholder="Enter your name" required onChange={(e) => {setName(e.target.value)}} value={name}/>
           </div>
           <div className="input-box">
             <span className="details">Phone Number</span>
-            <input type="text" placeholder="Enter your phone number" required onChange={(e) => setPhone(e.target.value)} value={phone}/>
+            <input type="text" placeholder="Enter your phone number" required onChange={(e) => setPhoneNumber(e.target.value)} value={phoneNumber}/>
           </div>
           <div className="input-box">
             <span className="details">Surname</span>
@@ -93,7 +98,7 @@ const RegistrationForm = ({...props}) => {
           </div>
           <div className="input-box-reasons">
             <span className="details">Registration reason</span>
-            <textarea type="text" placeholder="Registration reason" required/>
+            <textarea type="text" placeholder="Registration reason" required onChange={(e) => setRegistrationReason(e.target.value)} value={registrationReason}/>
           </div>
         </div>
         <p className="reg-message">Alredy have an account? <Link className="link" to="/login">Log in</Link></p>
@@ -106,14 +111,5 @@ const RegistrationForm = ({...props}) => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    userList: state.users.list
-  }
-}
 
-const mapActionToProps = {
-  addUser: actions.add
-}
-
-export default connect(mapStateToProps, mapActionToProps)(RegistrationForm);
+export default RegistrationForm;

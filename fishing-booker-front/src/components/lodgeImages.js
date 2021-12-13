@@ -71,8 +71,8 @@ class LodgeImages extends Component {
         )
 
         return (
-            <div class="wrapper">
-                <div class="left">
+            <div className="wrapper">
+                <div className="left">
                     <h4>Lodge name</h4><br/>
                     <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
                     <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
@@ -80,10 +80,10 @@ class LodgeImages extends Component {
                     <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
                     <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
                 </div>
-                <div class="right">
-                    <div class="info">
+                <div className="right">
+                    <div className="info">
                         <h3>LODGE IMAGES</h3>
-                        <div class="info_data-images">
+                        <div className="info_data-images">
                             {imageList}
                         </div> <br/> <br/>
                         <button className="edit-profile-btn" >Add new images</button>
