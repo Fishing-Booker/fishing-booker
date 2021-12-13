@@ -15,14 +15,13 @@ public class Role implements Serializable, GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private ERole name;
+    private String name;
 
     public Role() {
     }
 
-    public Role(Integer id, ERole name) {
+    public Role(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -35,16 +34,16 @@ public class Role implements Serializable, GrantedAuthority {
         this.id = id;
     }
 
-    public ERole getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(ERole name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     @Override
     public String getAuthority() {
-        return name.toString();
+        return name;
     }
 }

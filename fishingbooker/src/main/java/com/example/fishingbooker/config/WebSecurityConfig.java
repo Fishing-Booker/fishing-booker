@@ -50,10 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
+                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and() //ako ne prodje autentifikacija
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/api/foo").permitAll()
+                                    .antMatchers("/api/foo").permitAll()
                 .anyRequest().authenticated().and()
                 .cors().and()
                 .addFilterBefore(new TokenAuthenticationFIlter(tokenUtils, userService), BasicAuthenticationFilter.class);

@@ -23,22 +23,7 @@ public class RoleService implements IRoleService {
 
     @Override
     public List<Role> findByName(String name) {
-        ERole role;
-        if(name == ERole.admin.toString()) {
-            role = ERole.admin;
-        } else if (name == ERole.client.toString()) {
-            role = ERole.client;
-        } else if(name == ERole.lodgeOwner.toString()){
-            role = ERole.lodgeOwner;
-        } else if(name == ERole.instructor.toString()) {
-            role = ERole.instructor;
-        } else if(name == ERole.shipOwner.toString()) {
-            role = ERole.shipOwner;
-        } else{
-            role = ERole.defaultAdmin;
-        }
-
-        List<Role> roles = this.roleRepository.findByName(role);
+        List<Role> roles = this.roleRepository.findByName(name);
         return roles;
     }
 
