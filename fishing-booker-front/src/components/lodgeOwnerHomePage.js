@@ -18,11 +18,14 @@ const LodgeOwnerHomePage = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
     const [lodges, setLodges] = useState([]);
+    const [searchField, setSearchField] = useState("");
+    const [filteredLodges, setFilteredLodges] = useState([]);
     const [addLodge, setAddLodge] = useState(false);
     const [editLodge, setEditLodge] = useState(false);
     const [deleteLodge, setDeleteLodge] = useState(false);
 
     useEffect(() => {
+
         /*axios.get(SERVER_URL + 'ownerLodges')    // dodati id ulogovanog vlasnika
             .then(response => {setLodges(response.data); console.log(response.data)});
         }, [])*/
@@ -46,7 +49,19 @@ const LodgeOwnerHomePage = () => {
             }]
         )
 
+        setFilteredLodges(lodges);
+
     }, [])
+
+    const filterLodges = (text) => {
+        filteredLodges.filter(
+            lodge => {
+                return(
+                    lodge.name.toLowerCase().includes(text.toLowerCase())
+                );
+            }
+        )
+    }
 
     const allLodges = lodges.length ? (
         lodges.map(lodge => {
@@ -88,7 +103,7 @@ const LodgeOwnerHomePage = () => {
                 <div className="title">Welcome Lodge Owner!</div>
 
                 <div className="input-box-lodge">
-                    <input type="text" placeholder="Search... " />
+                    <input type="text" placeholder="Search..." onChange={(e) => filterLodges(e.target.value)}/>
                     <div className="modal-place">
                         <Link to="#addLodge" onClick={() => setAddLodge(true)}>
                             <button title="Add lodge">

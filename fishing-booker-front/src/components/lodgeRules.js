@@ -15,8 +15,7 @@ const LodgeRules = () => {
     useEffect(() => {
 
         /*axios.get(SERVER_URL + 'lodgeRules/' + lodgeId)
-            .then(response => {setRules(response.data); console.log(response.data)});
-        }, [])*/
+            .then(response => {setRules(response.data); console.log(response.data)});*/
 
         setRules([
             {
@@ -107,7 +106,7 @@ const LodgeRules = () => {
                 <h4>LODGE PROFILE</h4><br/>
                 <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
                 <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgePricelist/" + lodgeId}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
                 <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
             </div>

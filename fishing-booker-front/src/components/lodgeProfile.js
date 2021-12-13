@@ -47,7 +47,8 @@ const LodgeProfile = () => {
     }, []) 
 
     const prepareServices = () => {
-        var services = lodge.additionServices;
+        //var services = lodge.additionServices;
+        var services = "bla";
         services = services.replace("#", "", 0);
         setAdditionalServices(services.replace(/#/g, '\n'));
         console.log(additionalServices)
@@ -77,8 +78,8 @@ const LodgeProfile = () => {
             <div className="left">
                 <h4>LODGE PROFILE</h4><br/>
                 <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgePricelist/" + lodgeId}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
                 <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
             </div>

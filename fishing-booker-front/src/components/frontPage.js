@@ -56,7 +56,7 @@ const FrontPage = () => {
                         <Route path="/lodge/:lodgeId"><LodgeProfile/></Route>
                         <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
                         <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
-                        <Route path="/lodgePricelist"><LodgePriceList/></Route>
+                        <Route path="/lodgePricelist/:lodgeId"><LodgePriceList/></Route>
                         <Route exact path="/myProfile"><AdminsProfile/></Route>
                         <Route exact path="/changePassword"><ChangePassword/></Route>
                         <Route exact path="/addLodge"><AddLodgeForm/></Route>
