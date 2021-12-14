@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder());
     }
-
+    @Autowired
     private TokenUtils tokenUtils;
 
     @Override
@@ -51,11 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and() //ako ne prodje autentifikacija
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/**").permitAll()
                                     .antMatchers("/api/foo").permitAll()
                 .anyRequest().authenticated().and()
                 .cors().and()
-                .addFilterBefore(new TokenAuthenticationFIlter(tokenUtils, userService), BasicAuthenticationFilter.class);
+                .addFilterBefore(new TokenAuthenticationFIlter(this.tokenUtils, userService), BasicAuthenticationFilter.class);
 
         http.csrf().disable();
 
