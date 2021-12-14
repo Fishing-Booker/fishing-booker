@@ -5,10 +5,8 @@ import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.DTO.UserTokenState;
 import com.example.fishingbooker.Exception.ResourceConflictException;
 import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.IService.UserService;
 import com.example.fishingbooker.Model.User;
 import com.example.fishingbooker.config.TokenUtils;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -64,6 +61,7 @@ public class AuthenticationController {
         }
 
         User user = this.userService.save(userRequest);
+        userService.sendVerificationEmail(user);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);//201
     }

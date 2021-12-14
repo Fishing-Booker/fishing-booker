@@ -57,6 +57,9 @@ public class User implements Serializable, UserDetails {
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
+    @Column(name = "verification_code", updatable = false)
+    private String verificationCode;
+
     public User() {
     }
 
@@ -192,6 +195,14 @@ public class User implements Serializable, UserDetails {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     //metode koje smo override-ovali iz UserDetails interfejsa koji je deo spring security-a

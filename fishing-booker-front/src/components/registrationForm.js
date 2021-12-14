@@ -47,22 +47,29 @@ const RegistrationForm = () => {
 
   const validate = (password, confirmationPassword) => {
     if (password === confirmationPassword) {
-      addToast("User is registered successfully!", { appearance: "success" })
+      //addToast("User is registered successfully!", { appearance: "success" })
+      return true;
     } else {
-      addToast("You didn't enter password correctly!", { appearance: "error" })
+      //addToast("You didn't enter password correctly!", { appearance: "error" })
+      return false;
     }
   }
 
   const handleSubmit = e => {
     console.log(values);
     e.preventDefault();
-    validate(values.password, confirmationPassword)
-    axios.post("http://localhost:8080/auth/register", values)
-         .then(response => {
-           console.log(response.data);
-           history.push('/')
-           window.location.reload()
-          });
+    if (validate(values.password, confirmationPassword)) {
+      axios.post("http://localhost:8080/auth/register", values)
+      .then(response => {
+        console.log(response.data);
+        history.push('/');
+        window.location.reload();
+       });
+       addToast("User is registered successfully!", { appearance: "success" });
+    } else {
+      addToast("You didn't enter password correctly!", { appearance: "error" });
+    }
+
   }
 
   return (

@@ -4,13 +4,19 @@ import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IRepository.UserRepository;
 import com.example.fishingbooker.Model.Role;
 import com.example.fishingbooker.Model.User;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +31,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Override
     public Optional<User> findById(Integer id) {
@@ -61,7 +70,37 @@ public class UserService implements IUserService, UserDetailsService {
         List<Role> roles = roleService.findByName(userDTO.getRole());
         u.setRoles(roles);
 
+        String verificationCode = RandomString.make(64);
+        u.setVerificationCode(verificationCode);
+
         return this.userRepository.save(u);
+    }
+
+    @Override
+    public void sendVerificationEmail(User user) {
+        String subject = "Please verify your registration!";
+        String sender = "Fishing Booker";
+        String content ="<p>Dear " + user.getName() + " " + user.getSurname() + ", <p>";
+        content += "<p>Please click on the link below to verify your account on our site:</p>";
+        String verifyURL = "http://localhost:3000/verify?code=" + user.getVerificationCode();
+        content += "<h3><a href=\"" + verifyURL + "\">VERIFY ACCOUNT</a></h3>";
+        content += "<p>Thank you<br>Fishing Booker</p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+         mailSender.send(message);
     }
 
     @Override

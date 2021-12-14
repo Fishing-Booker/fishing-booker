@@ -11,4 +11,5 @@ public interface IUserService {
     User findByUsername(String username);
     List<User> findAll();
     User save(UserDTO userDTO);
+    void sendVerificationEmail(User user);
 }
