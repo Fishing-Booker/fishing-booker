@@ -30,6 +30,7 @@ import LodgeReservationCalendar from "./lodgeReservationCalendar";
 const FrontPage = () => {
 
     const [isLogged, setIsLogged] = useState(false);
+    const [role, setRole] = useState("ROLE_INSTURCTOR")
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
