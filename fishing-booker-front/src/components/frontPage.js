@@ -25,12 +25,14 @@ import AddLodgeReservationByOwner from "./addLodgeReservationByOwner";
 import ClientProfile from "./clientProfile";
 import AddLodgeReservationPeriod from "./addLodgeReservationPeriod";
 import LodgeReservationCalendar from "./lodgeReservationCalendar";
+import axios from "axios";
 
 
 const FrontPage = () => {
 
     const [isLogged, setIsLogged] = useState(false);
-    const [role, setRole] = useState("ROLE_INSTURCTOR")
+    const [role, setRole] = useState("ROLE_INSTRUCTOR")
+    
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -39,6 +41,14 @@ const FrontPage = () => {
         } else {
             setIsLogged(false)
         }
+
+        if(isLogged == true) {
+            const headers = {'Content-Type' : 'application/json',
+                             'Authorization' : `Bearer ${localStorage.jwtToken}`}
+            console.log(headers)
+            axios.get("http://localhost:8080/users/getLoggedUser", { headers: headers})
+            .then(response => console.log(response.data));
+        }
     })
 
     return (
@@ -46,7 +56,7 @@ const FrontPage = () => {
         <div>
             <div className="container">
                 <Navbar/>
-                {!isLogged ? (
+                {!isLogged &&
                     <div className="row">
                     <Switch>
                         <Route exact path="/"><Homepage/><Entities/></Route>
@@ -55,9 +65,9 @@ const FrontPage = () => {
                         <Route path="/login"><Homepage/><LoginForm/></Route>
                         
                     </Switch>
-                </div>
+                </div> }
                     
-                ) : (
+                { isLogged && role == "ROLE_LODGEOWNER" &&
 
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
@@ -80,7 +90,25 @@ const FrontPage = () => {
                         <Route exact path="/lodgeReservationCalendar"><LodgeReservationCalendar/></Route>
                     </Switch>
 
-                )}
+                }
+
+                {(role=="ROLE_ADMIN" || role == "ROLE_DEFADMIN") && 
+                    <Switch>
+                        <Route exact path="/"></Route>
+                        <Route exact path="/myProfile"><AdminsProfile/></Route>
+                        <Route exact path="/changePassword"><ChangePassword/></Route>
+                    </Switch>
+                }
+
+                {role=="ROLE_INSTRUCTOR" && 
+                    <Switch>
+                        <Route exact path="/"></Route>
+                        <Route exact path="/myProfile"><AdminsProfile/></Route>
+                        <Route exact path="/changePassword"><ChangePassword/></Route>
+                    </Switch>
+                }
+
+                
                 
 	        </div>
         </div>

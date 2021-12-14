@@ -73,4 +73,13 @@ public class UserService implements IUserService, UserDetailsService {
             return user;
         }
     }
+
+    @Override
+    public String findUserRolename(Integer id) {
+        String role = "";
+        Optional<User> user = this.userRepository.findById(id);
+        List<Role> roles = user.get().getRoles();
+        role = roles.get(0).getName();
+        return role;
+    }
 }

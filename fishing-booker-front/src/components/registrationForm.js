@@ -8,7 +8,7 @@ import axios from 'axios';
 const RegistrationForm = () => {
   const { addToast } = useToasts();
   const url = window.location.href;
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("ROLE_DEFADMIN");
   const [name, setName] = useState("")
   const [surname, setSurname] = useState("")
   const [username, setUsername] = useState("")
