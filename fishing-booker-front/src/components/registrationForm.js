@@ -1,5 +1,5 @@
 import './../css/registration.css';
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
 import React from 'react'
@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const RegistrationForm = () => {
   const { addToast } = useToasts();
+  const history = useHistory();
   const url = window.location.href;
   const [role, setRole] = useState("");
   const [name, setName] = useState("")
@@ -21,6 +22,7 @@ const RegistrationForm = () => {
   const [isDeleted, setIsDeleted] = useState(false)
   const [isApproved, setIsApproved] = useState(true)
   const [registrationReason, setRegistrationReason] = useState("")
+  const [confirmationPassword, setConfirmationPassword] = useState("")
 
   useEffect(() => {
     const splitted = url.split("/")
@@ -43,11 +45,24 @@ const RegistrationForm = () => {
     role
   }
 
+  const validate = (password, confirmationPassword) => {
+    if (password === confirmationPassword) {
+      addToast("User is registered successfully!", { appearance: "success" })
+    } else {
+      addToast("You didn't enter password correctly!", { appearance: "error" })
+    }
+  }
+
   const handleSubmit = e => {
     console.log(values);
     e.preventDefault();
+    validate(values.password, confirmationPassword)
     axios.post("http://localhost:8080/auth/register", values)
-         .then(response => console.log(response.data));
+         .then(response => {
+           console.log(response.data);
+           history.push('/')
+           window.location.reload()
+          });
   }
 
   return (
@@ -94,7 +109,7 @@ const RegistrationForm = () => {
           </div>
           <div className="input-box">
             <span className="details">Confirm Password</span>
-            <input type="text" placeholder="Confirm your password" required/>
+            <input type="password" placeholder="Confirm your password" required onChange={(e) => setConfirmationPassword(e.target.value)} value={confirmationPassword}/>
           </div>
           <div className="input-box-reasons">
             <span className="details">Registration reason</span>
