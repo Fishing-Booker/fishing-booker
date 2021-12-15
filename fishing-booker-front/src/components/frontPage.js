@@ -75,7 +75,7 @@ const FrontPage = () => {
                     </Switch>
                 </div> }
                     
-                { isLogged && role == "ROLE_CLIENT" &&
+                { isLogged && role == "ROLE_LODGEOWNER" &&
 
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>

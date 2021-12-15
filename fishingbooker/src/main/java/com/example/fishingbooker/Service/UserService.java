@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,5 +133,10 @@ public class UserService implements IUserService, UserDetailsService {
         List<Role> roles = user.get().getRoles();
         role = roles.get(0).getName();
         return role;
+    }
+
+    @Override
+    public List<User> findUnapprovedUsers() {
+        return userRepository.findUnapprovedUsers();
     }
 }

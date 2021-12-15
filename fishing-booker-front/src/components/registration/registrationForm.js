@@ -55,13 +55,24 @@ const RegistrationForm = () => {
     console.log(values);
     e.preventDefault();
     if (validate(values.password, confirmationPassword)) {
-      axios.post(SERVER_URL + "/auth/register", values)
-      .then(response => {
+      if(role == "ROLE_CLIENT"){
+        axios.post(SERVER_URL + "/auth/register", values)
+          .then(response => {
         console.log(response.data);
         history.push('/');
         window.location.reload();
        });
        addToast("You are registered successfully! Please check email to verify your account.", { appearance: "success" });
+      } else {
+        axios.post(SERVER_URL + "/auth/registerOwner", values)
+          .then(response => {
+        console.log(response.data);
+        history.push('/');
+        window.location.reload();
+       });
+       addToast("Your registration request is successfully sent! You will receive email from our administrators.", { appearance: "success" });
+      }
+      
     } else {
       addToast("Passwords don't match!", { appearance: "error" });
     }

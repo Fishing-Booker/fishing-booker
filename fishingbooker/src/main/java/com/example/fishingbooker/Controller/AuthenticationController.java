@@ -4,7 +4,9 @@ import com.example.fishingbooker.DTO.JwtAuthenticationDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.DTO.UserTokenState;
 import com.example.fishingbooker.Exception.ResourceConflictException;
+import com.example.fishingbooker.IService.IAccountRequestService;
 import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.Model.AccountRequest;
 import com.example.fishingbooker.Model.User;
 import com.example.fishingbooker.config.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class AuthenticationController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IAccountRequestService requestService;
 
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
@@ -62,6 +67,21 @@ public class AuthenticationController {
         userService.sendVerificationEmail(user);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);//201
+    }
+
+    @PostMapping("/registerOwner")
+    public ResponseEntity<User> addOwner(@RequestBody UserDTO userRequest, UriComponentsBuilder ucBuilder) {
+
+        User existUser = this.userService.findByUsername(userRequest.getUsername());
+
+        if (existUser != null) {
+            throw new ResourceConflictException(userRequest.getUsername(), "Username already exists");
+        }
+
+        User user = this.userService.save(userRequest);
+        requestService.save(userRequest);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);//201
     }
 
     @GetMapping("/verify")
