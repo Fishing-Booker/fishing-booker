@@ -25,4 +25,9 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
     User findByVerificationCode(String code);
+
+    @Query("UPDATE User u SET u.password = ?1 WHERE u.id = ?2")
+    @Modifying
+    @Transactional
+    void changePassword(String password, Integer id);
 }

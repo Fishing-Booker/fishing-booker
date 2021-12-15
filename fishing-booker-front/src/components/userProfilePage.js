@@ -1,20 +1,24 @@
 import { getDefaultNormalizer } from '@testing-library/react';
-import { useState } from 'react';
+import axios from 'axios';
+import { useState,useEffect } from 'react';
 import './../css/usersProfile.css';
+import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 
 const UserProfilePage = () => {
-    const [user,setUser] = useState({
-        name: "Petar",
-        surname: "Petrović",
-        role: "instructor",
-        email: "petar@gmail.com",
-        username: "petarp",
-        password: "123456",
-        phone: "0659876543",
-        address: "Save Kovačevića 2",
-        city: "Novi Sad",
-        country: "Serbia"
-    });
+    const SERVER_URL = process.env.REACT_APP_API;
+    const [user, setUser] = useState([]);
+    const { addToast } = useToasts();
+
+    useEffect(() => {
+        const headers = {'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+            .then(response => {setUser(response.data); console.log(response.status)})
+            .catch(error => {
+                addToast("Server is not running!", { appearance: "error" });
+            })
+    }, [])
 
     const [isEditting, setVisibility] = useState(false);
 
@@ -36,7 +40,8 @@ const UserProfilePage = () => {
             <div className="left">
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
-                <a  href="http://localhost:3000/changePassword">Change password</a><br/><br/>
+                <a href="http://localhost:3000/changePassword">Change password</a> <br/><br/>
+                <Link to={`/changePassword/${user.id}`}>Change password</Link> <br/><br/>
                 <a href="">Delete your account</a>
             </div>
             <div className="right">
@@ -65,8 +70,8 @@ const UserProfilePage = () => {
                         </div>
                         <div className="data">
                             <h4>Phone Number</h4>
-                            {!isEditting && <label>{user.phone}</label>}
-                            {isEditting && <input  value={user.phone}/>}
+                            {!isEditting && <label>{user.phoneNumber}</label>}
+                            {isEditting && <input  value={user.phoneNumber}/>}
                         </div>
                         <div className="data">
                             <h4>Address</h4>

@@ -1,4 +1,3 @@
-
 import '../../css/registration.css';
 import { Link, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";

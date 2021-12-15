@@ -133,4 +133,9 @@ public class UserService implements IUserService, UserDetailsService {
         role = roles.get(0).getName();
         return role;
     }
+
+    @Override
+    public void changePassword(String password, Integer id) {
+        userRepository.changePassword(passwordEncoder.encode(password), id);
+    }
 }
