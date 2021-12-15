@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     .antMatchers("/api/foo").permitAll()
                 .anyRequest().authenticated().and()
                 .cors().and()
-                .addFilterBefore(new TokenAuthenticationFIlter(tokenUtils, userService), BasicAuthenticationFilter.class);
+                .addFilterBefore(new TokenAuthenticationFIlter(this.tokenUtils, userService), BasicAuthenticationFilter.class);
 
         http.csrf().disable();
 

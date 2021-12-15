@@ -6,13 +6,13 @@
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
-    margin-left: 25%;
+    margin-left: 30%;
     display: flex;
     overflow-y: scroll;
+    margin-top: 5%;
 }
 
 .deleting-wrapper{
-    margin-top: 15%;
     max-width: 40%;
     max-height: 30%;
     width: 100%;
@@ -21,6 +21,7 @@
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
     margin-left: 30%;
+    margin-top: 18%;
     display: flex;
     overflow-y: scroll;
 }
@@ -50,6 +51,7 @@
     color: #353c4e;
     text-transform: uppercase;
     letter-spacing: 5px;
+    margin-left: 20%;
 }
 
 .adding-wrapper .right .info_data .data{
@@ -60,7 +62,7 @@
 
 .deleting-wrapper .right .info_data .data{
     width: 100%;
-    margin-left: 10%;
+    margin-left: 35%;
     margin-top: 5%;
   }
 
@@ -175,9 +177,9 @@
 
 .deleting-wrapper .right .info_data .buttons{
     width: 100%;
-    margin-top: 10%;
+    margin-top: 2%;
     display: flex;
-    margin-left: 18%;
+    margin-left: 40%;
 }
 
 .deleting-wrapper .right .info_data .buttons .delete{

@@ -83,7 +83,7 @@
 
   .lodge-card .buttons{
     display: flex;
-    margin-left: 88%;
+    margin-left: 89%;
   }
 
   .lodge-card .buttons button{
@@ -91,7 +91,7 @@
       width: 35px;
       margin-bottom: 5px;
       margin-left: 20px;
-      border-style: white;
+      border-style: solid;
       border-width: 2px;
       border-color: #2f5e3d;
       border-radius: 3px;
@@ -125,7 +125,7 @@
     width: 35px;
     margin-top: 20px;
     margin-left: 2400%;
-    border-style: white;
+    border-style: solid;
     border-width: 2px;
     border-color: #2f5e3d;
     border-radius: 3px;
@@ -144,5 +144,10 @@
   }
 
   .sidebar-link{
-    color: rgb(90, 29, 160);
+    color: black;
+    text-decoration: none;
+  }
+
+  .sidebar-link:hover{
+    color: white;
   }

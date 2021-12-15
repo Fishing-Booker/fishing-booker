@@ -31,10 +31,10 @@ const Navbar = () => {
                         {isLogged ? (<li><Link to="/myProfile">MY PROFILE</Link></li>) : null}
                         {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
                         {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
-                        {userRole=="instructor" && <li><Link to="/homepage">HOMEPAGE</Link></li>}
-                        {userRole=="instructor" && <li><Link to="/homepage">ADVENTURES</Link></li>}
-                        {userRole=="instructor" && <li><Link to="/reservations">RESERVATIONS</Link></li>}
-                        {userRole=="instructor" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
+                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/homepage">HOMEPAGE</Link></li>}
+                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/homepage">ADVENTURES</Link></li>}
+                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/reservations">RESERVATIONS</Link></li>}
+                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
                         {userRole=="lodgeOwner" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
                         {isLogged ? (<li><Link to="/logout" onClick={logOut}>LOG OUT</Link></li>) : null}
                     </ul>

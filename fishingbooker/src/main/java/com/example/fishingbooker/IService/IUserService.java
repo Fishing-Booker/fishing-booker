@@ -13,4 +13,6 @@ public interface IUserService {
     User save(UserDTO userDTO);
     void sendVerificationEmail(User user);
     boolean verify(String verificationCode);
+    String findUserRolename(Integer id);
+
 }

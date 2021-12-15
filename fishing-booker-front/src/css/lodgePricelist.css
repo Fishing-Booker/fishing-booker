@@ -78,3 +78,23 @@
           text-align: right;
         }
     }
+
+.edit-pricelist-form {
+  width: 120%;
+  display: flex;
+}
+
+.edit-pricelist {
+  border-style: solid;
+  border-color: #2f5e3d;
+  border-width: 2px;
+  border-radius: 5px;
+  margin-top: 2%;
+  width: 80%;
+}
+
+.edit-pricelist-form .rules-btn{
+  margin-left: 3%;
+  margin-top: 5%;
+  margin-bottom: 0%;
+}
