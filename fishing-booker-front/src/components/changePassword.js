@@ -10,11 +10,10 @@ const ChangePassword = () => {
     const history = useHistory();
     const [user, setUser] = useState([]);
     const [password, setPassword] = useState("")
-    const [id, setId] = useState("")
     const [confirmationPassword, setConfirmationPassword] = useState("")
     const dto = {
         password,
-        id
+        id: user.id
     }
 
     useEffect(() => {
@@ -35,12 +34,8 @@ const ChangePassword = () => {
 
     const changePassword = e => {
         e.preventDefault();
-        setId(user.id)
-        console.log(dto.password)
-        console.log(dto.id)
         if (validate(dto.password, confirmationPassword)) {
-            axios.post(SERVER_URL + "/users/changePassword", dto)
-            .then(response => response.data);
+            axios.post(SERVER_URL + "/users/changePassword", dto);
             addToast("Password is successfully changed!", { appearance: "success" });
             const timer = setTimeout(() => {
                 history.push('/profile');

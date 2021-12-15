@@ -3,12 +3,15 @@ import { Link, useHistory } from "react-router-dom";
 import React from 'react'
 import { useState } from "react";
 import axios from 'axios';
+import { useToasts } from "react-toast-notifications";
 
 const LoginForm = () => {
   const SERVER_URL = process.env.REACT_APP_API;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
   const history = useHistory();
+  const { addToast } = useToasts();
 
   const credentials = {
     username,
@@ -25,6 +28,11 @@ const LoginForm = () => {
            history.push('/')
            window.location.reload()
          })
+         .catch(error => {
+           addToast("Wrong username or password. Please try again.", { appearance: "error" });
+           setUsername("");
+           setPassword("");
+          });
   }
 
 

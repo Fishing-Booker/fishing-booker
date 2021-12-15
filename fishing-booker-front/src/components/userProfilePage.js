@@ -40,7 +40,6 @@ const UserProfilePage = () => {
             <div className="left">
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
-                <a href="http://localhost:3000/changePassword">Change password</a> <br/><br/>
                 <Link to={`/changePassword/${user.id}`}>Change password</Link> <br/><br/>
                 <a href="">Delete your account</a>
             </div>
