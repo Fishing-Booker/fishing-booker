@@ -1,7 +1,8 @@
-package com.example.fishingbooker.IService;
+package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.Enum.ERole;
 import com.example.fishingbooker.IRepository.RoleRepository;
+import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.Model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

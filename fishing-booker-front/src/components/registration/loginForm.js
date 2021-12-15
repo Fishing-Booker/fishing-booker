@@ -1,10 +1,11 @@
-import './../css/registration.css';
+import '../../css/registration.css';
 import { Link, useHistory } from "react-router-dom";
 import React from 'react'
 import { useState } from "react";
 import axios from 'axios';
 
 const LoginForm = () => {
+  const SERVER_URL = process.env.REACT_APP_API;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -16,7 +17,7 @@ const LoginForm = () => {
 
   const handleLogin = e => {
     e.preventDefault();
-    axios.post("http://localhost:8080/auth/login", credentials)
+    axios.post(SERVER_URL + "/auth/login", credentials)
          .then(response => {
            let token = response.data.accessToken;
            console.log(token);

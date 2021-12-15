@@ -1,6 +1,6 @@
 import { getDefaultNormalizer } from '@testing-library/react';
 import { useState } from 'react';
-import './../css/adminsProfile.css';
+import './../css/usersProfile.css';
 const AdminsProfile = () => {
     const [user,setUser] = useState({
         name: "Petar",

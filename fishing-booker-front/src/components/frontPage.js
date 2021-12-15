@@ -1,36 +1,36 @@
 import Entities from "./entities";
 import { useState, useEffect } from "react";
-import RegistrationForm from "./registrationForm";
+import RegistrationForm from "./registration/registrationForm";
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import LoginForm from "./loginForm";
+import LoginForm from "./registration/loginForm";
 import Navbar from "./navbar";
 import React from 'react'
-import RegistrationType from "./registrationType";
+import RegistrationType from "./registration/registrationType";
 import UserProfilPage from "./userProfilePage";
-import LodgeOwnerHomePage from "./lodgeOwnerHomePage";
-import LodgeProfile from "./lodgeProfile";
-import LodgeImages from "./lodgeImages";
-import LodgeRules from "./lodgeRules";
-import LodgePriceList from "./lodgePricelist";
+import LodgeOwnerHomePage from "./lodge/lodgeOwnerHomePage";
+import LodgeProfile from "./lodge/lodgeProfile";
+import LodgeImages from "./lodge/lodgeImages";
+import LodgeRules from "./lodge/lodgeRules";
+import LodgePriceList from "./lodge/lodgePricelist";
 import Homepage from "./homepage";
 import AdminsProfile from "./adminsProfile";
 import ChangePassword from "./changePassword";
-import AddLodgeForm from "./addLodgeForm";
-import DeleteLogdeForm from "./deleteLodgeForm";
-import EditLogdeForm from "./editLodgeForm";
-import LodgeActions from "./lodgeActions";
-import AddLodgeActionFrom from "./addLodgeActionForm";
-import LodgeReservations from "./lodgeReservations";
-import AddLodgeReservationByOwner from "./addLodgeReservationByOwner";
+import AddLodgeForm from "./lodge/addLodgeForm";
+import DeleteLogdeForm from "./lodge/deleteLodgeForm";
+import EditLogdeForm from "./lodge/editLodgeForm";
+import LodgeActions from "./lodge/lodgeActions";
+import AddLodgeActionFrom from "./lodge/addLodgeActionForm";
+import LodgeReservations from "./lodge/lodgeReservations";
+import AddLodgeReservationByOwner from "./lodge/addLodgeReservationByOwner";
 import ClientProfile from "./clientProfile";
-import AddLodgeReservationPeriod from "./addLodgeReservationPeriod";
-import LodgeReservationCalendar from "./lodgeReservationCalendar";
+import AddLodgeReservationPeriod from "./lodge/addLodgeReservationPeriod";
+import LodgeReservationCalendar from "./lodge/lodgeReservationCalendar";
 import Verification from "./registration/verification";
 import axios from "axios";
 
 
 const FrontPage = () => {
-
+    const SERVER_URL = process.env.REACT_APP_API; 
     const [isLogged, setIsLogged] = useState(false);
     const [role, setRole] = useState("ROLE_INSTRUCTOR")
     
@@ -45,12 +45,12 @@ const FrontPage = () => {
 
         if(isLogged == true) {
             const headers = {'Content-Type' : 'application/json',
-                             'Authorization' : Bearer `${localStorage.jwtToken}`}
+                             'Authorization' : `Bearer ${localStorage.jwtToken}`}
             console.log(headers)
-            axios.get("http://localhost:8080/users/getLoggedUser", { headers: headers})
+            axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers})
             .then(response => {
                 var user = response.data;
-                axios.get(`http://localhost:8080/users/getRole/${user.id}`, {headers:headers})
+                axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
                 .then(response => {
                     setRole(response.data);
                 });
@@ -75,7 +75,7 @@ const FrontPage = () => {
                     </Switch>
                 </div> }
                     
-                { isLogged && role == "ROLE_LODGEOWNER" &&
+                { isLogged && role == "ROLE_CLIENT" &&
 
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
@@ -84,7 +84,6 @@ const FrontPage = () => {
                         <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
                         <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist/:lodgeId"><LodgePriceList/></Route>
-                        <Route path="/myProfile"><AdminsProfile/></Route>
                         <Route path="/changePassword"><ChangePassword/></Route>
                         <Route path="/addLodge"><AddLodgeForm/></Route>
                         <Route path="/deleteLodge"><DeleteLogdeForm/></Route>

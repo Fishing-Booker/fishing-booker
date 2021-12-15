@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './../css/adminsProfile.css';
+import './../css/usersProfile.css';
 
 const ChangePassword = () => {
     const [user,setUser] = useState({

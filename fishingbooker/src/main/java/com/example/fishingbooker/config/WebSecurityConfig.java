@@ -1,7 +1,6 @@
 package com.example.fishingbooker.config;
 
-import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.IService.UserService;
+import com.example.fishingbooker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,7 @@
 package com.example.fishingbooker.config;
 
-import com.example.fishingbooker.IService.UserService;
+import com.example.fishingbooker.Service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
-import lombok.val;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.security.core.context.SecurityContextHolder;

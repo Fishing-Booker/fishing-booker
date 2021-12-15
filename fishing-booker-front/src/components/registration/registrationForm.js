@@ -1,5 +1,5 @@
 
-import './../css/registration.css';
+import '../../css/registration.css';
 import { Link, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
@@ -7,6 +7,7 @@ import React from 'react'
 import axios from 'axios';
 
 const RegistrationForm = () => {
+  const SERVER_URL = process.env.REACT_APP_API; 
   const { addToast } = useToasts();
   const history = useHistory();
   const url = window.location.href;
@@ -54,7 +55,7 @@ const RegistrationForm = () => {
     console.log(values);
     e.preventDefault();
     if (validate(values.password, confirmationPassword)) {
-      axios.post("http://localhost:8080/auth/register", values)
+      axios.post(SERVER_URL + "/auth/register", values)
       .then(response => {
         console.log(response.data);
         history.push('/');

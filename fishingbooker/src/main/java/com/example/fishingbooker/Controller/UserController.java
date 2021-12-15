@@ -1,10 +1,7 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.IService.UserService;
-import com.example.fishingbooker.Model.Role;
 import com.example.fishingbooker.Model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Arrays.stream;
 

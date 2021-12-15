@@ -1,7 +1,9 @@
-package com.example.fishingbooker.IService;
+package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IService.IRoleService;
+import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.Role;
 import com.example.fishingbooker.Model.User;
 import net.bytebuddy.utility.RandomString;
