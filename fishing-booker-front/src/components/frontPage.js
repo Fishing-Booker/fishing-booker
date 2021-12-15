@@ -67,18 +67,18 @@ const FrontPage = () => {
                         <Route path="/lodgeImages"><LodgeImages/></Route>
                         <Route path="/lodgeRules"><LodgeRules/></Route>
                         <Route path="/lodgePricelist"><LodgePriceList/></Route>
-                        <Route exact path="/myProfile"><AdminsProfile/></Route>
-                        <Route exact path="/changePassword"><ChangePassword/></Route>
-                        <Route exact path="/addLodge"><AddLodgeForm/></Route>
-                        <Route exact path="/deleteLodge"><DeleteLogdeForm/></Route>
-                        <Route exact path="/editLodge"><EditLogdeForm/></Route>
-                        <Route exact path="/lodgeActions"><LodgeActions/></Route>
-                        <Route exact path="/addLodgeAction"><AddLodgeActionFrom/></Route>
-                        <Route exact path="/lodgeReservations"><LodgeReservations/></Route>
-                        <Route exact path="/addLodgeReservation"><AddLodgeReservationByOwner/></Route>
-                        <Route exact path="/clientProfile"><ClientProfile/></Route>
-                        <Route exact path="/addLodgeReservationPeriod"><AddLodgeReservationPeriod/></Route>
-                        <Route exact path="/lodgeReservationCalendar"><LodgeReservationCalendar/></Route>
+                        <Route path="/myProfile"><AdminsProfile/></Route>
+                        <Route path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/addLodge"><AddLodgeForm/></Route>
+                        <Route path="/deleteLodge"><DeleteLogdeForm/></Route>
+                        <Route path="/editLodge"><EditLogdeForm/></Route>
+                        <Route path="/lodgeActions"><LodgeActions/></Route>
+                        <Route path="/addLodgeAction"><AddLodgeActionFrom/></Route>
+                        <Route path="/lodgeReservations"><LodgeReservations/></Route>
+                        <Route path="/addLodgeReservation"><AddLodgeReservationByOwner/></Route>
+                        <Route path="/clientProfile"><ClientProfile/></Route>
+                        <Route path="/addLodgeReservationPeriod"><AddLodgeReservationPeriod/></Route>
+                        <Route path="/lodgeReservationCalendar"><LodgeReservationCalendar/></Route>
                     </Switch>
 
                 )}

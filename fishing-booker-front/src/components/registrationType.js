@@ -7,7 +7,7 @@ const RegistrationType = () => {
     const[role, setRole] = useState("")
     return (
       <div className="container-reg">
-      <div className="title">Choose registration type</div>
+      <div className="title">Choose registration type</div> <br></br>
       <div className="optins">
       <div className="option">
         <input type="radio" name="card" id="client" onChange={(e) => setRole(e.target.value)} value="ROLE_CLIENT" />
@@ -67,7 +67,7 @@ const RegistrationType = () => {
 
       <Link to={`/registrationForm/${role}`}>
         <div className="button">
-            <input type="submit" value="Registration"/>
+            <input type="submit" value="Next"/>
         </div>
       </Link>
       </div>

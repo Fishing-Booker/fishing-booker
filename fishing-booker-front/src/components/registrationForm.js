@@ -46,11 +46,6 @@ const RegistrationForm = () => {
   }
 
   const validate = (password, confirmationPassword) => {
-    // if (password === confirmationPassword) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
     return password === confirmationPassword ? true : false;
   }
 
@@ -64,9 +59,9 @@ const RegistrationForm = () => {
         history.push('/');
         window.location.reload();
        });
-       addToast("User is registered successfully!", { appearance: "success" });
+       addToast("You are registered successfully! Please check email to verify your account.", { appearance: "success" });
     } else {
-      addToast("You didn't enter password correctly!", { appearance: "error" });
+      addToast("Passwords don't match!", { appearance: "error" });
     }
 
   }

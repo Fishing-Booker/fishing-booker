@@ -5,7 +5,7 @@ import React from 'react'
 const Navbar = () => {
 
     const [isLogged, setIsLogged] = useState(false);
-    const [userRole, setUserRole] = useState("lodgeOwner");
+    const [userRole, setUserRole] = useState("");
     const history = useHistory();
 
     useEffect(() => {
