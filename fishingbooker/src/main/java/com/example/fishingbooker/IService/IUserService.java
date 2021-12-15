@@ -12,4 +12,5 @@ public interface IUserService {
     List<User> findAll();
     User save(UserDTO userDTO);
     void sendVerificationEmail(User user);
+    boolean verify(String verificationCode);
 }

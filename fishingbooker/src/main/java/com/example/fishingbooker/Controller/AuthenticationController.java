@@ -8,6 +8,7 @@ import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.User;
 import com.example.fishingbooker.config.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
@@ -64,5 +62,13 @@ public class AuthenticationController {
         userService.sendVerificationEmail(user);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);//201
+    }
+
+    @GetMapping("/verify")
+    public String verifyAccount(@Param("code") String code) {
+        boolean verified = userService.verify(code);
+        String response = verified ? "Your account is successfully verified!" : "We are sorry, your account is not verified.";
+
+        return response;
     }
 }

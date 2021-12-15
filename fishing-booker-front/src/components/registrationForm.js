@@ -46,13 +46,12 @@ const RegistrationForm = () => {
   }
 
   const validate = (password, confirmationPassword) => {
-    if (password === confirmationPassword) {
-      //addToast("User is registered successfully!", { appearance: "success" })
-      return true;
-    } else {
-      //addToast("You didn't enter password correctly!", { appearance: "error" })
-      return false;
-    }
+    // if (password === confirmationPassword) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    return password === confirmationPassword ? true : false;
   }
 
   const handleSubmit = e => {

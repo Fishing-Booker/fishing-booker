@@ -25,6 +25,7 @@ import AddLodgeReservationByOwner from "./addLodgeReservationByOwner";
 import ClientProfile from "./clientProfile";
 import AddLodgeReservationPeriod from "./addLodgeReservationPeriod";
 import LodgeReservationCalendar from "./lodgeReservationCalendar";
+import Verification from "./registration/verification";
 
 
 const FrontPage = () => {
@@ -52,6 +53,7 @@ const FrontPage = () => {
                         <Route path="/register"><Homepage/><RegistrationType/></Route>
                         <Route path="/registrationForm"><Homepage/><RegistrationForm/></Route>
                         <Route path="/login"><Homepage/><LoginForm/></Route>
+                        <Route path="/verify/:code?"><Verification/></Route>
                         
                     </Switch>
                 </div>

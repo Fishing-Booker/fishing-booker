@@ -1,13 +1,14 @@
 package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.UserDTO;
-import com.example.fishingbooker.IRepository.UserRepository;
+import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.Model.Role;
 import com.example.fishingbooker.Model.User;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +25,7 @@ import java.util.Optional;
 public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    IUserRepository userRepository;
 
     @Autowired
     IRoleService roleService;
@@ -62,7 +63,7 @@ public class UserService implements IUserService, UserDetailsService {
         u.setName(userDTO.getName());
         u.setSurname(userDTO.getSurname());
         u.setAddress(userDTO.getAddress());
-        u.setApproved(true);
+        u.setApproved(false);
         u.setCity(userDTO.getCity());
         u.setCountry(userDTO.getCountry());
         u.setDeleted(false);
@@ -77,12 +78,22 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.userRepository.findByUsername(username);
+        if(user == null) {
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+        } else {
+            return user;
+        }
+    }
+
+    @Override
     public void sendVerificationEmail(User user) {
         String subject = "Please verify your registration!";
         String sender = "Fishing Booker";
         String content ="<p>Dear " + user.getName() + " " + user.getSurname() + ", <p>";
         content += "<p>Please click on the link below to verify your account on our site:</p>";
-        String verifyURL = "http://localhost:3000/verify?code=" + user.getVerificationCode();
+        String verifyURL = "http://localhost:3000/verify/code=" + user.getVerificationCode();
         content += "<h3><a href=\"" + verifyURL + "\">VERIFY ACCOUNT</a></h3>";
         content += "<p>Thank you<br>Fishing Booker</p>";
 
@@ -100,16 +111,16 @@ public class UserService implements IUserService, UserDetailsService {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-         mailSender.send(message);
+        mailSender.send(message);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findByUsername(username);
-        if(user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+    public boolean verify(String verificationCode) {
+        User user = userRepository.findByVerificationCode(verificationCode);
+        if (user == null) {
+            return false;
         } else {
-            return user;
+            userRepository.enable(user.getId());
+            return true;
         }
     }
 }
