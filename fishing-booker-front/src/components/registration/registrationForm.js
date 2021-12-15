@@ -1,4 +1,3 @@
-
 import '../../css/registration.css';
 import { Link, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -58,11 +57,12 @@ const RegistrationForm = () => {
       if(role == "ROLE_CLIENT"){
         axios.post(SERVER_URL + "/auth/register", values)
           .then(response => {
-        console.log(response.data);
-        history.push('/');
-        window.location.reload();
+        addToast("You are registered successfully! Please check email to verify your account.", { appearance: "success" });
+        const timer = setTimeout(() => {
+          history.push('/');
+          window.location.reload();
+        }, 3000)
        });
-       addToast("You are registered successfully! Please check email to verify your account.", { appearance: "success" });
       } else {
         axios.post(SERVER_URL + "/auth/registerOwner", values)
           .then(response => {

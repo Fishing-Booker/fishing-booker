@@ -15,5 +15,5 @@ public interface IUserService {
     boolean verify(String verificationCode);
     String findUserRolename(Integer id);
     List<User> findUnapprovedUsers();
-
+    void changePassword(String password, Integer id);
 }

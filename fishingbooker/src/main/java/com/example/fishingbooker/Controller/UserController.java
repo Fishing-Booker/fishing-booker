@@ -1,11 +1,13 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.PasswordDTO;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,12 @@ public class UserController {
     @GetMapping("/getLoggedUser")
     public User getLoggedUser(Principal user) {
         return this.userService.findByUsername(user.getName());
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<String> changePassword(@RequestBody PasswordDTO passwordDTO) {
+        userService.changePassword(passwordDTO.getPassword(), passwordDTO.getId());
+        return ResponseEntity.ok("Password is successfully changed!");
     }
 
 }

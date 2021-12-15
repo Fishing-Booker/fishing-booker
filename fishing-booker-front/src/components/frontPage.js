@@ -13,7 +13,6 @@ import LodgeImages from "./lodge/lodgeImages";
 import LodgeRules from "./lodge/lodgeRules";
 import LodgePriceList from "./lodge/lodgePricelist";
 import Homepage from "./homepage";
-import AdminsProfile from "./adminsProfile";
 import ChangePassword from "./changePassword";
 import AddLodgeForm from "./lodge/addLodgeForm";
 import DeleteLogdeForm from "./lodge/deleteLodgeForm";
@@ -102,20 +101,26 @@ const FrontPage = () => {
                 {(role=="ROLE_ADMIN" || role == "ROLE_DEFADMIN") && 
                     <Switch>
                         <Route exact path="/"></Route>
-                        <Route exact path="/myProfile"><AdminsProfile/></Route>
-                        <Route exact path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword"><ChangePassword/></Route>
                     </Switch>
                 }
 
                 {role=="ROLE_INSTRUCTOR" && 
                     <Switch>
                         <Route exact path="/"></Route>
-                        <Route exact path="/myProfile"><AdminsProfile/></Route>
-                        <Route exact path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword"><ChangePassword/></Route>
                     </Switch>
                 }
 
-                
+                {(role=="ROLE_CLIENT") &&
+                    <Switch>
+                        <Route exact path="/"><Homepage/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
+                    </Switch>
+                }
                 
 	        </div>
         </div>

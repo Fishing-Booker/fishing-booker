@@ -139,4 +139,9 @@ public class UserService implements IUserService, UserDetailsService {
     public List<User> findUnapprovedUsers() {
         return userRepository.findUnapprovedUsers();
     }
+
+    @Override
+    public void changePassword(String password, Integer id) {
+        userRepository.changePassword(passwordEncoder.encode(password), id);
+    }
 }
