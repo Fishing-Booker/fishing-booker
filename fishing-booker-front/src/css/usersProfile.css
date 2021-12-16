@@ -344,3 +344,65 @@ a:hover {
   margin-top: 1px;
 }
 
+.accept-request{
+  height: 40px;
+  width: 10%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background:  #5078ad;
+  margin-bottom: 10px;
+  margin-left: 77%;
+}
+
+.reject-request{
+  height: 40px;
+  width: 10%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background:  #2f5e3d;
+  margin-bottom: 10px;
+  margin-left: 2%;
+}
+
+.list-div{
+  width: 100%;
+  margin: 10px
+}
+
+  ol {
+  color: rgb(0, 0, 0);
+  list-style-type: none;
+}
+ 
+ol li {
+  position: relative;
+  font: bold italic 45px/1.5 Helvetica, Verdana, sans-serif;
+  margin-bottom: 20px;
+}
+ 
+li p {
+  font: 17px/1.5 Helvetica, sans-serif;
+  padding-left: 5%;
+  color: rgb(0, 0, 0);
+}
+.list{
+  position: absolute;
+}
+
+.withBorder {
+  margin-top: 10px;
+  border-bottom: 1px solid black;
+  padding-top: 10px;
+}

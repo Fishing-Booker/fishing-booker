@@ -1,7 +1,7 @@
 import Entities from "./entities";
 import { useState, useEffect } from "react";
 import RegistrationForm from "./registration/registrationForm";
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginForm from "./registration/loginForm";
 import Navbar from "./navbar";
 import React from 'react'
@@ -13,7 +13,6 @@ import LodgeImages from "./lodge/lodgeImages";
 import LodgeRules from "./lodge/lodgeRules";
 import LodgePriceList from "./lodge/lodgePricelist";
 import Homepage from "./homepage";
-import AdminsProfile from "./adminsProfile";
 import ChangePassword from "./changePassword";
 import AddLodgeForm from "./lodge/addLodgeForm";
 import DeleteLogdeForm from "./lodge/deleteLodgeForm";
@@ -27,12 +26,13 @@ import AddLodgeReservationPeriod from "./lodge/addLodgeReservationPeriod";
 import LodgeReservationCalendar from "./lodge/lodgeReservationCalendar";
 import Verification from "./registration/verification";
 import axios from "axios";
+import AccountRequest from "./admin/accountRequests";
 
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
     const [isLogged, setIsLogged] = useState(false);
-    const [role, setRole] = useState("ROLE_INSTRUCTOR")
+    const [role, setRole] = useState("")
     
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const FrontPage = () => {
             setIsLogged(false)
         }
 
-        if(isLogged == true) {
+        if(isLogged === true) {
             const headers = {'Content-Type' : 'application/json',
                              'Authorization' : `Bearer ${localStorage.jwtToken}`}
             console.log(headers)
@@ -75,7 +75,7 @@ const FrontPage = () => {
                     </Switch>
                 </div> }
                     
-                { isLogged && role == "ROLE_LODGEOWNER" &&
+                { isLogged && role === "ROLE_LODGEOWNER" &&
 
                     <Switch>
                         <Route exact path="/"><LodgeOwnerHomePage/></Route>
@@ -99,18 +99,19 @@ const FrontPage = () => {
 
                 }
 
-                {(role=="ROLE_ADMIN" || role == "ROLE_DEFADMIN") && 
+                {(role==="ROLE_ADMIN" || role === "ROLE_DEFADMIN") && 
                     <Switch>
                         <Route exact path="/"></Route>
-                        <Route exact path="/myProfile"><AdminsProfile/></Route>
-                        <Route exact path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/accountRequests"><AccountRequest/></Route>
                     </Switch>
                 }
 
-                {role=="ROLE_INSTRUCTOR" && 
+                {role==="ROLE_INSTRUCTOR" && 
                     <Switch>
                         <Route exact path="/"></Route>
-                        <Route exact path="/myProfile"><AdminsProfile/></Route>
+                        <Route exact path="/profile"><UserProfilPage/></Route>
                         <Route exact path="/changePassword"><ChangePassword/></Route>
                     </Switch>
                 }

@@ -2,6 +2,7 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IRepository.IAccountRequestRepository;
+import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IAccountRequestService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.AccountRequest;
@@ -17,6 +18,9 @@ public class AccountService implements IAccountRequestService {
 
     @Autowired
     IAccountRequestRepository requestRepository;
+
+    @Autowired
+    IUserRepository userRepository;
 
     @Autowired
     IUserService userService;
@@ -36,5 +40,26 @@ public class AccountService implements IAccountRequestService {
         request.setUserId(userDTO.getUsername());
         request.setRegistrationReason(userDTO.getRegistrationReason());
         return this.requestRepository.save(request);
+    }
+
+    @Override
+    public List<AccountRequest> findAll() {
+        return this.requestRepository.findAll();
+    }
+
+    @Override
+    public void rejectRequest(String username) {
+        requestRepository.deleteById(username);
+        User user = userRepository.findByUsername(username);
+        userRepository.deleteByUsername(username);
+        userService.sendRejectingEmail(user);
+    }
+
+    @Override
+    public void approveRequest(String username) {
+        requestRepository.deleteById(username);
+        User user = userRepository.findByUsername(username);
+        userRepository.enable(user.getId());
+        userService.sendVerificationEmailToOwnersAndInstructors(user);
     }
 }

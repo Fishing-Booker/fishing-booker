@@ -9,4 +9,7 @@ import java.util.List;
 public interface IAccountRequestService {
     List<AccountRequest> findUnapprovedRequests();
     AccountRequest save(UserDTO userDTO);
+    List<AccountRequest> findAll();
+    void rejectRequest(String username);
+    void approveRequest(String username);
 }

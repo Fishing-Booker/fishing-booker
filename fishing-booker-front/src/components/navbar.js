@@ -1,12 +1,14 @@
 import { Link, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import React from 'react'
+import axios from "axios";
 
 const Navbar = () => {
 
     const [isLogged, setIsLogged] = useState(false);
     const [userRole, setUserRole] = useState("");
     const history = useHistory();
+    const SERVER_URL = process.env.REACT_APP_API;
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -14,6 +16,21 @@ const Navbar = () => {
             setIsLogged(true)
         } else {
             setIsLogged(false)
+        }
+
+        if(isLogged === true) {
+            const headers = {'Content-Type' : 'application/json',
+                             'Authorization' : `Bearer ${localStorage.jwtToken}`}
+            console.log(headers)
+            axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers})
+            .then(response => {
+                var user = response.data;
+                axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
+                .then(response => {
+                    setUserRole(response.data);
+                    console.log(userRole)
+                });
+            });
         }
     })
 
@@ -31,11 +48,13 @@ const Navbar = () => {
                         {isLogged ? (<li><Link to="/profile">MY PROFILE</Link></li>) : null}
                         {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
                         {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
-                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/homepage">HOMEPAGE</Link></li>}
-                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/homepage">ADVENTURES</Link></li>}
-                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/reservations">RESERVATIONS</Link></li>}
-                        {userRole=="ROLE_INSTRUCTOR" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
-                        {userRole=="lodgeOwner" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/homepage">HOMEPAGE</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/homepage">ADVENTURES</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">RESERVATIONS</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
+                        {userRole==="lodgeOwner" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
+                        {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/accountRequests">ACCOUNT REQUESTS</Link></li>}
+                        
                         {isLogged ? (<li><Link to="/logout" onClick={logOut}>LOG OUT</Link></li>) : null}
                     </ul>
                 </nav>

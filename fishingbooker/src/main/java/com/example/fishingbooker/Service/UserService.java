@@ -139,4 +139,52 @@ public class UserService implements IUserService, UserDetailsService {
     public List<User> findUnapprovedUsers() {
         return userRepository.findUnapprovedUsers();
     }
+
+    @Override
+    public void sendVerificationEmailToOwnersAndInstructors(User user) {
+        String subject = "Registration request approval";
+        String sender = "Fishing Booker";
+        String content ="<p>Dear " + user.getName() + " " + user.getSurname() + ", your account is approved, you can register<p>";
+        content += "<p>Thank you<br>Fishing Booker</p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendRejectingEmail(User user) {
+        String subject = "Registration request rejection";
+        String sender = "Fishing Booker";
+        String content ="<p>Dear " + user.getName() + " " + user.getSurname() + ", your request for registration is rejected. We don't need more people in this moment,sorry<p>";
+        content += "<p>Thank you for your time<br>Fishing Booker</p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mailSender.send(message);
+    }
 }

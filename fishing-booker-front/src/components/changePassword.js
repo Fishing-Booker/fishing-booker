@@ -14,7 +14,6 @@ const ChangePassword = () => {
         city: "Novi Sad",
         country: "Serbia"
     });
-    const [isEditting, setVisibility] = useState(false);
     return (
         <div className="wrapper">
             <div className="left">

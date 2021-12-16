@@ -55,10 +55,9 @@ const RegistrationForm = () => {
     console.log(values);
     e.preventDefault();
     if (validate(values.password, confirmationPassword)) {
-      if(role == "ROLE_CLIENT"){
+      if(role == "ROLE_CLIENT" || role=="ROLE_DEFADMIN"){
         axios.post(SERVER_URL + "/auth/register", values)
           .then(response => {
-        console.log(response.data);
         history.push('/');
         window.location.reload();
        });
@@ -66,7 +65,6 @@ const RegistrationForm = () => {
       } else {
         axios.post(SERVER_URL + "/auth/registerOwner", values)
           .then(response => {
-        console.log(response.data);
         history.push('/');
         window.location.reload();
        });
