@@ -2,14 +2,34 @@ import { getDefaultNormalizer } from '@testing-library/react';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
 import './../css/usersProfile.css';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 
 const UserProfilePage = () => {
     const SERVER_URL = process.env.REACT_APP_API;
-    const [user, setUser] = useState([]);
     const { addToast } = useToasts();
-
+    const history = useHistory();
+    const [user, setUser] = useState([]);
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const values = {
+        name, 
+        surname,
+        username,
+        email,
+        password: user.password,
+        address,
+        city,
+        country,
+        phoneNumber
+    }
+    
     useEffect(() => {
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -24,11 +44,37 @@ const UserProfilePage = () => {
 
     const onEditClick = () => {
         setVisibility(true);
+        setName(user.name);
+        setSurname(user.surname);
+        setUsername(user.username);
+        setEmail(user.email);
+        setAddress(user.address);
+        setPhoneNumber(user.phoneNumber);
+        setCity(user.city);
+        setCountry(user.country);
     }
 
     const onSaveClick = () => {
         setVisibility(false);
-        //...
+        console.log(values)
+        const headers = {'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/users/user/" + user.id, values, { headers: headers })
+            .then(response => {
+                console.log(response.data);
+                addToast("Your account is successfully updated!", { appearance: "success"});
+                if (username !== user.username) {  
+                    localStorage.removeItem('jwtToken');
+                    history.push('/')
+                    window.location.reload()
+                } else {
+                    const timer = setTimeout(() => {
+                        history.push("/profile");
+                        window.location.reload();
+                    }, 2000)
+                }
+            })
+            .catch(error => addToast("Cannot update: " + error.message, { appearance: "error"}))
     }
 
     const onCancelClick = () => {
@@ -50,42 +96,42 @@ const UserProfilePage = () => {
                     <div className="data">
                             <h4>Name</h4>
                             {!isEditting && <label>{user.name}</label>}
-                            {isEditting && <input  value={user.name}/>}
+                            {isEditting && <input  value={name} onChange={(e) => setName(e.target.value) }/>}
                         </div>
                         <div className="data">
                             <h4>Surname</h4>
                             {!isEditting && <label>{user.surname}</label>}
-                            {isEditting && <input  value={user.surname}/>}
+                            {isEditting && <input  value={surname} onChange={(e) => setSurname(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>Username</h4>
                             {!isEditting && <label>{user.username}</label>}
-                            {isEditting && <input  value={user.username}/>}
+                            {isEditting && <input  value={username} onChange={(e) => setUsername(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>Email</h4>
                             {!isEditting && <label>{user.email}</label>}
-                            {isEditting && <input  value={user.email}/>}
+                            {isEditting && <input  value={email} onChange={(e) => setEmail(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>Phone Number</h4>
                             {!isEditting && <label>{user.phoneNumber}</label>}
-                            {isEditting && <input  value={user.phoneNumber}/>}
+                            {isEditting && <input  value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>Address</h4>
                             {!isEditting && <label>{user.address}</label>}
-                            {isEditting && <input  value={user.address}/>}
+                            {isEditting && <input  value={address} onChange={(e) => setAddress(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>City</h4>
                             {!isEditting && <label>{user.city}</label>}
-                            {isEditting && <input   value={user.city}/>}
+                            {isEditting && <input   value={city} onChange={(e) => setCity(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>Country</h4>
                             {!isEditting && <label>{user.country}</label>}
-                            {isEditting && <input  value={user.country}/>}
+                            {isEditting && <input  value={country} onChange={(e) => setCountry(e.target.value)}/>}
                         </div>
                     </div>
                     {!isEditting && <button className="edit-profile-btn" onClick={onEditClick}>Edit profile</button>} <br />

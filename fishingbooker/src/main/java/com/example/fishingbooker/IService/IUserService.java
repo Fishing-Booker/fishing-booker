@@ -18,5 +18,5 @@ public interface IUserService {
     void sendVerificationEmailToOwnersAndInstructors(User user);
     void sendRejectingEmail(User user);
     void changePassword(String password, Integer id);
-
+    User update(UserDTO userDTO, Integer id);
 }

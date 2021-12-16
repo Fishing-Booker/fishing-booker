@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.PasswordDTO;
+import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.User;
@@ -49,10 +50,15 @@ public class UserController {
         return this.userService.findByUsername(user.getName());
     }
 
-    @PostMapping("/changePassword")
+    @PutMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody PasswordDTO passwordDTO) {
         userService.changePassword(passwordDTO.getPassword(), passwordDTO.getId());
         return ResponseEntity.ok("Password is successfully changed!");
+    }
+
+    @PutMapping("/user/{id}")
+    public User update(@RequestBody UserDTO userDTO, @PathVariable Integer id) {
+        return userService.update(userDTO, id);
     }
 
 }

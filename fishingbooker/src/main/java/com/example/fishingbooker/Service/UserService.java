@@ -10,7 +10,6 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -117,12 +116,13 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
     public boolean verify(String verificationCode) {
         User user = userRepository.findByVerificationCode(verificationCode);
         if (user == null) {
             return false;
         } else {
-            userRepository.enable(user.getId());
+            userRepository.approve(user.getId());
             return true;
         }
     }
@@ -190,5 +190,19 @@ public class UserService implements IUserService, UserDetailsService {
 
     public void changePassword(String password, Integer id) {
         userRepository.changePassword(passwordEncoder.encode(password), id);
+    }
+
+    @Override
+    public User update(UserDTO userDTO, Integer id) {
+        User updated = userRepository.getById(id);
+        updated.setName(userDTO.getName());
+        updated.setSurname(userDTO.getSurname());
+        updated.setUsername(userDTO.getUsername());
+        updated.setAddress(userDTO.getAddress());
+        updated.setCity((userDTO.getCity()));
+        updated.setPhoneNumber(userDTO.getPhoneNumber());
+        updated.setCountry(userDTO.getCountry());
+        updated.setEmail(userDTO.getEmail());
+        return userRepository.save(updated);
     }
 }

@@ -21,7 +21,7 @@ const RegistrationForm = () => {
   const [country, setCountry] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
   const [isDeleted, setIsDeleted] = useState(false)
-  const [isApproved, setIsApproved] = useState(true)
+  const [isApproved, setIsApproved] = useState(false)
   const [registrationReason, setRegistrationReason] = useState("")
   const [confirmationPassword, setConfirmationPassword] = useState("")
 
