@@ -17,5 +17,6 @@ public interface IUserService {
     List<User> findUnapprovedUsers();
     void sendVerificationEmailToOwnersAndInstructors(User user);
     void sendRejectingEmail(User user);
+    void changePassword(String password, Integer id);
 
 }

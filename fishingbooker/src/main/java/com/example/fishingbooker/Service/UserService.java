@@ -168,7 +168,7 @@ public class UserService implements IUserService, UserDetailsService {
     public void sendRejectingEmail(User user) {
         String subject = "Registration request rejection";
         String sender = "Fishing Booker";
-        String content ="<p>Dear " + user.getName() + " " + user.getSurname() + ", your request for registration is rejected. We don't need more people in this moment,sorry<p>";
+        String content = "<p>Dear " + user.getName() + " " + user.getSurname() + ", your request for registration is rejected. We don't need more people in this moment,sorry<p>";
         content += "<p>Thank you for your time<br>Fishing Booker</p>";
 
         MimeMessage message = mailSender.createMimeMessage();
@@ -186,5 +186,9 @@ public class UserService implements IUserService, UserDetailsService {
             e.printStackTrace();
         }
         mailSender.send(message);
+    }
+
+    public void changePassword(String password, Integer id) {
+        userRepository.changePassword(passwordEncoder.encode(password), id);
     }
 }

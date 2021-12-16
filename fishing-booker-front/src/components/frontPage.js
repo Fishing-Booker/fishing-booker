@@ -105,18 +105,25 @@ const FrontPage = () => {
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword"><ChangePassword/></Route>
                         <Route path="/accountRequests"><AccountRequest/></Route>
+
                     </Switch>
                 }
 
                 {role==="ROLE_INSTRUCTOR" && 
                     <Switch>
                         <Route exact path="/"></Route>
-                        <Route exact path="/profile"><UserProfilPage/></Route>
-                        <Route exact path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword"><ChangePassword/></Route>
                     </Switch>
                 }
 
-                
+                {(role=="ROLE_CLIENT") &&
+                    <Switch>
+                        <Route exact path="/"><Homepage/></Route>
+                        <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
+                    </Switch>
+                }
                 
 	        </div>
         </div>

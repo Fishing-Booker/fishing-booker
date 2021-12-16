@@ -87,8 +87,7 @@ public class AuthenticationController {
     @GetMapping("/verify")
     public String verifyAccount(@Param("code") String code) {
         boolean verified = userService.verify(code);
-        String response = verified ? "Your account is successfully verified!" : "We are sorry, your account is not verified.";
 
-        return response;
+        return verified ? "Your account is successfully verified!" : "We are sorry, your account is not verified.";
     }
 }
