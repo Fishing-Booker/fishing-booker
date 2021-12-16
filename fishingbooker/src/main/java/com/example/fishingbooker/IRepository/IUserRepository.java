@@ -28,10 +28,11 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.isApproved = false")
     List<User> findUnapprovedUsers();
-
+    
     @Query("delete from User u where u.username=?1")
     @Modifying
     @Transactional
+    void deleteByUsername(String username);
 
     @Query("UPDATE User u SET u.password = ?1 WHERE u.id = ?2")
     @Modifying
