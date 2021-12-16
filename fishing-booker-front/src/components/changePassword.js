@@ -34,8 +34,10 @@ const ChangePassword = () => {
 
     const changePassword = e => {
         e.preventDefault();
+        const headers = {'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.jwtToken}`}
         if (validate(dto.password, confirmationPassword)) {
-            axios.put(SERVER_URL + "/users/changePassword", dto);
+            axios.put(SERVER_URL + "/users/changePassword", dto, { headers: headers });
             addToast("Password is successfully changed!", { appearance: "success" });
             const timer = setTimeout(() => {
                 history.push('/profile');

@@ -30,4 +30,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Transactional
     void changePassword(String password, Integer id);
+
+    @Query("SELECT u FROM User u WHERE u.id = ?1")
+    User getById(Integer id);
 }

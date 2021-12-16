@@ -4,7 +4,6 @@ import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.Mapper.UserMapper;
 import com.example.fishingbooker.Model.Role;
 import com.example.fishingbooker.Model.User;
 import net.bytebuddy.utility.RandomString;
@@ -116,6 +115,7 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
     public boolean verify(String verificationCode) {
         User user = userRepository.findByVerificationCode(verificationCode);
         if (user == null) {
@@ -140,7 +140,16 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User update(UserDTO userDTO) {
-        return userRepository.save(UserMapper.convertToUser(userDTO));
+    public User update(UserDTO userDTO, Integer id) {
+        User updated = userRepository.getById(id);
+        updated.setName(userDTO.getName());
+        updated.setSurname(userDTO.getSurname());
+        updated.setUsername(userDTO.getUsername());
+        updated.setAddress(userDTO.getAddress());
+        updated.setCity((userDTO.getCity()));
+        updated.setPhoneNumber(userDTO.getPhoneNumber());
+        updated.setCountry(userDTO.getCountry());
+        updated.setEmail(userDTO.getEmail());
+        return userRepository.save(updated);
     }
 }

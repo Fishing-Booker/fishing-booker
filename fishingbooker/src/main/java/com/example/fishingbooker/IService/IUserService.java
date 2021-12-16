@@ -15,5 +15,5 @@ public interface IUserService {
     boolean verify(String verificationCode);
     String findUserRolename(Integer id);
     void changePassword(String password, Integer id);
-    User update(UserDTO userDTO);
+    User update(UserDTO userDTO, Integer id);
 }
