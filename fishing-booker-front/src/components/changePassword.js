@@ -35,7 +35,7 @@ const ChangePassword = () => {
     const changePassword = e => {
         e.preventDefault();
         if (validate(dto.password, confirmationPassword)) {
-            axios.post(SERVER_URL + "/users/changePassword", dto);
+            axios.put(SERVER_URL + "/users/changePassword", dto);
             addToast("Password is successfully changed!", { appearance: "success" });
             const timer = setTimeout(() => {
                 history.push('/profile');

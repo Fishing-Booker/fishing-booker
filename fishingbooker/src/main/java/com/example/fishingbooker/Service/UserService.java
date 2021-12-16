@@ -4,13 +4,13 @@ import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.Mapper.UserMapper;
 import com.example.fishingbooker.Model.Role;
 import com.example.fishingbooker.Model.User;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -121,7 +121,7 @@ public class UserService implements IUserService, UserDetailsService {
         if (user == null) {
             return false;
         } else {
-            userRepository.enable(user.getId());
+            userRepository.approve(user.getId());
             return true;
         }
     }
@@ -137,5 +137,10 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public void changePassword(String password, Integer id) {
         userRepository.changePassword(passwordEncoder.encode(password), id);
+    }
+
+    @Override
+    public User update(UserDTO userDTO) {
+        return userRepository.save(UserMapper.convertToUser(userDTO));
     }
 }

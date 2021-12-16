@@ -21,7 +21,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     @Query("UPDATE User u SET u.isApproved = true WHERE u.id = ?1")
     @Modifying
     @Transactional
-    void enable(Integer id);
+    void approve(Integer id);
 
     @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
     User findByVerificationCode(String code);
