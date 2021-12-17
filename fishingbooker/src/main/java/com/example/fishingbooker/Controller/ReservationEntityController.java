@@ -1,10 +1,15 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Service.ReservationEntityService;
+import com.example.fishingbooker.DTO.LodgeDTO;
+import com.example.fishingbooker.Enum.BedroomType;
+import com.example.fishingbooker.IService.*;
+import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -12,12 +17,5 @@ import java.util.List;
 @CrossOrigin
 public class ReservationEntityController {
 
-    @Autowired
-    private ReservationEntityService entityService;
-
-    @GetMapping("/ownerLodges")
-    public List<ReservationEntity> getOwnerLodges(int ownerId) {
-        return entityService.findOwnerEntities(ownerId);
-    }
 
 }

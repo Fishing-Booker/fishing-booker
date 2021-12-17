@@ -227,5 +227,8 @@ public class UserService implements IUserService, UserDetailsService {
             e.printStackTrace();
         }
         mailSender.send(message);
+
+    public User findUserById(Integer id) {
+        return userRepository.getById(id);
     }
 }

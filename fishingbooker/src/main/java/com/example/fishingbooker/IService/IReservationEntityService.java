@@ -8,7 +8,7 @@ public interface IReservationEntityService {
 
     List<ReservationEntity> findEntities();
 
-    ReservationEntity addEntity(ReservationEntity entity);
+    ReservationEntity save(ReservationEntity entity);
 
     List<ReservationEntity> findOwnerEntities(int ownerId);
 
