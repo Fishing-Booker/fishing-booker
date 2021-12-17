@@ -54,6 +54,7 @@ const Navbar = () => {
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
                         {userRole==="lodgeOwner" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/accountRequests">ACCOUNT REQUESTS</Link></li>}
+                        {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/deleteRequests">DELETE REQUESTS</Link></li>}
                         
                         {isLogged ? (<li><Link to="/logout" onClick={logOut}>LOG OUT</Link></li>) : null}
                     </ul>

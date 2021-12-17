@@ -1,9 +1,12 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.DeleteAccountRequestDTO;
 import com.example.fishingbooker.DTO.PasswordDTO;
 import com.example.fishingbooker.DTO.UserDTO;
+import com.example.fishingbooker.IService.IDeleteAccountRequestService;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.Model.DeleteAccountRequest;
 import com.example.fishingbooker.Model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ public class UserController {
 
     @Autowired
     private IRoleService roleService;
+
+    @Autowired
+    private IDeleteAccountRequestService deleteAccountRequestService;
 
     @GetMapping("/user/{username}")
     @PreAuthorize("isAuthenticated()")
@@ -59,6 +65,11 @@ public class UserController {
     @PutMapping("/user/{id}")
     public User update(@RequestBody UserDTO userDTO, @PathVariable Integer id) {
         return userService.update(userDTO, id);
+    }
+
+    @PostMapping("/deleteAccount")
+    public DeleteAccountRequest sendRequestForDeletingAccount(@RequestBody DeleteAccountRequestDTO dto) {
+        return deleteAccountRequestService.save(dto);
     }
 
 }

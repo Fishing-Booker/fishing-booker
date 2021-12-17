@@ -59,7 +59,7 @@ public class AccountService implements IAccountRequestService {
     public void approveRequest(String username) {
         requestRepository.deleteById(username);
         User user = userRepository.findByUsername(username);
-        userRepository.enable(user.getId());
+        userRepository.approve(user.getId());
         userService.sendVerificationEmailToOwnersAndInstructors(user);
     }
 }

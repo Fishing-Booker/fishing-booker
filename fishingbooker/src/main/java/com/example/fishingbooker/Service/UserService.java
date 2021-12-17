@@ -65,7 +65,7 @@ public class UserService implements IUserService, UserDetailsService {
         u.setName(userDTO.getName());
         u.setSurname(userDTO.getSurname());
         u.setAddress(userDTO.getAddress());
-        u.setApproved(false);
+        u.setApproved(true);
         u.setCity(userDTO.getCity());
         u.setCountry(userDTO.getCountry());
         u.setDeleted(false);
@@ -204,5 +204,28 @@ public class UserService implements IUserService, UserDetailsService {
         updated.setCountry(userDTO.getCountry());
         updated.setEmail(userDTO.getEmail());
         return userRepository.save(updated);
+    }
+
+    @Override
+    public void sendEmailResponse(User user, String response) {
+        String subject = "Response on delete request";
+        String sender = "Fishing Booker";
+        String content = response;
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mailSender.send(message);
     }
 }

@@ -27,7 +27,8 @@ const RegistrationForm = () => {
 
   useEffect(() => {
     const splitted = url.split("/")
-    setRole(splitted[splitted.length-1])
+    //setRole(splitted[splitted.length-1])
+    setRole("ROLE_DEFADMIN");
   })
 
   const values = {

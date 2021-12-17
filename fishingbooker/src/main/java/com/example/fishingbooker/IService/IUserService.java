@@ -19,4 +19,5 @@ public interface IUserService {
     void sendRejectingEmail(User user);
     void changePassword(String password, Integer id);
     User update(UserDTO userDTO, Integer id);
+    void sendEmailResponse(User user, String response);
 }

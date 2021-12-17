@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './../css/usersProfile.css';
 import { useToasts } from "react-toast-notifications";
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const ChangePassword = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -53,7 +53,7 @@ const ChangePassword = () => {
             <div className="left">
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
-                <a href="">Delete your account</a>
+                {(user.role !== "ROLE_ADMIN" || user.role !== "ROLE_DEFADMIN") && <Link to={`/deleteAccount/${user.id}`}>Delete your account</Link>}
             </div>
             <div className="right">
                 <div className="info">

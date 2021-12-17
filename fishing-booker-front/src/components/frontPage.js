@@ -27,6 +27,8 @@ import LodgeReservationCalendar from "./lodge/lodgeReservationCalendar";
 import Verification from "./registration/verification";
 import axios from "axios";
 import AccountRequest from "./admin/accountRequests";
+import DeleteAccount from "./deleteAccount";
+import DeleteRequest from "./admin/deleteRequests";
 
 
 const FrontPage = () => {
@@ -74,6 +76,12 @@ const FrontPage = () => {
                         
                     </Switch>
                 </div> }
+
+                {isLogged && 
+                    <Switch>
+                        <Route path="/deleteAccount/:id"><DeleteAccount/></Route>
+                    </Switch>
+                }
                     
                 { isLogged && role === "ROLE_LODGEOWNER" &&
 
@@ -84,7 +92,7 @@ const FrontPage = () => {
                         <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
                         <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist/:lodgeId"><LodgePriceList/></Route>
-                        <Route path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/addLodge"><AddLodgeForm/></Route>
                         <Route path="/deleteLodge"><DeleteLogdeForm/></Route>
                         <Route path="/editLodge"><EditLogdeForm/></Route>
@@ -103,8 +111,9 @@ const FrontPage = () => {
                     <Switch>
                         <Route exact path="/"></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/accountRequests"><AccountRequest/></Route>
+                        <Route path="/deleteRequests"><DeleteRequest/></Route>
 
                     </Switch>
                 }
@@ -113,7 +122,7 @@ const FrontPage = () => {
                     <Switch>
                         <Route exact path="/"></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/changePassword"><ChangePassword/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
                     </Switch>
                 }
 
@@ -122,6 +131,12 @@ const FrontPage = () => {
                         <Route exact path="/"><Homepage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
+                    </Switch>
+                }
+
+                {role == "ROLE_SHIPOWNER" &&
+                    <Switch>
+                        <Route path="/profile"><UserProfilPage/></Route>
                     </Switch>
                 }
                 

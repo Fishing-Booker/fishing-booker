@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
 import '../../css/usersProfile.css';
-import deleteImg from '../../images/trash.png';
-import editImg from '../../images/pencil.png'
-import addImg from '../../images/plus.png'
 import axios from 'axios';
 const AccountRequest = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -36,7 +33,9 @@ const AccountRequest = () => {
 
     return(
         <div className="container-home">
-
+            <div className="title">
+                ACCOUNT REQUESTS
+            </div>
                 <ol>
                 {requests.map((request) => (
                     <li className="withBorder" key={request.id}>

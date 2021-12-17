@@ -29,12 +29,24 @@ const UserProfilePage = () => {
         country,
         phoneNumber
     }
+
+    const [role, setRole] = useState("");
     
     useEffect(() => {
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => {setUser(response.data); console.log(response.status)})
+            .then(response => {
+                setUser(response.data);
+                var user = response.data
+                console.log(response.status);
+                axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
+                .then(response => {
+                    setRole(response.data);
+                    console.log(response.data)
+                    console.log(role);
+                });
+                })
             .catch(error => {
                 addToast("Server is not running!", { appearance: "error" });
             })
@@ -87,7 +99,7 @@ const UserProfilePage = () => {
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
                 <Link to={`/changePassword/${user.id}`}>Change password</Link> <br/><br/>
-                <a href="">Delete your account</a>
+                {(role !== "ROLE_ADMIN" || role !== "ROLE_DEFADMIN") && <Link to={`/deleteAccount/${user.id}`}>Delete your account</Link>}
             </div>
             <div className="right">
                 <div className="info">
