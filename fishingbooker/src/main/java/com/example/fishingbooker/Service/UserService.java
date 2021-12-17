@@ -139,4 +139,9 @@ public class UserService implements IUserService, UserDetailsService {
     public List<User> findUnapprovedUsers() {
         return userRepository.findUnapprovedUsers();
     }
+
+    @Override
+    public User findUserById(Integer id) {
+        return userRepository.findUserById(id);
+    }
 }

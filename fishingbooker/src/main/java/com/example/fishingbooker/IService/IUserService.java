@@ -15,5 +15,6 @@ public interface IUserService {
     boolean verify(String verificationCode);
     String findUserRolename(Integer id);
     List<User> findUnapprovedUsers();
+    User findUserById(Integer id);
 
 }

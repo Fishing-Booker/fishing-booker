@@ -28,4 +28,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.isApproved = false")
     List<User> findUnapprovedUsers();
+
+    @Query("SELECT u FROM User u WHERE u.id = ?1")
+    User findUserById(Integer id);
 }
