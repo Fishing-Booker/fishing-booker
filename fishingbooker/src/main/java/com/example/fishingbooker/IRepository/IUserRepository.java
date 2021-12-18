@@ -15,7 +15,10 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     Optional<User> findById(Integer id);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+
+    @Query("select u from User u where u.isDeleted=false")
     List<User> findAll();
+
     User save(User user);
 
     @Query("UPDATE User u SET u.isApproved = true WHERE u.id = ?1")
@@ -29,7 +32,8 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.isApproved = false")
     List<User> findUnapprovedUsers();
     
-    @Query("delete from User u where u.username=?1")
+    //@Query("delete from User u where u.username=?1")
+    @Query("update User u set u.isDeleted = true")
     @Modifying
     @Transactional
     void deleteByUsername(String username);
