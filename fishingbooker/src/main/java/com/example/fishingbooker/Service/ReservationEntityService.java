@@ -22,16 +22,7 @@ public class ReservationEntityService implements IReservationEntityService {
 
     @Override
     public List<ReservationEntity> findEntities() {
-        //return entityRepository.findAll();
-
-        List<ReservationEntity> entities = new ArrayList<>();
-        User lodgeOwner = new User(1, "sara", "sara");
-        Location location = new Location(1, 20.5, 20.5, "Temerinska",
-                "Novi Sad", "Serbia");
-        List<Image> images = new ArrayList<>();
-
-
-        return entities;
+        return entityRepository.findAll();
     }
 
     @Override

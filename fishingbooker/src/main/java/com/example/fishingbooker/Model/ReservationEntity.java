@@ -42,13 +42,10 @@ public class ReservationEntity {
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Image> images;
 
-    @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Bedroom> bedrooms;
-
     public ReservationEntity() { }
 
     public ReservationEntity(Integer id, User owner, String name, Location location, String description, String rules,
-                             String cancelConditions, double averageGrade, List<Image> images, List<Bedroom> bedrooms) {
+                             String cancelConditions, double averageGrade, List<Image> images) {
         this.id = id;
         this.owner = owner;
         this.name = name;
@@ -59,7 +56,6 @@ public class ReservationEntity {
         this.isDeleted = false;
         this.averageGrade = averageGrade;
         this.images = images;
-        this.bedrooms = bedrooms;
     }
 
     public Integer getId() {
@@ -140,13 +136,5 @@ public class ReservationEntity {
 
     public void setImages(List<Image> images) {
         this.images = images;
-    }
-
-    public List<Bedroom> getBedrooms() {
-        return bedrooms;
-    }
-
-    public void setBedrooms(List<Bedroom> bedrooms) {
-        this.bedrooms = bedrooms;
     }
 }
