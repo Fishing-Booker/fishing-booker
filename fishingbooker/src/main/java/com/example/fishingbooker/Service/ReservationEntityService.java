@@ -22,29 +22,11 @@ public class ReservationEntityService implements IReservationEntityService {
 
     @Override
     public List<ReservationEntity> findEntities() {
-        //return entityRepository.findAll();
-
-        List<ReservationEntity> entities = new ArrayList<>();
-        User lodgeOwner = new User(1, "sara", "sara");
-        Location location = new Location(1, 20.5, 20.5, "Temerinska",
-                "Novi Sad", "Serbia");
-        List<Image> images = new ArrayList<>();
-        ReservationEntity entity1 = new ReservationEntity(1, lodgeOwner, "Lodge1", location,
-                "No description", "No rules", "No cancel conditions", 5.0, images);
-        ReservationEntity entity2 = new ReservationEntity(1, lodgeOwner, "Lodge1", location,
-                "No description", "No rules", "No cancel conditions", 5.0, images);
-        ReservationEntity entity3 = new ReservationEntity(1, lodgeOwner, "Lodge1", location,
-                "No description", "No rules", "No cancel conditions", 5.0, images);
-
-        entities.add(entity1);
-        entities.add(entity2);
-        entities.add(entity3);
-
-        return entities;
+        return entityRepository.findAll();
     }
 
     @Override
-    public ReservationEntity addEntity(ReservationEntity entity) {
+    public ReservationEntity save(ReservationEntity entity) {
         return entityRepository.save(entity);
     }
 
@@ -66,8 +48,9 @@ public class ReservationEntityService implements IReservationEntityService {
 
     @Override
     public ReservationEntity editEntity(ReservationEntity entity) {
-        ReservationEntity updatedEntity = entityRepository.findById(entity.getId()).get();
+        //ReservationEntity updatedEntity = entityRepository.findById(entity.getId()).get();
         // set
         return entityRepository.save(entity);
     }
+
 }

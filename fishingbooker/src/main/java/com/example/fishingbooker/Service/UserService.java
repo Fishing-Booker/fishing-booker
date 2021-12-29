@@ -228,4 +228,8 @@ public class UserService implements IUserService, UserDetailsService {
         }
         mailSender.send(message);
     }
+
+    public User findUserById(Integer id) {
+        return userRepository.getById(id);
+    }
 }
