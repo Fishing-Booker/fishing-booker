@@ -29,6 +29,7 @@ import axios from "axios";
 import AccountRequest from "./admin/accountRequests";
 import DeleteAccount from "./deleteAccount";
 import DeleteRequest from "./admin/deleteRequests";
+import AdventureProfile from "./instructor/adventureProfile";
 
 
 const FrontPage = () => {
@@ -123,6 +124,7 @@ const FrontPage = () => {
                         <Route exact path="/"></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
+                        <Route path="/adventureProfile/:id"><AdventureProfile/></Route>
                     </Switch>
                 }
 
