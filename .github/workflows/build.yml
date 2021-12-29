@@ -34,4 +34,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           pom_path: fishing-booker\fishingbooker\pom.xml
-        run: mvn -f
+        run: mvn -f ../fishingbooker/pom.xml
