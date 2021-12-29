@@ -7,6 +7,7 @@ const Navbar = () => {
 
     const [isLogged, setIsLogged] = useState(false);
     const [userRole, setUserRole] = useState("");
+    const [user, setUser] = useState();
     const history = useHistory();
     const SERVER_URL = process.env.REACT_APP_API;
 
@@ -24,8 +25,9 @@ const Navbar = () => {
             console.log(headers)
             axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers})
             .then(response => {
-                var user = response.data;
-                axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
+                var pomUser = response.data;
+                setUser(pomUser);
+                axios.get(SERVER_URL + `/users/getRole/${pomUser.id}`, {headers:headers})
                 .then(response => {
                     setUserRole(response.data);
                     console.log(userRole)
@@ -49,7 +51,7 @@ const Navbar = () => {
                         {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
                         {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/homepage">HOMEPAGE</Link></li>}
-                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/homepage">ADVENTURES</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/adventureProfile/${user.id}`}>ADVENTURES</Link></li>}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">RESERVATIONS</Link></li>}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
                         {userRole==="lodgeOwner" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
