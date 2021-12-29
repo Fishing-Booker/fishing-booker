@@ -15,7 +15,7 @@
 	<description>Fishing booker application</description>
 	<properties>
 		<java.version>11</java.version>
-		<sonar.organization>fishing-booker</sonar.organization>
+		<sonar.organization>fishingbooker</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.exclusions>org/binarytherapy/generated/**/*, **/GuiceBindComposer.java</sonar.exclusions>
 	</properties>
