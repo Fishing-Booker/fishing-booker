@@ -103,15 +103,15 @@ const AdventureProfile = () => {
             </div>
             <div className="right">
                 <div className="info">
-                    <h3>{lodge.name}</h3>
+                    <h3>{adventure.name}</h3>
                     <div className="info_data">
                         <div className="data">
                             <h4>Address</h4>
                             <input  value={lodge.address} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
-                            <h4>Bedrooms</h4>
-                            { allBedrooms }
+                            <h4>Maximum number of persons</h4>
+                            { adventure.maxPersons } persons
                         </div>
                         <div className="data">
                             <h4>Additional services</h4>
