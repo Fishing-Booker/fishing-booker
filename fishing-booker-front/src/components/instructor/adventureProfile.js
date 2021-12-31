@@ -95,11 +95,11 @@ const AdventureProfile = () => {
         <div className="wrapper">
             <div className="left">
                 <h4>ADVENTURE PROFILE</h4><br/>
-                <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgePricelist/" + lodgeId}>Pricelist</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureImages/" + adventure.id}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureRules/" + adventure.id}>Rules</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventurePricelist/" + adventure.id}>Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureActions/" + adventure.id}>Actions</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureReservationCalendar/" + adventure.id}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">

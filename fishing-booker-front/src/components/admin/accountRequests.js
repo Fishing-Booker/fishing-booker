@@ -4,9 +4,9 @@ import axios from 'axios';
 const AccountRequest = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [requests, setRequests] = useState([]);
-    const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
     useEffect(() => {
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/requests/getAll", { headers: headers})
         .then(response => {
             setRequests(response.data);
@@ -50,7 +50,3 @@ const AccountRequest = () => {
     );
 }
 export default AccountRequest;
-
-/*{requests.map((request) => (
-    <div className="title">{request.registrationReason}</div>
-))}*/

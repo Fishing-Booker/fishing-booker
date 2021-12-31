@@ -31,6 +31,10 @@ import DeleteAccount from "./deleteAccount";
 import DeleteRequest from "./admin/deleteRequests";
 import AdventureProfile from "./instructor/adventureProfile";
 import AdventureImages from "./instructor/adventureImages";
+import AdventureRules from "./instructor/adventureRules";
+import AdventurePricelist from "./instructor/adventurePricelist";
+import AdventureActions from "./instructor/adventureActions";
+import AdventureReservationCalendar from "./instructor/adventureReservationCalendar";
 
 
 const FrontPage = () => {
@@ -127,10 +131,15 @@ const FrontPage = () => {
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/adventureProfile/:id"><AdventureProfile/></Route>
                         <Route path="/adventureImages/:adventureId"><AdventureImages/></Route>
+                        <Route path="/adventureRules/:adventureId"><AdventureRules/></Route>
+                        <Route path="/adventurePricelist/:adventureId"><AdventurePricelist/></Route>
+                        <Route path="/adventureActions/:adventureId"><AdventureActions/></Route>
+                        <Route path="/adventureReservationCalendar/:adventureId"><AdventureReservationCalendar/></Route>
+
                     </Switch>
                 }
 
-                {(role=="ROLE_CLIENT") &&
+                {(role==="ROLE_CLIENT") &&
                     <Switch>
                         <Route exact path="/"><Homepage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
@@ -138,7 +147,7 @@ const FrontPage = () => {
                     </Switch>
                 }
 
-                {role == "ROLE_SHIPOWNER" &&
+                {role === "ROLE_SHIPOWNER" &&
                     <Switch>
                         <Route path="/profile"><UserProfilPage/></Route>
                     </Switch>

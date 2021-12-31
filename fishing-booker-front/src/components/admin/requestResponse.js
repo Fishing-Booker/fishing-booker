@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../../css/usersProfile.css';
 import Modal from 'react-modal'
-import { useEffect } from 'react';
 import axios from 'axios';
 
 const RequestResponseForm = ({modalIsOpen, setModalIsOpen, request}) => {
