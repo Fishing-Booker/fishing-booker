@@ -22,7 +22,7 @@ const Navbar = () => {
         if(isLogged === true) {
             const headers = {'Content-Type' : 'application/json',
                              'Authorization' : `Bearer ${localStorage.jwtToken}`}
-            console.log(headers)
+            //console.log(headers)
             axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers})
             .then(response => {
                 var pomUser = response.data;
@@ -30,7 +30,7 @@ const Navbar = () => {
                 axios.get(SERVER_URL + `/users/getRole/${pomUser.id}`, {headers:headers})
                 .then(response => {
                     setUserRole(response.data);
-                    console.log(userRole)
+                    //console.log(userRole)
                 });
             });
         }

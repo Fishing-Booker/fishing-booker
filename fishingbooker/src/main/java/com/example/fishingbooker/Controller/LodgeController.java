@@ -5,17 +5,22 @@ import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import com.example.fishingbooker.Service.LodgeService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lodges")
+@RequestMapping(value = "/lodges", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
+@Slf4j
 public class LodgeController {
 
     @Autowired
@@ -32,6 +37,12 @@ public class LodgeController {
 
     @Autowired
     private ILocationService locationService;
+
+    @GetMapping("/ownerLodges/{id}")
+    public List<Lodge> getOwnerLodges(@PathVariable Integer id){
+        List<Lodge> lodges = lodgeService.findOwnerLodges(id);
+        return lodges;
+    }
 
     @PostMapping("/addLodge")
     public ResponseEntity<Lodge> addLodge(@RequestBody LodgeDTO lodgeDTO){
