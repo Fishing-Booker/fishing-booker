@@ -10,37 +10,25 @@ const LodgeProfile = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
-    const [lodge, setLodge] = useState({});
+    const [lodge, setLodge] = useState([]);
+    const [address, setAddress] = useState("");
     const [bedrooms, setBedrooms] = useState([]);
     const [additionalServices, setAdditionalServices] = useState("");
 
     const [disabledEdit, setDisabledEdit] = useState(true);
 
     useEffect(() => {
-        /*axios.get(SERVER_URL + 'lodge/' + lodgeId)
-            .then(response => {setLodge(response.data); console.log(response.data)});*/
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        setLodge({
-            "id": 1,
-            "name": "Lodge1",
-            "address" : "Lodge address",
-            "additionServices": "#A1#A2#A3",
-            "description" : "Decription of our lodge...."
-        })
-
-        /*axios.get(SERVER_URL + 'lodgeBedrooms' + lodgeId)
-            .then(response => {setBedrooms(response.data); console.log(response.data)});*/
-
-        setBedrooms([
-            {
-                "BedroomType" : "Single",
-                "RoomNuber": 2 
-            }, 
-            {
-                "BedroomType" : "Double",
-                "RoomNuber": 1
-            }
-        ])
+        axios.get(SERVER_URL + '/lodges/lodge/' + lodgeId, {headers: headers})
+            .then(response => {
+                setLodge(response.data); 
+                var lodge = response.data;
+                setBedrooms(lodge.bedrooms);
+                setAddress(lodge.location.address);
+                console.log(response.data);
+            });
 
         prepareServices();
 
@@ -63,14 +51,17 @@ const LodgeProfile = () => {
     const allBedrooms = bedrooms.length ? (
         bedrooms.map(bedroom => {
             return(
-                <div>
-                    * <label>{bedroom.BedroomType}</label>
-                    <input className="bedroom-input" type="number" value={bedroom.RoomNuber} disabled={disabledEdit} />
+                <div key={bedroom.Id}>
+                    * <label>{bedroom.bedroomType}</label>
+                    <input className="bedroom-input" type="number" value={bedroom.roomNumber} disabled={disabledEdit} />
                 </div>
+                
             )
         })
     ) : (
-        <div></div>
+        <div>
+            Add your bedrooms!
+        </div>
     );
    
     return (
@@ -89,23 +80,11 @@ const LodgeProfile = () => {
                     <div className="info_data">
                         <div className="data">
                             <h4>Address</h4>
-                            <input  value={lodge.address} disabled={disabledEdit}/>
+                            <input  value={address} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Bedrooms</h4>
                             { allBedrooms }
-                        </div>
-                        <div className="data">
-                            <h4>Additional services</h4>
-                            {disabledEdit ? (
-                                <textarea value={additionalServices} disabled={disabledEdit}/>
-                            ) : (
-                                <div>
-                                <p>Please follow the pattern</p>
-                                <input value={lodge.additionServices} disabled={disabledEdit}/>
-                                </div>
-                            )}
-                            
                         </div>
                         <div className="data">
                             <h4>Description</h4>

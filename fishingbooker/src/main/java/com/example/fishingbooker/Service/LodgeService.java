@@ -6,6 +6,7 @@ import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.List;
 
 @Service
@@ -13,6 +14,9 @@ public class LodgeService implements ILodgeService {
 
     @Autowired
     private ILodgeRepository lodgeRepository;
+
+    @Autowired
+    private BedroomService bedroomService;
 
     @Override
     public Lodge save(Lodge lodge) {
@@ -38,6 +42,21 @@ public class LodgeService implements ILodgeService {
     @Override
     public void deleteLodge(Integer lodgeId) {
         lodgeRepository.deleteLodge(lodgeId);
+    }
+
+    @Override
+    public Lodge findById(Integer lodgeId) {
+        Lodge lodge = lodgeRepository.findLodgeById(lodgeId);
+        lodge.setOwner(null);
+        lodge.setImages(null);
+        lodge.setBedrooms(bedroomService.findLodgeBedrooms(lodgeId));
+        return lodge;
+    }
+
+    @Override
+    public List<String> findLodgeRules(Integer lodgeId) {
+        String rules = lodgeRepository.findLodgeRules(lodgeId);
+        return null;
     }
 
 }

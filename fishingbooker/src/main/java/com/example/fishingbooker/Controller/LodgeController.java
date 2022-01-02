@@ -122,4 +122,14 @@ public class LodgeController {
         bedroomService.save(bedroom4);
     }
 
+    @GetMapping("/lodge/{id}")
+    public Lodge findLodge(@PathVariable Integer id){
+        return lodgeService.findById(id);
+    }
+
+    @GetMapping("/lodgeRules/{id}")
+    public List<String> findLodgeRules(@PathVariable Integer id){
+        return lodgeService.findLodgeRules(id);
+    }
+
 }
