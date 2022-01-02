@@ -44,6 +44,12 @@ public class LodgeController {
         return lodges;
     }
 
+    @DeleteMapping("/deleteLodge/{id}")
+    public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
+        lodgeService.deleteLodge(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/addLodge")
     public ResponseEntity<Lodge> addLodge(@RequestBody LodgeDTO lodgeDTO){
 

@@ -45,6 +45,7 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
         axios.post(SERVER_URL + "/lodges/addLodge", newLodge)
           .then(response => {
             setModalIsOpen(false);
+            window.location.reload();
         });
         
     }

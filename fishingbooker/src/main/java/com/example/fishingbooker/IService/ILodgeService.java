@@ -8,4 +8,5 @@ public interface ILodgeService {
     Lodge save(Lodge lodge);
     List<Lodge> findAll();
     List<Lodge> findOwnerLodges(Integer ownerId);
+    void deleteLodge(Integer lodgeId);
 }

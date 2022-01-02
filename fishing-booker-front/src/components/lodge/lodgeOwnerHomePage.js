@@ -11,7 +11,6 @@ import editImg from '../../images/pencil.png'
 import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddLodgeFrom from "./addLodgeForm";
-import EditLodgeFrom from "./editLodgeForm";
 import DeleteLodgeForm from "./deleteLodgeForm";
 
 const LodgeOwnerHomePage = () => {
@@ -20,11 +19,11 @@ const LodgeOwnerHomePage = () => {
 
     const [user, setUser]  =useState([]);
     const [lodges, setLodges] = useState([]);
+    const [lodgeId, setLodgeId] = useState("");
     const [searchField, setSearchField] = useState("");
     const [filteredLodges, setFilteredLodges] = useState([]);
     const [addLodge, setAddLodge] = useState(false);
-    const [editLodge, setEditLodge] = useState(false);
-    const [deleteLodge, setDeleteLodge] = useState(false);
+    const [deleteLodgeForm, setDeleteLodgeForm] = useState(false);
 
     useEffect(() => {
 
@@ -37,13 +36,16 @@ const LodgeOwnerHomePage = () => {
             var user = response.data;
 
             axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
-                .then(response => 
-                    {setLodges(response.data); 
-                    console.log(response.data)});
+                .then(response => {setLodges(response.data); console.log(response.data)});
         
         });
 
     }, [])
+
+    const deleteLodge = (id) => {
+        setLodgeId(id);
+        setDeleteLodgeForm(true);
+    }
 
     const allLodges = lodges.length ? (
         lodges.map(lodge => {
@@ -56,12 +58,7 @@ const LodgeOwnerHomePage = () => {
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
                         
                         <div className="buttons">
-                            <Link to="#editLodge" onClick={() => setEditLodge(true)}>
-                                <button title="Edit lodge">
-                                    <img src={editImg}/>
-                                </button>
-                            </Link>
-                            <Link to="#deleteLodge" onClick={() => setDeleteLodge(true)}>
+                            <Link to="#deleteLodge" onClick={() => deleteLodge(lodge.id)}>
                                 <button title="Delete lodge">
                                     <img src={deleteImg}/>
                                 </button>
@@ -101,8 +98,7 @@ const LodgeOwnerHomePage = () => {
                 
             </div>
             
-            <EditLodgeFrom className="adding-wrapper" modalIsOpen={editLodge} setModalIsOpen={setEditLodge} /> 
-            <DeleteLodgeForm className="deleting-wrapper" modalIsOpen={deleteLodge} setModalIsOpen={setDeleteLodge} />
+            <DeleteLodgeForm className="deleting-wrapper" modalIsOpen={deleteLodgeForm} setModalIsOpen={setDeleteLodgeForm} lodgeId={lodgeId}/>
         </div>
         
         

@@ -1,10 +1,20 @@
 import React from 'react'
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import '../../css/addingForm.css'
 import Modal from 'react-modal';
+import axios from "axios";
 
-const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen}) => {
+const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
+
+    const SERVER_URL = process.env.REACT_APP_API; 
+
+    const deleteLodge = () => {
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.delete(SERVER_URL + '/lodges/deleteLodge/' + lodgeId, { headers: headers})    
+        .then(response => {setModalIsOpen(false); window.location.reload();});
+    }
 
    return (
        <div>
@@ -25,7 +35,7 @@ const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen}) => {
                                         Cancel
                                     </button>
                                 </Link>
-                                <Link to="/" onClick={() => setModalIsOpen(false)}>
+                                <Link to="/" onClick={() => deleteLodge()}>
                                     <button className="delete" >
                                         Delete
                                     </button>

@@ -35,4 +35,9 @@ public class LodgeService implements ILodgeService {
         return lodges;
     }
 
+    @Override
+    public void deleteLodge(Integer lodgeId) {
+        lodgeRepository.deleteLodge(lodgeId);
+    }
+
 }
