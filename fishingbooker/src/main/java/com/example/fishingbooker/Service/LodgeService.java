@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -56,7 +58,27 @@ public class LodgeService implements ILodgeService {
     @Override
     public List<String> findLodgeRules(Integer lodgeId) {
         String rules = lodgeRepository.findLodgeRules(lodgeId);
-        return null;
+        return new ArrayList<>(Arrays.asList(rules.split("#")));
+    }
+
+    @Override
+    public void addRule(String rule, Integer lodgeId) {
+        String rules = lodgeRepository.findLodgeRules(lodgeId);
+        String newRule = rules + "#" + rule;
+        lodgeRepository.addRule(newRule, lodgeId);
+    }
+
+    @Override
+    public void deleteRule(Integer ruleIndex, Integer lodgeId) {
+        String[] rules = lodgeRepository.findLodgeRules(lodgeId).split("#");
+        rules[ruleIndex] = "";
+        StringBuilder newRules = new StringBuilder();
+        for (String rule : rules) {
+            rule = rule.replace("#", "");
+            newRules.append(rule);
+            newRules.append("#");
+        }
+        lodgeRepository.addRule(String.valueOf(newRules), lodgeId);
     }
 
 }

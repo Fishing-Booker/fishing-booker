@@ -5,13 +5,11 @@ import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import com.example.fishingbooker.Service.LodgeService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -130,6 +128,18 @@ public class LodgeController {
     @GetMapping("/lodgeRules/{id}")
     public List<String> findLodgeRules(@PathVariable Integer id){
         return lodgeService.findLodgeRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
+        lodgeService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
+        lodgeService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -16,4 +16,8 @@ public interface ILodgeService {
     Lodge findById(Integer lodgeId);
 
     List<String> findLodgeRules(Integer lodgeId);
+
+    void addRule(String rule, Integer lodgeId);
+
+    void deleteRule(Integer RuleIndex, Integer lodgeId);
 }

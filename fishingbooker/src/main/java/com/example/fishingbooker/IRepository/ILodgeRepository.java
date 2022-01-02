@@ -24,4 +24,9 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Query("SELECT l.rules FROM Lodge l WHERE l.id=?1 ")
     String findLodgeRules(Integer lodgeId);
 
+    @Query("update Lodge l set l.rules=?1 WHERE l.id=?2")
+    @Modifying
+    @Transactional
+    void addRule(String rule, Integer lodgeId);
+
 }
