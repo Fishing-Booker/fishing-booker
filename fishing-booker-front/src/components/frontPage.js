@@ -80,9 +80,11 @@ const FrontPage = () => {
                         <Route path="/login"><Homepage/><LoginForm/></Route>
                         <Route path="/verify/:code?"><Verification/></Route>
                         <Route path="/explore"><Explore/></Route>
-                        <Route path="/adventures"><Adventures/></Route>
-                        <Route path="/lodges"><Lodges/></Route>
-                        <Route path="/ships"><Ships/></Route>
+                        <div className="row-entities">
+                            <Route path="/adventures"><Adventures/></Route>
+                            <Route path="/lodges"><Lodges/></Route>
+                            <Route path="/ships"><Ships/></Route>
+                        </div>
                     </Switch>
                 </div> }
 

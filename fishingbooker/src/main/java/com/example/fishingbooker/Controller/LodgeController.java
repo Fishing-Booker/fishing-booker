@@ -70,6 +70,18 @@ public class LodgeController {
         return new ResponseEntity<>(HttpStatus.CREATED);//201
     }
 
+    @GetMapping()
+    public List<Lodge> getAll() {
+        List<Lodge> lodges = lodgeService.getAll();
+        for (Lodge lodge : lodges) {
+            lodge.setImages(null);
+            lodge.setLocation(null);
+            lodge.setBedrooms(null);
+            lodge.setOwner(null);
+        }
+        return lodges;
+    }
+
     private Location addLocation(String address, String city, String country){
         Location location = new Location();
         location.setAddress(address);
@@ -104,5 +116,7 @@ public class LodgeController {
         bedroom4.setLodge(lodge);
         bedroomService.save(bedroom4);
     }
+
+
 
 }
