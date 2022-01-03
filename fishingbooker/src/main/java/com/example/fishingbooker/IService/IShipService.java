@@ -10,4 +10,6 @@ public interface IShipService {
 
     List<Ship> findOwnerShips(Integer ownerId);
 
+    void deleteShip(Integer shipId);
+
 }

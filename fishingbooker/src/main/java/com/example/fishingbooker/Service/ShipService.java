@@ -29,4 +29,9 @@ public class ShipService implements IShipService {
         }
         return ships;
     }
+
+    @Override
+    public void deleteShip(Integer shipId) {
+        shipRepository.deleteLodge(shipId);
+    }
 }

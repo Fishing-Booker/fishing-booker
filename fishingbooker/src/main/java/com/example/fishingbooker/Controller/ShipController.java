@@ -39,6 +39,12 @@ public class ShipController {
         return shipService.findOwnerShips(id);
     }
 
+    @DeleteMapping("/deleteShip/{id}")
+    public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
+        shipService.deleteShip(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/addShip")
     public ResponseEntity<Ship> addShip(@RequestBody ShipDTO shipDTO){
 

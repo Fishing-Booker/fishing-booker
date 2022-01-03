@@ -8,6 +8,7 @@ import editImg from '../../images/pencil.png'
 import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddShipForm from "./addShipForm";
+import DeleteShipForm from "./deleteShipForm";
 
 const ShipOwnerHomePage = () => {
 
@@ -19,6 +20,7 @@ const ShipOwnerHomePage = () => {
     const [searchField, setSearchField] = useState("");
     const [filteredLodges, setFilteredLodges] = useState([]);
     const [addShip, setAddShip] = useState(false);
+    const [deleteShipForm, setDeleteShipForm] = useState(false);
 
     useEffect(() => {
 
@@ -37,6 +39,11 @@ const ShipOwnerHomePage = () => {
 
     }, [])
 
+    const deleteShip = (id) => {
+        setShipId(id);
+        setDeleteShipForm(true);
+    }
+
     const allShips = ships.length ? (
         ships.map(ship => {
             return (
@@ -48,7 +55,7 @@ const ShipOwnerHomePage = () => {
                         <Link to={'/lodge/' + ship.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{ship.name}</div></Link>
                         
                         <div className="buttons">
-                            <Link to="#deleteLodge" >
+                            <Link to="#deleteShip" onClick={() => deleteShip(ship.id)}>
                                 <button title="Delete ship">
                                     <img src={deleteImg}/>
                                 </button>
@@ -88,6 +95,7 @@ const ShipOwnerHomePage = () => {
                 
             </div>
             
+            <DeleteShipForm className="deleting-wrapper" modalIsOpen={deleteShipForm} setModalIsOpen={setDeleteShipForm} shipId={shipId} />
         </div>
         
         
