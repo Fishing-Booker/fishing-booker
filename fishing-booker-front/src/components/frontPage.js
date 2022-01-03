@@ -35,6 +35,7 @@ import Explore from "./explore";
 import Adventures from "./client/adventures";
 import Lodges from "./client/lodges";
 import Ships from "./client/ships";
+import Search from "./search";
 
 
 const FrontPage = () => {
@@ -80,7 +81,7 @@ const FrontPage = () => {
                         <Route path="/login"><Homepage/><LoginForm/></Route>
                         <Route path="/verify/:code?"><Verification/></Route>
                         <Route path="/explore"><Explore/></Route>
-                        <div className="row-entities">
+                        <div className="row-search">
                             <Route path="/adventures"><Adventures/></Route>
                             <Route path="/lodges"><Lodges/></Route>
                             <Route path="/ships"><Ships/></Route>
