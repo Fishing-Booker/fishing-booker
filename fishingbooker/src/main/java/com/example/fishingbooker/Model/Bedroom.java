@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Model;
 
 import com.example.fishingbooker.Enum.BedroomType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
