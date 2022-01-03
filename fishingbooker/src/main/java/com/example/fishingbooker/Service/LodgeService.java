@@ -73,7 +73,13 @@ public class LodgeService implements ILodgeService {
     @Override
     public List<String> findLodgeRules(Integer lodgeId) {
         String rules = lodgeRepository.findLodgeRules(lodgeId);
-        return new ArrayList<>(Arrays.asList(rules.split("#")));
+        List<String> allRules;
+        if(rules.equals("")){
+            allRules = new ArrayList<>();
+        } else{
+            allRules = new ArrayList<>(Arrays.asList(rules.split("#")));
+        }
+        return allRules;
     }
 
     @Override
