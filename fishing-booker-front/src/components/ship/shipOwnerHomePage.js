@@ -52,7 +52,7 @@ const ShipOwnerHomePage = () => {
                         <div className="lodge-image">
                             <img  src={boat1}  />
                         </div>
-                        <Link to={'/lodge/' + ship.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{ship.name}</div></Link>
+                        <Link to={'/ship/' + ship.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{ship.name}</div></Link>
                         
                         <div className="buttons">
                             <Link to="#deleteShip" onClick={() => deleteShip(ship.id)}>
