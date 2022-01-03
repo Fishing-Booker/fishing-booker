@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { Component } from 'react'
+import { useState } from 'react';
+import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {useParams }from 'react-router';
 import AddAdventureActionForm from "./addAdventureActionForm";
 import '../../css/usersProfile.css'
+
 
 const AdventureActions = () => {
     const [addAction, setAddAction] = useState(false);
@@ -51,10 +54,10 @@ const AdventureActions = () => {
                             <div className="col col-4" >$115</div>
                             </li>
                         </ul>
-                        
                     </div>
                 </div>
             </div>
+            <AddAdventureActionForm modalIsOpen={addAction} setModalIsOpen={setAddAction}/>
         </div>
     )
 }

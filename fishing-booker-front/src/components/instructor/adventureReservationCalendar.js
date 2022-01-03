@@ -1,7 +1,9 @@
-import { Calendar } from 'react-awesome-calendar';
-import { useState } from "react";
-import { useParams } from "react-router";
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { useState } from 'react';
+import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import '../../css/usersProfile.css';
+import Calendar from 'react-awesome-calendar';
+import {useParams }from 'react-router';
 
 const AdventureReservationCalendar = () => {
     const [addPeriod, setAddPeriod] = useState(false);
@@ -10,20 +12,20 @@ const AdventureReservationCalendar = () => {
     const events = [{
         id: 1,
         color: '#fd3153',
-        from: '2021-12-02T00:00:00+00:00',
-        to: '2021-12-04T19:00:00+00:00',
+        from: '2022-01-02T00:00:00+00:00',
+        to: '2022-01-04T19:00:00+00:00',
         title: 'This is an event'
     }, {
         id: 2,
         color: '#1ccb9e',
-        from: '2021-12-03T00:00:00+00:00',
-        to: '2021-12-06T19:00:00+00:00',
+        from: '2022-01-03T00:00:00+00:00',
+        to: '2022-01-06T19:00:00+00:00',
         title: 'This is another event'
     }, {
         id: 3,
         color: '#3694DF',
-        from: '2019-05-05T13:00:00+00:00',
-        to: '2019-05-05T20:00:00+00:00',
+        from: '2022-01-05T13:00:00+00:00',
+        to: '2022-01-05T20:00:00+00:00',
         title: 'This is also another event'
     }];
 
@@ -41,10 +43,12 @@ const AdventureReservationCalendar = () => {
                 <div className="info">
                     <h3>ADVENTURE RESERVATION CALENDAR</h3>
                     <div className="info-data">
-                        <button className="new-period-btn">
+                        <button className="new-period-btn" onClick={() => setAddPeriod(true)}>
                             Define new reservation period
                         </button>
-                        
+                        <Calendar 
+                            events={events}
+                        />
                     </div>
                 </div>
             </div>

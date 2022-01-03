@@ -1,12 +1,13 @@
-import { Modal } from 'react-modal';
-import { useParams } from 'react-router';
-import { Link } from "react-router-dom";
-import '../../css/usersProfile.css';
+import React from 'react'
+import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
+import '../../css/addingForm.css'
+import Modal from 'react-modal';
+import { DateTimePickerComponent} from "@syncfusion/ej2-react-calendars"
 
-const AddAdventureActionForm = ({modalIsOpen, setModalIsOpen}) => {
-    const {adventureId} = useParams();
-    return(
-        <div>
+const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen}) => {
+    return (
+       <div>
             <Modal className="fullscreen" isOpen={modalIsOpen}
             shouldCloseOnEsc={true}
             onRequestClose={() => setModalIsOpen(false)} 
@@ -17,20 +18,12 @@ const AddAdventureActionForm = ({modalIsOpen, setModalIsOpen}) => {
                             <h3>ADD NEW ACTION</h3>
                             <div className="info_data">
                                 <div className="data">
-                                    <h4>Reservation start:</h4>
-                                    <input type="date"/>
-                                </div>
-                                <div className="data">
-                                    <h4>Reservation end:</h4>
-                                    <input type="date"/>
-                                </div>
-                                <div className="data">
                                     <h4>Action start:</h4>
-                                    <input type="date"/>
+                                    <DateTimePickerComponent/>
                                 </div>
                                 <div className="data">
                                     <h4>Action end:</h4>
-                                    <input type="date"/>
+                                    <DateTimePickerComponent/>
                                 </div>
                                 <div className="data">
                                     <h4>Number of persons:</h4>
@@ -44,18 +37,17 @@ const AddAdventureActionForm = ({modalIsOpen, setModalIsOpen}) => {
                                     <h4>Price:</h4>
                                     <input type="text"/>
                                 </div>
-                                <Link to={"/adventureActions/" + adventureId} onClick={() => setModalIsOpen(false)}>
-                                    <button >
-                                        Add
-                                    </button>
-                                </Link>
+                                <button onClick={() => setModalIsOpen(false)}>
+                                    Add
+                                </button>
                             </div> <br/> <br/>
                         </div>
                     </div>
                 </div>
             </Modal>
         </div>
-    );
-     
+   )
+    
 }
-export default AddAdventureActionForm;
+
+export default AddAdventureActionFrom;
