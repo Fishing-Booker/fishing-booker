@@ -11,56 +11,40 @@ import editImg from '../../images/pencil.png'
 import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddLodgeFrom from "./addLodgeForm";
-import EditLodgeFrom from "./editLodgeForm";
 import DeleteLodgeForm from "./deleteLodgeForm";
 
 const LodgeOwnerHomePage = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const [user, setUser]  =useState([]);
     const [lodges, setLodges] = useState([]);
+    const [lodgeId, setLodgeId] = useState("");
     const [searchField, setSearchField] = useState("");
     const [filteredLodges, setFilteredLodges] = useState([]);
     const [addLodge, setAddLodge] = useState(false);
-    const [editLodge, setEditLodge] = useState(false);
-    const [deleteLodge, setDeleteLodge] = useState(false);
+    const [deleteLodgeForm, setDeleteLodgeForm] = useState(false);
 
     useEffect(() => {
 
-        /*axios.get(SERVER_URL + 'ownerLodges')    // dodati id ulogovanog vlasnika
-            .then(response => {setLodges(response.data); console.log(response.data)});
-        }, [])*/
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        setLodges(
-            [{
-                id: 1,
-                name: "Lodge1",
-                location: "Novi Sad",
-                description: "Our lodge is the best",
-                rules: "RULE1, RULE2, RULE3",
-                images: [lodge1]
-            },
-            {
-                id: 2,
-                name: "Lodge2",
-                location: "Beograd",
-                description: "Our lodge is the best too",
-                rules: "RULE4, RULE5, RULE6",
-                images: [lodge2]
-            }]
-        )
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+        .then(response => {
+            setUser(response.data);
+            var user = response.data;
 
-        setFilteredLodges(lodges);
+            axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
+                .then(response => {setLodges(response.data); console.log(response.data)});
+        
+        });
 
     }, [])
 
-    const filterLodges = (text) => {
-        filteredLodges.filter(
-            lodge => {
-                return(
-                    lodge.name.toLowerCase().includes(text.toLowerCase())
-                );
-            }
-        )
+    const deleteLodge = (id) => {
+        setLodgeId(id);
+        setDeleteLodgeForm(true);
     }
 
     const allLodges = lodges.length ? (
@@ -69,17 +53,12 @@ const LodgeOwnerHomePage = () => {
                 <div className="lodge-card" key={lodge.id}>
                     <div className="lodge-card-body">
                         <div className="lodge-image">
-                            <img  src={lodge.images[0]}  />
+                            <img  src={lodge1}  />
                         </div>
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
                         
                         <div className="buttons">
-                            <Link to="#editLodge" onClick={() => setEditLodge(true)}>
-                                <button title="Edit lodge">
-                                    <img src={editImg}/>
-                                </button>
-                            </Link>
-                            <Link to="#deleteLodge" onClick={() => setDeleteLodge(true)}>
+                            <Link to="#deleteLodge" onClick={() => deleteLodge(lodge.id)}>
                                 <button title="Delete lodge">
                                     <img src={deleteImg}/>
                                 </button>
@@ -103,7 +82,7 @@ const LodgeOwnerHomePage = () => {
                 <div className="title">Welcome Lodge Owner!</div>
 
                 <div className="input-box-lodge">
-                    <input type="text" placeholder="Search..." onChange={(e) => filterLodges(e.target.value)}/>
+                    <input type="text" placeholder="Search..."/>
                     <div className="modal-place">
                         <Link to="#addLodge" onClick={() => setAddLodge(true)}>
                             <button title="Add lodge">
@@ -119,8 +98,7 @@ const LodgeOwnerHomePage = () => {
                 
             </div>
             
-5           <EditLodgeFrom className="adding-wrapper" modalIsOpen={editLodge} setModalIsOpen={setEditLodge} /> 
-            <DeleteLodgeForm className="deleting-wrapper" modalIsOpen={deleteLodge} setModalIsOpen={setDeleteLodge} />
+            <DeleteLodgeForm className="deleting-wrapper" modalIsOpen={deleteLodgeForm} setModalIsOpen={setDeleteLodgeForm} lodgeId={lodgeId}/>
         </div>
         
         
