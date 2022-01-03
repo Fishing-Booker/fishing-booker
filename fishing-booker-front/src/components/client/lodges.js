@@ -13,11 +13,9 @@ const Lodges = () => {
     const allLodges = lodges.length ? (
         lodges.map((lodge, index) => {
             return(
-                <div className="col">
-                    <div key={index}>
-                        <div className="card lodge">
-                            <p className="lodge-info">{lodge.name}</p>
-                        </div> 
+                <div className="col" key={index}>
+                    <div className="card lodge">
+                        <p className="lodge-info">{lodge.name}</p>
                     </div>
                 </div>
             )

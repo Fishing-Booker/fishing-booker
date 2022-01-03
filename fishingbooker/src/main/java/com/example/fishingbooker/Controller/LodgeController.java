@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.LodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
@@ -71,15 +72,8 @@ public class LodgeController {
     }
 
     @GetMapping()
-    public List<Lodge> getAll() {
-        List<Lodge> lodges = lodgeService.getAll();
-        for (Lodge lodge : lodges) {
-            lodge.setImages(null);
-            lodge.setLocation(null);
-            lodge.setBedrooms(null);
-            lodge.setOwner(null);
-        }
-        return lodges;
+    public List<LodgeInfoDTO> getAll() {
+        return lodgeService.getAll();
     }
 
     private Location addLocation(String address, String city, String country){
