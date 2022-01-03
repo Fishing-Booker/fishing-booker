@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Search from "../search";
 import star from "../../images/star.png";
+import { Link } from "react-router-dom";
 
 const Lodges = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -30,6 +31,8 @@ const Lodges = () => {
                             <p className="entity-info name">{lodge.name} <div className="stars">{renderStars(lodge.averageGrade)} </div></p>
                             <p className="entity-info location">{lodge.location.address}, {lodge.location.city}, {lodge.location.country}</p>
                             <p className="entity-info description">{lodge.description}</p>
+
+                            <Link className="reservation-link">Make reservation</Link>
                         </div>
                     </div>
                 </div>
