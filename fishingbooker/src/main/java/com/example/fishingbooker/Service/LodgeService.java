@@ -63,22 +63,29 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public void addRule(String rule, Integer lodgeId) {
-        String rules = lodgeRepository.findLodgeRules(lodgeId);
-        String newRule = rules + "#" + rule;
-        lodgeRepository.addRule(newRule, lodgeId);
+        String[] rules = lodgeRepository.findLodgeRules(lodgeId).split("#");
+        String newRules = setNewRules(rules);
+        newRules += rule;
+        lodgeRepository.addRule(newRules, lodgeId);
     }
 
     @Override
     public void deleteRule(Integer ruleIndex, Integer lodgeId) {
         String[] rules = lodgeRepository.findLodgeRules(lodgeId).split("#");
         rules[ruleIndex] = "";
+        String newRules = String.valueOf(setNewRules(rules));
+        newRules = newRules.replaceAll("##", "#");
+        lodgeRepository.addRule(newRules, lodgeId);
+    }
+
+    private String setNewRules(String[] rules){
         StringBuilder newRules = new StringBuilder();
         for (String rule : rules) {
             rule = rule.replace("#", "");
             newRules.append(rule);
             newRules.append("#");
         }
-        lodgeRepository.addRule(String.valueOf(newRules), lodgeId);
+        return String.valueOf(newRules);
     }
 
 }
