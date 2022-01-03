@@ -48,7 +48,7 @@ const LoginForm = () => {
               </div>
               <div className="input-box">
                 <span className="details">Password</span>
-                <input type="text" placeholder="Enter your password" required value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input type="password" placeholder="Enter your password" required value={password} onChange={(e) => setPassword(e.target.value)}/>
               </div>
             </div>
             <p className="reg-message">Don't have an account? <Link className="link" to="/register">Register</Link></p>

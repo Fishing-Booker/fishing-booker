@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 import './../css/usersProfile.css';
 import { useToasts } from "react-toast-notifications";
 import axios from 'axios';
-import { Link,useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const DeleteAccount = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const { addToast } = useToasts();
-    const history = useHistory();
     const [user, setUser] = useState([]);
     const [reason, setReason] = useState("")
     const dto = {

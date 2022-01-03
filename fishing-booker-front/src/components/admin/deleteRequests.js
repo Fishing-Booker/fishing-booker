@@ -7,9 +7,9 @@ const DeleteRequest = () => {
     const [requests, setRequests] = useState([]);
     const [addResponse, setAddResponse] = useState(false);
     const [modalRequest, setModalRequest] = useState("");
-    const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
     useEffect(() => {
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/deleteRequests/getAll", { headers: headers})
         .then(response => {
             setRequests(response.data);

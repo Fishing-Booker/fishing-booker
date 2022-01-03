@@ -32,10 +32,11 @@ const AdventureProfile = () => {
             },
             "description" : "Adventure description",
             "rules" : "Some rules..",
-            "cancelConditions" : "Cancel conditions...",
+            "cancelConditions" : "Free cancelation",
             "averageGrade": 5,
-            "biography": "Neka biografija",
-            "maxPersons" : 10
+            "biography": "Neka biografija...",
+            "maxPersons" : 10,
+            "fishingEquipment" : "Pecaroska oprema..."
         })
         
         setLodge({
@@ -77,29 +78,16 @@ const AdventureProfile = () => {
         /*axios.post(SERVER_URL + 'editLodge/' + lodgeId, lodge)
             .then(response => console.log(response.data));*/
     }
-
-    const allBedrooms = bedrooms.length ? (
-        bedrooms.map(bedroom => {
-            return(
-                <div>
-                    * <label>{bedroom.BedroomType}</label>
-                    <input className="bedroom-input" type="number" value={bedroom.RoomNuber} disabled={disabledEdit} />
-                </div>
-            )
-        })
-    ) : (
-        <div></div>
-    );
    
     return (
         <div className="wrapper">
             <div className="left">
                 <h4>ADVENTURE PROFILE</h4><br/>
-                <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgePricelist/" + lodgeId}>Pricelist</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureImages/" + adventure.id}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureRules/" + adventure.id}>Rules</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventurePricelist/" + adventure.id}>Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureActions/" + adventure.id}>Actions</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureReservationCalendar/" + adventure.id}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">
@@ -107,28 +95,46 @@ const AdventureProfile = () => {
                     <div className="info_data">
                         <div className="data">
                             <h4>Address</h4>
-                            <input  value={lodge.address} disabled={disabledEdit}/>
-                        </div>
+                            <input hidden={disabledEdit}/>
+                            <label hidden={!disabledEdit}>Adresa</label>
+                        </div> <br />
                         <div className="data">
                             <h4>Maximum number of persons</h4>
-                            { adventure.maxPersons } persons
-                        </div>
+                            <input hidden={disabledEdit}/>
+                            <label hidden={!disabledEdit}>{adventure.maxPersons} persons</label>
+                        </div> <br />
                         <div className="data">
                             <h4>Additional services</h4>
                             {disabledEdit ? (
-                                <textarea value={additionalServices} disabled={disabledEdit}/>
+                                <label disabled={disabledEdit}>{additionalServices}</label>
                             ) : (
                                 <div>
                                 <p>Please follow the pattern</p>
-                                <input value={lodge.additionServices} disabled={disabledEdit}/>
+                                <input value={adventure.additionalServices} disabled={disabledEdit}/>
                                 </div>
                             )}
                             
-                        </div>
+                        </div> <br />
                         <div className="data">
                             <h4>Description</h4>
-                            <textarea value={lodge.description} disabled={disabledEdit}/>
-                        </div>
+                            <textarea hidden={disabledEdit}/>
+                            <label hidden={!disabledEdit}>{adventure.description}</label>
+                        </div> <br />
+                        <div className="data">
+                            <h4>Instructor biography </h4>
+                            <textarea hidden={disabledEdit}/>
+                            <label hidden={!disabledEdit}>{adventure.biography}</label>
+                        </div> <br />
+                        <div className="data">
+                            <h4>Fishing equipment </h4>
+                            <textarea hidden={disabledEdit}/>
+                            <label hidden={!disabledEdit}>{adventure.fishingEquipment}</label>
+                        </div> <br />
+                        <div className="data">
+                            <h4>Cancel conditions </h4>
+                            <textarea hidden={disabledEdit}/>
+                            <label hidden={!disabledEdit}>{adventure.cancelConditions}</label>
+                        </div> <br />
                     </div> <br/> <br/>
                     {disabledEdit ? (
                         <button className="edit-profile-btn" onClick={() => setDisabledEdit(false)}>

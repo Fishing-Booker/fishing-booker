@@ -1,13 +1,16 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.LodgeDTO;
+import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import com.example.fishingbooker.Service.LodgeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lodges")
+@RequestMapping(value = "/lodges", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
+@Slf4j
 public class LodgeController {
 
     @Autowired
@@ -33,6 +37,18 @@ public class LodgeController {
 
     @Autowired
     private ILocationService locationService;
+
+    @GetMapping("/ownerLodges/{id}")
+    public List<Lodge> getOwnerLodges(@PathVariable Integer id){
+        List<Lodge> lodges = lodgeService.findOwnerLodges(id);
+        return lodges;
+    }
+
+    @DeleteMapping("/deleteLodge/{id}")
+    public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
+        lodgeService.deleteLodge(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping("/addLodge")
     public ResponseEntity<Lodge> addLodge(@RequestBody LodgeDTO lodgeDTO){
@@ -82,7 +98,7 @@ public class LodgeController {
         location.setCity(city);
         location.setCountry(country);
 
-        return location = locationService.save(location);
+        return locationService.save(location);
     }
 
     private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){
@@ -111,6 +127,32 @@ public class LodgeController {
         bedroomService.save(bedroom4);
     }
 
+    @GetMapping("/lodge/{id}")
+    public Lodge findLodge(@PathVariable Integer id){
+        return lodgeService.findById(id);
+    }
 
+    @GetMapping("/lodgeRules/{id}")
+    public List<String> findLodgeRules(@PathVariable Integer id){
+        return lodgeService.findLodgeRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
+        lodgeService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
+        lodgeService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/updateLodge/{id}")
+    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
+        lodgeService.updateLodge(lodge, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

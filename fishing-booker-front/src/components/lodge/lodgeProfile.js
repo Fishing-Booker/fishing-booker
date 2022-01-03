@@ -10,68 +10,123 @@ const LodgeProfile = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
-    const [lodge, setLodge] = useState({});
+    const [lodge, setLodge] = useState([]);
+
+    const [name, setName] = useState("");
+    const [locationId, setLocationId] = useState("");
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
     const [bedrooms, setBedrooms] = useState([]);
-    const [additionalServices, setAdditionalServices] = useState("");
+    const [allBedrooms, setAllBedrooms] = useState([]);
+    const [description, setDescription] = useState("");
+
+    const [oneBed, setOneBed] = useState("");
+    const [twoBed, setTwoBed] = useState("");
+    const [threeBed, setThreeBed] = useState("");
+    const [fourBed, setFourBed] = useState("");
 
     const [disabledEdit, setDisabledEdit] = useState(true);
 
+    const editedLodge = {
+        name, 
+        locationId,
+        address, 
+        city,
+        country,
+        description,
+        oneBed, 
+        twoBed,
+        threeBed,
+        fourBed
+    }
+
     useEffect(() => {
-        /*axios.get(SERVER_URL + 'lodge/' + lodgeId)
-            .then(response => {setLodge(response.data); console.log(response.data)});*/
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        setLodge({
-            "id": 1,
-            "name": "Lodge1",
-            "address" : "Lodge address",
-            "additionServices": "#A1#A2#A3",
-            "description" : "Decription of our lodge...."
-        })
+        axios.get(SERVER_URL + '/lodges/lodge/' + lodgeId, {headers: headers})
+            .then(response => {
+                setLodge(response.data); 
+                var lodge = response.data;
+                console.log(lodge);
+                setName(lodge.name);
 
-        /*axios.get(SERVER_URL + 'lodgeBedrooms' + lodgeId)
-            .then(response => {setBedrooms(response.data); console.log(response.data)});*/
+                setAllBedrooms(lodge.bedrooms);
+                var bedrooms = [];
+                for(let b of lodge.bedrooms){
+                    if(b.roomNumber > 0){
+                        bedrooms.push(b);
+                    }
+                }
+                setBedrooms(bedrooms);
+                setLocationId(lodge.location.id);
+                setAddress(lodge.location.address);
+                setCity(lodge.location.city);
+                setCountry(lodge.location.country);
+                setDescription(lodge.description);
 
-        setBedrooms([
-            {
-                "BedroomType" : "Single",
-                "RoomNuber": 2 
-            }, 
-            {
-                "BedroomType" : "Double",
-                "RoomNuber": 1
-            }
-        ])
-
-        prepareServices();
+                for(let b of lodge.bedrooms){
+                    if(b.bedroomType === "oneBed"){
+                        setOneBed(b.roomNumber);
+                    } else if(b.bedroomType === "twoBed"){
+                        setTwoBed(b.roomNumber);
+                    } else if(b.bedroomType === "threeBed"){
+                        setThreeBed(b.roomNumber);
+                    } else {
+                        setFourBed(b.roomNumber);
+                    }
+                }
+            });
 
     }, []) 
 
-    const prepareServices = () => {
-        //var services = lodge.additionServices;
-        var services = "bla";
-        services = services.replace("#", "", 0);
-        setAdditionalServices(services.replace(/#/g, '\n'));
-        console.log(additionalServices)
-    }
-
     const saveChanges = () => {
-        setDisabledEdit(true)
-        /*axios.post(SERVER_URL + 'editLodge/' + lodgeId, lodge)
-            .then(response => console.log(response.data));*/
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.put(SERVER_URL + '/lodges/updateLodge/' + lodgeId, editedLodge, {headers: headers})
+            .then(response => {
+                window.location.reload();
+                console.log(response.data);
+            });
     }
 
-    const allBedrooms = bedrooms.length ? (
+    const allBedroomsForm = bedrooms.length ? (
         bedrooms.map(bedroom => {
             return(
-                <div>
-                    * <label>{bedroom.BedroomType}</label>
-                    <input className="bedroom-input" type="number" value={bedroom.RoomNuber} disabled={disabledEdit} />
+                <div key={bedroom.Id}>
+                    * <label>{bedroom.bedroomType}</label>
+                    <input className="bedroom-input" type="number" value={bedroom.roomNumber} disabled={disabledEdit} />
                 </div>
+                
             )
         })
     ) : (
-        <div></div>
+        <div>
+            Add your bedrooms!
+        </div>
     );
+
+    const editBedroomsForm = (
+        <div>
+            <div>
+                * <label>oneBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setOneBed(e.target.value)}} value={oneBed} disabled={disabledEdit} />
+            </div>
+            <div>
+                * <label>twoBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setTwoBed(e.target.value)}} value={twoBed} disabled={disabledEdit} />
+            </div>
+            <div>
+                * <label>threeBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setThreeBed(e.target.value)}} value={threeBed} disabled={disabledEdit} />
+            </div>
+            <div>
+                * <label>fourBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setFourBed(e.target.value)}} value={fourBed} disabled={disabledEdit} />
+            </div>
+        </div>
+    )
    
     return (
         <div className="wrapper">
@@ -85,31 +140,45 @@ const LodgeProfile = () => {
             </div>
             <div className="right">
                 <div className="info">
-                    <h3>{lodge.name}</h3>
+                    <h3>{name}</h3>
                     <div className="info_data">
+                        {!disabledEdit ? (
+                            <div className="data">
+                                <h4>Name</h4>
+                                <input onChange={(e) => {setName(e.target.value)}}  value={name} disabled={disabledEdit}/>
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
                         <div className="data">
                             <h4>Address</h4>
-                            <input  value={lodge.address} disabled={disabledEdit}/>
+                            <input onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
-                            <h4>Bedrooms</h4>
-                            { allBedrooms }
+                            <h4>City</h4>
+                            <input onChange={(e) => {setCity(e.target.value)}}  value={city} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
-                            <h4>Additional services</h4>
+                            <h4>Country</h4>
+                            <input onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
+                        </div>
+                        <div className="data">
                             {disabledEdit ? (
-                                <textarea value={additionalServices} disabled={disabledEdit}/>
+                                <div>
+                                    <h4>Bedrooms</h4>
+                                    { allBedroomsForm }
+                                </div>
                             ) : (
                                 <div>
-                                <p>Please follow the pattern</p>
-                                <input value={lodge.additionServices} disabled={disabledEdit}/>
+                                    <h4>Bedrooms</h4>
+                                    { editBedroomsForm }
                                 </div>
                             )}
                             
                         </div>
                         <div className="data">
                             <h4>Description</h4>
-                            <textarea value={lodge.description} disabled={disabledEdit}/>
+                            <textarea onChange={(e) => {setDescription(e.target.value)}} value={description} disabled={disabledEdit}/>
                         </div>
                     </div> <br/> <br/>
                     {disabledEdit ? (
