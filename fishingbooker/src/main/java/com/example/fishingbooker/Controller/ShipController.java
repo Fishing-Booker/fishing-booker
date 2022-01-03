@@ -1,6 +1,8 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.ShipDTO;
+import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IShipService;
@@ -92,6 +94,34 @@ public class ShipController {
         location.setCountry(country);
 
         return locationService.save(location);
+    }
+
+    @GetMapping("/ship/{id}")
+    public Ship findShip(@PathVariable Integer id){
+        return shipService.findById(id);
+    }
+
+    @PutMapping("/updateShip/{id}")
+    public ResponseEntity<Ship> updateShip(@RequestBody UpdateShipDTO dto, @PathVariable Integer id){
+        shipService.updateShip(dto, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/shipRules/{id}")
+    public List<String> findShipRules(@PathVariable Integer id){
+        return shipService.findShipRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
+        shipService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
+        shipService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

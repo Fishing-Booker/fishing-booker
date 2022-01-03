@@ -1,5 +1,6 @@
 package com.example.fishingbooker.IService;
 
+import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.Model.Ship;
 
 import java.util.List;
@@ -11,5 +12,15 @@ public interface IShipService {
     List<Ship> findOwnerShips(Integer ownerId);
 
     void deleteShip(Integer shipId);
+
+    Ship findById(Integer shipId);
+
+    void updateShip(UpdateShipDTO dto, Integer shipId);
+
+    List<String> findShipRules(Integer shipId);
+
+    void addRule(String rule, Integer shipId);
+
+    void deleteRule(Integer ruleIndex, Integer lodgeId);
 
 }

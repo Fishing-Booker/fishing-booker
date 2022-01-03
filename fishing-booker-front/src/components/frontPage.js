@@ -42,6 +42,9 @@ import Adventures from "./client/adventures";
 import Lodges from "./client/lodges";
 import Ships from "./client/ships";
 import Search from "./search";
+import ShipProfile from "./ship/shipProfile";
+import ShipRules from "./ship/shipRules";
+
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -163,6 +166,8 @@ const FrontPage = () => {
                         <Route exact path="/"><ShipOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
+                        <Route path="/ship/:shipId"><ShipProfile/></Route>
+                        <Route path="/shipRules/:shipId"><ShipRules/></Route>
                     </Switch>
                 }
                 
