@@ -31,6 +31,10 @@ import DeleteAccount from "./deleteAccount";
 import DeleteRequest from "./admin/deleteRequests";
 import AdventureProfile from "./instructor/adventureProfile";
 import AdventureImages from "./instructor/adventureImages";
+import Explore from "./explore";
+import Adventures from "./client/adventures";
+import Lodges from "./client/lodges";
+import Ships from "./client/ships";
 
 
 const FrontPage = () => {
@@ -70,12 +74,15 @@ const FrontPage = () => {
                 {!isLogged &&
                     <div className="row">
                     <Switch>
-                        <Route exact path="/"><Homepage/><Entities/></Route>
+                        <Route exact path="/"><Homepage/></Route>
                         <Route path="/register/"><Homepage/><RegistrationType/></Route>
                         <Route path="/registrationForm/:registrationType"><Homepage/><RegistrationForm/></Route>
                         <Route path="/login"><Homepage/><LoginForm/></Route>
                         <Route path="/verify/:code?"><Verification/></Route>
-                        
+                        <Route path="/explore"><Explore/></Route>
+                        <Route path="/adventures"><Adventures/></Route>
+                        <Route path="/lodges"><Lodges/></Route>
+                        <Route path="/ships"><Ships/></Route>
                     </Switch>
                 </div> }
 
