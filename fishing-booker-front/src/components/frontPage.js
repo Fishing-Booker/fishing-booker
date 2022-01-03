@@ -37,7 +37,11 @@ import AdventureActions from "./instructor/adventureActions";
 import AdventureReservationCalendar from "./instructor/adventureReservationCalendar";
 import ShipOwnerHomePage from "./ship/shipOwnerHomePage";
 import AddShipForm from "./ship/addShipForm";
-
+import Explore from "./explore";
+import Adventures from "./client/adventures";
+import Lodges from "./client/lodges";
+import Ships from "./client/ships";
+import Search from "./search";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -76,12 +80,17 @@ const FrontPage = () => {
                 {!isLogged &&
                     <div className="row">
                     <Switch>
-                        <Route exact path="/"><Homepage/><Entities/></Route>
+                        <Route exact path="/"><Homepage/></Route>
                         <Route path="/register/"><Homepage/><RegistrationType/></Route>
                         <Route path="/registrationForm/:registrationType"><Homepage/><RegistrationForm/></Route>
                         <Route path="/login"><Homepage/><LoginForm/></Route>
                         <Route path="/verify/:code?"><Verification/></Route>
-                        
+                        <Route path="/explore"><Explore/></Route>
+                        <div className="row-search">
+                            <Route path="/adventures"><Adventures/></Route>
+                            <Route path="/lodges"><Lodges/></Route>
+                            <Route path="/ships"><Ships/></Route>
+                        </div>
                     </Switch>
                 </div> }
 

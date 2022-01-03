@@ -2,6 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.LodgeDTO;
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
@@ -84,6 +85,11 @@ public class LodgeController {
         addBedrooms(lodge, lodgeDTO.getOneBed(), lodgeDTO.getTwoBed(), lodgeDTO.getThreeBed(), lodgeDTO.getFourBed());
 
         return new ResponseEntity<>(HttpStatus.CREATED);//201
+    }
+
+    @GetMapping()
+    public List<LodgeInfoDTO> getAll() {
+        return lodgeService.getAll();
     }
 
     private Location addLocation(String address, String city, String country){
