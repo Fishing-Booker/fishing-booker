@@ -10,4 +10,6 @@ public interface IBedroomService {
     List<Bedroom> findAll();
 
     List<Bedroom> findLodgeBedrooms(Integer lodgeId);
+
+    void updateBedroom(Integer oneBed, Integer twoBed, Integer threeBed, Integer fourBed, Integer lodgeId);
 }

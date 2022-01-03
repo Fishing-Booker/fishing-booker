@@ -18,7 +18,13 @@ const LodgeProfile = () => {
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [bedrooms, setBedrooms] = useState([]);
+    const [allBedrooms, setAllBedrooms] = useState([]);
     const [description, setDescription] = useState("");
+
+    const [oneBed, setOneBed] = useState("");
+    const [twoBed, setTwoBed] = useState("");
+    const [threeBed, setThreeBed] = useState("");
+    const [fourBed, setFourBed] = useState("");
 
     const [disabledEdit, setDisabledEdit] = useState(true);
 
@@ -28,7 +34,11 @@ const LodgeProfile = () => {
         address, 
         city,
         country,
-        description
+        description,
+        oneBed, 
+        twoBed,
+        threeBed,
+        fourBed
     }
 
     useEffect(() => {
@@ -39,14 +49,34 @@ const LodgeProfile = () => {
             .then(response => {
                 setLodge(response.data); 
                 var lodge = response.data;
+                console.log(lodge);
                 setName(lodge.name);
-                setBedrooms(lodge.bedrooms);
+
+                setAllBedrooms(lodge.bedrooms);
+                var bedrooms = [];
+                for(let b of lodge.bedrooms){
+                    if(b.roomNumber > 0){
+                        bedrooms.push(b);
+                    }
+                }
+                setBedrooms(bedrooms);
                 setLocationId(lodge.location.id);
                 setAddress(lodge.location.address);
                 setCity(lodge.location.city);
                 setCountry(lodge.location.country);
                 setDescription(lodge.description);
-                console.log(response.data);
+
+                for(let b of lodge.bedrooms){
+                    if(b.bedroomType === "oneBed"){
+                        setOneBed(b.roomNumber);
+                    } else if(b.bedroomType === "twoBed"){
+                        setTwoBed(b.roomNumber);
+                    } else if(b.bedroomType === "threeBed"){
+                        setThreeBed(b.roomNumber);
+                    } else {
+                        setFourBed(b.roomNumber);
+                    }
+                }
             });
 
     }, []) 
@@ -61,7 +91,7 @@ const LodgeProfile = () => {
             });
     }
 
-    const allBedrooms = bedrooms.length ? (
+    const allBedroomsForm = bedrooms.length ? (
         bedrooms.map(bedroom => {
             return(
                 <div key={bedroom.Id}>
@@ -76,6 +106,27 @@ const LodgeProfile = () => {
             Add your bedrooms!
         </div>
     );
+
+    const editBedroomsForm = (
+        <div>
+            <div>
+                * <label>oneBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setOneBed(e.target.value)}} value={oneBed} disabled={disabledEdit} />
+            </div>
+            <div>
+                * <label>twoBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setTwoBed(e.target.value)}} value={twoBed} disabled={disabledEdit} />
+            </div>
+            <div>
+                * <label>threeBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setThreeBed(e.target.value)}} value={threeBed} disabled={disabledEdit} />
+            </div>
+            <div>
+                * <label>fourBed</label>
+                <input className="bedroom-input" type="number" min="0" onChange={(e) => {setFourBed(e.target.value)}} value={fourBed} disabled={disabledEdit} />
+            </div>
+        </div>
+    )
    
     return (
         <div className="wrapper">
@@ -91,6 +142,14 @@ const LodgeProfile = () => {
                 <div className="info">
                     <h3>{name}</h3>
                     <div className="info_data">
+                        {!disabledEdit ? (
+                            <div className="data">
+                                <h4>Name</h4>
+                                <input onChange={(e) => {setName(e.target.value)}}  value={name} disabled={disabledEdit}/>
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
                         <div className="data">
                             <h4>Address</h4>
                             <input onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
@@ -104,8 +163,18 @@ const LodgeProfile = () => {
                             <input onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
-                            <h4>Bedrooms</h4>
-                            { allBedrooms }
+                            {disabledEdit ? (
+                                <div>
+                                    <h4>Bedrooms</h4>
+                                    { allBedroomsForm }
+                                </div>
+                            ) : (
+                                <div>
+                                    <h4>Bedrooms</h4>
+                                    { editBedroomsForm }
+                                </div>
+                            )}
+                            
                         </div>
                         <div className="data">
                             <h4>Description</h4>

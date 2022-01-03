@@ -31,11 +31,17 @@ public class BedroomService implements IBedroomService {
         List<Bedroom> bedrooms =  bedroomRepository.findLodgeBedrooms(lodgeId);
         List<Bedroom> availableBedrooms = new ArrayList<>();
         for (Bedroom b: bedrooms) {
-            if(b.getRoomNumber() > 0){
-                b.setLodge(null);
-                availableBedrooms.add(b);
-            }
+            b.setLodge(null);
+            availableBedrooms.add(b);
         }
         return availableBedrooms;
+    }
+
+    @Override
+    public void updateBedroom(Integer oneBed, Integer twoBed, Integer threeBed, Integer fourBed, Integer lodgeId) {
+        bedroomRepository.updateOneBedRoom(oneBed, lodgeId);
+        bedroomRepository.updateTwoBedRoom(twoBed, lodgeId);
+        bedroomRepository.updateThreeBedRoom(threeBed, lodgeId);
+        bedroomRepository.updateFourBedRoom(fourBed, lodgeId);
     }
 }
