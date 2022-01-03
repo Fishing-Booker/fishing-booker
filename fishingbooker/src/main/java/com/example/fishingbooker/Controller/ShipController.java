@@ -107,4 +107,21 @@ public class ShipController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/shipRules/{id}")
+    public List<String> findShipRules(@PathVariable Integer id){
+        return shipService.findShipRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
+        shipService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
+        shipService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

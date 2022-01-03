@@ -77,6 +77,7 @@ public class LodgeService implements ILodgeService {
         String[] rules = lodgeRepository.findLodgeRules(lodgeId).split("#");
         String newRules = setNewRules(rules);
         newRules += rule;
+        newRules = correctRules(newRules);
         lodgeRepository.addRule(newRules, lodgeId);
     }
 
@@ -84,8 +85,8 @@ public class LodgeService implements ILodgeService {
     public void deleteRule(Integer ruleIndex, Integer lodgeId) {
         String[] rules = lodgeRepository.findLodgeRules(lodgeId).split("#");
         rules[ruleIndex] = "";
-        String newRules = String.valueOf(setNewRules(rules));
-        newRules = newRules.replaceAll("##", "#");
+        String newRules = setNewRules(rules);
+        newRules = correctRules(newRules);
         lodgeRepository.addRule(newRules, lodgeId);
     }
 
@@ -104,6 +105,14 @@ public class LodgeService implements ILodgeService {
             newRules.append("#");
         }
         return String.valueOf(newRules);
+    }
+
+    private String correctRules(String rules){
+        rules = rules.replaceAll("##", "#");
+        if(rules.substring(0, 1).contains("#")){
+            rules = rules.substring(1);
+        }
+        return rules;
     }
 
 }

@@ -20,7 +20,7 @@ public interface ILodgeService {
 
     void addRule(String rule, Integer lodgeId);
 
-    void deleteRule(Integer RuleIndex, Integer lodgeId);
+    void deleteRule(Integer ruleIndex, Integer lodgeId);
 
     void updateLodge(UpdateLodgeDTO lodgeDTO, Integer lodgeId);
 }

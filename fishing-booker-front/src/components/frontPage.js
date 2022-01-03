@@ -38,6 +38,7 @@ import AdventureReservationCalendar from "./instructor/adventureReservationCalen
 import ShipOwnerHomePage from "./ship/shipOwnerHomePage";
 import AddShipForm from "./ship/addShipForm";
 import ShipProfile from "./ship/shipProfile";
+import ShipRules from "./ship/shipRules";
 
 
 const FrontPage = () => {
@@ -156,6 +157,7 @@ const FrontPage = () => {
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/ship/:shipId"><ShipProfile/></Route>
+                        <Route path="/shipRules/:shipId"><ShipRules/></Route>
                     </Switch>
                 }
                 

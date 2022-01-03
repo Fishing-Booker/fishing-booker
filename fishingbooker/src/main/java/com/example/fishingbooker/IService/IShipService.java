@@ -17,4 +17,10 @@ public interface IShipService {
 
     void updateShip(UpdateShipDTO dto, Integer shipId);
 
+    List<String> findShipRules(Integer shipId);
+
+    void addRule(String rule, Integer shipId);
+
+    void deleteRule(Integer ruleIndex, Integer lodgeId);
+
 }

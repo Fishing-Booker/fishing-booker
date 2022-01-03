@@ -28,4 +28,12 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
     @Transactional
     void updateShip(String name, String description, String shipType, double length, Integer engineNumber, double enginePower, double maxSpeed, Integer capacity, Integer shipId);
 
+    @Query("SELECT s.rules FROM Ship s WHERE s.id=?1 ")
+    String findShipRules(Integer shipId);
+
+    @Query("update Ship s set s.rules=?1 WHERE s.id=?2")
+    @Modifying
+    @Transactional
+    void addRule(String rule, Integer shipId);
+
 }
