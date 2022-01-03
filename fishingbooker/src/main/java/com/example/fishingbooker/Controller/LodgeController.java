@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.LodgeDTO;
+import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
@@ -139,6 +140,12 @@ public class LodgeController {
     @DeleteMapping("/deleteRule/{id}/{index}")
     public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
         lodgeService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/updateLodge/{id}")
+    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
+        lodgeService.updateLodge(lodge, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

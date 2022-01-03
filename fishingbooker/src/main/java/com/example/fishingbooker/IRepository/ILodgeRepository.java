@@ -1,5 +1,6 @@
 package com.example.fishingbooker.IRepository;
 
+import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,5 +29,10 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Modifying
     @Transactional
     void addRule(String rule, Integer lodgeId);
+
+    @Query("update Lodge l " + "set l.name=?1, l.description=?2 " + "WHERE l.id=?3")
+    @Modifying
+    @Transactional
+    void updateLodge(String name, String description, Integer lodgeId);
 
 }

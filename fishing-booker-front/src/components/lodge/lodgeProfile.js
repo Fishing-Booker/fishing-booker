@@ -11,11 +11,25 @@ const LodgeProfile = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const [lodge, setLodge] = useState([]);
+
+    const [name, setName] = useState("");
+    const [locationId, setLocationId] = useState("");
     const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
     const [bedrooms, setBedrooms] = useState([]);
-    const [additionalServices, setAdditionalServices] = useState("");
+    const [description, setDescription] = useState("");
 
     const [disabledEdit, setDisabledEdit] = useState(true);
+
+    const editedLodge = {
+        name, 
+        locationId,
+        address, 
+        city,
+        country,
+        description
+    }
 
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json',
@@ -25,27 +39,26 @@ const LodgeProfile = () => {
             .then(response => {
                 setLodge(response.data); 
                 var lodge = response.data;
+                setName(lodge.name);
                 setBedrooms(lodge.bedrooms);
+                setLocationId(lodge.location.id);
                 setAddress(lodge.location.address);
+                setCity(lodge.location.city);
+                setCountry(lodge.location.country);
+                setDescription(lodge.description);
                 console.log(response.data);
             });
 
-        prepareServices();
-
     }, []) 
 
-    const prepareServices = () => {
-        //var services = lodge.additionServices;
-        var services = "bla";
-        services = services.replace("#", "", 0);
-        setAdditionalServices(services.replace(/#/g, '\n'));
-        console.log(additionalServices)
-    }
-
     const saveChanges = () => {
-        setDisabledEdit(true)
-        /*axios.post(SERVER_URL + 'editLodge/' + lodgeId, lodge)
-            .then(response => console.log(response.data));*/
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.put(SERVER_URL + '/lodges/updateLodge/' + lodgeId, editedLodge, {headers: headers})
+            .then(response => {
+                window.location.reload();
+                console.log(response.data);
+            });
     }
 
     const allBedrooms = bedrooms.length ? (
@@ -76,11 +89,19 @@ const LodgeProfile = () => {
             </div>
             <div className="right">
                 <div className="info">
-                    <h3>{lodge.name}</h3>
+                    <h3>{name}</h3>
                     <div className="info_data">
                         <div className="data">
                             <h4>Address</h4>
-                            <input  value={address} disabled={disabledEdit}/>
+                            <input onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
+                        </div>
+                        <div className="data">
+                            <h4>City</h4>
+                            <input onChange={(e) => {setCity(e.target.value)}}  value={city} disabled={disabledEdit}/>
+                        </div>
+                        <div className="data">
+                            <h4>Country</h4>
+                            <input onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Bedrooms</h4>
@@ -88,7 +109,7 @@ const LodgeProfile = () => {
                         </div>
                         <div className="data">
                             <h4>Description</h4>
-                            <textarea value={lodge.description} disabled={disabledEdit}/>
+                            <textarea onChange={(e) => {setDescription(e.target.value)}} value={description} disabled={disabledEdit}/>
                         </div>
                     </div> <br/> <br/>
                     {disabledEdit ? (

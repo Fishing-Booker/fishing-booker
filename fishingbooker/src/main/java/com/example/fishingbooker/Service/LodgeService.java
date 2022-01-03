@@ -1,6 +1,8 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.IRepository.ILodgeRepository;
+import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IService.ILodgeService;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,16 @@ public class LodgeService implements ILodgeService {
     private ILodgeRepository lodgeRepository;
 
     @Autowired
+    private IReservationEntityRepository entityRepository;
+
+    @Autowired
     private BedroomService bedroomService;
+
+    @Autowired
+    private LocationService locationService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Lodge save(Lodge lodge) {
@@ -76,6 +87,12 @@ public class LodgeService implements ILodgeService {
         String newRules = String.valueOf(setNewRules(rules));
         newRules = newRules.replaceAll("##", "#");
         lodgeRepository.addRule(newRules, lodgeId);
+    }
+
+    @Override
+    public void updateLodge(UpdateLodgeDTO dto, Integer lodgeId) {
+        locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
+        lodgeRepository.updateLodge(dto.getName(), dto.getDescription(), lodgeId);
     }
 
     private String setNewRules(String[] rules){

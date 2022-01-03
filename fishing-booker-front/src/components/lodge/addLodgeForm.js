@@ -21,8 +21,8 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     const [fourBed, setFourBed] = useState("0");
 
     useEffect(() => {
-        const headers = {'Content-Type': 'application/json',
-                         'Authorization': `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => setUser(response.data))
     }, [])
