@@ -35,6 +35,8 @@ import AdventureRules from "./instructor/adventureRules";
 import AdventurePricelist from "./instructor/adventurePricelist";
 import AdventureActions from "./instructor/adventureActions";
 import AdventureReservationCalendar from "./instructor/adventureReservationCalendar";
+import ShipOwnerHomePage from "./ship/shipOwnerHomePage";
+import AddShipForm from "./ship/addShipForm";
 
 
 const FrontPage = () => {
@@ -149,7 +151,9 @@ const FrontPage = () => {
 
                 {role === "ROLE_SHIPOWNER" &&
                     <Switch>
+                        <Route exact path="/"><ShipOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
                     </Switch>
                 }
                 

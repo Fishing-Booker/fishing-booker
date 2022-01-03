@@ -92,7 +92,7 @@ public class LodgeController {
         location.setCity(city);
         location.setCountry(country);
 
-        return location = locationService.save(location);
+        return locationService.save(location);
     }
 
     private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){
