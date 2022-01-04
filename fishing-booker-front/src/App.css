@@ -212,7 +212,7 @@ h5 {
 	margin-left: 16%;
 }
 
-.entity {
+.lodge {
 	background-image: url(./images/lodge.jpg);
 	width: 40vw;
 	height: 50vh;
@@ -252,6 +252,17 @@ h5 {
 	font-size: 1em;
 }
 
+.reservation-link {
+	text-decoration: none;
+	font-weight: 600;
+	color: darkblue;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin-right: 2%;
+	margin-bottom: 2%;
+}
+
 /* search */
 .search {
 	background-color: white;
@@ -267,6 +278,7 @@ h5 {
 	cursor: auto;
 	z-index: 1;
 	border-radius: 10px;
+	position: relative;
 }
 
 .search:hover{
@@ -292,5 +304,67 @@ h5 {
 	border: none;
 	cursor: pointer;
 }
+
+/* letters filter */
+.alpha {
+	width: 100%;
+	float: left;
+  }
+  .alpha ul {
+	margin-left: 8px;
+	overflow: hidden;
+  }
+  .alpha li {
+	float: left;
+	margin: 0 5px 15px 0;
+  }
+  .alpha li.last {
+	margin-right: 0;
+  }
+  .alpha li.active a,
+  .alpha li:hover a {
+	color: #fff;
+	background: #0c326b;
+	border-color: #0c326b;
+  }
+  .alpha li.disabled a,
+  .alpha li.disabled:hover a {
+	color: silver;
+	background: white;
+	border-color: white;
+	cursor: default;
+  }
+  .alpha a {
+	text-transform: uppercase;
+	background: white;
+	border: 1px solid white;
+	display: block;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	font-size: 14px;
+	line-height: 24px;
+	font-weight: bold;
+	color: #0c326b;
+	text-decoration: none;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+
+  .alpha .reset {
+	  margin-left: 51%;
+	  width: 60px;
+	  height: 27px;
+	  background: #7d1515;
+	  border-color: #7d1515;
+	  color: #fff;
+	  font-weight: 500;
+	  text-transform: lowercase;
+  }
+
+  .filter-letters {
+	  margin-left: 18%;
+	  margin-bottom: 5%;
+  }
 
 

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -92,6 +93,44 @@ public class LodgeController {
         return lodgeService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
+        return lodgeService.search(name, letter);
+    }
+
+    @GetMapping("/lodge/{id}")
+    public Lodge findLodge(@PathVariable Integer id){
+        return lodgeService.findById(id);
+    }
+
+    @GetMapping("/lodgeRules/{id}")
+    public List<String> findLodgeRules(@PathVariable Integer id){
+        return lodgeService.findLodgeRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
+        lodgeService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
+        lodgeService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/updateLodge/{id}")
+    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
+        lodgeService.updateLodge(lodge, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/letters")
+    public List<String> getFirstLetters() {
+        return lodgeService.getFirstLetters();
+    }
+
     private Location addLocation(String address, String city, String country){
         Location location = new Location();
         location.setAddress(address);
@@ -126,33 +165,4 @@ public class LodgeController {
         bedroom4.setLodge(lodge);
         bedroomService.save(bedroom4);
     }
-
-    @GetMapping("/lodge/{id}")
-    public Lodge findLodge(@PathVariable Integer id){
-        return lodgeService.findById(id);
-    }
-
-    @GetMapping("/lodgeRules/{id}")
-    public List<String> findLodgeRules(@PathVariable Integer id){
-        return lodgeService.findLodgeRules(id);
-    }
-
-    @PutMapping("/addRule/{id}")
-    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
-        lodgeService.addRule(rule, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/deleteRule/{id}/{index}")
-    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
-        lodgeService.deleteRule(index, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PutMapping("/updateLodge/{id}")
-    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
-        lodgeService.updateLodge(lodge, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 }

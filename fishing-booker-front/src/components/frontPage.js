@@ -41,7 +41,6 @@ import Explore from "./explore";
 import Adventures from "./client/adventures";
 import Lodges from "./client/lodges";
 import Ships from "./client/ships";
-import Search from "./search";
 import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
 
@@ -154,11 +153,19 @@ const FrontPage = () => {
                 }
 
                 {(role==="ROLE_CLIENT") &&
-                    <Switch>
-                        <Route exact path="/"><Homepage/></Route>
-                        <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/changePassword/:id"><ChangePassword/></Route>
-                    </Switch>
+                    <div className="row">
+                        <Switch>
+                            <Route exact path="/"><Homepage/></Route>
+                            <Route path="/profile"><UserProfilPage/></Route>
+                            <Route path="/changePassword/:id"><ChangePassword/></Route>
+                            <Route path="/explore"><Explore/></Route>
+                            <div className="row-search">
+                                <Route path="/adventures"><Adventures/></Route>
+                                <Route path="/lodges"><Lodges/></Route>
+                                <Route path="/ships"><Ships/></Route>
+                            </div>
+                        </Switch>
+                    </div>
                 }
 
                 {role === "ROLE_SHIPOWNER" &&
