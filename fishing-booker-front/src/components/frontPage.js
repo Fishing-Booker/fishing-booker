@@ -45,6 +45,7 @@ import Search from "./search";
 import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
 import ShipNavigationEquipment from "./ship/shipNavigationEq";
+import ShipFishingEquipment from "./ship/shipFishingEq";
 
 
 const FrontPage = () => {
@@ -170,6 +171,7 @@ const FrontPage = () => {
                         <Route path="/ship/:shipId"><ShipProfile/></Route>
                         <Route path="/shipRules/:shipId"><ShipRules/></Route>
                         <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
+                        <Route path="/shipFishEq/:shipId"><ShipFishingEquipment/></Route>
                     </Switch>
                 }
                 

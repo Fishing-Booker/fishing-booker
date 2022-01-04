@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface INavigationEquipmentRepository extends JpaRepository<NavigationEquipment, Integer> {
 
-    @Query("SELECT e FROM NavigationEquipment e WHERE e.ship.id=?1 and e.isDeleted=false")
+    @Query("SELECT e FROM NavigationEquipment e WHERE e.ship.id=?1")
     List<NavigationEquipment> findShipNavigationEquipment(Integer shipId);
 
-    @Query("update NavigationEquipment e set e.isDeleted=true WHERE e.id=?1 and e.ship.id=?2")
+    @Query("DELETE FROM NavigationEquipment e WHERE e.id=?1 and e.ship.id=?2")
     @Modifying
     @Transactional
     void deleteNavigationEquipment(Integer equipmentId, Integer shipId);

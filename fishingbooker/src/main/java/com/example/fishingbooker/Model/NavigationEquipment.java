@@ -18,9 +18,6 @@ public class NavigationEquipment {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
-
     public NavigationEquipment() {
     }
 
@@ -28,7 +25,6 @@ public class NavigationEquipment {
         this.id = id;
         this.ship = ship;
         this.name = name;
-        this.isDeleted = false;
     }
 
     public Integer getId() {
@@ -53,13 +49,5 @@ public class NavigationEquipment {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 }

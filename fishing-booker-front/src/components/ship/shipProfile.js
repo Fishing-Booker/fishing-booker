@@ -81,7 +81,7 @@ const ShipProfile = () => {
             <div className="left">
                 <h4>SHIP PROFILE</h4><br/>
                 <Link className="sidebar-link" to={"/shipNavEq/" + shipId}>Navigation equipment</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgeImages/"}>Fishing equipment</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipFishEq/" + shipId}>Fishing equipment</Link><br/><br/>
                 <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/lodgePricelist/"}>Pricelist</Link><br/><br/>

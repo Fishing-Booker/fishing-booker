@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.NavigationEquipmentDTO;
+import com.example.fishingbooker.DTO.EquipmentDTO;
 import com.example.fishingbooker.IRepository.INavigationEquipmentRepository;
 import com.example.fishingbooker.IService.INavigationEquipmentService;
 import com.example.fishingbooker.IService.IShipService;
@@ -35,11 +35,10 @@ public class NavigationEquipmentService implements INavigationEquipmentService {
     }
 
     @Override
-    public void addNavigationEquipment(NavigationEquipmentDTO navEquipment, Integer shipId) {
+    public void addNavigationEquipment(EquipmentDTO navEquipment, Integer shipId) {
         NavigationEquipment navigationEquipment = new NavigationEquipment();
         navigationEquipment.setName(navEquipment.getEquipment());
         navigationEquipment.setShip(getShip(shipId, navEquipment.getOwner()));
-        navigationEquipment.setIsDeleted(false);
         navigationEquipmentRepository.save(navigationEquipment);
     }
 
@@ -51,7 +50,6 @@ public class NavigationEquipmentService implements INavigationEquipmentService {
     private Ship getShip(Integer shipId, Integer ownerId){
         Ship ship = shipService.findById(shipId);
         ship.setOwner(userService.findUserById(ownerId));
-        System.out.println(ship.getOwner().getId());
         ship.setImages(new ArrayList<>());
         return ship;
     }

@@ -1,14 +1,14 @@
 package com.example.fishingbooker.DTO;
 
-public class NavigationEquipmentDTO {
+public class EquipmentDTO {
 
     private Integer owner;
     private String equipment;
 
-    public NavigationEquipmentDTO() {
+    public EquipmentDTO() {
     }
 
-    public NavigationEquipmentDTO(Integer owner, String equipment) {
+    public EquipmentDTO(Integer owner, String equipment) {
         this.owner = owner;
         this.equipment = equipment;
     }

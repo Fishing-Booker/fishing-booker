@@ -6,13 +6,13 @@ import deleteImg from '../../images/trash.png';
 import addImg from '../../images/plus.png'
 import axios from 'axios';
 
-const ShipNavigationEquipment = () => {
+const ShipFishingEquipment = () => {
 
     const {shipId} = useParams();
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
-    const [navEq, setNavEq] = useState([]);
+    const [fishEq, setFishEq] = useState([]);
     const [editEq, setEditEq] = useState(false);
     const [user, setUser] = useState([]);
 
@@ -30,35 +30,35 @@ const ShipNavigationEquipment = () => {
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data);
-                axios.get(SERVER_URL + '/navEquipment/shipNavigationEquipment/' + shipId, {headers: headers})
+                axios.get(SERVER_URL + '/fishEquipment/shipFishingEquipment/' + shipId, {headers: headers})
                 .then(response => {
-                    setNavEq(response.data); 
+                    setFishEq(response.data); 
                     console.log(response.data)
             });
         })
     }, [])
 
-    const addNavEq = () => {
+    const addFishEq = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         console.log(equipment);
-        axios.put(SERVER_URL + '/navEquipment/addNavigationEquipment/' + shipId, eq, {headers: headers})
+        axios.put(SERVER_URL + '/fishEquipment/addFishingEquipment/' + shipId, eq, {headers: headers})
         .then(response => {
             window.location.reload();
         })
     }
 
-    const deleteNavEq = (eqId) => {
+    const deleteFishEq = (eqId) => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        axios.delete(SERVER_URL + '/navEquipment/deleteNavigationEquipment/' + shipId + '/' + eqId, {headers: headers})
+        axios.delete(SERVER_URL + '/fishEquipment/deleteFishingEquipment/' + shipId + '/' + eqId, {headers: headers})
         .then(response => {
             window.location.reload();
         })
     }
 
-    const allNavEq = navEq.length ? (
-        navEq.map(eq => {
+    const allFishEq = fishEq.length ? (
+        fishEq.map(eq => {
             return (
                 <div key={eq.id}>
                     * {eq.name}
@@ -68,16 +68,16 @@ const ShipNavigationEquipment = () => {
         })
     ) : (
         <div>
-            Add navigation equipment for your ship!
+            Add fishing equipment for your ship!
         </div>
     );
 
-    const editNavEqForm = navEq.length ? (
-        navEq.map((eq) => {
+    const editFishEqForm = fishEq.length ? (
+        fishEq.map((eq) => {
             return (
                 <div key={eq.id}>
                     * {eq.name} 
-                    <button className='rules-btn' onClick={() => deleteNavEq(eq.id)} >
+                    <button className='rules-btn' onClick={() => deleteFishEq(eq.id)} >
                         <img src={deleteImg} />
                     </button>
                     <br/><br/>
@@ -88,12 +88,12 @@ const ShipNavigationEquipment = () => {
         <div></div>
     );
 
-    const navEqForm = editEq ? (
+    const fishEqForm = editEq ? (
             <div className="info-data">
-                { editNavEqForm }
-                <p style={{color:'black', fontSize: 'small', fontStyle: 'italic'}}>Add new navigation equipment</p>
+                { editFishEqForm }
+                <p style={{color:'black', fontSize: 'small', fontStyle: 'italic'}}>Add new fishing equipment</p>
                 <input className='rules-input' type="text" onChange={(e) => {setEquipment(e.target.value)}} value={equipment}/> 
-                <button className='rules-btn' onClick={() => addNavEq()}>
+                <button className='rules-btn' onClick={() => addFishEq()}>
                     <img src={addImg} />
                 </button><br/><br/>
                 <button className="edit-profile-btn" onClick={() => setEditEq(false)}>
@@ -103,7 +103,7 @@ const ShipNavigationEquipment = () => {
         ) : (
             <div>
                 <div className="rules-info-data">
-                    {allNavEq}
+                    {allFishEq}
                 </div> <br/> <br/>
                 <button className="edit-profile-btn" onClick={() => setEditEq(true)}>Edit equipment</button>
             </div>
@@ -123,8 +123,8 @@ const ShipNavigationEquipment = () => {
             </div>
             <div className="right">
                 <div className="info">
-                    <h3>SHIP NAVIGATION EQUIPMENT</h3>
-                    { navEqForm }
+                    <h3>SHIP FISHING EQUIPMENT</h3>
+                    { fishEqForm }
                 </div>
             </div>
         </div>
@@ -132,4 +132,4 @@ const ShipNavigationEquipment = () => {
 
 }
 
-export default ShipNavigationEquipment;
+export default ShipFishingEquipment;
