@@ -18,9 +18,6 @@ public class FishingEquipment {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
-
     public FishingEquipment() {
     }
 
@@ -28,7 +25,6 @@ public class FishingEquipment {
         this.id = id;
         this.reservationEntity = reservationEntity;
         this.name = name;
-        this.isDeleted = false;
     }
 
     public Integer getId() {
@@ -53,13 +49,5 @@ public class FishingEquipment {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
     }
 }

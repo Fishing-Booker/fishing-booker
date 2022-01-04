@@ -18,4 +18,7 @@ public interface IReservationEntityService {
 
     Integer setId();
 
+    ReservationEntity findEntityById(Integer entityId);
+
+
 }

@@ -37,6 +37,19 @@ import AdventureActions from "./instructor/adventureActions";
 import AdventureReservationCalendar from "./instructor/adventureReservationCalendar";
 import InstructorHomepage from "./instructor/instructorHomepage";
 import InstructorsCalendar from "./instructor/instructorsCalendar";
+import ShipOwnerHomePage from "./ship/shipOwnerHomePage";
+import AddShipForm from "./ship/addShipForm";
+import Explore from "./explore";
+import Adventures from "./client/adventures";
+import Lodges from "./client/lodges";
+import Ships from "./client/ships";
+import Search from "./search";
+import ShipProfile from "./ship/shipProfile";
+import ShipRules from "./ship/shipRules";
+import ShipNavigationEquipment from "./ship/shipNavigationEq";
+import ShipFishingEquipment from "./ship/shipFishingEq";
+import Reservation from "./client/reservations";
+import ReservationHistory from "./client/reservationHistory";
 
 
 const FrontPage = () => {
@@ -76,12 +89,17 @@ const FrontPage = () => {
                 {!isLogged &&
                     <div className="row">
                     <Switch>
-                        <Route exact path="/"><Homepage/><Entities/></Route>
+                        <Route exact path="/"><Homepage/></Route>
                         <Route path="/register/"><Homepage/><RegistrationType/></Route>
                         <Route path="/registrationForm/:registrationType"><Homepage/><RegistrationForm/></Route>
                         <Route path="/login"><Homepage/><LoginForm/></Route>
                         <Route path="/verify/:code?"><Verification/></Route>
-                        
+                        <Route path="/explore"><Explore/></Route>
+                        <div className="row-search">
+                            <Route path="/adventures"><Adventures/></Route>
+                            <Route path="/lodges"><Lodges/></Route>
+                            <Route path="/ships"><Ships/></Route>
+                        </div>
                     </Switch>
                 </div> }
 
@@ -142,17 +160,33 @@ const FrontPage = () => {
                     </Switch>
                 }
 
-                {isLogged && (role==="ROLE_CLIENT") &&
-                    <Switch>
-                        <Route exact path="/"><Homepage/></Route>
-                        <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/changePassword/:id"><ChangePassword/></Route>
-                    </Switch>
+                {(role==="ROLE_CLIENT") &&
+                    <div className="row">
+                        <Switch>
+                            <Route exact path="/"><Homepage/></Route>
+                            <Route path="/profile"><UserProfilPage/></Route>
+                            <Route path="/changePassword/:id"><ChangePassword/></Route>
+                            <Route path="/explore"><Explore/></Route>
+                            <Route path="/client-reservations"><Reservation/></Route>
+                            <Route path="/reservation-history"><ReservationHistory/></Route>
+                            <div className="row-search">
+                                <Route path="/adventures"><Adventures/></Route>
+                                <Route path="/lodges"><Lodges/></Route>
+                                <Route path="/ships"><Ships/></Route>
+                            </div>
+                        </Switch>
+                    </div>
                 }
 
                 {isLogged && role === "ROLE_SHIPOWNER" &&
                     <Switch>
+                        <Route exact path="/"><ShipOwnerHomePage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
+                        <Route path="/changePassword/:id"><ChangePassword/></Route>
+                        <Route path="/ship/:shipId"><ShipProfile/></Route>
+                        <Route path="/shipRules/:shipId"><ShipRules/></Route>
+                        <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
+                        <Route path="/shipFishEq/:shipId"><ShipFishingEquipment/></Route>
                     </Switch>
                 }
                 

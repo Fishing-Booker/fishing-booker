@@ -1,6 +1,7 @@
 package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Model.Lodge;
 
 import java.util.List;
@@ -20,7 +21,13 @@ public interface ILodgeService {
 
     void addRule(String rule, Integer lodgeId);
 
-    void deleteRule(Integer RuleIndex, Integer lodgeId);
+    void deleteRule(Integer ruleIndex, Integer lodgeId);
 
     void updateLodge(UpdateLodgeDTO lodgeDTO, Integer lodgeId);
+
+    List<LodgeInfoDTO> getAll();
+
+    List<LodgeInfoDTO> search(String name, String letter);
+    
+    List<String> getFirstLetters();
 }

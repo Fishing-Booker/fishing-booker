@@ -5,6 +5,7 @@ import com.example.fishingbooker.Model.Lodge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -34,5 +35,15 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Modifying
     @Transactional
     void updateLodge(String name, String description, Integer lodgeId);
+
+    @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '') " +
+            "AND (LOWER(l.name) LIKE :letter% OR LOWER(l.name) LIKE '') ORDER BY l.id")
+    List<Lodge> search(@Param("name") String name, @Param("letter") String letter);
+
+    @Query("SELECT DISTINCT SUBSTRING(l.name, 1, 1) AS letters FROM Lodge l")
+    List<String> getFirstLetters();
+
+    @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false")
+    List<Lodge> getAll();
 
 }

@@ -2,6 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.LodgeDTO;
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -86,39 +88,14 @@ public class LodgeController {
         return new ResponseEntity<>(HttpStatus.CREATED);//201
     }
 
-    private Location addLocation(String address, String city, String country){
-        Location location = new Location();
-        location.setAddress(address);
-        location.setCity(city);
-        location.setCountry(country);
-
-        return location = locationService.save(location);
+    @GetMapping()
+    public List<LodgeInfoDTO> getAll() {
+        return lodgeService.getAll();
     }
 
-    private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){
-        Bedroom bedroom1 = new Bedroom();
-        bedroom1.setBedroomType(BedroomType.oneBed);
-        bedroom1.setRoomNumber(Integer.parseInt(oneBed));
-        bedroom1.setLodge(lodge);
-        bedroomService.save(bedroom1);
-
-        Bedroom bedroom2 = new Bedroom();
-        bedroom2.setBedroomType(BedroomType.twoBed);
-        bedroom2.setRoomNumber(Integer.parseInt(twoBed));
-        bedroom2.setLodge(lodge);
-        bedroomService.save(bedroom2);
-
-        Bedroom bedroom3 = new Bedroom();
-        bedroom3.setBedroomType(BedroomType.threeBed);
-        bedroom3.setRoomNumber(Integer.parseInt(threeBed));
-        bedroom3.setLodge(lodge);
-        bedroomService.save(bedroom3);
-
-        Bedroom bedroom4 = new Bedroom();
-        bedroom4.setBedroomType(BedroomType.fourBed);
-        bedroom4.setRoomNumber(Integer.parseInt(fourBed));
-        bedroom4.setLodge(lodge);
-        bedroomService.save(bedroom4);
+    @GetMapping("/search")
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
+        return lodgeService.search(name, letter);
     }
 
     @GetMapping("/lodge/{id}")
@@ -149,4 +126,43 @@ public class LodgeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/letters")
+    public List<String> getFirstLetters() {
+        return lodgeService.getFirstLetters();
+    }
+
+    private Location addLocation(String address, String city, String country){
+        Location location = new Location();
+        location.setAddress(address);
+        location.setCity(city);
+        location.setCountry(country);
+
+        return locationService.save(location);
+    }
+
+    private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){
+        Bedroom bedroom1 = new Bedroom();
+        bedroom1.setBedroomType(BedroomType.oneBed);
+        bedroom1.setRoomNumber(Integer.parseInt(oneBed));
+        bedroom1.setLodge(lodge);
+        bedroomService.save(bedroom1);
+
+        Bedroom bedroom2 = new Bedroom();
+        bedroom2.setBedroomType(BedroomType.twoBed);
+        bedroom2.setRoomNumber(Integer.parseInt(twoBed));
+        bedroom2.setLodge(lodge);
+        bedroomService.save(bedroom2);
+
+        Bedroom bedroom3 = new Bedroom();
+        bedroom3.setBedroomType(BedroomType.threeBed);
+        bedroom3.setRoomNumber(Integer.parseInt(threeBed));
+        bedroom3.setLodge(lodge);
+        bedroomService.save(bedroom3);
+
+        Bedroom bedroom4 = new Bedroom();
+        bedroom4.setBedroomType(BedroomType.fourBed);
+        bedroom4.setRoomNumber(Integer.parseInt(fourBed));
+        bedroom4.setLodge(lodge);
+        bedroomService.save(bedroom4);
+    }
 }
