@@ -61,6 +61,12 @@
   margin-top: 5%;
 }
 
+.adding-wrapper .right .info_data .data2{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 5%;
+  }
+
 .deleting-wrapper .right .info_data .data{
     width: 100%;
     margin-left: 35%;

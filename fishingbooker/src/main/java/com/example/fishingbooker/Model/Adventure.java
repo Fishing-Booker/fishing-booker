@@ -40,4 +40,5 @@ public class Adventure extends ReservationEntity {
     public void setMaxPersons(Integer maxPersons) {
         this.maxPersons = maxPersons;
     }
+
 }

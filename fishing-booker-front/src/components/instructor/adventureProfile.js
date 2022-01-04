@@ -4,7 +4,6 @@ import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import axios from 'axios';
 const AdventureProfile = () => {
-    const {lodgeId} = useParams();
 
     const SERVER_URL = process.env.REACT_APP_API; 
 

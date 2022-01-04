@@ -35,6 +35,8 @@ import AdventureRules from "./instructor/adventureRules";
 import AdventurePricelist from "./instructor/adventurePricelist";
 import AdventureActions from "./instructor/adventureActions";
 import AdventureReservationCalendar from "./instructor/adventureReservationCalendar";
+import InstructorHomepage from "./instructor/instructorHomepage";
+import InstructorsCalendar from "./instructor/instructorsCalendar";
 
 
 const FrontPage = () => {
@@ -113,7 +115,7 @@ const FrontPage = () => {
 
                 }
 
-                {(role==="ROLE_ADMIN" || role === "ROLE_DEFADMIN") && 
+                {isLogged && (role==="ROLE_ADMIN" || role === "ROLE_DEFADMIN") && 
                     <Switch>
                         <Route exact path="/"></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
@@ -124,9 +126,9 @@ const FrontPage = () => {
                     </Switch>
                 }
 
-                {role==="ROLE_INSTRUCTOR" && 
+                {isLogged && role==="ROLE_INSTRUCTOR" && 
                     <Switch>
-                        <Route exact path="/"></Route>
+                        <Route exact path="/"><InstructorHomepage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/adventureProfile/:id"><AdventureProfile/></Route>
@@ -135,11 +137,12 @@ const FrontPage = () => {
                         <Route path="/adventurePricelist/:adventureId"><AdventurePricelist/></Route>
                         <Route path="/adventureActions/:adventureId"><AdventureActions/></Route>
                         <Route path="/adventureReservationCalendar/:adventureId"><AdventureReservationCalendar/></Route>
+                        <Route path="/instructorsCalendar"><InstructorsCalendar/></Route>
 
                     </Switch>
                 }
 
-                {(role==="ROLE_CLIENT") &&
+                {isLogged && (role==="ROLE_CLIENT") &&
                     <Switch>
                         <Route exact path="/"><Homepage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
@@ -147,7 +150,7 @@ const FrontPage = () => {
                     </Switch>
                 }
 
-                {role === "ROLE_SHIPOWNER" &&
+                {isLogged && role === "ROLE_SHIPOWNER" &&
                     <Switch>
                         <Route path="/profile"><UserProfilPage/></Route>
                     </Switch>

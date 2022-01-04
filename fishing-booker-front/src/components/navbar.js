@@ -48,10 +48,9 @@ const Navbar = () => {
                         {isLogged ? (<li><Link to="/profile">MY PROFILE</Link></li>) : null}
                         {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
                         {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
-                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/homepage">HOMEPAGE</Link></li>}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/adventureProfile/${user.id}`}>ADVENTURES</Link></li>}
-                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">RESERVATIONS</Link></li>}
-                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to="/reservations">MY CALENDAR</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/reservations/${user.id}`}>RESERVATIONS</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/instructorsCalendar`}>MY CALENDAR</Link></li>}
                         {userRole==="lodgeOwner" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/accountRequests">ACCOUNT REQUESTS</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/deleteRequests">DELETE REQUESTS</Link></li>}
