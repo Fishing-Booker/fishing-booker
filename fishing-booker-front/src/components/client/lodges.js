@@ -7,17 +7,27 @@ import { Link } from "react-router-dom";
 const Lodges = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [lodges, setLodges] = useState([])
+    const [isLogged, setIsLogged] = useState(false);
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('');
+    const [url, setUrl] = useState(SERVER_URL + '/lodges');
 
     useEffect(() => {
-        axios.get(SERVER_URL + '/lodges')
+        let token = localStorage.getItem('jwtToken');
+        if (token != null) {
+            setIsLogged(true)
+        } else {
+            setIsLogged(false)
+        }
+
+        axios.get(url)
             .then(response => {setLodges(response.data); console.log(response.data);})
-    }, [])
+    }, [url])
 
     const renderStars = (grade) => {
         let stars = []
         for (var i = 0; i < parseInt(grade); i++) {
-            console.log(grade)
-            stars.push(<img src={star}/>)
+            stars.push(<img key={i} src={star}/>)
         }
         return stars;
     }
@@ -26,13 +36,13 @@ const Lodges = () => {
         lodges.map((lodge, index) => {
             return(
                 <div className="col" key={index}>
-                    <div className="card entity">
+                    <div className="card lodge">
                         <div className="info"> <br></br>
                             <p className="entity-info name">{lodge.name} <div className="stars">{renderStars(lodge.averageGrade)} </div></p>
                             <p className="entity-info location">{lodge.location.address}, {lodge.location.city}, {lodge.location.country}</p>
                             <p className="entity-info description">{lodge.description}</p>
 
-                            <Link className="reservation-link">Make reservation</Link>
+                            {isLogged && <Link className="reservation-link">Make reservation</Link>}
                         </div>
                     </div>
                 </div>
@@ -42,7 +52,21 @@ const Lodges = () => {
 
     return (
         <div>
-            <Search/> <br></br>
+            <div className="card search">
+                <input className="search-input" type="search" placeholder="  Enter entity name" value={name} 
+                    onChange={(e) => {
+                        console.log(e.target.value)
+                    setName(e.target.value);
+                    setUrl(SERVER_URL + '/lodges/search?name=' + name);
+                    if (e.target.value === '') {
+                        setUrl(SERVER_URL + '/lodges');
+                    }
+                    }}></input>
+                <input className="search-input" type="search" placeholder="  Enter entity location"></input>
+                <input className="search-input" type="date"></input>
+                <input className="search-input btn" type="submit" value="Search"></input>
+            </div>
+            <br></br>
             <div className="row-entities">{allLodges}</div>
             
         </div>

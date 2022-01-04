@@ -92,6 +92,39 @@ public class LodgeController {
         return lodgeService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam String name) {
+        return lodgeService.search(name);
+    }
+
+    @GetMapping("/lodge/{id}")
+    public Lodge findLodge(@PathVariable Integer id){
+        return lodgeService.findById(id);
+    }
+
+    @GetMapping("/lodgeRules/{id}")
+    public List<String> findLodgeRules(@PathVariable Integer id){
+        return lodgeService.findLodgeRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
+        lodgeService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
+        lodgeService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/updateLodge/{id}")
+    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
+        lodgeService.updateLodge(lodge, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private Location addLocation(String address, String city, String country){
         Location location = new Location();
         location.setAddress(address);
@@ -126,33 +159,4 @@ public class LodgeController {
         bedroom4.setLodge(lodge);
         bedroomService.save(bedroom4);
     }
-
-    @GetMapping("/lodge/{id}")
-    public Lodge findLodge(@PathVariable Integer id){
-        return lodgeService.findById(id);
-    }
-
-    @GetMapping("/lodgeRules/{id}")
-    public List<String> findLodgeRules(@PathVariable Integer id){
-        return lodgeService.findLodgeRules(id);
-    }
-
-    @PutMapping("/addRule/{id}")
-    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
-        lodgeService.addRule(rule, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/deleteRule/{id}/{index}")
-    public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
-        lodgeService.deleteRule(index, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PutMapping("/updateLodge/{id}")
-    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
-        lodgeService.updateLodge(lodge, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 }

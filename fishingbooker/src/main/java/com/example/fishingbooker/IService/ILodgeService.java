@@ -25,4 +25,5 @@ public interface ILodgeService {
 
     void updateLodge(UpdateLodgeDTO lodgeDTO, Integer lodgeId);
     List<LodgeInfoDTO> getAll();
+    List<LodgeInfoDTO> search(String name);
 }

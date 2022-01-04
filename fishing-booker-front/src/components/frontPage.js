@@ -154,11 +154,19 @@ const FrontPage = () => {
                 }
 
                 {(role==="ROLE_CLIENT") &&
-                    <Switch>
-                        <Route exact path="/"><Homepage/></Route>
-                        <Route path="/profile"><UserProfilPage/></Route>
-                        <Route path="/changePassword/:id"><ChangePassword/></Route>
-                    </Switch>
+                    <div className="row">
+                        <Switch>
+                            <Route exact path="/"><Homepage/></Route>
+                            <Route path="/profile"><UserProfilPage/></Route>
+                            <Route path="/changePassword/:id"><ChangePassword/></Route>
+                            <Route path="/explore"><Explore/></Route>
+                            <div className="row-search">
+                                <Route path="/adventures"><Adventures/></Route>
+                                <Route path="/lodges"><Lodges/></Route>
+                                <Route path="/ships"><Ships/></Route>
+                            </div>
+                        </Switch>
+                    </div>
                 }
 
                 {role === "ROLE_SHIPOWNER" &&
