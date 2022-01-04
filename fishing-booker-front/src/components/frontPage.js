@@ -41,7 +41,6 @@ import Explore from "./explore";
 import Adventures from "./client/adventures";
 import Lodges from "./client/lodges";
 import Ships from "./client/ships";
-import Search from "./search";
 import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
 

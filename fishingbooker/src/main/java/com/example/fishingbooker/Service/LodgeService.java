@@ -123,8 +123,8 @@ public class LodgeService implements ILodgeService {
     }
 
     @Override
-    public List<LodgeInfoDTO> search(String name) {
-        List<Lodge> lodges = lodgeRepository.search(name);
+    public List<LodgeInfoDTO> search(String name, String letter) {
+        List<Lodge> lodges = lodgeRepository.search(name, letter);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
 
         for (Lodge lodge : lodges) {
@@ -141,6 +141,11 @@ public class LodgeService implements ILodgeService {
             lodgesDTO.add(dto);
         }
         return lodgesDTO;
+    }
+
+    @Override
+    public List<String> getFirstLetters() {
+        return lodgeRepository.getFirstLetters();
     }
 
     private String setNewRules(String[] rules){

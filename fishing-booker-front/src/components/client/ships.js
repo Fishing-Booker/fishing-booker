@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Search from "../search";
 import { Link } from "react-router-dom";
 import star from "../../images/star.png";
 
@@ -50,7 +49,7 @@ const Ships = () => {
 
     return (
         <div>
-            <Search/> <br></br>
+            <br></br>
             <div className="row-entities">{allShips}</div>
             
         </div>

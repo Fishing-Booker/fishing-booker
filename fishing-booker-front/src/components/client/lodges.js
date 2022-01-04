@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Search from "../search";
 import star from "../../images/star.png";
 import { Link } from "react-router-dom";
+import Letters from "../letters";
 
 const Lodges = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -10,6 +10,7 @@ const Lodges = () => {
     const [isLogged, setIsLogged] = useState(false);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
+    const [letters, setLetters] = useState([])
     const [url, setUrl] = useState(SERVER_URL + '/lodges');
 
     useEffect(() => {
@@ -19,6 +20,9 @@ const Lodges = () => {
         } else {
             setIsLogged(false)
         }
+
+        axios.get(SERVER_URL + "/lodges/letters")
+            .then(response => setLetters(response.data));
 
         axios.get(url)
             .then(response => {setLodges(response.data); console.log(response.data);})
@@ -30,6 +34,15 @@ const Lodges = () => {
             stars.push(<img key={i} src={star}/>)
         }
         return stars;
+    }
+
+    const handleCallback = (childData) => {
+        if (childData === '') {
+            setUrl(SERVER_URL + '/lodges');
+        } else {
+            setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData)
+        }
+        
     }
 
     const allLodges = lodges.length ? (
@@ -57,17 +70,18 @@ const Lodges = () => {
                     onChange={(e) => {
                         console.log(e.target.value)
                     setName(e.target.value);
-                    setUrl(SERVER_URL + '/lodges/search?name=' + name);
+                    setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=");
                     if (e.target.value === '') {
                         setUrl(SERVER_URL + '/lodges');
                     }
                     }}></input>
-                <input className="search-input" type="search" placeholder="  Enter entity location"></input>
+                <input className="search-input" type="search" placeholder="  Enter entity location" value={location}></input>
                 <input className="search-input" type="date"></input>
                 <input className="search-input btn" type="submit" value="Search"></input>
             </div>
-            <br></br>
+            <Letters letters={letters} parentCallback={handleCallback}/>
             <div className="row-entities">{allLodges}</div>
+            
             
         </div>
     )

@@ -36,6 +36,10 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Transactional
     void updateLodge(String name, String description, Integer lodgeId);
 
-    @Query("SELECT l FROM Lodge l WHERE LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '' ")
-    List<Lodge> search(@Param("name") String name);
+    @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '') " +
+            "AND (LOWER(l.name) LIKE :letter% OR LOWER(l.name) LIKE '') ORDER BY l.id")
+    List<Lodge> search(@Param("name") String name, @Param("letter") String letter);
+
+    @Query("SELECT DISTINCT SUBSTRING(l.name, 1, 1) AS letters FROM Lodge l")
+    List<String> getFirstLetters();
 }

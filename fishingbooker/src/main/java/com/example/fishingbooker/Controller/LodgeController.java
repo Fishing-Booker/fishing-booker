@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -93,8 +94,8 @@ public class LodgeController {
     }
 
     @GetMapping("/search")
-    public List<LodgeInfoDTO> getSearchResults(@RequestParam String name) {
-        return lodgeService.search(name);
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
+        return lodgeService.search(name, letter);
     }
 
     @GetMapping("/lodge/{id}")
@@ -123,6 +124,11 @@ public class LodgeController {
     public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
         lodgeService.updateLodge(lodge, id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/letters")
+    public List<String> getFirstLetters() {
+        return lodgeService.getFirstLetters();
     }
 
     private Location addLocation(String address, String city, String country){

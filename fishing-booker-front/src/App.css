@@ -305,4 +305,66 @@ h5 {
 	cursor: pointer;
 }
 
+/* letters filter */
+.alpha {
+	width: 100%;
+	float: left;
+  }
+  .alpha ul {
+	margin-left: 8px;
+	overflow: hidden;
+  }
+  .alpha li {
+	float: left;
+	margin: 0 5px 15px 0;
+  }
+  .alpha li.last {
+	margin-right: 0;
+  }
+  .alpha li.active a,
+  .alpha li:hover a {
+	color: #fff;
+	background: #0c326b;
+	border-color: #0c326b;
+  }
+  .alpha li.disabled a,
+  .alpha li.disabled:hover a {
+	color: silver;
+	background: white;
+	border-color: white;
+	cursor: default;
+  }
+  .alpha a {
+	text-transform: uppercase;
+	background: white;
+	border: 1px solid white;
+	display: block;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	font-size: 14px;
+	line-height: 24px;
+	font-weight: bold;
+	color: #0c326b;
+	text-decoration: none;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+
+  .alpha .reset {
+	  margin-left: 51%;
+	  width: 60px;
+	  height: 27px;
+	  background: #7d1515;
+	  border-color: #7d1515;
+	  color: #fff;
+	  font-weight: 500;
+	  text-transform: lowercase;
+  }
+
+  .filter-letters {
+	  margin-left: 18%;
+	  margin-bottom: 5%;
+  }
+
 
