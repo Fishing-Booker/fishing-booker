@@ -44,6 +44,7 @@ import Ships from "./client/ships";
 import Search from "./search";
 import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
+import ShipNavigationEquipment from "./ship/shipNavigationEq";
 
 
 const FrontPage = () => {
@@ -168,6 +169,7 @@ const FrontPage = () => {
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/ship/:shipId"><ShipProfile/></Route>
                         <Route path="/shipRules/:shipId"><ShipRules/></Route>
+                        <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
                     </Switch>
                 }
                 

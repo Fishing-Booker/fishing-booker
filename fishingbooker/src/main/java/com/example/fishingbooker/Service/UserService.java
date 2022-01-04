@@ -40,20 +40,17 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public Optional<User> findById(Integer id) {
-        Optional<User> user = this.userRepository.findById(id);
-        return user;
+        return this.userRepository.findById(id);
     }
 
     @Override
     public User findByUsername(String username) {
-        User user = this.userRepository.findByUsername(username);
-        return user;
+        return this.userRepository.findByUsername(username);
     }
 
     @Override
     public List<User> findAll() {
-        List<User> users = this.userRepository.findAll();
-        return users;
+        return this.userRepository.findAll();
     }
 
     @Override
