@@ -3,6 +3,7 @@ package com.example.fishingbooker.Controller;
 import com.example.fishingbooker.DTO.ShipDTO;
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IShipService;
@@ -124,4 +125,13 @@ public class ShipController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping
+    public List<ShipInfoDTO> getAll() {
+        return shipService.getAll();
+    }
+
+    @GetMapping("/letters")
+    public List<String> getFirstLetters() {
+        return shipService.getFirstLetters();
+    }
 }

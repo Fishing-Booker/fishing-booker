@@ -1,6 +1,9 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.lodge.LocationDTO;
+import com.example.fishingbooker.DTO.lodge.OwnerDTO;
+import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IRepository.IShipRepository;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
@@ -84,6 +87,34 @@ public class ShipService implements IShipService {
         String newRules = setNewRules(rules);
         newRules = correctRules(newRules);
         shipRepository.addRule(newRules, lodgeId);
+    }
+
+    @Override
+    public List<ShipInfoDTO> getAll() {
+        List<Ship> ships = shipRepository.getAll();
+        List<ShipInfoDTO> shipsDTO = new ArrayList<>();
+
+        for (Ship ship : ships) {
+            ShipInfoDTO dto = new ShipInfoDTO();
+            dto.setName(ship.getName());
+            dto.setDescription(ship.getDescription());
+            dto.setAverageGrade(ship.getAverageGrade());
+            dto.setRules(ship.getRules());
+            dto.setCancelConditions(ship.getCancelConditions());
+            dto.setCapacity(ship.getCapacity());
+            dto.setLength(ship.getLength());
+            dto.setMaxSpeed(ship.getMaxSpeed());
+            dto.setLocation(new LocationDTO(ship.getLocation().getAddress(), ship.getLocation().getCity(), ship.getLocation().getCountry()));
+            dto.setImages(null);
+            dto.setOwner(new OwnerDTO(ship.getOwner().getName(), ship.getOwner().getSurname()));
+            shipsDTO.add(dto);
+        }
+        return shipsDTO;
+    }
+
+    @Override
+    public List<String> getFirstLetters() {
+        return shipRepository.getFirstLetters();
     }
 
     private String setNewRules(String[] rules){

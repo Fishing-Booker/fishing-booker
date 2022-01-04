@@ -82,7 +82,7 @@
 	padding-left: 8%;
 	padding-right: 8%;
 	box-sizing: border-box;
-	position: fixed;
+	position: absolute;
 	overflow-y: scroll;
 }
 
@@ -176,6 +176,7 @@ p {
 	background-position: center;
 	background-size: cover;
 	transition: transform 0.5s;
+	position: relative;
 }
 
 .card1 {
@@ -210,6 +211,7 @@ h5 {
 
 .row-entities{
 	margin-left: 16%;
+	margin-top: 1%;
 }
 
 .lodge {
@@ -309,32 +311,38 @@ h5 {
 .alpha {
 	width: 100%;
 	float: left;
-  }
-  .alpha ul {
+}
+
+.alpha ul {
 	margin-left: 8px;
 	overflow: hidden;
-  }
-  .alpha li {
+}
+
+.alpha li {
 	float: left;
 	margin: 0 5px 15px 0;
-  }
-  .alpha li.last {
+}
+
+.alpha li.last {
 	margin-right: 0;
-  }
-  .alpha li.active a,
-  .alpha li:hover a {
+}
+
+.alpha li.active a,
+.alpha li:hover a {
 	color: #fff;
 	background: #0c326b;
 	border-color: #0c326b;
-  }
-  .alpha li.disabled a,
-  .alpha li.disabled:hover a {
+}
+
+.alpha li.disabled a,
+.alpha li.disabled:hover a {
 	color: silver;
 	background: white;
 	border-color: white;
 	cursor: default;
-  }
-  .alpha a {
+}
+
+.alpha a {
 	text-transform: uppercase;
 	background: white;
 	border: 1px solid white;
@@ -349,9 +357,9 @@ h5 {
 	text-decoration: none;
 	border-radius: 4px;
 	cursor: pointer;
-  }
+}
 
-  .alpha .reset {
+.alpha .reset {
 	  margin-left: 51%;
 	  width: 60px;
 	  height: 27px;
@@ -360,11 +368,31 @@ h5 {
 	  color: #fff;
 	  font-weight: 500;
 	  text-transform: lowercase;
-  }
+}
 
-  .filter-letters {
-	  margin-left: 18%;
-	  margin-bottom: 5%;
-  }
+.filter-letters {
+	margin-left: 18%;
+	margin-bottom: 1%;
+	width: 60vw;
+	height: 10vh;
+}
 
+/* client reservations */
+.title-reservation {
+	color: #fff;
+	font-size: 3em;
+	margin-top: 5%;
+}
 
+.reservations {
+	background-color: white;
+	width: 50vw;
+	height: 30vh;
+	cursor: auto;
+}
+
+.ship {
+	background-image: url(./images/3.jpg);
+	width: 40vw;
+	height: 50vh;
+}

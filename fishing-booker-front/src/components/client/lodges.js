@@ -81,8 +81,7 @@ const Lodges = () => {
             </div>
             <Letters letters={letters} parentCallback={handleCallback}/>
             <div className="row-entities">{allLodges}</div>
-            
-            
+                    
         </div>
     )
 }

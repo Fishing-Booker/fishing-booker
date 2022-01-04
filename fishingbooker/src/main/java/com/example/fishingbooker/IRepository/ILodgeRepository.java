@@ -42,4 +42,8 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
 
     @Query("SELECT DISTINCT SUBSTRING(l.name, 1, 1) AS letters FROM Lodge l")
     List<String> getFirstLetters();
+
+    @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false")
+    List<Lodge> getAll();
+
 }

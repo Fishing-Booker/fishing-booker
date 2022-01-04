@@ -109,7 +109,7 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public List<LodgeInfoDTO> getAll() {
-        List<Lodge> lodges = lodgeRepository.findAll();
+        List<Lodge> lodges = lodgeRepository.getAll();
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
 
         for (Lodge lodge : lodges) {

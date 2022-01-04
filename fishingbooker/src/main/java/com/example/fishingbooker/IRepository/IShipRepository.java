@@ -36,4 +36,9 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
     @Transactional
     void addRule(String rule, Integer shipId);
 
+    @Query("SELECT s FROM Ship s WHERE s.isDeleted=false")
+    List<Ship> getAll();
+
+    @Query("SELECT DISTINCT SUBSTRING(s.name, 1, 1) AS letters FROM Ship s")
+    List<String> getFirstLetters();
 }
