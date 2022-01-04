@@ -108,27 +108,6 @@ public class LodgeService implements ILodgeService {
     }
 
     @Override
-    public List<LodgeInfoDTO> getAll() {
-        List<Lodge> lodges = lodgeRepository.findAll();
-        List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-
-        for (Lodge lodge : lodges) {
-            LodgeInfoDTO dto = new LodgeInfoDTO();
-            dto.setName(lodge.getName());
-            dto.setDescription(lodge.getDescription());
-            dto.setAverageGrade(lodge.getAverageGrade());
-            dto.setRules(lodge.getRules());
-            dto.setCancelConditions(lodge.getCancelConditions());
-            dto.setLocation(new LocationDTO(lodge.getLocation().getAddress(), lodge.getLocation().getCity(), lodge.getLocation().getCountry()));
-            dto.setBedroom(null);
-            dto.setImages(null);
-            dto.setOwner(new OwnerDTO(lodge.getOwner().getName(), lodge.getOwner().getSurname()));
-            lodgesDTO.add(dto);
-        }
-        return lodgesDTO;
-    }
-
-    @Override
     public List<LodgeInfoDTO> search(String name, String letter) {
         List<Lodge> lodges = lodgeRepository.search(name, letter);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
