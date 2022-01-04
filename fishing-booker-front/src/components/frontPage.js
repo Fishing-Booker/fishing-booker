@@ -46,6 +46,8 @@ import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
 import ShipNavigationEquipment from "./ship/shipNavigationEq";
 import ShipFishingEquipment from "./ship/shipFishingEq";
+import Reservation from "./client/reservations";
+import ReservationHistory from "./client/reservationHistory";
 
 
 const FrontPage = () => {
@@ -162,6 +164,8 @@ const FrontPage = () => {
                             <Route path="/profile"><UserProfilPage/></Route>
                             <Route path="/changePassword/:id"><ChangePassword/></Route>
                             <Route path="/explore"><Explore/></Route>
+                            <Route path="/client-reservations"><Reservation/></Route>
+                            <Route path="/reservation-history"><ReservationHistory/></Route>
                             <div className="row-search">
                                 <Route path="/adventures"><Adventures/></Route>
                                 <Route path="/lodges"><Lodges/></Route>

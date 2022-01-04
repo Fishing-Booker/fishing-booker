@@ -30,7 +30,7 @@ const Letters = ({letters, parentCallback}) => {
             <div className="alpha">
 				<ul>
                     {allLetters}
-                    <li><a className="reset" onClick={() => handleReset('')}>resest</a></li>
+                    <li><a className="reset" onClick={() => handleReset('')}>reset</a></li>
 				</ul>
 			</div>
         </div>
