@@ -24,7 +24,10 @@ public interface ILodgeService {
     void deleteRule(Integer ruleIndex, Integer lodgeId);
 
     void updateLodge(UpdateLodgeDTO lodgeDTO, Integer lodgeId);
+
     List<LodgeInfoDTO> getAll();
+
     List<LodgeInfoDTO> search(String name, String letter);
+    
     List<String> getFirstLetters();
 }

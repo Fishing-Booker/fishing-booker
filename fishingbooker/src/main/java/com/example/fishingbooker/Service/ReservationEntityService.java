@@ -53,4 +53,12 @@ public class ReservationEntityService implements IReservationEntityService {
         return entityRepository.save(entity);
     }
 
+    @Override
+    public ReservationEntity findEntityById(Integer entityId) {
+        ReservationEntity entity = entityRepository.findEntityById(entityId);
+        entity.setOwner(null);
+        entity.setImages(null);
+        return entity;
+    }
+
 }

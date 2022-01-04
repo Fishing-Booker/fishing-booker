@@ -41,8 +41,11 @@ import Explore from "./explore";
 import Adventures from "./client/adventures";
 import Lodges from "./client/lodges";
 import Ships from "./client/ships";
+import Search from "./search";
 import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
+import ShipNavigationEquipment from "./ship/shipNavigationEq";
+import ShipFishingEquipment from "./ship/shipFishingEq";
 
 
 const FrontPage = () => {
@@ -175,6 +178,8 @@ const FrontPage = () => {
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/ship/:shipId"><ShipProfile/></Route>
                         <Route path="/shipRules/:shipId"><ShipRules/></Route>
+                        <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
+                        <Route path="/shipFishEq/:shipId"><ShipFishingEquipment/></Route>
                     </Switch>
                 }
                 

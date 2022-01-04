@@ -16,4 +16,6 @@ public interface IReservationEntityService {
 
     ReservationEntity editEntity(ReservationEntity entity);
 
+    ReservationEntity findEntityById(Integer entityId);
+
 }

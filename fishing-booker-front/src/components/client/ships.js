@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import star from "../../images/star.png";
+import Search from "../search";
 
 const Ships = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -34,12 +35,15 @@ const Ships = () => {
             return(
                 <div className="col" key={index}>
                     <div className="card lodge">
-                    <div className="info"> <br></br>
-                            <p className="entity-info name">{ship.name} <div className="stars">{renderStars(ship.averageGrade)} </div></p>
-                            <p className="entity-info location">{ship.location.address}, {ship.location.city}, {ship.location.country}</p>
-                            <p className="entity-info description">{ship.description}</p>
+                        <div className="info"> <br></br>
+                                <p className="entity-info name">{ship.name} <div className="stars">{renderStars(ship.averageGrade)} </div></p>
+                                <p className="entity-info location">{ship.location.address}, {ship.location.city}, {ship.location.country}</p>
+                                <p className="entity-info description">{ship.description}</p>
 
-                            {isLogged && <Link className="reservation-link">Make reservation</Link>}
+                                {isLogged && <Link className="reservation-link">Make reservation</Link>}
+                            <div className="info">
+                                <p className="lodge-info">{ship.name}</p> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -49,7 +53,7 @@ const Ships = () => {
 
     return (
         <div>
-            <br></br>
+            <Search/> <br></br>
             <div className="row-entities">{allShips}</div>
             
         </div>

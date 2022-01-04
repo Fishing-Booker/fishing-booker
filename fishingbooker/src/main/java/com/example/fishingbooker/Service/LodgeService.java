@@ -164,6 +164,26 @@ public class LodgeService implements ILodgeService {
         return String.valueOf(newRules);
     }
 
+    public List<LodgeInfoDTO> getAll() {
+        List<Lodge> lodges = lodgeRepository.findAll();
+        List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
+
+        for (Lodge lodge : lodges) {
+            LodgeInfoDTO dto = new LodgeInfoDTO();
+            dto.setName(lodge.getName());
+            dto.setDescription(lodge.getDescription());
+            dto.setAverageGrade(lodge.getAverageGrade());
+            dto.setRules(lodge.getRules());
+            dto.setCancelConditions(lodge.getCancelConditions());
+            dto.setLocation(new LocationDTO(lodge.getLocation().getAddress(), lodge.getLocation().getCity(), lodge.getLocation().getCountry()));
+            dto.setBedroom(null);
+            dto.setImages(null);
+            dto.setOwner(new OwnerDTO(lodge.getOwner().getName(), lodge.getOwner().getSurname()));
+            lodgesDTO.add(dto);
+        }
+        return lodgesDTO;
+    }
+    
     private String correctRules(String rules){
         rules = rules.replaceAll("##", "#");
         if(rules.substring(0, 1).contains("#")){

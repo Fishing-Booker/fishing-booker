@@ -7,6 +7,7 @@ import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
