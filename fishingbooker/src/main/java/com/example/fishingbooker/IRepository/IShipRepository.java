@@ -4,6 +4,7 @@ import com.example.fishingbooker.Model.Ship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -41,4 +42,9 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
 
     @Query("SELECT DISTINCT SUBSTRING(s.name, 1, 1) AS letters FROM Ship s")
     List<String> getFirstLetters();
+
+    @Query("SELECT s FROM Ship s WHERE (LOWER(s.name) LIKE %:name% OR LOWER(s.name) LIKE '')" +
+            "AND (LOWER(s.name) LIKE :letter% OR LOWER(s.name) LIKE '')" +
+            "ORDER BY s.id")
+    List<Ship> searchAndFilter(@Param("name") String name, @Param("letter") String letter);
 }
