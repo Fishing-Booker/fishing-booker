@@ -6,9 +6,7 @@ import axios from 'axios';
 
 const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
-
     const [user, setUser] = useState({});
-
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -16,6 +14,8 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
     const [description, setDescription] = useState("");
     const [biography, setBiography] = useState("");
     const [maxPersons, setMaxPersons] = useState("");
+    const [cancelConditions, setCancelConditions] = useState("");
+    const [fishingEquipment, setFishingEquipment] = useState("");
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -32,18 +32,10 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
         country,
         description,
         biography,
-        maxPersons
+        maxPersons,
+        cancelConditions,
+        fishingEquipment
     }
-
-    /*const addLodge = () => {
-        console.log(newLodge);
-        axios.post(SERVER_URL + "/lodges/addLodge", newLodge)
-          .then(response => {
-            setModalIsOpen(false);
-            window.location.reload();
-        });
-        
-    }*/
 
     const addAdventure = () => {
         console.log(newAdventure);
@@ -92,6 +84,14 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
                                 <div className="data" style={{width: '100%'}}>
                                     <h4>Max persons:</h4>
                                     <input style={{ width: '18%', height: '100%'}} type="number" min="1" step="1" onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons} />
+                                </div>
+                                <div className="data">
+                                    <h4>Cancel conditions:</h4>
+                                    <textarea type="text" required onChange={(e) => {setCancelConditions(e.target.value)}} value={cancelConditions}/>
+                                </div>
+                                <div className="data">
+                                    <h4>Fishing equipment:</h4>
+                                    <textarea type="text" required onChange={(e) => {setFishingEquipment(e.target.value)}} value={fishingEquipment}/>
                                 </div>
                                 <Link to="/" onClick={() => addAdventure()} >
                                     <button>

@@ -3,8 +3,6 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.IRepository.IAdventureRepository;
 import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
-import com.example.fishingbooker.DTO.lodge.LocationDTO;
-import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 import com.example.fishingbooker.Mapper.AdventureMapper;
 import com.example.fishingbooker.Model.Adventure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,4 +65,14 @@ public class AdventureService implements IAdventureService {
         }
         return adventuresDTO;
     }
+
+    @Override
+    public Adventure findById(Integer id) {
+        Adventure adventure = adventureRepository.findAdventureById(id);
+        adventure.setImages(null);
+        adventure.setOwner(null);
+        return adventure;
+    }
+
+
 }

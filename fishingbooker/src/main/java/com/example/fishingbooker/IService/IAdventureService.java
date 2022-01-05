@@ -12,7 +12,6 @@ public interface IAdventureService {
 
     List<Adventure> findInstructorAdventures(Integer ownerId);
 
-
     void deleteAdventure(Integer id);
 
     List<AdventureInfoDTO> getAll();
@@ -20,5 +19,7 @@ public interface IAdventureService {
     List<String> getFirstLetters();
 
     List<AdventureInfoDTO> searchAndFilter(String name, String letter);
+
+    Adventure findById(Integer id);
     
 }

@@ -54,7 +54,7 @@ public class AdventureController {
 
         reservationEntity.setDescription(adventureDTO.getDescription());
         reservationEntity.setRules("");
-        reservationEntity.setCancelConditions("");
+        reservationEntity.setCancelConditions(adventureDTO.getCancelConditions());
         reservationEntity.setDeleted(false);
         reservationEntity.setAverageGrade(0.0);
         reservationEntity.setImages(new ArrayList<>());
@@ -68,7 +68,7 @@ public class AdventureController {
 
         Adventure adventure = new Adventure(id, reservationEntity.getOwner(), reservationEntity.getName(), location, reservationEntity.getDescription(), reservationEntity.getRules(),
                 reservationEntity.getCancelConditions(), reservationEntity.getAverageGrade(), adventureDTO.getBiography(), adventureDTO.getMaxPersons(),
-                reservationEntity.getImages());
+                reservationEntity.getImages(), adventureDTO.getFishingEquipment());
 
         adventureService.save(adventure);
 
@@ -103,6 +103,11 @@ public class AdventureController {
     @GetMapping("/search")
     public List<AdventureInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
         return adventureService.searchAndFilter(name, letter);
+    }
+
+    @GetMapping("/adventure/{id}")
+    public Adventure getAdventureById(@PathVariable Integer id) {
+        return adventureService.findById(id);
     }
 
 }

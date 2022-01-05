@@ -18,7 +18,6 @@ const AdventureActions = () => {
                 <Link className="sidebar-link" to={"/adventureRules/"}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventurePricelist/" + adventureId}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureActions/" + adventureId}>Actions</Link><br/><br/>
-                <Link className="sidebar-link" to={"/adventureReservationCalendar/" + adventureId}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">

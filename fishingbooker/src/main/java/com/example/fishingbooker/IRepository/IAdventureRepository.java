@@ -34,4 +34,6 @@ public interface IAdventureRepository extends JpaRepository<Adventure, Integer> 
             "ORDER BY a.id")
     List<Adventure> searchAndFilter(@Param("name") String name, @Param("letter") String letter);
 
+    @Query("select a from Adventure a where a.id=?1")
+    Adventure findAdventureById(Integer id);
 }

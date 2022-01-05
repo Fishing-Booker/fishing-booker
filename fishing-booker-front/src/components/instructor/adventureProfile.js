@@ -6,59 +6,16 @@ import axios from 'axios';
 const AdventureProfile = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+    const {adventureId} = useParams();
 
-    const [adventure, setAdventure] = useState({})
-    const [lodge, setLodge] = useState({});
-    const [bedrooms, setBedrooms] = useState([]);
+    const [adventure, setAdventure] = useState({});
     const [additionalServices, setAdditionalServices] = useState("");
 
     const [disabledEdit, setDisabledEdit] = useState(true);
 
     useEffect(() => {
-        /*axios.get(SERVER_URL + 'lodge/' + lodgeId)
-            .then(response => {setLodge(response.data); console.log(response.data)});*/
-
-        setAdventure({
-            "id" : 1,
-            "name" : "Adventure 1",
-            "location" : {
-                "id" : 1,
-                "longitude" : 15,
-                "latitude" : 20,
-                "address" : "Zeleznicka 5",
-                "city" : "Novi Sad",
-                "country" : "Serbia"
-            },
-            "description" : "Adventure description",
-            "rules" : "Some rules..",
-            "cancelConditions" : "Free cancelation",
-            "averageGrade": 5,
-            "biography": "Neka biografija...",
-            "maxPersons" : 10,
-            "fishingEquipment" : "Pecaroska oprema..."
-        })
-        
-        setLodge({
-            "id": 1,
-            "name": "Lodge1",
-            "address" : "Lodge address",
-            "additionServices": "#A1#A2#A3",
-            "description" : "Decription of our lodge...."
-        })
-
-        /*axios.get(SERVER_URL + 'lodgeBedrooms' + lodgeId)
-            .then(response => {setBedrooms(response.data); console.log(response.data)});*/
-
-        setBedrooms([
-            {
-                "BedroomType" : "Single",
-                "RoomNuber": 2 
-            }, 
-            {
-                "BedroomType" : "Double",
-                "RoomNuber": 1
-            }
-        ])
+        axios.get(SERVER_URL + '/adventures/adventure/' + adventureId)
+            .then(response => {setAdventure(response.data); console.log(response.data)});
 
         prepareServices();
 
@@ -86,7 +43,6 @@ const AdventureProfile = () => {
                 <Link className="sidebar-link" to={"/adventureRules/" + adventure.id}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventurePricelist/" + adventure.id}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureActions/" + adventure.id}>Actions</Link><br/><br/>
-                <Link className="sidebar-link" to={"/adventureReservationCalendar/" + adventure.id}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">
