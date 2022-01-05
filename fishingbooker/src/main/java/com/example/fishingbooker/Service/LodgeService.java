@@ -1,9 +1,7 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
-import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
-import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 import com.example.fishingbooker.IRepository.ILodgeRepository;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IService.ILodgeService;
@@ -11,11 +9,8 @@ import com.example.fishingbooker.Mapper.LodgeMapper;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

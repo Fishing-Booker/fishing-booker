@@ -50,7 +50,7 @@ import ShipFishingEquipment from "./ship/shipFishingEq";
 import Reservation from "./client/reservations";
 import ReservationHistory from "./client/reservationHistory";
 import MakeReservation from "./client/makeReservation";
-
+import Subscriptions from "./client/subscriptions";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -169,6 +169,7 @@ const FrontPage = () => {
                             <Route path="/client-reservations"><Reservation/></Route>
                             <Route path="/reservation-history"><ReservationHistory/></Route>
                             <Route path="/make-reservation/:id"><MakeReservation/></Route>
+                            <Route path="/subscriptions/:id"><Subscriptions/></Route>
                             <div className="row-search">
                                 <Route path="/adventures"><Adventures/></Route>
                                 <Route path="/lodges"><Lodges/></Route>

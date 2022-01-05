@@ -39,7 +39,9 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
 
     const addAdventure = () => {
         console.log(newAdventure);
-        axios.post(SERVER_URL + "/adventures/addAdventure", newAdventure)
+        const headers = {'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.post(SERVER_URL + "/adventures/addAdventure", newAdventure, {headers:headers})
           .then(response => {
             setModalIsOpen(false);
             window.location.reload();

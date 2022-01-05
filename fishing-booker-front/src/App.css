@@ -382,7 +382,7 @@ h5 {
 .title-reservation {
 	color: #fff;
 	font-size: 3em;
-	margin-top: 5%;
+	margin-left: 15px;
 }
 
 .reservations {
@@ -414,6 +414,7 @@ h5 {
 	top: 0;
 	margin-right: 2%;
 	margin-top: 2%;
+	cursor: pointer;
 }
 
 /* make reservation */
@@ -443,4 +444,12 @@ h5 {
 	font-size: 15px;
 	font-weight: 500;
 	cursor: pointer;
+}
+
+.subscription {
+	background-color: white;
+	width: 50vw;
+	height: 19vh;
+	cursor: auto;
+	margin-top: 15px;
 }
