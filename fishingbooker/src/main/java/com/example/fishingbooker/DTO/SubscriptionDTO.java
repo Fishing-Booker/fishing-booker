@@ -1,6 +1,10 @@
-package com.example.fishingbooker.DTO.lodge;
+package com.example.fishingbooker.DTO;
 
-public class LodgeInfoDTO {
+import com.example.fishingbooker.DTO.lodge.ImageDTO;
+import com.example.fishingbooker.DTO.lodge.LocationDTO;
+import com.example.fishingbooker.DTO.lodge.OwnerDTO;
+
+public class SubscriptionDTO {
     private Integer id;
     private String name;
     private String description;
@@ -9,13 +13,13 @@ public class LodgeInfoDTO {
     private String cancelConditions;
     private LocationDTO location;
     private ImageDTO images;
-    private BedroomDTO bedroom;
     private OwnerDTO owner;
 
-    public LodgeInfoDTO() {
+    public SubscriptionDTO() {
     }
 
-    public LodgeInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, LocationDTO location, ImageDTO images, BedroomDTO bedroom, OwnerDTO owner) {
+    public SubscriptionDTO(Integer id, String name, String description, double averageGrade, String rules,
+                           String cancelConditions, LocationDTO location, ImageDTO images, OwnerDTO owner) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -24,7 +28,6 @@ public class LodgeInfoDTO {
         this.cancelConditions = cancelConditions;
         this.location = location;
         this.images = images;
-        this.bedroom = bedroom;
         this.owner = owner;
     }
 
@@ -90,14 +93,6 @@ public class LodgeInfoDTO {
 
     public void setImages(ImageDTO images) {
         this.images = images;
-    }
-
-    public BedroomDTO getBedroom() {
-        return bedroom;
-    }
-
-    public void setBedroom(BedroomDTO bedroom) {
-        this.bedroom = bedroom;
     }
 
     public OwnerDTO getOwner() {

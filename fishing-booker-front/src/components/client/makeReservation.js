@@ -61,8 +61,6 @@ const MakeReservation = () => {
     }
 
     const handleUnsubscribe = (entityId, userId) => {
-        var subscriberDTO = {entityId, userId}
-        console.log(subscriberDTO)
         axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId)
             .then(() => {
                 addToast("You are no longer subscribed.", { appearance: "success" });

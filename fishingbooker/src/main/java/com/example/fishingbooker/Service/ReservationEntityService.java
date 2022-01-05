@@ -64,10 +64,13 @@ public class ReservationEntityService implements IReservationEntityService {
 
     public ReservationEntity findEntityById(Integer entityId) {
         ReservationEntity entity = entityRepository.findEntityById(entityId);
-        //entity.setOwner(null);
-        //entity.setImages(null);
+        entity.setOwner(null);
+        entity.setImages(null);
         return entity;
-
     }
 
+    @Override
+    public ReservationEntity getEntityById(Integer entityId) {
+        return entityRepository.findEntityById(entityId);
+    }
 }

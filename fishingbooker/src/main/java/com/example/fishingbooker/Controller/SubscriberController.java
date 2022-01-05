@@ -1,13 +1,17 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.SubscriberDTO;
+import com.example.fishingbooker.DTO.SubscriptionDTO;
 import com.example.fishingbooker.IService.ISubscriberService;
+import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Model.Subscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/subscribe", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,5 +35,10 @@ public class SubscriberController {
     @DeleteMapping("/unsubscribe")
     public Boolean unsubscribe(@RequestParam Integer entityId, @RequestParam Integer userId) {
         return subscriberService.unsubscribe(entityId, userId);
+    }
+
+    @GetMapping("/subscriptions")
+    public List<SubscriptionDTO> getSubscriptions(@RequestParam Integer id) {
+        return subscriberService.getSubscriptions(id);
     }
 }
