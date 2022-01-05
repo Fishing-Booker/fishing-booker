@@ -22,6 +22,7 @@ const InstructorHomepage = () => {
     const [filteredLodges, setFilteredLodges] = useState([]);
     const [addAdventure, setAddAdventure] = useState(false);
     const [deleteLodgeForm, setDeleteLodgeForm] = useState(false);
+    const [adventures, setAdventures] = useState([]);
 
     useEffect(() => {
 
@@ -33,8 +34,8 @@ const InstructorHomepage = () => {
             setUser(response.data);
             var user = response.data;
 
-            axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
-                .then(response => {setLodges(response.data); console.log(response.data)});
+            axios.get(SERVER_URL + '/adventures/instructorAdventures/' + user.id, { headers: headers})    
+                .then(response => {setAdventures(response.data); console.log(response.data)});
         
         });
 
@@ -45,18 +46,18 @@ const InstructorHomepage = () => {
         setDeleteLodgeForm(true);
     }
 
-    const allAdventures = lodges.length ? (
-        lodges.map(lodge => {
+    const allAdventures = adventures.length ? (
+        adventures.map(adventure => {
             return (
-                <div className="lodge-card" key={lodge.id}>
+                <div className="lodge-card" key={adventure.id}>
                     <div className="lodge-card-body">
                         <div className="lodge-image">
                             <img  src={lodge1}  />
                         </div>
-                        <Link to={'/adventureProfile/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
+                        <Link to={'/adventureProfile/' + adventure.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{adventure.name}</div></Link>
                         
                         <div className="buttons">
-                            <Link to="#deleteLodge" onClick={() => deleteLodge(lodge.id)}>
+                            <Link to="#deleteLodge" onClick={() => deleteLodge(adventure.id)}>
                                 <button title="Delete lodge">
                                     <img src={deleteImg}/>
                                 </button>

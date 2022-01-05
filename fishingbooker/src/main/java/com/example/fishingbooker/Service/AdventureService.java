@@ -25,6 +25,11 @@ public class AdventureService implements IAdventureService {
 
     @Override
     public List<Adventure> findInstructorAdventures(Integer ownerId) {
-        return adventureRepository.findInstructorAdventures(ownerId);
+        List<Adventure> adventures = adventureRepository.findInstructorAdventures(ownerId);
+        for (Adventure a : adventures) {
+            a.setOwner(null);
+            a.setImages(null);
+        }
+        return adventures;
     }
 }
