@@ -140,6 +140,11 @@ public class LodgeController {
         return locationService.save(location);
     }
 
+    @GetMapping("/lodge")
+    public LodgeInfoDTO getById(@RequestParam Integer id) {
+        return lodgeService.getById(id);
+    }
+
     private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){
         Bedroom bedroom1 = new Bedroom();
         bedroom1.setBedroomType(BedroomType.oneBed);
