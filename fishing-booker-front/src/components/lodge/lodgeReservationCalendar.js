@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { useState } from 'react';
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
+import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import AddLodgeReservationPeriod from './addLodgeReservationPeriod';
 import Calendar from 'react-awesome-calendar';
 
 const LodgeReservationCalendar = () => {
+
+    const {lodgeId} = useParams();
         
     const [addPeriod, setAddPeriod] = useState(false);
 
@@ -55,7 +56,7 @@ const LodgeReservationCalendar = () => {
                     </div> <br/> <br/>
                 </div>
             </div>
-            <AddLodgeReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} />
+            <AddLodgeReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} entityId={lodgeId}/>
         </div>
     )
 

@@ -39,7 +39,7 @@ const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
                                     <button className="delete" >
                                         Delete
                                     </button>
-                                </Link>
+                                </Link><br/><br/>
                             </div>
                         </div>
                         </div>

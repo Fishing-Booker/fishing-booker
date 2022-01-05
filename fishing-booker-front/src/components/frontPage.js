@@ -126,7 +126,7 @@ const FrontPage = () => {
                         <Route path="/addLodgeReservation"><AddLodgeReservationByOwner/></Route>
                         <Route path="/clientProfile"><ClientProfile/></Route>
                         <Route path="/addLodgeReservationPeriod"><AddLodgeReservationPeriod/></Route>
-                        <Route path="/lodgeReservationCalendar"><LodgeReservationCalendar/></Route>
+                        <Route path="/lodgeReservationCalendar/:lodgeId"><LodgeReservationCalendar/></Route>
                     </Switch>
 
                 }

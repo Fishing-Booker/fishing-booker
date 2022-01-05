@@ -42,6 +42,9 @@ public class ReservationEntity {
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Image> images;
 
+    @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<ReservationPeriod> reservationPeriods;
+
     public ReservationEntity() { }
 
     public ReservationEntity(Integer id, User owner, String name, Location location, String description, String rules,

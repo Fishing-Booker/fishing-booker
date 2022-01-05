@@ -82,7 +82,7 @@
 	padding-left: 8%;
 	padding-right: 8%;
 	box-sizing: border-box;
-	position: absolute;
+	position: fixed;
 	overflow-y: scroll;
 }
 

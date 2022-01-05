@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.IService.IReservationEntityService;
+import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.Image;
 import com.example.fishingbooker.Model.Location;
 import com.example.fishingbooker.Model.ReservationEntity;
@@ -18,7 +19,8 @@ public class ReservationEntityService implements IReservationEntityService {
     @Autowired
     private IReservationEntityRepository entityRepository;
 
-    public ReservationEntityService(){}
+    @Autowired
+    private IUserService userService;
 
     @Override
     public List<ReservationEntity> findEntities() {
