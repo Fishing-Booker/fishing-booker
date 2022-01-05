@@ -8,6 +8,7 @@ import com.example.fishingbooker.Model.Lodge;
 public class LodgeMapper {
     public static LodgeInfoDTO mapToDTO(Lodge lodge) {
         LodgeInfoDTO dto = new LodgeInfoDTO();
+        dto.setId(lodge.getId());
         dto.setName(lodge.getName());
         dto.setDescription(lodge.getDescription());
         dto.setAverageGrade(lodge.getAverageGrade());

@@ -1,6 +1,7 @@
 package com.example.fishingbooker.DTO.lodge;
 
 public class LodgeInfoDTO {
+    Integer id;
     String name;
     String description;
     double averageGrade;
@@ -14,7 +15,8 @@ public class LodgeInfoDTO {
     public LodgeInfoDTO() {
     }
 
-    public LodgeInfoDTO(String name, String description, double averageGrade, String rules, String cancelConditions, LocationDTO location, ImageDTO images, BedroomDTO bedroom, OwnerDTO owner) {
+    public LodgeInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, LocationDTO location, ImageDTO images, BedroomDTO bedroom, OwnerDTO owner) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
@@ -24,6 +26,14 @@ public class LodgeInfoDTO {
         this.images = images;
         this.bedroom = bedroom;
         this.owner = owner;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

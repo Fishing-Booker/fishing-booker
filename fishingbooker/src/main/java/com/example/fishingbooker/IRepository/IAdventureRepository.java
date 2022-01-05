@@ -36,4 +36,9 @@ public interface IAdventureRepository extends JpaRepository<Adventure, Integer> 
 
     @Query("select a from Adventure a where a.id=?1")
     Adventure findAdventureById(Integer id);
+
+    @Query("update Adventure a set a.name=?1, a.description=?2, a.biography=?3, a.maxPersons=?4, a.cancelConditions=?5, a.fishingEquipment=?6 where a.id=?7")
+    @Modifying
+    @Transactional
+    void editAdventure(String name, String description, String biography, Integer maxPersons, String cancelConditions, String fisihingEquipment, Integer adventureId);
 }

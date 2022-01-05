@@ -49,6 +49,7 @@ import ShipNavigationEquipment from "./ship/shipNavigationEq";
 import ShipFishingEquipment from "./ship/shipFishingEq";
 import Reservation from "./client/reservations";
 import ReservationHistory from "./client/reservationHistory";
+import MakeReservation from "./client/makeReservation";
 
 
 const FrontPage = () => {
@@ -158,7 +159,7 @@ const FrontPage = () => {
                     </Switch>
                 }
 
-                {(role==="ROLE_CLIENT") &&
+                {(isLogged && role==="ROLE_CLIENT") &&
                     <div className="row">
                         <Switch>
                             <Route exact path="/"><Homepage/></Route>
@@ -167,6 +168,7 @@ const FrontPage = () => {
                             <Route path="/explore"><Explore/></Route>
                             <Route path="/client-reservations"><Reservation/></Route>
                             <Route path="/reservation-history"><ReservationHistory/></Route>
+                            <Route path="/make-reservation/:id"><MakeReservation/></Route>
                             <div className="row-search">
                                 <Route path="/adventures"><Adventures/></Route>
                                 <Route path="/lodges"><Lodges/></Route>
