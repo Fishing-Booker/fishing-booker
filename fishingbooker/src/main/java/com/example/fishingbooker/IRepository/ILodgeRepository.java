@@ -1,6 +1,7 @@
 package com.example.fishingbooker.IRepository;
 
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -47,4 +48,6 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false")
     List<Lodge> getAll();
 
+    @Query("SELECT l FROM Lodge l WHERE l.id=?1 AND l.isDeleted=false")
+    Lodge getLodgeById(Integer id);
 }

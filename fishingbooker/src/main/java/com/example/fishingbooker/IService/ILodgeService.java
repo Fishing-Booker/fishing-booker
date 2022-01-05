@@ -30,4 +30,6 @@ public interface ILodgeService {
     List<LodgeInfoDTO> search(String name, String letter);
     
     List<String> getFirstLetters();
+
+    LodgeInfoDTO getById(Integer id);
 }
