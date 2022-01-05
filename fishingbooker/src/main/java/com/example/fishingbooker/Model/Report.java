@@ -14,7 +14,7 @@ public class Report {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservation_id", referencedColumnName = "appointment_id")
+    @JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private Reservation reservation;
 
     @Column(name = "description")

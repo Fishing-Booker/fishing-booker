@@ -79,7 +79,7 @@ public class LodgeController {
         }
 
         Lodge lodge = new Lodge(id, entity.getOwner(), entity.getName(), entity.getLocation(),
-                entity.getDescription(), entity.getRules(), entity.getCancelConditions(), entity.getAverageGrade(),
+                entity.getDescription(), entity.getRules(), entity.getCancelConditions(), entity.getAverageGrade(), 3,
                 entity.getImages());
         lodgeService.save(lodge);
 
