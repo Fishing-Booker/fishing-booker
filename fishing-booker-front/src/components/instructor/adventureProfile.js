@@ -13,77 +13,66 @@ const AdventureProfile = () => {
     const [disabledEdit, setDisabledEdit] = useState(true);
 
     const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [maxPersons, setMaxPersons] = useState(1);
-    const [additionalServices, setAdditionalServices] = useState("");
+    const [location, setLocation] = useState("");
+    const [maxPersons, setMaxPersons] = useState(0);
     const [description, setDescription] = useState("");
     const [biography, setBiography] = useState("");
     const [fishingEquipment, setFishingEquipment] = useState("");
     const [cancelConditions, setCancelConditions] = useState("");
+    const [locationId, setLocationId] = useState(0);
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
 
 
     const values = {
+        adventureId,
         name,
-        address : adventure.location,
+        locationId,
         maxPersons,
-        additionalServices,
         description,
         biography,
         fishingEquipment,
-        cancelConditions
+        cancelConditions,
+        address,
+        city,
+        country
 
     }
 
     useEffect(() => {
-        axios.get(SERVER_URL + '/adventures/adventure/' + adventureId)
-            .then(response => {setAdventure(response.data); console.log(response.data)});
-
-        values.name = adventure.name
-        values.address = adventure.location.address
-        values.maxPersons = adventure.maxPersons
-        values.additionalServices = adventure.additionalServices
-        values.description = adventure.description
-        values.biography = adventure.biography
-        values.fishingEquipment = adventure.fishingEquipment
-        values.cancelConditions = adventure.cancelConditions
-
-        /*setAdventure({
-            "id" : 1,
-            "name" : "Adventure 1",
-            "location" : {
-                "id" : 1,
-                "longitude" : 15,
-                "latitude" : 20,
-                "address" : "Zeleznicka 5",
-                "city" : "Novi Sad",
-                "country" : "Serbia"
-            },
-            "description" : "Adventure description",
-            "rules" : "Some rules..",
-            "cancelConditions" : "Free cancelation",
-            "averageGrade": 5,
-            "biography": "Neka biografija...",
-            "maxPersons" : 10,
-            "fishingEquipment" : "Pecaroska oprema..."
-        })*/
-
-        prepareServices();
-
+        const headers = {'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + '/adventures/adventure/' + adventureId, {headers:headers})
+            .then(response => {
+                setAdventure(response.data);
+                console.log(response.data);
+                setLocation(response.data.location);
+            });
     }, []) 
 
-    const prepareServices = () => {
-        //var services = lodge.additionServices;
-        var services = "bla";
-        services = services.replace("#", "", 0);
-        setAdditionalServices(services.replace(/#/g, '\n'));
-        console.log(additionalServices)
+    const saveChanges = () => {
+        setDisabledEdit(true);
+        console.log(values);
+        const headers = {'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + '/adventures/editAdventure', values, {headers : headers})
     }
 
-    const saveChanges = () => {
-        setDisabledEdit(true)
-        /*axios.post(SERVER_URL + 'editLodge/' + lodgeId, lodge)
-            .then(response => console.log(response.data));*/
+    const onEditClick = () => {
+        setDisabledEdit(false);
+        setName(adventure.name);
+        setMaxPersons(adventure.maxPersons);
+        setDescription(adventure.description);
+        setBiography(adventure.biography);
+        setFishingEquipment(adventure.fishingEquipment);
+        setCancelConditions(adventure.cancelConditions);
+        setLocationId(location.id);
+        setAddress(adventure.location.address);
+        setCity(adventure.location.city);
+        setCountry(adventure.location.country);
     }
+
    
     return (
         <div className="wrapper">
@@ -100,49 +89,47 @@ const AdventureProfile = () => {
                     <div className="info_data">
                         <div className="data">
                             <h4>Address</h4>
-                            <input hidden={disabledEdit} />
-                            <label hidden={!disabledEdit}>Kako ovde staviti adresu</label>
+                            <input hidden={disabledEdit} value={address} onChange={(e) => setAddress(e.target.value)}/>
+                            <label hidden={!disabledEdit}>{location.address}</label>
+                        </div> <br />
+                        <div className="data">
+                            <h4>City</h4>
+                            <input hidden={disabledEdit} value={city} onChange={(e) => setCity(e.target.value)}/>
+                            <label hidden={!disabledEdit}>{location.city}</label>
+                        </div> <br />
+                        <div className="data">
+                            <h4>Country</h4>
+                            <input hidden={disabledEdit} value={country} onChange={(e) => setCountry(e.target.value)}/>
+                            <label hidden={!disabledEdit}>{location.country}</label>
                         </div> <br />
                         <div className="data">
                             <h4>Maximum number of persons</h4>
-                            <input hidden={disabledEdit}/>
+                            <input hidden={disabledEdit} value={maxPersons} onChange={(e) => setMaxPersons(e.target.value)}/>
                             <label hidden={!disabledEdit}>{adventure.maxPersons} persons</label>
                         </div> <br />
                         <div className="data">
-                            <h4>Additional services</h4>
-                            {disabledEdit ? (
-                                <label disabled={disabledEdit}>{additionalServices}</label>
-                            ) : (
-                                <div>
-                                <p>Please follow the pattern</p>
-                                <input value={adventure.additionalServices} disabled={disabledEdit}/>
-                                </div>
-                            )}
-                            
-                        </div> <br />
-                        <div className="data">
                             <h4>Description</h4>
-                            <textarea hidden={disabledEdit}/>
+                            <textarea hidden={disabledEdit} value={description} onChange={(e) => setDescription(e.target.value)}/>
                             <label hidden={!disabledEdit}>{adventure.description}</label>
                         </div> <br />
                         <div className="data">
                             <h4>Instructor biography </h4>
-                            <textarea hidden={disabledEdit}/>
+                            <textarea hidden={disabledEdit} value={biography} onChange={(e) => setBiography(e.target.value)}/>
                             <label hidden={!disabledEdit}>{adventure.biography}</label>
                         </div> <br />
                         <div className="data">
                             <h4>Fishing equipment </h4>
-                            <textarea hidden={disabledEdit}/>
+                            <textarea hidden={disabledEdit} value={fishingEquipment} onChange={(e) => setFishingEquipment(e.target.value)}/>
                             <label hidden={!disabledEdit}>{adventure.fishingEquipment}</label>
                         </div> <br />
                         <div className="data">
                             <h4>Cancel conditions </h4>
-                            <textarea hidden={disabledEdit}/>
+                            <textarea hidden={disabledEdit} value={cancelConditions} onChange={(e) => setCancelConditions(e.target.value)}/>
                             <label hidden={!disabledEdit}>{adventure.cancelConditions}</label>
                         </div> <br />
                     </div> <br/> <br/>
                     {disabledEdit ? (
-                        <button className="edit-profile-btn" onClick={() => setDisabledEdit(false)}>
+                        <button className="edit-profile-btn" onClick={onEditClick}>
                             Edit
                         </button>
                     ) : (
@@ -150,7 +137,7 @@ const AdventureProfile = () => {
                             <button className="edit-profile-cancel" onClick={() => setDisabledEdit(true)}>
                                 Cancel
                             </button>
-                            <button className="edit-profile-save" onClick={() => saveChanges()}>
+                            <button className="edit-profile-save" onClick={saveChanges}>
                                 Save
                             </button>
                         </div>
