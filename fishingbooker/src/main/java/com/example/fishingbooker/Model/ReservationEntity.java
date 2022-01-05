@@ -39,13 +39,19 @@ public class ReservationEntity {
     @Column(name = "average_grade")
     private double averageGrade;
 
+    @Column(name = "max_persons")
+    private Integer maxPersons;
+
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Image> images;
+
+    @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<ReservationPeriod> reservationPeriods;
 
     public ReservationEntity() { }
 
     public ReservationEntity(Integer id, User owner, String name, Location location, String description, String rules,
-                             String cancelConditions, double averageGrade, List<Image> images) {
+                             String cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
         this.id = id;
         this.owner = owner;
         this.name = name;
@@ -55,7 +61,24 @@ public class ReservationEntity {
         this.cancelConditions = cancelConditions;
         this.isDeleted = false;
         this.averageGrade = averageGrade;
+        this.maxPersons = maxPersons;
         this.images = images;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPersons) {
+        this.maxPersons = maxPersons;
+    }
+
+    public List<ReservationPeriod> getReservationPeriods() {
+        return reservationPeriods;
+    }
+
+    public void setReservationPeriods(List<ReservationPeriod> reservationPeriods) {
+        this.reservationPeriods = reservationPeriods;
     }
 
     public Integer getId() {

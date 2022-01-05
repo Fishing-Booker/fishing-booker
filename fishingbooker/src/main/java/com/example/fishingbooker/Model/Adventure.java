@@ -12,9 +12,6 @@ public class Adventure extends ReservationEntity {
     @Column(name = "biography")
     private String biography;
 
-    @Column(name = "max_persons")
-    private Integer maxPersons;
-
     @Column(name = "fishing_equipment")
     private String fishingEquipment;
 
@@ -23,9 +20,8 @@ public class Adventure extends ReservationEntity {
 
     public Adventure(Integer id, User owner, String name, Location location, String description, String rules,
                      String cancelConditions, double averageGrade, String biography, Integer maxPersons, List<Image> images, String fishingEquipment) {
-        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, images);
+        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons, images);
         this.biography = biography;
-        this.maxPersons = maxPersons;
         this.fishingEquipment = fishingEquipment;
     }
 
@@ -35,14 +31,6 @@ public class Adventure extends ReservationEntity {
 
     public void setBiography(String biography) {
         this.biography = biography;
-    }
-
-    public Integer getMaxPersons() {
-        return maxPersons;
-    }
-
-    public void setMaxPersons(Integer maxPersons) {
-        this.maxPersons = maxPersons;
     }
 
     public String getFishingEquipment() {

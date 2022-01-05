@@ -47,7 +47,6 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
             setModalIsOpen(false);
             window.location.reload();
         });
-        
     }
 
    return (
@@ -80,7 +79,7 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
                                     <h4>Description:</h4>
                                     <textarea type="text" required onChange={(e) => {setDescription(e.target.value)}} value={description}/>
                                 </div>
-                                <div className="data" style={{width: '100%'}}>
+                                <div className="data" style={{width: '150%'}}>
                                     <h4>Bedrooms:</h4>
                                     <div style={{display:'flex'}}>
                                         <div style={{display:'flex'}}>

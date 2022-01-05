@@ -1,10 +1,30 @@
-import React from 'react'
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
 import '../../css/addingForm.css'
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+import axios from 'axios';
 
-const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
+const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
+
+    const SERVER_URL = process.env.REACT_APP_API; 
+
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
+    const newPeriod = {
+        startDate, 
+        endDate,
+        entityId
+    }
+
+    const addPeriod = () => {
+        console.log(newPeriod);
+        axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod)
+          .then(response => {
+            setModalIsOpen(false)
+            window.location.reload();
+        });
+    }
 
    return (
        <div>
@@ -17,46 +37,19 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
                             <h3>DEFINE NEW RESERVATION PERIOD</h3>
                             <div className="info_data">
                                 <div className="data">
-                                    <h4>Period start date:</h4>
-                                    <input type="date"/>
+                                    <h4>Period start date and time:</h4>
+                                    <input type="datetime-local" required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
                                 </div>
                                 <div className="data">
-                                    <h4>Period start time:</h4>
-                                    <input type="date"/>
+                                    <h4>Period end date and time:</h4>
+                                    <input type="datetime-local" required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
                                 </div>
-                                <div className="data">
-                                    <h4>Period end date:</h4>
-                                    <input type="date"/>
-                                </div>
-                                <div className="data">
-                                    <h4>Period end time:</h4>
-                                    <input type="date"/>
-                                </div>
-                                <Link to="/lodgeReservationCalendar" onClick={() => setModalIsOpen(false)}>
-                                    <button class="reservation-period-btn">
-                                        Add
-                                    </button>
-                                </Link>
-                            </div> <br/> <br/>
-                        </div>
-                        <div className="data">
-                            <h4>Period start time:</h4>
-                            <input type="date"/>
-                        </div>
-                        <div className="data">
-                            <h4>Period end date:</h4>
-                            <input type="date"/>
-                        </div>
-                        <div className="data">
-                            <h4>Period end time:</h4>
-                            <input type="date"/>
-                        </div>
-                        <Link to="/lodgeReservationCalendar">
-                            <button className="reservation-period-btn">
-                                Add
-                            </button>
-                        </Link>
-                    </div> <br/> <br/>
+                                <button class="reservation-period-btn" onClick={() => addPeriod()}>
+                                    Add
+                                </button><br/> <br/>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
             </Modal>
         </div>

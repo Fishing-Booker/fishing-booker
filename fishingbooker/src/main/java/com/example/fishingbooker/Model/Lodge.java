@@ -17,14 +17,14 @@ public class Lodge  extends ReservationEntity{
     }
 
     public Lodge(Integer id, User owner, String name, Location location, String description, String rules,
-                 String cancelConditions, double averageGrade, List<Image> images, List<Bedroom> bedrooms) {
-        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, images);
+                 String cancelConditions, double averageGrade, Integer maxPersons, List<Image> images, List<Bedroom> bedrooms) {
+        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons, images);
         this.bedrooms = bedrooms;
     }
 
     public Lodge(Integer id, User owner, String name, Location location, String description, String rules,
-                 String cancelConditions, double averageGrade, List<Image> images) {
-        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, images);
+                 String cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
+        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons, images);
     }
 
     public List<Bedroom> getBedrooms() {
