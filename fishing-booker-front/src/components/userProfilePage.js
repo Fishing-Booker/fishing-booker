@@ -43,8 +43,6 @@ const UserProfilePage = () => {
                 axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
                 .then(response => {
                     setRole(response.data);
-                    console.log(response.data)
-                    console.log(role);
                 });
                 })
             .catch(error => {

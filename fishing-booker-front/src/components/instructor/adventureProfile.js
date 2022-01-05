@@ -9,13 +9,63 @@ const AdventureProfile = () => {
     const {adventureId} = useParams();
 
     const [adventure, setAdventure] = useState({});
-    const [additionalServices, setAdditionalServices] = useState("");
 
     const [disabledEdit, setDisabledEdit] = useState(true);
+
+    const [name, setName] = useState("");
+    const [address, setAddress] = useState("");
+    const [maxPersons, setMaxPersons] = useState(1);
+    const [additionalServices, setAdditionalServices] = useState("");
+    const [description, setDescription] = useState("");
+    const [biography, setBiography] = useState("");
+    const [fishingEquipment, setFishingEquipment] = useState("");
+    const [cancelConditions, setCancelConditions] = useState("");
+
+
+    const values = {
+        name,
+        address : adventure.location,
+        maxPersons,
+        additionalServices,
+        description,
+        biography,
+        fishingEquipment,
+        cancelConditions
+
+    }
 
     useEffect(() => {
         axios.get(SERVER_URL + '/adventures/adventure/' + adventureId)
             .then(response => {setAdventure(response.data); console.log(response.data)});
+
+        values.name = adventure.name
+        values.address = adventure.location.address
+        values.maxPersons = adventure.maxPersons
+        values.additionalServices = adventure.additionalServices
+        values.description = adventure.description
+        values.biography = adventure.biography
+        values.fishingEquipment = adventure.fishingEquipment
+        values.cancelConditions = adventure.cancelConditions
+
+        /*setAdventure({
+            "id" : 1,
+            "name" : "Adventure 1",
+            "location" : {
+                "id" : 1,
+                "longitude" : 15,
+                "latitude" : 20,
+                "address" : "Zeleznicka 5",
+                "city" : "Novi Sad",
+                "country" : "Serbia"
+            },
+            "description" : "Adventure description",
+            "rules" : "Some rules..",
+            "cancelConditions" : "Free cancelation",
+            "averageGrade": 5,
+            "biography": "Neka biografija...",
+            "maxPersons" : 10,
+            "fishingEquipment" : "Pecaroska oprema..."
+        })*/
 
         prepareServices();
 
@@ -50,8 +100,8 @@ const AdventureProfile = () => {
                     <div className="info_data">
                         <div className="data">
                             <h4>Address</h4>
-                            <input hidden={disabledEdit}/>
-                            <label hidden={!disabledEdit}>Adresa</label>
+                            <input hidden={disabledEdit} />
+                            <label hidden={!disabledEdit}>Kako ovde staviti adresu</label>
                         </div> <br />
                         <div className="data">
                             <h4>Maximum number of persons</h4>
