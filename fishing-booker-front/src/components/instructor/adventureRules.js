@@ -6,7 +6,6 @@ import '../../css/usersProfile.css';
 
 const AdventureRules = () => {
     const {adventureId} = useParams();
-    const {lodgeId} = useParams();
 
     const [rules, setRules] = useState([]);
     const [editRules, setEditRules] = useState(false);
@@ -106,7 +105,7 @@ const AdventureRules = () => {
             </div>
             <div className="right">
                 <div className="info">
-                    <h3>LODGE RULES</h3>
+                    <h3>ADVENTURE RULES</h3>
                     { rulesForm }
                 </div>
             </div>

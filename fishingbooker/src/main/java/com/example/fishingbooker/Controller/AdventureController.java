@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.AdventureDTO;
+import com.example.fishingbooker.DTO.EditAdventureDTO;
 import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
@@ -11,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
 
 @RestController
@@ -36,28 +37,16 @@ public class AdventureController {
     private IAdventureService adventureService;
 
     @GetMapping("/instructorAdventures/{id}")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     public List<Adventure> getInstructorAdventures(@PathVariable Integer id) {
         return adventureService.findInstructorAdventures(id);
     }
 
     @PostMapping("/addAdventure")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Adventure> addAdventure(@RequestBody AdventureDTO adventureDTO) {
-        ReservationEntity reservationEntity = new ReservationEntity();
-
         User user = userService.findUserById(adventureDTO.getOwner());
-        reservationEntity.setOwner(user);
-
-        reservationEntity.setName(adventureDTO.getName());
-
         Location location = addLocation(adventureDTO.getAddress(), adventureDTO.getCity(), adventureDTO.getCountry());
-        reservationEntity.setLocation(location);
-
-        reservationEntity.setDescription(adventureDTO.getDescription());
-        reservationEntity.setRules("");
-        reservationEntity.setCancelConditions(adventureDTO.getCancelConditions());
-        reservationEntity.setDeleted(false);
-        reservationEntity.setAverageGrade(0.0);
-        reservationEntity.setImages(new ArrayList<>());
 
         Integer id = 0;
         if(entityService.findEntities().size() == 0) {
@@ -66,9 +55,9 @@ public class AdventureController {
             id = entityService.setId();
         }
 
-        Adventure adventure = new Adventure(id, reservationEntity.getOwner(), reservationEntity.getName(), location, reservationEntity.getDescription(), reservationEntity.getRules(),
-                reservationEntity.getCancelConditions(), reservationEntity.getAverageGrade(), adventureDTO.getBiography(), adventureDTO.getMaxPersons(),
-                reservationEntity.getImages(), adventureDTO.getFishingEquipment());
+        Adventure adventure = new Adventure(id, user, adventureDTO.getName(), location, adventureDTO.getDescription(), "",
+                adventureDTO.getCancelConditions(), 0.0, adventureDTO.getBiography(), adventureDTO.getMaxPersons(),
+                new ArrayList<>(), adventureDTO.getFishingEquipment());
 
         adventureService.save(adventure);
 
@@ -85,6 +74,7 @@ public class AdventureController {
     }
 
     @DeleteMapping("/deleteAdventure/{id}")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Adventure> deleteAdventure(@PathVariable Integer id) {
         adventureService.deleteAdventure(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -106,8 +96,15 @@ public class AdventureController {
     }
 
     @GetMapping("/adventure/{id}")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     public Adventure getAdventureById(@PathVariable Integer id) {
         return adventureService.findById(id);
     }
 
+    @PutMapping("/editAdventure")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public ResponseEntity<Adventure> editAdventure(@RequestBody EditAdventureDTO editAdventureDTO) {
+        adventureService.editAdventure(editAdventureDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

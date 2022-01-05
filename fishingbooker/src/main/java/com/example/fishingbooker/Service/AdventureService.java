@@ -1,5 +1,7 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.AdventureDTO;
+import com.example.fishingbooker.DTO.EditAdventureDTO;
 import com.example.fishingbooker.IRepository.IAdventureRepository;
 import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
@@ -15,6 +17,9 @@ public class AdventureService implements IAdventureService {
 
     @Autowired
     private IAdventureRepository adventureRepository;
+
+    @Autowired
+    private LocationService locationService;
 
     @Override
     public Adventure save(Adventure adventure) {
@@ -72,6 +77,12 @@ public class AdventureService implements IAdventureService {
         adventure.setImages(null);
         adventure.setOwner(null);
         return adventure;
+    }
+
+    @Override
+    public void editAdventure(EditAdventureDTO dto) {
+        locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
+        adventureRepository.editAdventure(dto.getName(), dto.getDescription(), dto.getBiography(), dto.getMaxPersons(), dto.getCancelConditions(), dto.getFishingEquipment(), dto.getAdventureId());
     }
 
 
