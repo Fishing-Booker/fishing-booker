@@ -25,6 +25,8 @@ public interface IShipService {
     void deleteRule(Integer ruleIndex, Integer lodgeId);
 
     List<ShipInfoDTO> getAll();
+
     List<String> getFirstLetters();
 
+    List<ShipInfoDTO> searchAndFilter(String name, String letter);
 }

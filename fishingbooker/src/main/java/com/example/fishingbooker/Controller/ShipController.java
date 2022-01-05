@@ -135,4 +135,9 @@ public class ShipController {
     public List<String> getFirstLetters() {
         return shipService.getFirstLetters();
     }
+
+    @GetMapping("/search")
+    public List<ShipInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
+        return shipService.searchAndFilter(name, letter);
+    }
 }

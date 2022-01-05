@@ -392,6 +392,12 @@ h5 {
 }
 
 .ship {
+	background-image: url(./images/boat1.jpg);
+	width: 40vw;
+	height: 50vh;
+}
+
+.adventure {
 	background-image: url(./images/3.jpg);
 	width: 40vw;
 	height: 50vh;

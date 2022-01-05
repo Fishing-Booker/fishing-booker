@@ -15,14 +15,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
 
 @RestController
 @RequestMapping(value = "/adventures", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
+
 @Slf4j
 public class AdventureController {
     @Autowired
@@ -86,4 +87,18 @@ public class AdventureController {
         return location = locationService.save(location);
     }
 
+    @GetMapping()
+    List<AdventureInfoDTO> getAll() {
+        return adventureService.getAll();
+    }
+
+    @GetMapping("/letters")
+    List<String> getFirstLetters() {
+        return adventureService.getFirstLetters();
+    }
+
+    @GetMapping("/search")
+    public List<AdventureInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
+        return adventureService.searchAndFilter(name, letter);
+    }
 }
