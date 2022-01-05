@@ -7,6 +7,7 @@ import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 import com.example.fishingbooker.IRepository.ILodgeRepository;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IService.ILodgeService;
+import com.example.fishingbooker.Mapper.LodgeMapper;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,19 +112,8 @@ public class LodgeService implements ILodgeService {
     public List<LodgeInfoDTO> search(String name, String letter) {
         List<Lodge> lodges = lodgeRepository.search(name, letter);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-
         for (Lodge lodge : lodges) {
-            LodgeInfoDTO dto = new LodgeInfoDTO();
-            dto.setName(lodge.getName());
-            dto.setDescription(lodge.getDescription());
-            dto.setAverageGrade(lodge.getAverageGrade());
-            dto.setRules(lodge.getRules());
-            dto.setCancelConditions(lodge.getCancelConditions());
-            dto.setLocation(new LocationDTO(lodge.getLocation().getAddress(), lodge.getLocation().getCity(), lodge.getLocation().getCountry()));
-            dto.setBedroom(null);
-            dto.setImages(null);
-            dto.setOwner(new OwnerDTO(lodge.getOwner().getName(), lodge.getOwner().getSurname()));
-            lodgesDTO.add(dto);
+            lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return lodgesDTO;
     }
@@ -146,19 +136,8 @@ public class LodgeService implements ILodgeService {
     public List<LodgeInfoDTO> getAll() {
         List<Lodge> lodges = lodgeRepository.findAll();
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-
         for (Lodge lodge : lodges) {
-            LodgeInfoDTO dto = new LodgeInfoDTO();
-            dto.setName(lodge.getName());
-            dto.setDescription(lodge.getDescription());
-            dto.setAverageGrade(lodge.getAverageGrade());
-            dto.setRules(lodge.getRules());
-            dto.setCancelConditions(lodge.getCancelConditions());
-            dto.setLocation(new LocationDTO(lodge.getLocation().getAddress(), lodge.getLocation().getCity(), lodge.getLocation().getCountry()));
-            dto.setBedroom(null);
-            dto.setImages(null);
-            dto.setOwner(new OwnerDTO(lodge.getOwner().getName(), lodge.getOwner().getSurname()));
-            lodgesDTO.add(dto);
+            lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return lodgesDTO;
     }
@@ -170,5 +149,4 @@ public class LodgeService implements ILodgeService {
         }
         return rules;
     }
-
 }
