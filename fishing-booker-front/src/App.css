@@ -235,6 +235,7 @@ h5 {
 	margin-top: 3%;
 	margin-left: 3%;
 	font-size: 1em;
+	font-weight: 520;
 }
 
 .grade {
@@ -244,12 +245,12 @@ h5 {
 
 .stars {
 	display: inline-block;
-	margin-left: 1%;
+	margin-left: 20px;
 }
 
 .description {
 	color: gray;
-	margin-top: 3%;
+	margin-top: 13px;
 	margin-left: 3%;
 	font-size: 1em;
 }
@@ -401,4 +402,45 @@ h5 {
 	background-image: url(./images/3.jpg);
 	width: 40vw;
 	height: 50vh;
+}
+
+.subscribe-link {
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.9em;
+	color: darkblue;
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin-right: 2%;
+	margin-top: 2%;
+}
+
+/* make reservation */
+
+.entity-details {
+	background-color: white;
+	width: 70vw;
+	height: 80vh;
+	cursor: auto;
+}
+
+.entity-details:hover{
+	transform: none;
+}
+
+.reservation-date {
+	margin-left: 45px;
+	margin-top: 20px;
+	height: 30px;
+	width: 180px;
+	border-radius: 2px;
+	border: #000;
+}
+
+.available-dates {
+	margin-left: 15px;
+	font-size: 15px;
+	font-weight: 500;
+	cursor: pointer;
 }
