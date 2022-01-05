@@ -20,5 +20,5 @@ public interface IReservationEntityService {
 
     ReservationEntity findEntityById(Integer entityId);
 
-
+    ReservationEntity getEntityById(Integer entityId);
 }

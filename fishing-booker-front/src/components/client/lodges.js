@@ -20,7 +20,6 @@ const Lodges = () => {
         } else {
             setIsLogged(false)
         }
-
         axios.get(SERVER_URL + "/lodges/letters")
             .then(response => setLetters(response.data));
 
@@ -56,7 +55,6 @@ const Lodges = () => {
                             <p className="entity-info description">{lodge.description}</p>
 
                             {isLogged && <Link to={`/make-reservation/${lodge.id}`} className="reservation-link">Make reservation</Link>}
-                            {isLogged && <Link className="subscribe-link">Subscribe</Link>}
                         </div>
                     </div>
                 </div>
