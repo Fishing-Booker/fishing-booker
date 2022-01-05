@@ -32,7 +32,7 @@ const Navbar = () => {
                 });
             });
         }
-    }, [])
+    }, [isLogged])
 
     const logOut = e => {
         localStorage.removeItem('jwtToken');
