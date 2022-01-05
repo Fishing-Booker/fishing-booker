@@ -10,4 +10,6 @@ public interface IAdventureService {
     List<Adventure> findAll();
 
     List<Adventure> findInstructorAdventures(Integer ownerId);
+
+    void deleteAdventure(Integer id);
 }

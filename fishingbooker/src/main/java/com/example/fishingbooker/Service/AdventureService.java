@@ -32,4 +32,9 @@ public class AdventureService implements IAdventureService {
         }
         return adventures;
     }
+
+    @Override
+    public void deleteAdventure(Integer id) {
+        adventureRepository.deleteAdventure(id);
+    }
 }

@@ -11,18 +11,18 @@ import editImg from '../../images/pencil.png'
 import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddAdventureForm from "./addAdventureForm";
+import DeleteAdventure from "./deleteAdventure";
 
 const InstructorHomepage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const [user, setUser]  =useState([]);
-    const [lodges, setLodges] = useState([]);
-    const [lodgeId, setLodgeId] = useState("");
     const [searchField, setSearchField] = useState("");
     const [filteredLodges, setFilteredLodges] = useState([]);
     const [addAdventure, setAddAdventure] = useState(false);
-    const [deleteLodgeForm, setDeleteLodgeForm] = useState(false);
+    const [deleteAdventureForm, setDeleteAdventureForm] = useState(false);
     const [adventures, setAdventures] = useState([]);
+    const [adventureId, setAdventureId] = useState(0);
 
     useEffect(() => {
 
@@ -41,9 +41,9 @@ const InstructorHomepage = () => {
 
     }, [])
 
-    const deleteLodge = (id) => {
-        setLodgeId(id);
-        setDeleteLodgeForm(true);
+    const deleteAdventure = (id) => {
+        setAdventureId(id);
+        setDeleteAdventureForm(true);
     }
 
     const allAdventures = adventures.length ? (
@@ -57,11 +57,9 @@ const InstructorHomepage = () => {
                         <Link to={'/adventureProfile/' + adventure.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{adventure.name}</div></Link>
                         
                         <div className="buttons">
-                            <Link to="#deleteLodge" onClick={() => deleteLodge(adventure.id)}>
-                                <button title="Delete lodge">
-                                    <img src={deleteImg}/>
-                                </button>
-                            </Link>
+                            <button title="Delete lodge" onClick={() => deleteAdventure(adventure.id)}>
+                                <img src={deleteImg}/>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -94,6 +92,7 @@ const InstructorHomepage = () => {
                 
             </div>
             
+            <DeleteAdventure className="deleting-wrapper" modalIsOpen={deleteAdventureForm} setModalIsOpen={setDeleteAdventureForm} adventureId={adventureId}/>
             
         </div>
     )

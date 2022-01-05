@@ -5,10 +5,7 @@ import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.Model.Adventure;
-import com.example.fishingbooker.Model.Location;
-import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Model.User;
+import com.example.fishingbooker.Model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -84,6 +81,12 @@ public class AdventureController {
         location.setCountry(country);
 
         return location = locationService.save(location);
+    }
+
+    @DeleteMapping("/deleteAdventure/{id}")
+    public ResponseEntity<Adventure> deleteAdventure(@PathVariable Integer id) {
+        adventureService.deleteAdventure(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
