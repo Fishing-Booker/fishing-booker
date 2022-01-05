@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Subscriber {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "subscriber_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -16,7 +16,7 @@ public class Subscriber {
     private User client;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "entity_id", referencedColumnName = "id")
+    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
     public Subscriber() {
