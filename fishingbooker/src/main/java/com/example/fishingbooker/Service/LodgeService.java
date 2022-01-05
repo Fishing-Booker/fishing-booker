@@ -53,6 +53,7 @@ public class LodgeService implements ILodgeService {
             l.setOwner(null);
             l.setBedrooms(null);
             l.setImages(null);
+            l.setReservationPeriods(null);
         }
         return lodges;
     }
