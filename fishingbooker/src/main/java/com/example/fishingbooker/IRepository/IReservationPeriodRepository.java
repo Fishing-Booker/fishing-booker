@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IReservationPeriodRepository extends JpaRepository<ReservationPeriod, Integer> {
 
-    @Query("select r from ReservationPeriod r where r.reservationEntity.id=?1")
+    @Query("SELECT p FROM ReservationPeriod p WHERE p.reservationEntity.id=?1")
     List<ReservationPeriod> findAllPeriods(Integer entityId);
 
 }

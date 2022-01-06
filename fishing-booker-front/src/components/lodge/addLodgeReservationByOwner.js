@@ -1,10 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import '../../css/addingForm.css'
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+import axios from 'axios';
 
-const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
+const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
+
+    const SERVER_URL = process.env.REACT_APP_API; 
+
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [clientId, setClientId] = useState("");
+    const [entityId, setEntityId] = useState("");
+
+    const newReservation = {
+        startDate,
+        endDate,
+        clientId,
+        entityId: lodgeId
+    }
+
+    useEffect(() => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+    })
+
+    const addReservation= () => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.post(SERVER_URL + "/reservations/addReservation", newReservation, {headers: headers})
+          .then(response => {
+            setModalIsOpen(false)
+            window.location.reload();
+        });
+    }
 
    return (
        <div>
@@ -25,15 +54,15 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                 </div>
                                 <div className="data">
                                     <h4>Reservation start:</h4>
-                                    <input type="date"/>
+                                    <input type="datetime-local" required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
                                 </div>
                                 <div className="data">
                                     <h4>Reservation end:</h4>
-                                    <input type="date"/>
+                                    <input type="datetime-local" required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
                                 </div>
                                 <div className="data">
                                     <h4>Number of persons:</h4>
-                                    <input type="number" min="1" step="1" />
+                                    <input type="number" min="1" step="1" value="10" />
                                 </div>
                                 <div className="data">
                                     <h4>Additional services:</h4>
@@ -43,11 +72,9 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                     <h4>Price:</h4>
                                     <input type="text"/>
                                 </div>
-                                <Link to="/lodgeReservations" onClick={() => setModalIsOpen(false)}>
-                                    <button >
-                                        Add
-                                    </button>
-                                </Link>
+                                <button onClick={() => addReservation()}>
+                                    Add
+                                </button>
                             </div> <br/> <br/>
                         </div>
                     </div>

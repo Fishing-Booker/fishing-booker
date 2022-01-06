@@ -1,15 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { useState } from 'react';
 import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import AddLodgeReservationPeriod from './addLodgeReservationPeriod';
 import Calendar from 'react-awesome-calendar';
+import AddLodgeReservationByOwner from './addLodgeReservationByOwner';
+import axios from 'axios';
 
 const LodgeReservationCalendar = () => {
 
     const {lodgeId} = useParams();
+
+    const SERVER_URL = process.env.REACT_APP_API; 
         
     const [addPeriod, setAddPeriod] = useState(false);
+    const [addReservation, setAddReservation] = useState(false);
+
+    useEffect(() => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/periods/freePeriods/" + lodgeId, {headers: headers})
+          .then(response => {});
+    }, [])
 
     const events = [{
         id: 1,
@@ -45,18 +57,20 @@ const LodgeReservationCalendar = () => {
                 <div className="info">
                     <h3>LODGE RESERVATION CALENDAR</h3>
                     <div className="info_data">
-                        <Link to="#addReservationPeriod" onClick={() => setAddPeriod(true)}>
-                            <button className="new-period-btn">
-                                Define new reservation period
-                            </button>
-                        </Link>
-                        <Calendar 
-                            events={events}
-                        />
+                        <button className="new-period-btn" onClick={() => setAddPeriod(true)}>
+                            New reservation period
+                        </button>
+                        <button className="new-period-btn" onClick={() => setAddReservation(true)}>
+                            New reservation
+                        </button>
+
+                        <Calendar events={events}/>
                     </div> <br/> <br/>
                 </div>
             </div>
+
             <AddLodgeReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} entityId={lodgeId}/>
+            <AddLodgeReservationByOwner modalIsOpen={addReservation} setModalIsOpen={setAddReservation} entityId={lodgeId} />
         </div>
     )
 
