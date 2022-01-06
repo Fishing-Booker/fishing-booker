@@ -18,8 +18,9 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
     }
 
     const addPeriod = () => {
-        console.log(newPeriod);
-        axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod)
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod, {headers: headers})
           .then(response => {
             setModalIsOpen(false)
             window.location.reload();

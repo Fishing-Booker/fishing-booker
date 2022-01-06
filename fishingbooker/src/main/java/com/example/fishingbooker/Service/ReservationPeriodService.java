@@ -2,13 +2,8 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IRepository.IReservationPeriodRepository;
-import com.example.fishingbooker.IService.IReservationEntityService;
-import com.example.fishingbooker.IService.IReservationPeriodService;
-import com.example.fishingbooker.IService.IReservationService;
-import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.Model.Reservation;
-import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Model.ReservationPeriod;
+import com.example.fishingbooker.IService.*;
+import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +17,26 @@ public class ReservationPeriodService implements IReservationPeriodService {
     private IReservationPeriodRepository repository;
 
     @Autowired
-    private IReservationEntityService entityService;
+    private ReservationEntityService entityService;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
-    private IReservationService reservationService;
+    private ReservationService reservationService;
+
+    @Autowired
+    private ILodgeService lodgeService;
 
     @Override
     public void save(ReservationPeriodDTO dto) {
         ReservationPeriod newPeriod = new ReservationPeriod();
         newPeriod.setStartDate(dto.getStartDate());
         newPeriod.setEndDate(dto.getEndDate());
-        newPeriod.setReservationEntity(getEntity(dto.getEntityId()));
+        ReservationEntity entity = entityService.findEntityById(dto.getEntityId());
+        User owner = userService.findByUsername("sara");
+        entity.setOwner(owner);
+        newPeriod.setReservationEntity(entity);
         repository.save(newPeriod);
     }
 
@@ -48,13 +49,45 @@ public class ReservationPeriodService implements IReservationPeriodService {
     public List<ReservationPeriod> findFreePeriods(Integer entityId) {
         List<ReservationPeriod> allPeriods = findAllPeriods(entityId);
         List<Reservation> allReservations = reservationService.findEntityReservations(entityId);
-        List<ReservationPeriod> freePeriods = new ArrayList<>();
+        List<ReservationPeriod> freePeriods = allPeriods;
+        for (Reservation reservation : allReservations) {
+            freePeriods = getChangedPeriods(freePeriods, reservation);
+        }
         return freePeriods;
     }
 
+    private List<ReservationPeriod> getChangedPeriods(List<ReservationPeriod> periods, Reservation reservation){
+        List<ReservationPeriod> newPeriods = new ArrayList<>();
+        for (ReservationPeriod period : periods) {
+            if(period.getStartDate().before(reservation.getStartDate()) && period.getEndDate().after(reservation.getEndDate())){
+                if(period.getStartDate().before(reservation.getStartDate())){
+                    ReservationEntity entity = new ReservationEntity();
+                    entity.setOwner(new User());
+                    ReservationPeriod newPeriod = new ReservationPeriod(0, period.getStartDate(), reservation.getStartDate(), entity);
+                    newPeriods.add(newPeriod);
+                }
+                if(reservation.getEndDate().before(period.getEndDate())){
+                    ReservationEntity entity = new ReservationEntity();
+                    entity.setOwner(new User());
+                    ReservationPeriod newPeriod = new ReservationPeriod(0, reservation.getEndDate(), period.getEndDate(), entity);
+                    newPeriods.add(newPeriod);
+                }
+            } else {
+                ReservationEntity entity = new ReservationEntity();
+                entity.setOwner(new User());
+                ReservationPeriod newPeriod = new ReservationPeriod(0, period.getStartDate(), period.getEndDate(), entity);
+                newPeriods.add(newPeriod);
+            }
+        }
+        return newPeriods;
+    }
+
     private ReservationEntity getEntity(Integer id){
-        ReservationEntity entity = entityService.findEntityById(id);
-        entity.setOwner(userService.findUserById(1));
+        Lodge l = lodgeService.findById(id);
+        ReservationEntity entity = new ReservationEntity(id, l.getOwner(), l.getName(), l.getLocation(),
+                l.getDescription(), l.getRules(), l.getCancelConditions(), l.getAverageGrade(), 10, l.getImages());
+        User owner = userService.findUserById(1);
+        entity.setOwner(owner);
         return entity;
     }
 }

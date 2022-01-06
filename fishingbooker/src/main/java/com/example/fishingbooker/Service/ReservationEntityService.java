@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ReservationEntityService implements IReservationEntityService {
@@ -20,7 +22,7 @@ public class ReservationEntityService implements IReservationEntityService {
     private IReservationEntityRepository entityRepository;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Override
     public List<ReservationEntity> findEntities() {
@@ -62,12 +64,14 @@ public class ReservationEntityService implements IReservationEntityService {
         return entity.getId() + 1;
     }
 
+    @Override
     public ReservationEntity findEntityById(Integer entityId) {
         ReservationEntity entity = entityRepository.findEntityById(entityId);
-        entity.setOwner(null);
+        entity.setOwner(userService.findUserById(1));
         entity.setImages(null);
+        entity.setReservationPeriods(null);
         return entity;
-
     }
+
 
 }
