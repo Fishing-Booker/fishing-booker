@@ -25,5 +25,7 @@ public interface IAdventureService {
     Adventure findById(Integer id);
 
     void editAdventure(EditAdventureDTO dto);
-    
+
+    AdventureInfoDTO getById(Integer id);
+
 }

@@ -56,7 +56,7 @@ const Ships = () => {
                             <p className="entity-info location">{ship.location.address}, {ship.location.city}, {ship.location.country}</p>
                             <p className="entity-info description">{ship.description}</p>
 
-                            {isLogged && <Link className="reservation-link">Make reservation</Link>}
+                            {isLogged && <Link to={`/ship-reservation/${ship.id}`} className="reservation-link">Make reservation</Link>}
                         </div>
                     </div>
                 </div>

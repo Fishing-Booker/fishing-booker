@@ -1,16 +1,16 @@
 package com.example.fishingbooker.DTO.lodge;
 
 public class LodgeInfoDTO {
-    Integer id;
-    String name;
-    String description;
-    double averageGrade;
-    String rules;
-    String cancelConditions;
-    LocationDTO location;
-    ImageDTO images;
-    BedroomDTO bedroom;
-    OwnerDTO owner;
+    private Integer id;
+    private String name;
+    private String description;
+    private double averageGrade;
+    private String rules;
+    private String cancelConditions;
+    private LocationDTO location;
+    private ImageDTO images;
+    private BedroomDTO bedroom;
+    private OwnerDTO owner;
 
     public LodgeInfoDTO() {
     }

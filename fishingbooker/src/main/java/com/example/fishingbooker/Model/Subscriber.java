@@ -28,6 +28,11 @@ public class Subscriber {
         this.reservationEntity = reservationEntity;
     }
 
+    public Subscriber(User client, ReservationEntity reservationEntity) {
+        this.client = client;
+        this.reservationEntity = reservationEntity;
+    }
+
     public Integer getId() {
         return id;
     }

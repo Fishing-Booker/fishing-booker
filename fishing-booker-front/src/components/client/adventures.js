@@ -56,7 +56,7 @@ const Adventures = () => {
                             <p className="entity-info location">{adventure.location.address}, {adventure.location.city}, {adventure.location.country}</p>
                             <p className="entity-info description">{adventure.description}</p>
 
-                            {isLogged && <Link className="reservation-link">Make reservation</Link>}
+                            {isLogged && <Link to={`/adventure-reservation/${adventure.id}`} className="reservation-link">Make reservation</Link>}
                         </div>
                     </div>
                 </div>

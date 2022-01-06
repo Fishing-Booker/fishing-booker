@@ -1,35 +1,31 @@
-package com.example.fishingbooker.DTO.adventure;
+package com.example.fishingbooker.DTO;
 
 import com.example.fishingbooker.DTO.lodge.ImageDTO;
 import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 
-public class AdventureInfoDTO {
+public class SubscriptionDTO {
     private Integer id;
     private String name;
     private String description;
     private double averageGrade;
     private String rules;
     private String cancelConditions;
-    private String biography;
-    private Integer maxPersons;
     private LocationDTO location;
     private ImageDTO images;
     private OwnerDTO owner;
 
-    public AdventureInfoDTO() {
+    public SubscriptionDTO() {
     }
 
-    public AdventureInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, String biography,
-                            Integer maxPersons, LocationDTO location, ImageDTO images, OwnerDTO owner) {
+    public SubscriptionDTO(Integer id, String name, String description, double averageGrade, String rules,
+                           String cancelConditions, LocationDTO location, ImageDTO images, OwnerDTO owner) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
         this.rules = rules;
         this.cancelConditions = cancelConditions;
-        this.biography = biography;
-        this.maxPersons = maxPersons;
         this.location = location;
         this.images = images;
         this.owner = owner;
@@ -81,22 +77,6 @@ public class AdventureInfoDTO {
 
     public void setCancelConditions(String cancelConditions) {
         this.cancelConditions = cancelConditions;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    public Integer getMaxPersons() {
-        return maxPersons;
-    }
-
-    public void setMaxPersons(Integer maxPersons) {
-        this.maxPersons = maxPersons;
     }
 
     public LocationDTO getLocation() {

@@ -132,4 +132,10 @@ public class ShipService implements IShipService {
         }
         return shipsDTO;
     }
+
+    @Override
+    public ShipInfoDTO getById(Integer id) {
+        Ship ship = shipRepository.findShipById(id);
+        return ShipMapper.mapToDTO(ship);
+    }
 }

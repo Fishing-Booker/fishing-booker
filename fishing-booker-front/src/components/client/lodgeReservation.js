@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import star from "../../images/star.png";
+import { useToasts } from "react-toast-notifications";
 
-const MakeReservation = () => {
+const LodgeReservation = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [lodge, setLodge] = useState([]);
     const [address, setAddress] = useState('')
@@ -12,19 +13,33 @@ const MakeReservation = () => {
     const [ownerName, setOwnerName] = useState('')
     const [ownerSurname, setOwnerSurname] = useState('')
     const { id } = useParams();
+    const [user, setUser] = useState([]);
+    const [isSubscribed, setIsSubscribed] = useState(true)
+    const [entityId, setEntityId] = useState(id)
+    const { addToast } = useToasts();
 
     useEffect(() => {
         axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
             .then(response => {
                 setLodge(response.data); 
-                console.log(response.data); 
                 setAddress(response.data.location.address);
                 setCity(response.data.location.city);
                 setCountry(response.data.location.country);
                 setOwnerName(response.data.owner.name);
                 setOwnerSurname(response.data.owner.surname);
+                setEntityId(response.data.id)
             });
-    }, [id])
+        
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+            .then(response => {
+                setUser(response.data); 
+                var subscriberDTO = {entityId, userId: response.data.id}
+                axios.post(SERVER_URL + "/subscribe/isSubscribed", subscriberDTO)
+                    .then(response => setIsSubscribed(response.data))
+            })
+        
+    }, [id, isSubscribed])
 
     const renderStars = (grade) => {
         let stars = []
@@ -34,9 +49,27 @@ const MakeReservation = () => {
         return stars;
     }
 
+    const handleSubscribe = (entityId, userId) => {
+        var subscriberDTO = {entityId, userId}
+        axios.post(SERVER_URL + "/subscribe", subscriberDTO)
+            .then(() => {
+                addToast("You are successfully subscribed.", { appearance: "success" });
+                setIsSubscribed(true);
+            });
+    }
+
+    const handleUnsubscribe = (entityId, userId) => {
+        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId)
+            .then(() => {
+                addToast("You are no longer subscribed.", { appearance: "success" });
+                setIsSubscribed(false);
+            })
+    }
+
     return (
         <div className="card entity-details">
-            <Link className="subscribe-link">Subscribe</Link>
+            {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
+            {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(lodge.id, user.id)}>Subscribe</a>}
             <p className="entity-info name" style={{marginTop: '2%'}}>{lodge.name}
                 <div className="stars">{renderStars(lodge.averageGrade)} </div>
             </p>
@@ -54,4 +87,4 @@ const MakeReservation = () => {
     )
 }
 
-export default MakeReservation;
+export default LodgeReservation;

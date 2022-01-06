@@ -42,15 +42,16 @@ import Explore from "./explore";
 import Adventures from "./client/adventures";
 import Lodges from "./client/lodges";
 import Ships from "./client/ships";
-import Search from "./search";
 import ShipProfile from "./ship/shipProfile";
 import ShipRules from "./ship/shipRules";
 import ShipNavigationEquipment from "./ship/shipNavigationEq";
 import ShipFishingEquipment from "./ship/shipFishingEq";
 import Reservation from "./client/reservations";
 import ReservationHistory from "./client/reservationHistory";
-import MakeReservation from "./client/makeReservation";
-
+import LodgeReservation from "./client/lodgeReservation";
+import Subscriptions from "./client/subscriptions";
+import ShipReservation from "./client/shipReservation";
+import AdventureReservation from "./client/adventureReservation";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -168,7 +169,10 @@ const FrontPage = () => {
                             <Route path="/explore"><Explore/></Route>
                             <Route path="/client-reservations"><Reservation/></Route>
                             <Route path="/reservation-history"><ReservationHistory/></Route>
-                            <Route path="/make-reservation/:id"><MakeReservation/></Route>
+                            <Route path="/lodge-reservation/:id"><LodgeReservation/></Route>
+                            <Route path="/subscriptions/:id"><Subscriptions/></Route>
+                            <Route path="/ship-reservation/:id"><ShipReservation/></Route>
+                            <Route path="/adventure-reservation/:id"><AdventureReservation/></Route>
                             <div className="row-search">
                                 <Route path="/adventures"><Adventures/></Route>
                                 <Route path="/lodges"><Lodges/></Route>
