@@ -85,5 +85,9 @@ public class AdventureService implements IAdventureService {
         adventureRepository.editAdventure(dto.getName(), dto.getDescription(), dto.getBiography(), dto.getMaxPersons(), dto.getCancelConditions(), dto.getFishingEquipment(), dto.getAdventureId());
     }
 
-
+    @Override
+    public AdventureInfoDTO getById(Integer id) {
+        Adventure adventure = adventureRepository.findAdventureById(id);
+        return AdventureMapper.mapToDTO(adventure);
+    }
 }

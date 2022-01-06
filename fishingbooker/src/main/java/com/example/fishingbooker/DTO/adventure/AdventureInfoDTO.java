@@ -5,22 +5,24 @@ import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 
 public class AdventureInfoDTO {
-    String name;
-    String description;
-    double averageGrade;
-    String rules;
-    String cancelConditions;
-    String biography;
-    Integer maxPersons;
-    LocationDTO location;
-    ImageDTO images;
-    OwnerDTO owner;
+    private Integer id;
+    private String name;
+    private String description;
+    private double averageGrade;
+    private String rules;
+    private String cancelConditions;
+    private String biography;
+    private Integer maxPersons;
+    private LocationDTO location;
+    private ImageDTO images;
+    private OwnerDTO owner;
 
     public AdventureInfoDTO() {
     }
 
-    public AdventureInfoDTO(String name, String description, double averageGrade, String rules, String cancelConditions, String biography,
+    public AdventureInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, String biography,
                             Integer maxPersons, LocationDTO location, ImageDTO images, OwnerDTO owner) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
@@ -31,6 +33,14 @@ public class AdventureInfoDTO {
         this.location = location;
         this.images = images;
         this.owner = owner;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

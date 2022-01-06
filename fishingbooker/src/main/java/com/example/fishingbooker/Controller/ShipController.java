@@ -140,4 +140,9 @@ public class ShipController {
     public List<ShipInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
         return shipService.searchAndFilter(name, letter);
     }
+
+    @GetMapping("/ship")
+    public ShipInfoDTO getById(@RequestParam Integer id) {
+        return shipService.getById(id);
+    }
 }
