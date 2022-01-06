@@ -75,6 +75,13 @@
     margin-top: 5%;
   }
 
+  .adding-wrapper .right .info .info_data .image-style{
+    width: 10%;
+    height: 10%;
+    margin-left: 50%;
+    margin-top: 10%;
+  }
+
 .adding-wrapper .right .info_data .client-data{
     width: 60%;
     margin-left: 5%;

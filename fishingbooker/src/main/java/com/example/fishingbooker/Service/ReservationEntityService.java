@@ -58,8 +58,12 @@ public class ReservationEntityService implements IReservationEntityService {
     @Override
     public Integer setId() {
         List<ReservationEntity> entities = entityRepository.findAll();
-        ReservationEntity entity = entities.get(entities.size() - 1);
-        return entity.getId() + 1;
+        if(entities.size() != 0) {
+            ReservationEntity entity = entities.get(entities.size() - 1);
+            return entity.getId() + 1;
+        } else {
+            return 1;
+        }
     }
 
     public ReservationEntity findEntityById(Integer entityId) {

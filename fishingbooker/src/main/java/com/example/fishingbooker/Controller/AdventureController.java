@@ -112,4 +112,5 @@ public class AdventureController {
     public AdventureInfoDTO getById(@RequestParam Integer id) {
         return adventureService.getById(id);
     }
+
 }

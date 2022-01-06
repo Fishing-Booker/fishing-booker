@@ -39,6 +39,7 @@ const InstructorHomepage = () => {
         
         });
 
+
     }, [])
 
     const deleteAdventure = (id) => {

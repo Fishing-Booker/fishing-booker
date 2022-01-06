@@ -1,39 +1,35 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import '../../css/lodgeProfile.css';
+import UploadImage from "../uploadImage";
 
 const AdventureImages = () => {
     const {adventureId} = useParams();
-    const lodgeId= 1;
 
     const SERVER_URL = process.env.REACT_APP_API;
 
     const [images, setImages] = useState([]);
 
+    const [uploadImage, setUploadImage] = useState(false);
+
     useEffect(() => {
 
-        setImages([
-            {
-                "id" : 1,
-                "path" : "../images/lodgeImg1.jpg"
-            },
-            {
-                "id" : 2,
-                "path" : "../images/lodgeImg1.jpg"
-            },
-            {
-                "id" : 3,
-                "path" : "../images/lodgeImg1.jpg"
-            }
-        ])
+        const headers = {'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + '/images/getImages/' + adventureId, {headers:headers})
+        .then(response => {
+            setImages(response.data);
+        });
+
 
     }, [])
 
     const allImages = images.length ? (
         images.map(image => {
             return(
-                <div className="card-image" key={image.id}>
-                    <img src={image.path} />
+                <div className="card-image">
+                    <img src={image} />
                 </div>
             )
         }) 
@@ -58,9 +54,10 @@ const AdventureImages = () => {
                     <div className="info_data-images">
                         { allImages }
                     </div> <br/> <br/>
-                    <button className="edit-profile-btn" >Add new images</button>
+                    <button className="edit-profile-btn" onClick={() => setUploadImage(true)}>Add new images</button>
                 </div>
             </div>
+            <UploadImage modalIsOpen={uploadImage} setModalIsOpen={setUploadImage}/>
         </div>
     )
 
