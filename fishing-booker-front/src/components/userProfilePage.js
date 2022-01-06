@@ -1,4 +1,3 @@
-import { getDefaultNormalizer } from '@testing-library/react';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
 import './../css/usersProfile.css';

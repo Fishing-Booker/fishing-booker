@@ -1,6 +1,4 @@
-import React, { Component } from 'react'
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
+import React from 'react'
 import '../css/addingForm.css'
 import Modal from 'react-modal'
 import { useState } from 'react';
@@ -55,7 +53,7 @@ const UploadImage = ({modalIsOpen, setModalIsOpen}) => {
                                     <input type="file" name="image" accept="image/png, image/jpeg" onChange={(e) => imageHandler(e)} />
                                 </div>
                                 <div className="image-style">
-                                    <img alt="Image preview" src={uploadedImage} width="200" height="200"/>
+                                    <img alt='preview' src={uploadedImage} width="200" height="200"/>
                                 </div>
                                 <button onClick={() => uploadImage()}>
                                     Add

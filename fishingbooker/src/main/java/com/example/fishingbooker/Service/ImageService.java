@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.ImageDTO;
 import com.example.fishingbooker.DTO.UploadImageDTO;
 import com.example.fishingbooker.IRepository.IImageRepository;
 import com.example.fishingbooker.IService.IImageService;
@@ -43,14 +44,20 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public List<String> findEntityImages(Integer entityId) throws IOException {
+    public List<ImageDTO> findEntityImages(Integer entityId) throws IOException {
         List<Image> images = imageRepository.findEnitityImages(entityId);
-        List<String> base64Images = new ArrayList<>();
+        List<ImageDTO> imageDTOS = new ArrayList<>();
         for (Image i: images) {
             String base64 = encodeImageToBase64(i.getPath());
-            base64Images.add(base64);
+            ImageDTO dto = new ImageDTO(i.getId(), base64);
+            imageDTOS.add(dto);
         }
-        return base64Images;
+        return imageDTOS;
+    }
+
+    @Override
+    public void deleteImage(Integer imageId) {
+        imageRepository.deleteImage(imageId);
     }
 
     public void saveImage(UploadImageDTO uploadImageDTO) throws IOException {
