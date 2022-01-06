@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.ImageDTO;
 import com.example.fishingbooker.DTO.UploadImageDTO;
 import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.IReservationEntityService;
@@ -48,7 +49,13 @@ public class ImageController {
     }
 
     @GetMapping("/getImages/{entityId}")
-    public List<String> getEntityImages(@PathVariable Integer entityId) throws IOException {
+    public List<ImageDTO> getEntityImages(@PathVariable Integer entityId) throws IOException {
         return imageService.findEntityImages(entityId);
+    }
+
+    @DeleteMapping("/deleteImage/{imageId}")
+    public ResponseEntity<Image> deleteImage(@PathVariable Integer imageId) {
+        imageService.deleteImage(imageId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

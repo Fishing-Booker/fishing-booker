@@ -9,7 +9,6 @@ const LoginForm = () => {
   const SERVER_URL = process.env.REACT_APP_API;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("")
   const history = useHistory();
   const { addToast } = useToasts();
 

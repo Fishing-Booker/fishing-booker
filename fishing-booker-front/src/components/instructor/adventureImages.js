@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import '../../css/lodgeProfile.css';
+import DeleteImageDialog from "../deleteImageDialog";
 import UploadImage from "../uploadImage";
 
 const AdventureImages = () => {
@@ -13,6 +14,10 @@ const AdventureImages = () => {
 
     const [uploadImage, setUploadImage] = useState(false);
 
+    const[deleteImage, setDeleteImage] = useState(false);
+
+    const [imageId, setImageId] = useState(0);
+
     useEffect(() => {
 
         const headers = {'Content-Type': 'application/json',
@@ -20,24 +25,17 @@ const AdventureImages = () => {
         axios.get(SERVER_URL + '/images/getImages/' + adventureId, {headers:headers})
         .then(response => {
             setImages(response.data);
+            console.log(response.data);
         });
 
 
     }, [])
 
-    const allImages = images.length ? (
-        images.map(image => {
-            return(
-                <div className="card-image">
-                    <img src={image} />
-                </div>
-            )
-        }) 
-    ): (
-        <div className="center">
-            Add images for your lodge
-        </div>
-    )
+    const deleteImageFunc = (image) => {
+        console.log(image)
+        setDeleteImage(true)
+        setImageId(image.imageId)
+    }
 
     return (
         <div className="wrapper">
@@ -51,13 +49,19 @@ const AdventureImages = () => {
             <div className="right">
                 <div className="info">
                     <h3>ADVENTURE IMAGES</h3>
-                    <div className="info_data-images">
-                        { allImages }
-                    </div> <br/> <br/>
+                    {images.length==0 && <div>Add images</div>}
+                    {images && <div className="info_data-images">
+                        {images.map((image) => (
+                            <div className="card-image" key={image.imageId}>
+                                <img src={image.base64} onClick={() => deleteImageFunc(image)} />
+                            </div>
+                        ))}
+                    </div> }<br/> <br/>
                     <button className="edit-profile-btn" onClick={() => setUploadImage(true)}>Add new images</button>
                 </div>
             </div>
             <UploadImage modalIsOpen={uploadImage} setModalIsOpen={setUploadImage}/>
+            <DeleteImageDialog modalIsOpen={deleteImage} setModalIsOpen={setDeleteImage} imageId={imageId}/>
         </div>
     )
 
