@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import star from "../../images/star.png";
 import { useToasts } from "react-toast-notifications";
 
-const MakeReservation = () => {
+const AdventureReservation = () => {
     const SERVER_URL = process.env.REACT_APP_API;
-    const [lodge, setLodge] = useState([]);
+    const [adventure, setAdventure] = useState([]);
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [country, setCountry] = useState('')
@@ -17,13 +17,11 @@ const MakeReservation = () => {
     const [isSubscribed, setIsSubscribed] = useState(true)
     const [entityId, setEntityId] = useState(id)
     const { addToast } = useToasts();
-    const history = useHistory();
-
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
+        axios.get(SERVER_URL + "/adventures/adventure?id=" + id)
             .then(response => {
-                setLodge(response.data); 
+                setAdventure(response.data); 
                 setAddress(response.data.location.address);
                 setCity(response.data.location.city);
                 setCountry(response.data.location.country);
@@ -70,13 +68,13 @@ const MakeReservation = () => {
 
     return (
         <div className="card entity-details">
-            {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
-            {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(lodge.id, user.id)}>Subscribe</a>}
-            <p className="entity-info name" style={{marginTop: '2%'}}>{lodge.name}
-                <div className="stars">{renderStars(lodge.averageGrade)} </div>
+            {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(adventure.id, user.id)}>Unsubscribe</a>}
+            {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(adventure.id, user.id)}>Subscribe</a>}
+            <p className="entity-info name" style={{marginTop: '2%'}}>{adventure.name}
+                <div className="stars">{renderStars(adventure.averageGrade)} </div>
             </p>
             <p className="entity-info location">{address}, {city}, {country}</p>
-            <p className="entity-info description">{lodge.description}</p>
+            <p className="entity-info description">{adventure.description}</p>
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
             <br></br>
@@ -89,4 +87,4 @@ const MakeReservation = () => {
     )
 }
 
-export default MakeReservation;
+export default AdventureReservation;

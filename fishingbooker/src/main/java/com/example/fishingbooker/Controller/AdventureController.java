@@ -107,4 +107,9 @@ public class AdventureController {
         adventureService.editAdventure(editAdventureDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/adventure")
+    public AdventureInfoDTO getById(@RequestParam Integer id) {
+        return adventureService.getById(id);
+    }
 }

@@ -8,6 +8,7 @@ import com.example.fishingbooker.Model.Adventure;
 public class AdventureMapper {
     public static AdventureInfoDTO mapToDTO(Adventure adventure) {
         AdventureInfoDTO dto = new AdventureInfoDTO();
+        dto.setId(adventure.getId());
         dto.setName(adventure.getName());
         dto.setAverageGrade(adventure.getAverageGrade());
         dto.setDescription(adventure.getDescription());

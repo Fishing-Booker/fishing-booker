@@ -8,6 +8,7 @@ import com.example.fishingbooker.Model.Ship;
 public class ShipMapper {
     public static ShipInfoDTO mapToDTO(Ship ship) {
         ShipInfoDTO dto = new ShipInfoDTO();
+        dto.setId(ship.getId());
         dto.setName(ship.getName());
         dto.setDescription(ship.getDescription());
         dto.setAverageGrade(ship.getAverageGrade());

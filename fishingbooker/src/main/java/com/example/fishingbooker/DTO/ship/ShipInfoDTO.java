@@ -5,24 +5,26 @@ import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 
 public class ShipInfoDTO {
-    String name;
-    String description;
-    double averageGrade;
-    String rules;
-    String cancelConditions;
-    String shipType;
-    double length;
-    double maxSpeed;
-    Integer capacity;
-    LocationDTO location;
-    ImageDTO images;
-    OwnerDTO owner;
+    private Integer id;
+    private String name;
+    private String description;
+    private double averageGrade;
+    private String rules;
+    private String cancelConditions;
+    private String shipType;
+    private double length;
+    private double maxSpeed;
+    private Integer capacity;
+    private LocationDTO location;
+    private ImageDTO images;
+    private OwnerDTO owner;
 
     public ShipInfoDTO() {
     }
 
-    public ShipInfoDTO(String name, String description, double averageGrade, String rules, String cancelConditions, String shipType, double length, double maxSpeed,
+    public ShipInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, String shipType, double length, double maxSpeed,
                        Integer capacity, LocationDTO location, ImageDTO images, OwnerDTO owner) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.averageGrade = averageGrade;
@@ -35,6 +37,14 @@ public class ShipInfoDTO {
         this.location = location;
         this.images = images;
         this.owner = owner;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

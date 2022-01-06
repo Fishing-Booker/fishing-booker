@@ -29,4 +29,6 @@ public interface IShipService {
     List<String> getFirstLetters();
 
     List<ShipInfoDTO> searchAndFilter(String name, String letter);
+
+    ShipInfoDTO getById(Integer id);
 }

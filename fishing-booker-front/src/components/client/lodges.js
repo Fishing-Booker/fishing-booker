@@ -54,7 +54,7 @@ const Lodges = () => {
                             <p className="entity-info location">{lodge.location.address}, {lodge.location.city}, {lodge.location.country}</p>
                             <p className="entity-info description">{lodge.description}</p>
 
-                            {isLogged && <Link to={`/make-reservation/${lodge.id}`} className="reservation-link">Make reservation</Link>}
+                            {isLogged && <Link to={`/lodge-reservation/${lodge.id}`} className="reservation-link">Make reservation</Link>}
                         </div>
                     </div>
                 </div>
