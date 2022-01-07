@@ -77,4 +77,9 @@ public class ReservationEntityService implements IReservationEntityService {
         return entity;
     }
 
+    @Override
+    public ReservationEntity getEntityById(Integer entityId) {
+        return null;
+    }
+
 }
