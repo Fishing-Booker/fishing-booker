@@ -42,8 +42,7 @@ const LodgeProfile = () => {
     }
 
     useEffect(() => {
-        const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + '/lodges/lodge/' + lodgeId, {headers: headers})
             .then(response => {

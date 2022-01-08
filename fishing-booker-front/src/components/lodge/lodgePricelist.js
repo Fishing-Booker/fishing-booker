@@ -5,41 +5,31 @@ import { Link, useParams } from "react-router-dom";
 import '../../css/lodgePricelist.css';
 import axios from 'axios';
 import deleteImg from '../../images/trash.png';
+import AddLodgePrice from './addLodgePrice';
 
 const LodgePriceList = () => {
 
     const { lodgeId } = useParams();
 
+    const SERVER_URL = process.env.REACT_APP_API; 
+
     const [prices, setPrices] = useState([]);
     const [editPrices, setEditPrices] = useState(false);
 
+    const [addPriceForm, setAddPriceForm] = useState(false);
+
     useEffect(() => {
 
-        /*axios.get(SERVER_URL + 'lodgePrices/' + lodgeId)
-            .then(response => {setPrices(response.data); console.log(response.data)});*/
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        setPrices([
-            {
-                "id" : 1,
-                "name": "1 night",
-                "price": 350.0,
-                "type": "Regular" 
-            },
-            {
-                "id" : 2,
-                "name": "1 night with breakfast",
-                "price": 400.0,
-                "type": "Regular" 
-            },
-            {
-                "id" : 3,
-                "name": "Weekend",
-                "price": 500.0,
-                "type": "Regular" 
-            }
-        ])
+        axios.get(SERVER_URL + '/prices/entityPrices/' + lodgeId, {headers: headers})
+            .then(response => {setPrices(response.data); console.log(response.data)});
 
     }, [])
+
+    const addPrice = () => {
+        setAddPriceForm(true);
+    }
 
     const allPrices = prices.length ? (
         prices.map(price => {
@@ -47,7 +37,7 @@ const LodgePriceList = () => {
                 <li class="table-row" key={price.id}>
                     <div class="col col-1" >{price.name}</div>
                     <div class="col col-3" >${price.price}</div>
-                    <div class="col col-4" >{price.type}</div>
+                    <div class="col col-4" >{price.serviceType}</div>
                 </li>
             )
         })
@@ -61,11 +51,11 @@ const LodgePriceList = () => {
                 <div className='edit-pricelist-form'>
                     <div className='edit-pricelist'>
                         <label style={{'font-weight': 'bold'}}>Service name: </label>
-                        {price.name}<br/>
+                        {price.serviceName}<br/>
                         <label style={{'font-weight': 'bold'}}>Price: </label>
-                        ${price.price}<br/>
+                        ${price.servicePrice}<br/>
                         <label style={{'font-weight': 'bold'}}>Type: </label>
-                        {price.type}
+                        {price.serviceType}
                     </div>
                     <button className='rules-btn' >
                         <img src={deleteImg} />
@@ -82,7 +72,9 @@ const LodgePriceList = () => {
         <div>
             {editPricesForm}
             <br/><br/>
-            <button className="edit-profile-btn"> Add new price</button>
+            <button className="edit-profile-btn" onClick={() => addPrice()}> 
+                Add new price
+            </button>
         </div>
     ) : (
         <div>
@@ -96,7 +88,9 @@ const LodgePriceList = () => {
                     {allPrices}
                 </ul>
             </div><br/> <br/>
-            <button className="edit-profile-btn" onClick={() => setEditPrices(true)}>Edit prices</button>
+            <button className="edit-profile-btn" onClick={() => setEditPrices(true)}>
+                Edit prices
+            </button>
         </div>
     )
 
@@ -118,6 +112,8 @@ const LodgePriceList = () => {
                     </div>
                 </div>
             </div>
+
+            <AddLodgePrice modalIsOpen={addPriceForm} setModalIsOpen={setAddPriceForm} entityId={lodgeId} />
         </div>
     )
 }

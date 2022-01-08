@@ -9,8 +9,8 @@ public interface IReservationPeriodService {
 
     void save(ReservationPeriodDTO dto);
 
-    List<ReservationPeriod> findAllPeriods(Integer entityId);
+    List<ReservationPeriodDTO> findAllPeriods(Integer entityId);
 
-    List<ReservationPeriod> findFreePeriods(Integer entityId);
+    List<ReservationPeriodDTO> findFreePeriods(Integer entityId);
 
 }

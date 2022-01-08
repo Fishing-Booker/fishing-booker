@@ -13,7 +13,7 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
     @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 

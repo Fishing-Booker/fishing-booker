@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface IReservationEntityRepository extends JpaRepository<ReservationEntity, Integer> {
 
     @Query("SELECT e FROM ReservationEntity e WHERE e.id=?1")
-    ReservationEntity findEntityById(Integer id);
+    ReservationEntity findEntityById(Integer entityId);
 
 }
