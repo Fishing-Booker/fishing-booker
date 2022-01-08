@@ -5,29 +5,31 @@ import '../../css/addingForm.css'
 import Modal from 'react-modal';
 import axios from 'axios';
 
-const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
+const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [clientId, setClientId] = useState("");
-    const [entityId, setEntityId] = useState("");
+
+    useEffect(() => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        console.log(entityId);
+    }, [])
 
     const newReservation = {
         startDate,
         endDate,
         clientId,
-        entityId: lodgeId
+        entityId
     }
 
-    useEffect(() => {
-        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
-    })
 
     const addReservation= () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
+        console.log(entityId);
         axios.post(SERVER_URL + "/reservations/addReservation", newReservation, {headers: headers})
           .then(response => {
             setModalIsOpen(false)

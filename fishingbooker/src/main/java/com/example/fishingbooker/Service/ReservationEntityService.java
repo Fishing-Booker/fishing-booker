@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.Image;
@@ -10,12 +11,14 @@ import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ReservationEntityService implements IReservationEntityService {
 
     @Autowired
@@ -69,12 +72,16 @@ public class ReservationEntityService implements IReservationEntityService {
     }
 
     @Override
-    public ReservationEntity findEntityById(Integer entityId) {
+    public ReservationEntityDTO findEntityById(Integer entityId) {
         ReservationEntity entity = entityRepository.findEntityById(entityId);
-        entity.setOwner(userService.findUserById(1));
-        entity.setImages(null);
-        entity.setReservationPeriods(null);
-        return entity;
+        return new ReservationEntityDTO(entityId, entity.getName(), entity.getLocation().getId(),
+                entity.getDescription(), entity.getRules(), entity.getCancelConditions(), entity.getAverageGrade(),
+                entity.getMaxPersons());
+    }
+
+    @Override
+    public ReservationEntity getEntityById(Integer entityId) {
+        return entityRepository.findEntityById(entityId);
     }
 
 }

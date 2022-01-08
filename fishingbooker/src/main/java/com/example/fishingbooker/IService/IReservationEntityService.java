@@ -1,9 +1,12 @@
 package com.example.fishingbooker.IService;
 
+import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.Model.ReservationEntity;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 public interface IReservationEntityService {
 
     List<ReservationEntity> findEntities();
@@ -18,7 +21,7 @@ public interface IReservationEntityService {
 
     Integer setId();
 
-    ReservationEntity findEntityById(Integer entityId);
+    ReservationEntityDTO findEntityById(Integer entityId);
 
     ReservationEntity getEntityById(Integer entityId);
 }
