@@ -6,6 +6,7 @@ public class UpdateLodgeDTO {
     private String address;
     private String city;
     private String country;
+    private Integer maxPersons;
     private String description;
     private Integer oneBed;
     private Integer twoBed;
@@ -15,12 +16,13 @@ public class UpdateLodgeDTO {
     public UpdateLodgeDTO() {
     }
 
-    public UpdateLodgeDTO(String name, Integer locationId, String address, String city, String country, String description, Integer oneBed, Integer twoBed, Integer threeBed, Integer fourBed) {
+    public UpdateLodgeDTO(String name, Integer locationId, String address, String city, String country, Integer maxPersons, String description, Integer oneBed, Integer twoBed, Integer threeBed, Integer fourBed) {
         this.name = name;
         this.locationId = locationId;
         this.address = address;
         this.city = city;
         this.country = country;
+        this.maxPersons = maxPersons;
         this.description = description;
         this.oneBed = oneBed;
         this.twoBed = twoBed;
@@ -98,6 +100,14 @@ public class UpdateLodgeDTO {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPrersons) {
+        this.maxPersons = maxPrersons;
     }
 
     public String getDescription() {

@@ -14,6 +14,7 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
+    const [maxPersons, setMaxPersons] = useState("");
     const [description, setDescription] = useState("");
     const [oneBed, setOneBed] = useState("0");
     const [twoBed, setTwoBed] = useState("0");
@@ -33,6 +34,7 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
         address, 
         city, 
         country, 
+        maxPersons,
         description,
         oneBed,
         twoBed, 
@@ -74,6 +76,10 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
                                 <div className="data">
                                     <h4>Country:</h4>
                                     <input type="text" required onChange={(e) => {setCountry(e.target.value)}} value={country}/>
+                                </div>
+                                <div className="data">
+                                    <h4>Max persons:</h4>
+                                    <input type="number" min="0" required onChange={(e) => {setMaxPersons(e.target.value)}} value={maxPersons}/>
                                 </div>
                                 <div className="data">
                                     <h4>Description:</h4>
