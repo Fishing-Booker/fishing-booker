@@ -12,6 +12,7 @@ import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -97,4 +98,53 @@ public class AdventureService implements IAdventureService {
         Adventure adventure = adventureRepository.findAdventureById(id);
         return AdventureMapper.mapToDTO(adventure);
     }
+
+    @Override
+    public List<String> getAdventureRules(Integer id) {
+        String rules = adventureRepository.getAdventureRules(id);
+        List<String> allRules;
+        if(rules.equals("")) {
+            allRules = new ArrayList<>();
+        } else {
+            allRules = new ArrayList<>(Arrays.asList(rules.split("#")));
+        }
+        return allRules;
+    }
+
+    @Override
+    public void addRule(String rule, Integer adventureId) {
+        String[] rules = adventureRepository.getAdventureRules(adventureId).split("#");
+        String newRules = setNewRules(rules);
+        newRules +=rule;
+        newRules = correctRules(newRules);
+        adventureRepository.addRule(newRules, adventureId);
+    }
+
+    @Override
+    public void deleteRule(Integer ruleIndex, Integer adventureId) {
+        String[] rules = adventureRepository.getAdventureRules(adventureId).split("#");
+        rules[ruleIndex] = "";
+        String newRules = setNewRules(rules);
+        newRules = correctRules(newRules);
+        adventureRepository.addRule(newRules, adventureId);
+    }
+
+    private String setNewRules(String[] rules){
+        StringBuilder newRules = new StringBuilder();
+        for (String rule : rules) {
+            rule = rule.replace("#", "");
+            newRules.append("#");
+            newRules.append(rule);
+        }
+        return String.valueOf(newRules);
+    }
+
+    private String correctRules(String rules){
+        rules = rules.replaceAll("##", "#");
+        if(rules.substring(0, 1).contains("#")){
+            rules = rules.substring(1);
+        }
+        return rules;
+    }
+
 }

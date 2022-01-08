@@ -28,4 +28,10 @@ public interface IAdventureService {
 
     AdventureInfoDTO getById(Integer id);
 
+    List<String> getAdventureRules(Integer id);
+
+    void addRule(String rule, Integer adventureId);
+
+    void deleteRule(Integer ruleIndex, Integer adventureId);
+
 }
