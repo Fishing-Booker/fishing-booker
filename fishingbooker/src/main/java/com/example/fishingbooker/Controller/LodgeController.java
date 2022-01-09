@@ -3,6 +3,7 @@ package com.example.fishingbooker.Controller;
 import com.example.fishingbooker.DTO.LodgeDTO;
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
+import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.Enum.BedroomType;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
@@ -88,8 +89,8 @@ public class LodgeController {
     }
 
     @PostMapping("/byDate")
-    public List<LodgeInfoDTO> getLodgesByReservationDate(@RequestBody Date date) {
-        return lodgeService.getByReservationDate(date);
+    public List<LodgeInfoDTO> getLodgesByReservationDate(@RequestBody ReservationDateDTO dto) {
+        return lodgeService.getByReservationDate(dto.getDate());
     }
 
     @GetMapping("/lodge/{id}")

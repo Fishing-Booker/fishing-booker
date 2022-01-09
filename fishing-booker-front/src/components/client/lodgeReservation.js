@@ -21,7 +21,6 @@ const LodgeReservation = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [availablePeriods, setAvailablePeriods] = useState([])
-    const [isClicked, setIsClicked] = useState(false)
 
     useEffect(() => {
         axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
