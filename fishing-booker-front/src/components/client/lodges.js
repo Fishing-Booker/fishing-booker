@@ -12,6 +12,7 @@ const Lodges = () => {
     const [location, setLocation] = useState('');
     const [letters, setLetters] = useState([])
     const [url, setUrl] = useState(SERVER_URL + '/lodges');
+    const [date, setDate] = useState('')
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -42,6 +43,12 @@ const Lodges = () => {
             setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData + "&location=" + location)
         }
         
+    }
+
+    const getByDate = (date) => {
+        var dto = { date }
+        axios.post(SERVER_URL + '/lodges/byDate', dto)
+            .then(response => console.log(response.data))
     }
 
     const allLodges = lodges.length ? (
@@ -92,9 +99,9 @@ const Lodges = () => {
                 </select>
             </div>
             {isLogged && <div className="card search">
-                <input className="search-input" type="datetime-local" onChange={(e) => console.log(e.target.value)}></input>
+                <input className="search-input" type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)}></input>
                 <input className="search-input" placeholder=" Enter number of guests"></input> 
-                <input className="search-input btn" type="submit" value="See available reservations"></input>
+                <input className="search-input btn" type="submit" value="See available reservations" onClick={() => getByDate(date)}></input>
             </div>}
             <Letters letters={letters} parentCallback={handleCallback}/>
             <div className="row-entities">{allLodges}</div>

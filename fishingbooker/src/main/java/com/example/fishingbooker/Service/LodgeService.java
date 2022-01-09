@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -151,5 +152,15 @@ public class LodgeService implements ILodgeService {
             rules = rules.substring(1);
         }
         return rules;
+    }
+
+    @Override
+    public List<LodgeInfoDTO> getByReservationDate(Date date) {
+        List<Lodge> lodges = lodgeRepository.getByReservationDate(date);
+        List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
+        for (Lodge lodge : lodges) {
+            lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
+        }
+        return  lodgesDTO;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
@@ -51,4 +52,9 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
 
     @Query("SELECT l FROM Lodge l WHERE l.id=?1 AND l.isDeleted=false")
     Lodge getLodgeById(Integer id);
+
+    @Query("SELECT l FROM Lodge l " +
+            "JOIN ReservationPeriod p ON l.id=p.reservationEntity.id" +
+            " WHERE ?1 BETWEEN p.startDate AND p.endDate")
+    List<Lodge> getByReservationDate(Date date);
 }

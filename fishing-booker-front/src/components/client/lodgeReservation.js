@@ -21,6 +21,7 @@ const LodgeReservation = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [availablePeriods, setAvailablePeriods] = useState([])
+    const [isClicked, setIsClicked] = useState(false)
 
     useEffect(() => {
         axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
@@ -75,19 +76,19 @@ const LodgeReservation = () => {
         console.log(periodDTO)
         axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
             .then(response => setAvailablePeriods(response.data))
-
-        return (availablePeriods.length ? (
-            availablePeriods.map((period, index) => {
-                return (
-                    <div key={index} className="period-card">
-                        <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
-                        <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy')}</p>
-                        <a className="reservation-link">book lodge</a>
-                    </div>
-                )
-            })
-        ) : (<div><p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>No available reservations for choosen period.</p></div>))
     }
+
+    const periods = availablePeriods.length ? (
+        availablePeriods.map((period, index) => {
+            return (
+                <div key={index} className="period-card">
+                    <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
+                    <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy')}</p>
+                    <a className="reservation-link">book lodge</a>
+                </div>
+            )
+        })
+    ) : (<div><p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>No available reservations for choosen period.</p></div>)
 
     return (
         <div className="card entity-details">
@@ -104,9 +105,10 @@ const LodgeReservation = () => {
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '38px'}}></div>
             <br></br>
-            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); console.log(e.target.value)} }></input>
-            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value)}}></input> 
+            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
+            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
             <a className="available-dates" onClick={() => seeAvailableReservations(startDate, endDate)}>See available reservations</a> <br></br> <br></br>
+            {periods}
 
         </div>
     )

@@ -13,7 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -81,6 +85,11 @@ public class LodgeController {
     @GetMapping("/search")
     public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location) {
         return lodgeService.search(name, letter, location);
+    }
+
+    @PostMapping("/byDate")
+    public List<LodgeInfoDTO> getLodgesByReservationDate(@RequestBody Date date) {
+        return lodgeService.getByReservationDate(date);
     }
 
     @GetMapping("/lodge/{id}")
