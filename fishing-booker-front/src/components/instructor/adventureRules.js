@@ -3,48 +3,49 @@ import { useParams, Link } from "react-router-dom";
 import deleteImg from '../../images/trash.png';
 import addImg from '../../images/plus.png'
 import '../../css/usersProfile.css';
+import axios from "axios";
 
 const AdventureRules = () => {
     const {adventureId} = useParams();
+    const SERVER_URL = process.env.REACT_APP_API; 
 
     const [rules, setRules] = useState([]);
     const [editRules, setEditRules] = useState(false);
+
+    const [newRule, setNewRule] = useState("");
     
     useEffect(() => {
-        setRules([
-            {
-                "id" : 1,
-                "text": "Rule1"
-            },
-            {
-                "id" : 2,
-                "text": "Rule2"
-            },
-            {
-                "id" : 3,
-                "text": "Rule3"
-            },
-            {
-                "id" : 4,
-                "text": "Rule4"
-            },
-            {
-                "id" : 5,
-                "text": "Rule5"
-            },
-            {
-                "id" : 6,
-                "text": "Rule6"
-            }
-        ])
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + '/adventures/adventureRules/' + adventureId, {headers:headers})
+        .then(response => {
+            setRules(response.data);
+            console.log(response.data);
+        });
 
     }, [])
+
+    const addRule = () => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.put(SERVER_URL + '/adventures/addRule/' + adventureId, newRule, {headers:headers})
+        .then(response => {
+            window.location.reload();
+        });
+    }
+
+    const deleteRule = (index) => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        axios.delete(SERVER_URL + '/adventures/deleteRule/'+adventureId + '/' + index, {headers:headers})
+        .then(response => {
+            window.location.reload();
+        });
+    }
 
     const allRules = rules.length ? (
         rules.map(rule => {
             return (
-                <div key={rule.id}>
-                    * {rule.text}
+                <div>
+                    * {rule}
                     <br/><br/>
                 </div>
             )
@@ -56,11 +57,11 @@ const AdventureRules = () => {
     );
 
     const editRulesForm = rules.length ? (
-        rules.map(rule => {
+        rules.map((rule, i) => {
             return (
-                <div key={rule.id}>
-                    * {rule.text} 
-                    <button className='rules-btn' >
+                <div key={i}>
+                    * {rule} 
+                    <button className='rules-btn' onClick={() => deleteRule(i)}>
                         <img alt="Cannot load" src={deleteImg} />
                     </button>
                     <br/><br/>
@@ -77,8 +78,8 @@ const AdventureRules = () => {
             <div className="info-data">
                 { editRulesForm }
                 <p style={{color:'black', fontSize: 'small', fontStyle: 'italic'}}>Add new rule</p>
-                <input className='rules-input' type="text" /> 
-                <button className='rules-btn'>
+                <input className='rules-input' type="text" onChange={(e) => {setNewRule(e.target.value)}} value={newRule} /> 
+                <button className='rules-btn' onClick={() => addRule()}>
                     <img alt="Cannot load" src={addImg} />
                 </button><br/><br/>
                 <button className="edit-profile-btn" onClick={() => setEditRules(false)}>

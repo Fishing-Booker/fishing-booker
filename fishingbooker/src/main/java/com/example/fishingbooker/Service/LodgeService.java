@@ -64,6 +64,7 @@ public class LodgeService implements ILodgeService {
         lodge.setOwner(null);
         lodge.setImages(null);
         lodge.setBedrooms(bedroomService.findLodgeBedrooms(lodgeId));
+        lodge.setReservationPeriods(null);
         return lodge;
     }
 
@@ -101,7 +102,7 @@ public class LodgeService implements ILodgeService {
     public void updateLodge(UpdateLodgeDTO dto, Integer lodgeId) {
         locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
-        lodgeRepository.updateLodge(dto.getName(), dto.getDescription(), lodgeId);
+        lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), lodgeId);
     }
 
     @Override

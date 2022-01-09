@@ -112,4 +112,23 @@ public class AdventureController {
     public AdventureInfoDTO getById(@RequestParam Integer id) {
         return adventureService.getById(id);
     }
+
+
+    @GetMapping("/adventureRules/{id}")
+    public List<String> getAdventureRules(@PathVariable Integer id) {
+        return adventureService.getAdventureRules(id);
+    }
+
+    @PutMapping("/addRule/{id}")
+    public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id) {
+        adventureService.addRule(rule, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteRule/{id}/{index}")
+    public ResponseEntity<String> deleteRule(@PathVariable Integer id, @PathVariable Integer index){
+        adventureService.deleteRule(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

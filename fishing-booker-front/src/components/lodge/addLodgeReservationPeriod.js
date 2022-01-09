@@ -8,18 +8,33 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
+    const [user, setUser] = useState([]);
+
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
+    useEffect(() => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+            .then(response => {
+                setUser(response.data);
+                var user = response.data;
+                console.log(user.id)
+            })
+    }, [])
+
     const newPeriod = {
+        owner: user.id,
         startDate, 
         endDate,
         entityId
     }
 
     const addPeriod = () => {
-        console.log(newPeriod);
-        axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod)
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod, {headers: headers})
           .then(response => {
             setModalIsOpen(false)
             window.location.reload();

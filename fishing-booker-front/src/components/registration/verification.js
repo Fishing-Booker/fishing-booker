@@ -1,10 +1,8 @@
-import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Verification = () => {
     const SERVER_URL = process.env.REACT_APP_API;
-    //const { code } = useParams();
     const url = window.location.href;
     const [message, setMessage] = useState("");
     const [code, setCode] = useState("");

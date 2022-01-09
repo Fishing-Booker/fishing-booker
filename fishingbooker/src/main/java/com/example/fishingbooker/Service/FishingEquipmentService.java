@@ -40,7 +40,7 @@ public class FishingEquipmentService implements IFishingEquipmentService {
     public void addFishingEquipment(EquipmentDTO fishEquipment, Integer shipId) {
         FishingEquipment fishingEquipment = new FishingEquipment();
         fishingEquipment.setName(fishEquipment.getEquipment());
-        fishingEquipment.setReservationEntity(getEntity(shipId, fishEquipment.getOwner()));
+        fishingEquipment.setReservationEntity(new ReservationEntity());
         fishingEquipmentRepository.save(fishingEquipment);
     }
 
@@ -50,9 +50,9 @@ public class FishingEquipmentService implements IFishingEquipmentService {
     }
 
     private ReservationEntity getEntity(Integer shipId, Integer ownerId){
-        ReservationEntity entity = entityService.findEntityById(shipId);
+        /*ReservationEntity entity = entityService.findEntityById(shipId);
         entity.setOwner(userService.findUserById(ownerId));
-        entity.setImages(new ArrayList<>());
-        return entity;
+        entity.setImages(new ArrayList<>());*/
+        return null;
     }
 }

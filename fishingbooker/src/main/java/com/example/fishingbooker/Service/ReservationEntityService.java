@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.Image;
@@ -10,17 +11,21 @@ import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
+@Transactional
 public class ReservationEntityService implements IReservationEntityService {
 
     @Autowired
     private IReservationEntityRepository entityRepository;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Override
     public List<ReservationEntity> findEntities() {
@@ -58,19 +63,25 @@ public class ReservationEntityService implements IReservationEntityService {
     @Override
     public Integer setId() {
         List<ReservationEntity> entities = entityRepository.findAll();
-        ReservationEntity entity = entities.get(entities.size() - 1);
-        return entity.getId() + 1;
+        if(entities.size() != 0) {
+            ReservationEntity entity = entities.get(entities.size() - 1);
+            return entity.getId() + 1;
+        } else {
+            return 1;
+        }
     }
 
-    public ReservationEntity findEntityById(Integer entityId) {
+    @Override
+    public ReservationEntityDTO findEntityById(Integer entityId) {
         ReservationEntity entity = entityRepository.findEntityById(entityId);
-        entity.setOwner(null);
-        entity.setImages(null);
-        return entity;
+        return new ReservationEntityDTO(entityId, entity.getName(), entity.getLocation().getId(),
+                entity.getDescription(), entity.getRules(), entity.getCancelConditions(), entity.getAverageGrade(),
+                entity.getMaxPersons());
     }
 
     @Override
     public ReservationEntity getEntityById(Integer entityId) {
         return entityRepository.findEntityById(entityId);
     }
+
 }

@@ -75,6 +75,13 @@
     margin-top: 5%;
   }
 
+  .adding-wrapper .right .info .info_data .image-style{
+    width: 10%;
+    height: 10%;
+    margin-left: 50%;
+    margin-top: 10%;
+  }
+
 .adding-wrapper .right .info_data .client-data{
     width: 60%;
     margin-left: 5%;
@@ -223,9 +230,9 @@
     margin-top: 5%;
 }
 
-.accept-request{
+.deleting-wrapper .right .info_data .buttons .accept-request{
     height: 40px;
-    width: 10%;
+    width: 250%;
     border-radius: 20px;
     border: none;
     color: #fff;
@@ -234,14 +241,14 @@
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background:  #5078ad;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
     margin-bottom: 10px;
-    margin-left: 77%;
+    margin-left: 5%;
   }
   
-  .reject-request{
+  .deleting-wrapper .right .info_data .buttons .reject-request{
     height: 40px;
-    width: 10%;
+    width: 250%;
     border-radius: 20px;
     border: none;
     color: #fff;
@@ -250,9 +257,8 @@
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background:  #2f5e3d;
-    margin-bottom: 10px;
-    margin-left: 2%;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 5%;
   }
 
 

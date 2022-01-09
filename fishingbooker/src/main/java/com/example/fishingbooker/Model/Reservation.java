@@ -14,9 +14,15 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "period_id", referencedColumnName = "id")
-    private ReservationPeriod reservationPeriod;
+    @Column(name = "start_date")
+    private Date startDate;
+
+    @Column(name = "end_date")
+    private Date endDate;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    private ReservationEntity reservationEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="client_id", referencedColumnName = "user_id")
@@ -29,9 +35,11 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Integer id, ReservationPeriod reservationPeriod, User client, ReservationType reservationType) {
+    public Reservation(Integer id, Date startDate, Date endDate, ReservationEntity reservationEntity, User client, ReservationType reservationType) {
         this.id = id;
-        this.reservationPeriod = reservationPeriod;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.reservationEntity = reservationEntity;
         this.client = client;
         this.reservationType = reservationType;
     }
@@ -44,12 +52,28 @@ public class Reservation {
         this.id = id;
     }
 
-    public ReservationPeriod getReservationPeriod() {
-        return reservationPeriod;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setReservationPeriod(ReservationPeriod reservationPeriod) {
-        this.reservationPeriod = reservationPeriod;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public ReservationEntity getReservationEntity() {
+        return reservationEntity;
+    }
+
+    public void setReservationEntity(ReservationEntity reservationEntity) {
+        this.reservationEntity = reservationEntity;
     }
 
     public User getClient() {

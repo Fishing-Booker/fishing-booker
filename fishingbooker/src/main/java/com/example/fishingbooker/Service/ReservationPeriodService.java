@@ -1,60 +1,97 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
+import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationPeriodRepository;
-import com.example.fishingbooker.IService.IReservationEntityService;
-import com.example.fishingbooker.IService.IReservationPeriodService;
-import com.example.fishingbooker.IService.IReservationService;
-import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.Model.Reservation;
-import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Model.ReservationPeriod;
+import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IService.*;
+import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class ReservationPeriodService implements IReservationPeriodService {
 
     @Autowired
     private IReservationPeriodRepository repository;
 
     @Autowired
-    private IReservationEntityService entityService;
+    private ReservationEntityService entityService;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
-    private IReservationService reservationService;
+    private ReservationService reservationService;
+
+    @Autowired
+    private ILodgeService lodgeService;
+
+    @Autowired
+    private IReservationEntityRepository entityRepository;
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
-    public void save(ReservationPeriodDTO dto) {
+    public void save(AddReservationPeriodDTO dto) {
         ReservationPeriod newPeriod = new ReservationPeriod();
         newPeriod.setStartDate(dto.getStartDate());
         newPeriod.setEndDate(dto.getEndDate());
-        newPeriod.setReservationEntity(getEntity(dto.getEntityId()));
+        newPeriod.setReservationEntity(setEntity(dto.getEntityId(), dto.getOwner()));
         repository.save(newPeriod);
     }
 
     @Override
-    public List<ReservationPeriod> findAllPeriods(Integer entityId) {
-        return repository.findAllPeriods(entityId);
+    public List<ReservationPeriodDTO> findAllPeriods(Integer entityId) {
+        List<ReservationPeriodDTO> periods = new ArrayList<>();
+        for (ReservationPeriod p : repository.findAllPeriods(entityId)) {
+            periods.add(new ReservationPeriodDTO(p.getStartDate(), p.getEndDate(), entityId));
+        }
+        return periods;
     }
 
     @Override
-    public List<ReservationPeriod> findFreePeriods(Integer entityId) {
-        List<ReservationPeriod> allPeriods = findAllPeriods(entityId);
+    public List<ReservationPeriodDTO> findFreePeriods(Integer entityId) {
+        List<ReservationPeriodDTO> allPeriods = findAllPeriods(entityId);
         List<Reservation> allReservations = reservationService.findEntityReservations(entityId);
-        List<ReservationPeriod> freePeriods = new ArrayList<>();
+        List<ReservationPeriodDTO> freePeriods = allPeriods;
+        for (Reservation reservation : allReservations) {
+            freePeriods = getChangedPeriods(freePeriods, reservation);
+        }
         return freePeriods;
     }
 
-    private ReservationEntity getEntity(Integer id){
-        ReservationEntity entity = entityService.findEntityById(id);
-        entity.setOwner(userService.findUserById(1));
+    private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, Reservation reservation){
+        List<ReservationPeriodDTO> newPeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : periods) {
+            if(period.getStartDate().before(reservation.getStartDate()) && period.getEndDate().after(reservation.getEndDate())){
+                if(period.getStartDate().before(reservation.getStartDate())){
+                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), reservation.getStartDate(), 1);
+                    newPeriods.add(newPeriod);
+                }
+                if(reservation.getEndDate().before(period.getEndDate())){
+                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(reservation.getEndDate(), period.getEndDate(), 1);
+                    newPeriods.add(newPeriod);
+                }
+            } else {
+                ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), 1);
+                newPeriods.add(newPeriod);
+            }
+        }
+        return newPeriods;
+    }
+
+    private ReservationEntity setEntity(Integer entityId, Integer ownerId){
+        User owner = userRepository.getById(ownerId);
+        ReservationEntity entity = entityRepository.findEntityById(entityId);
+        entity.setOwner(owner);
         return entity;
     }
 }
