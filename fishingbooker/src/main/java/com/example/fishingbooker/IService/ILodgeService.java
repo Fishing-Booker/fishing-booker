@@ -27,7 +27,7 @@ public interface ILodgeService {
 
     List<LodgeInfoDTO> getAll();
 
-    List<LodgeInfoDTO> search(String name, String letter);
+    List<LodgeInfoDTO> search(String name, String letter, String location);
     
     List<String> getFirstLetters();
 

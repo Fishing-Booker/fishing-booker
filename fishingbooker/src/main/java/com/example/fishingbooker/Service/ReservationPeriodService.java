@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -66,6 +67,20 @@ public class ReservationPeriodService implements IReservationPeriodService {
             freePeriods = getChangedPeriods(freePeriods, reservation);
         }
         return freePeriods;
+    }
+
+    @Override
+    public List<ReservationPeriodDTO> getAvailablePeriods(Integer entityId, Date startDate, Date endDate) {
+        List<ReservationPeriodDTO> entityPeriods = new ArrayList<>();
+        for (ReservationPeriod p : repository.findPeriodsByDate(entityId, startDate, endDate)) {
+            entityPeriods.add(new ReservationPeriodDTO(p.getStartDate(), p.getEndDate(), entityId));
+        }
+        List<Reservation> entityReservations = reservationService.findEntityReservations(entityId);
+        List<ReservationPeriodDTO> availablePeriods = entityPeriods;
+        for (Reservation r : entityReservations) {
+            availablePeriods = getChangedPeriods(availablePeriods, r);
+        }
+        return availablePeriods;
     }
 
     private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, Reservation reservation){

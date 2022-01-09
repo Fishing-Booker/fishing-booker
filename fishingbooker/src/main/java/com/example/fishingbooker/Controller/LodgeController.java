@@ -79,8 +79,8 @@ public class LodgeController {
     }
 
     @GetMapping("/search")
-    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
-        return lodgeService.search(name, letter);
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location) {
+        return lodgeService.search(name, letter, location);
     }
 
     @GetMapping("/lodge/{id}")

@@ -106,8 +106,8 @@ public class LodgeService implements ILodgeService {
     }
 
     @Override
-    public List<LodgeInfoDTO> search(String name, String letter) {
-        List<Lodge> lodges = lodgeRepository.search(name, letter);
+    public List<LodgeInfoDTO> search(String name, String letter, String location) {
+        List<Lodge> lodges = lodgeRepository.search(name, letter, location);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
         for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));

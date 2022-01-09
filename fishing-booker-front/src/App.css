@@ -264,6 +264,7 @@ h5 {
 	bottom: 0;
 	margin-right: 2%;
 	margin-bottom: 2%;
+	cursor: pointer;
 }
 
 /* search */
@@ -289,11 +290,18 @@ h5 {
 }
 
 .search-input {
-	margin-left: 7%;
+	margin-left: 10%;
 	margin-top: 1.5%;
-	height: 45%;
-	width: 17%;
+	height: 30px;
+	width: 200px;
 	border-radius: 2px;
+	border: none;
+}
+
+.search-grade {
+	margin-left: 10%;
+	height: 30px;
+	width: 200px;
 	border: none;
 }
 
@@ -302,10 +310,14 @@ h5 {
 	background-color: white;
 	font-weight: bold;
 	font-size: 15px;
-	height: 45%;
-	width: 8%;
+	height: 30px;
+	width: 250px;
 	border: none;
 	cursor: pointer;
+}
+
+.btn:hover {
+	color: #2f5e3d;
 }
 
 /* letters filter */
@@ -434,16 +446,19 @@ h5 {
 	margin-left: 45px;
 	margin-top: 20px;
 	height: 30px;
-	width: 180px;
+	width: 200px;
 	border-radius: 2px;
-	border: #000;
+	border: 1px solid cadetblue;
+	border-radius: 5px;
 }
 
 .available-dates {
-	margin-left: 15px;
+	margin-left: 45px;
 	font-size: 15px;
 	font-weight: 500;
 	cursor: pointer;
+	right: 0;
+	bottom: 0;
 }
 
 .subscription {
@@ -452,4 +467,28 @@ h5 {
 	height: 19vh;
 	cursor: auto;
 	margin-top: 15px;
+}
+
+.reservation-search-input {
+	margin-left: 45px;
+	margin-top: 1.5%;
+	height: 30px;
+	width: 180px;
+	border-radius: 2px;
+	border: 1px solid cadetblue;
+	border-radius: 5px;
+}
+
+.period-card {
+	border: 1px solid cadetblue;
+	border-radius: 5px;
+	height: 9vh;
+	width: 40vw;
+	margin-left: 45px;
+	transition: transform 0.5s;
+	position: relative;
+}
+
+.period-card:hover {
+	transform: translateY(-10px);
 }
