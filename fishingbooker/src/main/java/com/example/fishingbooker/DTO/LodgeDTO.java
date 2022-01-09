@@ -7,6 +7,7 @@ public class LodgeDTO {
     private String address;
     private String city;
     private String country;
+    private Integer maxPersons;
     private String description;
     private String oneBed;
     private String twoBed;
@@ -16,12 +17,13 @@ public class LodgeDTO {
     public LodgeDTO() {
     }
 
-    public LodgeDTO(Integer owner, String name, String address, String city, String country, String description, String oneBed, String twoBed, String threeBed, String fourBed) {
+    public LodgeDTO(Integer owner, String name, String address, String city, String country, Integer maxPersons, String description, String oneBed, String twoBed, String threeBed, String fourBed) {
         this.owner = owner;
         this.name = name;
         this.address = address;
         this.city = city;
         this.country = country;
+        this.maxPersons = maxPersons;
         this.description = description;
         this.oneBed = oneBed;
         this.twoBed = twoBed;
@@ -59,6 +61,14 @@ public class LodgeDTO {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPersons) {
+        this.maxPersons = maxPersons;
     }
 
     public String getDescription() {

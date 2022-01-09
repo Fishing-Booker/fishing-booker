@@ -4,36 +4,42 @@ import '../../css/addingForm.css';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-const AddLodgePrice = ({modalIsOpen, setModalIsOpen, entityId}) => {
+const EditLodgePrice = ({modalIsOpen, setModalIsOpen, entityId, priceId}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
-    const [user, setUser] = useState({});
-
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
-    const [serviceType, setServiceType] = useState("Regular service");
+    const [serviceType, setServiceType] = useState("");
 
     useEffect(() => {
+        console.log(priceId)
+
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         
-        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => setUser(response.data))
-    }, [])
+        axios.get(SERVER_URL + "/prices/getEntityPrice/" + entityId + "/" + priceId, { headers: headers })
+            .then(response => {
+                var price = response.data;
+                console.log(price)
+                setName(price.name);
+                setPrice(price.price);
+                setServiceType(price.serviceType);
+            })
+    }, [priceId])
 
-    const newPrice = {
-        owner: user.id,
+    const editedPrice = {
+        id: priceId,
         name,
         price,
         serviceType,
         entityId
     }
 
-    const addPrice = () => {
+    const editPrice = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        console.log(newPrice);
-        axios.post(SERVER_URL + "/prices/addPrice", newPrice, {headers: headers})
+        console.log(editedPrice);
+        axios.put(SERVER_URL + "/prices/editPrice", editedPrice, {headers: headers})
           .then(response => {
             setModalIsOpen(false);
             window.location.reload();
@@ -44,11 +50,12 @@ const AddLodgePrice = ({modalIsOpen, setModalIsOpen, entityId}) => {
         <div >
             <Modal className="fullscreen" isOpen={modalIsOpen}
             shouldCloseOnEsc={true}
-            onRequestClose={() => setModalIsOpen(false)}>
+            onRequestClose={() => setModalIsOpen(false)}
+            ariaHideApp={false}>
                 <div id="addLodge" className="adding-wrapper">
                     <div className="right">
                         <div className="info">
-                            <h3>ADD PRICE FOR YOUR LODGE</h3>
+                            <h3>EDIT PRICE</h3>
                             <div className="info_data">
                                 <div className="data">
                                     <h4>Name:</h4>
@@ -65,8 +72,8 @@ const AddLodgePrice = ({modalIsOpen, setModalIsOpen, entityId}) => {
                                         <option>Additional service</option>
                                     </select>
                                 </div>
-                                <button onClick={() => addPrice()}>
-                                    Add
+                                <button onClick={() => editPrice()}>
+                                    Save
                                 </button>
                             </div> <br/> <br/>
                         </div>
@@ -78,4 +85,4 @@ const AddLodgePrice = ({modalIsOpen, setModalIsOpen, entityId}) => {
     
 }
 
-export default AddLodgePrice;
+export default EditLodgePrice;

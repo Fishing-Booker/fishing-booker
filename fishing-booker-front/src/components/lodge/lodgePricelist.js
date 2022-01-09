@@ -5,7 +5,9 @@ import { Link, useParams } from "react-router-dom";
 import '../../css/lodgePricelist.css';
 import axios from 'axios';
 import deleteImg from '../../images/trash.png';
+import editImg from '../../images/pencil.png';
 import AddLodgePrice from './addLodgePrice';
+import EditLodgePrice from './editLodgePrice';
 
 const LodgePriceList = () => {
 
@@ -17,18 +19,37 @@ const LodgePriceList = () => {
     const [editPrices, setEditPrices] = useState(false);
 
     const [addPriceForm, setAddPriceForm] = useState(false);
+    const [editPriceForm, setEditPriceForm] = useState(false);
+
+    const [priceId, setPriceId] = useState("");
 
     useEffect(() => {
 
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + '/prices/entityPrices/' + lodgeId, {headers: headers})
-            .then(response => {setPrices(response.data); console.log(response.data)});
+            .then(response => {
+                setPrices(response.data); 
+                console.log(response.data)});
 
     }, [])
 
     const addPrice = () => {
         setAddPriceForm(true);
+    }
+
+    const editPrice = (id) => {
+        setPriceId(id);
+        setEditPriceForm(true);
+    }
+
+    const deletePrice = (id) => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.delete(SERVER_URL + "/prices/deletePrice/" + id, {headers: headers})
+          .then(response => {
+            window.location.reload();
+        });
     }
 
     const allPrices = prices.length ? (
@@ -48,7 +69,7 @@ const LodgePriceList = () => {
     const editPricesForm = prices.length ? (
         prices.map(price => {
             return(
-                <div className='edit-pricelist-form'>
+                <div className='edit-pricelist-form' key={price.id}>
                     <div className='edit-pricelist'>
                         <label style={{'font-weight': 'bold'}}>Service name: </label>
                         {price.serviceName}<br/>
@@ -57,7 +78,10 @@ const LodgePriceList = () => {
                         <label style={{'font-weight': 'bold'}}>Type: </label>
                         {price.serviceType}
                     </div>
-                    <button className='rules-btn' >
+                    <button className='rules-btn' onClick={() => editPrice(price.id)}>
+                        <img src={editImg} />
+                    </button>
+                    <button className='rules-btn' onClick={() => deletePrice(price.id)}>
                         <img src={deleteImg} />
                     </button>
                     <br/><br/>
@@ -113,6 +137,7 @@ const LodgePriceList = () => {
                 </div>
             </div>
 
+            <EditLodgePrice modalIsOpen={editPriceForm} setModalIsOpen={setEditPriceForm} entityId={lodgeId} priceId={priceId} />
             <AddLodgePrice modalIsOpen={addPriceForm} setModalIsOpen={setAddPriceForm} entityId={lodgeId} />
         </div>
     )

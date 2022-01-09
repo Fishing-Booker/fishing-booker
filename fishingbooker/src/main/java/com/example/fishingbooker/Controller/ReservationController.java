@@ -1,7 +1,7 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
-import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IService.IReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ReservationController {
     private IReservationService reservationService;
 
     @PostMapping("/addReservation")
-    public ResponseEntity<String> addReservation(@RequestBody ReservationDTO reservation){
+    public ResponseEntity<String> addReservation(@RequestBody AddReservationDTO reservation){
         reservationService.save(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }

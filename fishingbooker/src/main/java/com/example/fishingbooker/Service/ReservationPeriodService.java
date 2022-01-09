@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.ReservationEntityDTO;
+import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationPeriodRepository;
@@ -40,11 +40,11 @@ public class ReservationPeriodService implements IReservationPeriodService {
     private IUserRepository userRepository;
 
     @Override
-    public void save(ReservationPeriodDTO dto) {
+    public void save(AddReservationPeriodDTO dto) {
         ReservationPeriod newPeriod = new ReservationPeriod();
         newPeriod.setStartDate(dto.getStartDate());
         newPeriod.setEndDate(dto.getEndDate());
-        newPeriod.setReservationEntity(setEntity(dto.getEntityId(), 1));
+        newPeriod.setReservationEntity(setEntity(dto.getEntityId(), dto.getOwner()));
         repository.save(newPeriod);
     }
 

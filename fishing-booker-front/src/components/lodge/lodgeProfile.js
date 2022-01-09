@@ -17,6 +17,7 @@ const LodgeProfile = () => {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
+    const [maxPersons, setMaxPersons] = useState("");
     const [bedrooms, setBedrooms] = useState([]);
     const [allBedrooms, setAllBedrooms] = useState([]);
     const [description, setDescription] = useState("");
@@ -34,6 +35,7 @@ const LodgeProfile = () => {
         address, 
         city,
         country,
+        maxPersons,
         description,
         oneBed, 
         twoBed,
@@ -63,6 +65,7 @@ const LodgeProfile = () => {
                 setAddress(lodge.location.address);
                 setCity(lodge.location.city);
                 setCountry(lodge.location.country);
+                setMaxPersons(lodge.maxPersons);
                 setDescription(lodge.description);
 
                 for(let b of lodge.bedrooms){
@@ -160,6 +163,10 @@ const LodgeProfile = () => {
                         <div className="data">
                             <h4>Country</h4>
                             <input onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
+                        </div>
+                        <div className="data">
+                            <h4>Max persons</h4>
+                            <input onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             {disabledEdit ? (
