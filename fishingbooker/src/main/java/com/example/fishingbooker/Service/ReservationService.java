@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,15 +55,39 @@ public class ReservationService implements IReservationService {
         Reservation reservation = new Reservation();
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
-        reservation.setClient(userRepository.findByUsername("sara"));
-        reservation.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getOwner()));
+        reservation.setClient(userRepository.findByUsername(dto.getClientUsername()));
+        reservation.setReservationEntity(setReservationEntity(dto.getEntityName(), dto.getOwner()));
         reservation.setReservationType(ReservationType.regularReservation);
         reservationRepository.save(reservation);
     }
 
-    private ReservationEntity setReservationEntity(Integer entityId, Integer ownerId){
+    @Override
+    public boolean checkActiveReservations(Integer ownerId){
+        List<ReservationDTO> reservations = findOwnerEntitiesReservations(ownerId);
+        for (ReservationDTO reservation : reservations) {
+            if(isReservationActive(reservation))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String getClientUsername(String entityName, Integer ownerId){
+        List<ReservationDTO> reservations = findOwnerEntitiesReservations(ownerId);
+        for (ReservationDTO reservation : reservations) {
+            if(isReservationActive(reservation) && reservation.getEntityName().equals(entityName))
+                return reservation.getClientUsername();
+        }
+        return "";
+    }
+
+    private boolean isReservationActive(ReservationDTO reservation){
+        return reservation.getStartDate().before(new Date()) && reservation.getEndDate().after(new Date());
+    }
+
+    private ReservationEntity setReservationEntity(String entityName, Integer ownerId){
         User owner = userRepository.getById(ownerId);
-        ReservationEntity entity = entityRepository.findEntityById(entityId);
+        ReservationEntity entity = entityRepository.findOwnerEntityByName(entityName, ownerId);
         entity.setOwner(owner);
         return entity;
     }

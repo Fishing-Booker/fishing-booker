@@ -112,6 +112,14 @@
     transition: all 0.3s ease;
 }
 
+.adding-wrapper .right .info_data .datetime-picker{
+    border-width: 0px;
+    border-color: white;
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 8%;
+}
+
 .adding-wrapper .right .info_data .data select{
     color: #353c4e;
     height: 35px;

@@ -6,23 +6,29 @@ import AddLodgeReservationByOwner from './addLodgeReservationByOwner';
 import ClientProfile from '../clientProfile';
 import axios from 'axios';
 import { format } from 'date-fns';
+import { useToasts } from "react-toast-notifications";
 
 const LodgeReservations = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
-    const [addReservation, setAddReservation] = useState(false);
+    const [addReservationForm, setAddReservationForm] = useState(false);
     const [clientModal, setClientModal] = useState(false);
+
+    const [user, setUser] = useState([]);
 
     const [reservations, setReservations] = useState([]);
 
     const [client, setClient] = useState("");
+
+    const { addToast } = useToasts();
 
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
+                setUser(response.data);
                 var user = response.data;
                 axios.get(SERVER_URL + '/reservations/getOwnerEntitiesReservations/' + user.id, {headers: headers})
                 .then(response => {
@@ -42,6 +48,21 @@ const LodgeReservations = () => {
     const showClientForm = (username) => {
         setClient(username);
         setClientModal(true);
+    }
+
+    const addReservation= () => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`};
+
+        axios.get(SERVER_URL + "/reservations/checkActiveReservations/" + user.id, {headers: headers})
+        .then(response => {
+            var currentReservations = response.data;
+            console.log(currentReservations);
+            if(currentReservations == true){
+                setAddReservationForm(true);
+            } else {
+                addToast("There isn't any active reservation.", { appearance: "error" });
+            }
+        })
     }
 
     const allReservations = reservations.length ? (
@@ -64,11 +85,9 @@ const LodgeReservations = () => {
             <div className="reservations-right">
                 <div className="info">
                     <h3>RESERVATIONS</h3>
-                    <Link to="#addLodgeReservation" onClick={() => setAddReservation(true)}>
-                        <button className="new-reservation-btn">
-                            Create new reservation
-                        </button>
-                    </Link><br/><br/>
+                    <button className="new-reservation-btn" onClick={() => addReservation()}>
+                        Create new reservation
+                    </button><br/><br/>
                     <div class="container-table-reservations">
                         <ul class="responsive-table">
                             <li class="table-header">
@@ -83,7 +102,7 @@ const LodgeReservations = () => {
                 </div>
             </div>
 
-            <AddLodgeReservationByOwner modalIsOpen={addReservation} setModalIsOpen={setAddReservation} />
+            <AddLodgeReservationByOwner modalIsOpen={addReservationForm} setModalIsOpen={setAddReservationForm} />
             <ClientProfile modalIsOpen={clientModal} setModalIsOpen={setClientModal} clientUsername={client} />
         </div>
     )

@@ -64,25 +64,25 @@ public class ReservationPeriodService implements IReservationPeriodService {
         List<ReservationDTO> allReservations = reservationService.findEntityReservations(entityId);
         List<ReservationPeriodDTO> freePeriods = allPeriods;
         for (ReservationDTO reservation : allReservations) {
-            freePeriods = getChangedPeriods(freePeriods, reservation);
+            freePeriods = getChangedPeriods(freePeriods, reservation, entityId);
         }
         return freePeriods;
     }
 
-    private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, ReservationDTO reservation){
+    private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, ReservationDTO reservation, Integer entityId){
         List<ReservationPeriodDTO> newPeriods = new ArrayList<>();
         for (ReservationPeriodDTO period : periods) {
             if(period.getStartDate().before(reservation.getStartDate()) && period.getEndDate().after(reservation.getEndDate())){
                 if(period.getStartDate().before(reservation.getStartDate())){
-                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), reservation.getStartDate(), 1);
+                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), reservation.getStartDate(), entityId);
                     newPeriods.add(newPeriod);
                 }
                 if(reservation.getEndDate().before(period.getEndDate())){
-                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(reservation.getEndDate(), period.getEndDate(), 1);
+                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(reservation.getEndDate(), period.getEndDate(), entityId);
                     newPeriods.add(newPeriod);
                 }
             } else {
-                ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), 1);
+                ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), entityId);
                 newPeriods.add(newPeriod);
             }
         }

@@ -5,20 +5,20 @@ import java.util.Date;
 public class AddReservationDTO {
 
     private Integer owner;
+    private String entityName;
     private Date startDate;
     private Date endDate;
     private String clientUsername;
-    private Integer entityId;
 
     public AddReservationDTO() {
     }
 
-    public AddReservationDTO(Integer owner, Date startDate, Date endDate, String clientUsername, Integer entityId) {
+    public AddReservationDTO(Integer owner, String entityName, Date startDate, Date endDate, String clientUsername) {
         this.owner = owner;
+        this.entityName = entityName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.clientUsername = clientUsername;
-        this.entityId = entityId;
     }
 
     public Integer getOwner() {
@@ -27,6 +27,14 @@ public class AddReservationDTO {
 
     public void setOwner(Integer owner) {
         this.owner = owner;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public Date getStartDate() {
@@ -51,13 +59,5 @@ public class AddReservationDTO {
 
     public void setClientUsername(String clientUsername) {
         this.clientUsername = clientUsername;
-    }
-
-    public Integer getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Integer entityId) {
-        this.entityId = entityId;
     }
 }

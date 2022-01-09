@@ -13,4 +13,8 @@ public interface IReservationService {
 
     void save(AddReservationDTO dto);
 
+    boolean checkActiveReservations(Integer ownerId);
+
+    String getClientUsername(String entityName, Integer ownerId);
+
 }

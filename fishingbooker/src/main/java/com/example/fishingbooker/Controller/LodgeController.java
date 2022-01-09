@@ -39,8 +39,7 @@ public class LodgeController {
 
     @GetMapping("/ownerLodges/{id}")
     public List<Lodge> getOwnerLodges(@PathVariable Integer id){
-        List<Lodge> lodges = lodgeService.findOwnerLodges(id);
-        return lodges;
+        return lodgeService.findOwnerLodges(id);
     }
 
     @DeleteMapping("/deleteLodge/{id}")
@@ -128,6 +127,11 @@ public class LodgeController {
     @GetMapping("/lodge")
     public LodgeInfoDTO getById(@RequestParam Integer id) {
         return lodgeService.getById(id);
+    }
+
+    @GetMapping("/lodgeNames/{id}")
+    public List<String> getOwnerLodgeNames(@PathVariable Integer id){
+        return lodgeService.getOwnerLodgeNames(id);
     }
 
     private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){

@@ -36,4 +36,14 @@ public class ReservationController {
     public List<ReservationDTO> getOwnerEntitiesReservations(@PathVariable Integer id){
             return reservationService.findOwnerEntitiesReservations(id);
     }
+
+    @GetMapping("/checkActiveReservations/{id}")
+    public boolean checkActiveReservations(@PathVariable Integer id){
+        return reservationService.checkActiveReservations(id);
+    }
+
+    @GetMapping("/getClientUsername/{name}/{id}")
+    public String getClientUsername(@PathVariable String name, @PathVariable Integer id){
+        return reservationService.getClientUsername(name, id);
+    }
 }

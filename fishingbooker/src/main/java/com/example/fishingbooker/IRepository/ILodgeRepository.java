@@ -50,4 +50,8 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
 
     @Query("SELECT l FROM Lodge l WHERE l.id=?1 AND l.isDeleted=false")
     Lodge getLodgeById(Integer id);
+
+    @Query("SELECT l.name FROM Lodge l WHERE l.owner.id=?1 and l.isDeleted=false")
+    List<String> getOwnerLodgeNames(Integer ownerId);
+
 }
