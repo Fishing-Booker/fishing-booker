@@ -7,17 +7,17 @@ public class AddReservationDTO {
     private Integer owner;
     private Date startDate;
     private Date endDate;
-    private Integer clientId;
+    private String clientUsername;
     private Integer entityId;
 
     public AddReservationDTO() {
     }
 
-    public AddReservationDTO(Integer owner, Date startDate, Date endDate, Integer clientId, Integer entityId) {
+    public AddReservationDTO(Integer owner, Date startDate, Date endDate, String clientUsername, Integer entityId) {
         this.owner = owner;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.clientId = clientId;
+        this.clientUsername = clientUsername;
         this.entityId = entityId;
     }
 
@@ -45,12 +45,12 @@ public class AddReservationDTO {
         this.endDate = endDate;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 
     public Integer getEntityId() {

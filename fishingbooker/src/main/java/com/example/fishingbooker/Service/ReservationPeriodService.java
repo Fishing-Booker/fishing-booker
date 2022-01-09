@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
@@ -60,15 +61,15 @@ public class ReservationPeriodService implements IReservationPeriodService {
     @Override
     public List<ReservationPeriodDTO> findFreePeriods(Integer entityId) {
         List<ReservationPeriodDTO> allPeriods = findAllPeriods(entityId);
-        List<Reservation> allReservations = reservationService.findEntityReservations(entityId);
+        List<ReservationDTO> allReservations = reservationService.findEntityReservations(entityId);
         List<ReservationPeriodDTO> freePeriods = allPeriods;
-        for (Reservation reservation : allReservations) {
+        for (ReservationDTO reservation : allReservations) {
             freePeriods = getChangedPeriods(freePeriods, reservation);
         }
         return freePeriods;
     }
 
-    private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, Reservation reservation){
+    private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, ReservationDTO reservation){
         List<ReservationPeriodDTO> newPeriods = new ArrayList<>();
         for (ReservationPeriodDTO period : periods) {
             if(period.getStartDate().before(reservation.getStartDate()) && period.getEndDate().after(reservation.getEndDate())){

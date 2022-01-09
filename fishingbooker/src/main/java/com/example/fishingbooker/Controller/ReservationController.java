@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
@@ -25,4 +27,13 @@ public class ReservationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/getEntityReservations/{id}")
+    public List<ReservationDTO> getEntityReservations(@PathVariable Integer id){
+        return reservationService.findEntityReservations(id);
+    }
+
+    @GetMapping("/getOwnerEntitiesReservations/{id}")
+    public List<ReservationDTO> getOwnerEntitiesReservations(@PathVariable Integer id){
+            return reservationService.findOwnerEntitiesReservations(id);
+    }
 }

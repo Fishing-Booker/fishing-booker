@@ -14,6 +14,7 @@ import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,8 +30,23 @@ public class ReservationService implements IReservationService {
     private IReservationEntityRepository entityRepository;
 
     @Override
-    public List<Reservation> findEntityReservations(Integer entityId) {
-        return reservationRepository.findEntityReservations(entityId);
+    public List<ReservationDTO> findEntityReservations(Integer entityId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (Reservation r : reservationRepository.findEntityReservations(entityId)) {
+            reservations.add(new ReservationDTO(r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
+                    r.getReservationEntity().getName()));
+        }
+        return reservations;
+    }
+
+    @Override
+    public List<ReservationDTO> findOwnerEntitiesReservations(Integer ownerId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (ReservationEntity entity : entityRepository.findOwnerEntities(ownerId)) {
+            List<ReservationDTO> entityReservations = findEntityReservations(entity.getId());
+            reservations.addAll(entityReservations);
+        }
+        return reservations;
     }
 
     @Override
@@ -38,7 +54,7 @@ public class ReservationService implements IReservationService {
         Reservation reservation = new Reservation();
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
-        reservation.setClient(userRepository.getById(1));
+        reservation.setClient(userRepository.findByUsername("sara"));
         reservation.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getOwner()));
         reservation.setReservationType(ReservationType.regularReservation);
         reservationRepository.save(reservation);
