@@ -1,20 +1,30 @@
-package com.example.fishingbooker.DTO;
+package com.example.fishingbooker.DTO.priceList;
 
-public class PriceDTO {
+public class AddPriceDTO {
 
+    private Integer owner;
     private String name;
     private double price;
     private String serviceType;
     private Integer entityId;
 
-    public PriceDTO() {
+    public AddPriceDTO() {
     }
 
-    public PriceDTO(String name, double price, String serviceType, Integer entityId) {
+    public AddPriceDTO(Integer owner, String name, double price, String serviceType, Integer entityId) {
+        this.owner = owner;
         this.name = name;
         this.price = price;
         this.serviceType = serviceType;
         this.entityId = entityId;
+    }
+
+    public Integer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Integer owner) {
+        this.owner = owner;
     }
 
     public String getName() {

@@ -1,10 +1,9 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IService.IReservationPeriodService;
-import com.example.fishingbooker.Model.ReservationPeriod;
 import com.example.fishingbooker.Service.ReservationEntityService;
-import com.example.fishingbooker.Service.ReservationPeriodService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,7 @@ public class ReservationPeriodController {
     private ReservationEntityService entityService;
 
     @PostMapping("/addReservationPeriod")
-    public ResponseEntity<String> addReservationPeriod(@RequestBody ReservationPeriodDTO period){
+    public ResponseEntity<String> addReservationPeriod(@RequestBody AddReservationPeriodDTO period){
         periodService.save(period);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -39,6 +38,7 @@ public class ReservationPeriodController {
             System.out.println(period.getStartDate());
             System.out.println(period.getEndDate());
         }
+        System.out.println("\n");
         return periods;
     }
 

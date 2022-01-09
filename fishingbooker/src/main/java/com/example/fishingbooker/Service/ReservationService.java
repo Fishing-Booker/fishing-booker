@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.ReservationEntityDTO;
+import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
@@ -33,12 +34,12 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public void save(ReservationDTO dto) {
+    public void save(AddReservationDTO dto) {
         Reservation reservation = new Reservation();
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
         reservation.setClient(userRepository.getById(1));
-        reservation.setReservationEntity(setReservationEntity(dto.getEntityId(), 1));
+        reservation.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getOwner()));
         reservation.setReservationType(ReservationType.regularReservation);
         reservationRepository.save(reservation);
     }

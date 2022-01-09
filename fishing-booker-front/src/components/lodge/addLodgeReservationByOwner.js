@@ -13,12 +13,19 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen, entityId}) => 
     const [endDate, setEndDate] = useState("");
     const [clientId, setClientId] = useState("");
 
+    const [user, setUser] = useState("");
+
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
-        console.log(entityId);
+
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+            .then(response => {
+                setUser(response.data);
+            })
     }, [])
 
     const newReservation = {
+        owner: user.id,
         startDate,
         endDate,
         clientId,
