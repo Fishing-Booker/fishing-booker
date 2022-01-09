@@ -70,7 +70,7 @@ public class ImageService implements IImageService {
     }
 
     public void saveImage(UploadImageDTO uploadImageDTO) throws IOException {
-        ReservationEntity reservationEntity = setEntity(uploadImageDTO.getEntityId(), 1);
+        ReservationEntity reservationEntity = setEntity(uploadImageDTO.getEntityId(), uploadImageDTO.getOwner());
         String basePath = new File("images/").getAbsolutePath();
         String path = basePath + "/" + reservationEntity.getName() + setId() + ".jpg";
         decodeImageFromBase64(uploadImageDTO.getBase64(), path);
