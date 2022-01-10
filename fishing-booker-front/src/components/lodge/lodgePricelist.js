@@ -72,9 +72,9 @@ const LodgePriceList = () => {
                 <div className='edit-pricelist-form' key={price.id}>
                     <div className='edit-pricelist'>
                         <label style={{'font-weight': 'bold'}}>Service name: </label>
-                        {price.serviceName}<br/>
+                        {price.name}<br/>
                         <label style={{'font-weight': 'bold'}}>Price: </label>
-                        ${price.servicePrice}<br/>
+                        ${price.price}<br/>
                         <label style={{'font-weight': 'bold'}}>Type: </label>
                         {price.serviceType}
                     </div>

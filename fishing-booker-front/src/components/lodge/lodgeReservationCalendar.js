@@ -72,7 +72,6 @@ const LodgeReservationCalendar = () => {
             </div>
 
             <AddLodgeReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} entityId={lodgeId}/>
-            <AddLodgeReservationByOwner modalIsOpen={addReservation} setModalIsOpen={setAddReservation} entityId={lodgeId} />
         </div>
     )
 
