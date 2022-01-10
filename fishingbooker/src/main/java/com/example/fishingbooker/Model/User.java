@@ -51,6 +51,9 @@ public class User implements Serializable, UserDetails {
     @Column(name = "is_approved")
     private boolean isApproved;
 
+    @Column(name = "is_first_login")
+    private boolean isFirstLogin;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
@@ -77,6 +80,7 @@ public class User implements Serializable, UserDetails {
         this.phoneNumber = phoneNumber;
         this.isDeleted = false;
         this.isApproved = false;
+        this.isFirstLogin = true;
         this.roles = roles;
     }
 
@@ -189,9 +193,11 @@ public class User implements Serializable, UserDetails {
         isApproved = approved;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
+    public boolean isFirstLogin() { return isFirstLogin; }
+
+    public void setFirstLogin(boolean firstLogin) { isFirstLogin = firstLogin; }
+
+    public List<Role> getRoles() { return roles; }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;

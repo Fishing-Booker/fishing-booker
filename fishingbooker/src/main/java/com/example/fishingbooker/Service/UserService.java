@@ -63,6 +63,7 @@ public class UserService implements IUserService, UserDetailsService {
         u.setSurname(userDTO.getSurname());
         u.setAddress(userDTO.getAddress());
         u.setApproved(false);
+        u.setFirstLogin(true);
         u.setCity(userDTO.getCity());
         u.setCountry(userDTO.getCountry());
         u.setDeleted(false);

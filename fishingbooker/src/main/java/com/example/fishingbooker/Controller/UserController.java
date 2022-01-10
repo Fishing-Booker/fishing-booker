@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
     public List<User> getAllUsers(){
         return this.userService.findAll();
     }
