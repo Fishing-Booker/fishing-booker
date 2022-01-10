@@ -68,6 +68,23 @@
       flex-basis: 30%;
     }
 
+    .responsive-table .col-1-action {
+      flex-basis: 20%;
+    }
+    .responsive-table .col-2-action {
+      margin-left: 3%;
+      flex-basis: 30%;
+    }
+    .responsive-table .col-3-action {
+      flex-basis:30%;
+    }
+    .responsive-table .col-4-action {
+      flex-basis: 20%;
+    }
+    .responsive-table .col-5-action {
+      flex-basis: 10%;
+    }
+
     .responsive-table .col-4-price:hover {
       color: rgb(104, 18, 161);
     }
@@ -116,4 +133,13 @@
   margin-left: 3%;
   margin-top: 5%;
   margin-bottom: 0%;
+}
+
+.info-img{
+  height: 20px;
+  width: 20px;
+}
+
+.info-img:hover{
+  cursor: pointer;
 }
