@@ -1,45 +1,37 @@
-package com.example.fishingbooker.DTO;
+package com.example.fishingbooker.DTO.reservationAction;
 
 import java.util.Date;
-import java.util.List;
 
 public class ReservationActionDTO {
 
-    private Integer owner;
-    private Integer entityId;
+    private Integer actionId;
     private Date startDate;
     private Date endDate;
     private double price;
     private String additionalServices;
     private Integer maxPersons;
+    private String bookedBy;
 
     public ReservationActionDTO() {
     }
 
-    public ReservationActionDTO(Integer owner, Integer entityId, Date startDate, Date endDate, double price, String additionalServices, Integer maxPersons) {
-        this.owner = owner;
-        this.entityId = entityId;
+    public ReservationActionDTO(Integer actionId, Date startDate, Date endDate, double price, String additionalServices,
+                                Integer maxPersons, String bookedBy) {
+        this.actionId = actionId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
         this.additionalServices = additionalServices;
         this.maxPersons = maxPersons;
+        this.bookedBy = bookedBy;
     }
 
-    public Integer getOwner() {
-        return owner;
+    public Integer getActionId() {
+        return actionId;
     }
 
-    public void setOwner(Integer owner) {
-        this.owner = owner;
-    }
-
-    public Integer getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Integer entityId) {
-        this.entityId = entityId;
+    public void setActionId(Integer actionId) {
+        this.actionId = actionId;
     }
 
     public Date getStartDate() {
@@ -80,5 +72,13 @@ public class ReservationActionDTO {
 
     public void setMaxPersons(Integer maxPersons) {
         this.maxPersons = maxPersons;
+    }
+
+    public String getBookedBy() {
+        return bookedBy;
+    }
+
+    public void setBookedBy(String bookedBy) {
+        this.bookedBy = bookedBy;
     }
 }
