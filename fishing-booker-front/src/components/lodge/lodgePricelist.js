@@ -56,9 +56,9 @@ const LodgePriceList = () => {
         prices.map(price => {
             return(
                 <li class="table-row" key={price.id}>
-                    <div class="col col-1" >{price.name}</div>
-                    <div class="col col-3" >${price.price}</div>
-                    <div class="col col-4" >{price.serviceType}</div>
+                    <div class="col col-1-price" >{price.name}</div>
+                    <div class="col col-3-price" >${price.price}</div>
+                    <div class="col col-4-price" >{price.serviceType}</div>
                 </li>
             )
         })
@@ -72,9 +72,9 @@ const LodgePriceList = () => {
                 <div className='edit-pricelist-form' key={price.id}>
                     <div className='edit-pricelist'>
                         <label style={{'font-weight': 'bold'}}>Service name: </label>
-                        {price.serviceName}<br/>
+                        {price.name}<br/>
                         <label style={{'font-weight': 'bold'}}>Price: </label>
-                        ${price.servicePrice}<br/>
+                        ${price.price}<br/>
                         <label style={{'font-weight': 'bold'}}>Type: </label>
                         {price.serviceType}
                     </div>
@@ -105,9 +105,9 @@ const LodgePriceList = () => {
             <div class="container-table">
                 <ul class="responsive-table">
                     <li class="table-header">
-                    <div class="col col-1">Service Name</div>
-                    <div class="col col-3">Price</div>
-                    <div class="col col-4">Service Type</div>
+                    <div class="col col-1-price">Service Name</div>
+                    <div class="col col-3-price">Price</div>
+                    <div class="col col-4-price">Service Type</div>
                     </li>
                     {allPrices}
                 </ul>

@@ -49,4 +49,9 @@ public class PriceListController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/additionalServices/{id}")
+    public List<String> findAdditionalServices(@PathVariable Integer id){
+        return priceListService.findAdditionalServices(id);
+    }
+
 }

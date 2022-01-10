@@ -2,14 +2,19 @@ package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
-import com.example.fishingbooker.Model.Reservation;
 
 import java.util.List;
 
 public interface IReservationService {
 
-    List<Reservation> findEntityReservations(Integer entityId);
+    List<ReservationDTO> findEntityReservations(Integer entityId);
+
+    List<ReservationDTO> findOwnerEntitiesReservations(Integer ownerId);
 
     void save(AddReservationDTO dto);
+
+    boolean checkActiveReservations(Integer ownerId);
+
+    String getClientUsername(String entityName, Integer ownerId);
 
 }

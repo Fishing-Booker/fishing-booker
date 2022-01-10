@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Reservation {
 
     @Id

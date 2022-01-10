@@ -6,17 +6,19 @@ public class ReservationDTO {
 
     private Date startDate;
     private Date endDate;
-    private Integer clientId;
+    private String clientUsername;
     private Integer entityId;
+    private String entityName;
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(Date startDate, Date endDate, Integer clientId, Integer entityId) {
+    public ReservationDTO(Date startDate, Date endDate, String clientUsername, Integer entityId, String entityName) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.clientId = clientId;
+        this.clientUsername = clientUsername;
         this.entityId = entityId;
+        this.entityName = entityName;
     }
 
     public Date getStartDate() {
@@ -35,12 +37,12 @@ public class ReservationDTO {
         this.endDate = endDate;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 
     public Integer getEntityId() {
@@ -49,5 +51,13 @@ public class ReservationDTO {
 
     public void setEntityId(Integer entityId) {
         this.entityId = entityId;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 }

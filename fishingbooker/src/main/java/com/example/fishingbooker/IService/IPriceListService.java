@@ -17,4 +17,6 @@ public interface IPriceListService {
 
     void deletePrice(Integer priceId);
 
+    List<String> findAdditionalServices(Integer entityId);
+
 }

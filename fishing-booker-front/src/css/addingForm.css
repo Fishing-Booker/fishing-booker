@@ -83,8 +83,8 @@
   }
 
 .adding-wrapper .right .info_data .client-data{
-    width: 60%;
-    margin-left: 5%;
+    width: 100%;
+    margin-left: 0%;
     margin-top: 8%;
 }
 
@@ -110,6 +110,14 @@
     padding-left: 11px;
     outline: none;
     transition: all 0.3s ease;
+}
+
+.adding-wrapper .right .info_data .datetime-picker{
+    border-width: 0px;
+    border-color: white;
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 8%;
 }
 
 .adding-wrapper .right .info_data .data select{
@@ -171,7 +179,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #2f5e3d, #5078ad);
-    margin-left: 25%;
+    margin-left: 60%;
     margin-top: 10%;
 }
 

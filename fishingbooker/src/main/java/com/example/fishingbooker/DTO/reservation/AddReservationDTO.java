@@ -5,20 +5,20 @@ import java.util.Date;
 public class AddReservationDTO {
 
     private Integer owner;
+    private String entityName;
     private Date startDate;
     private Date endDate;
-    private Integer clientId;
-    private Integer entityId;
+    private String clientUsername;
 
     public AddReservationDTO() {
     }
 
-    public AddReservationDTO(Integer owner, Date startDate, Date endDate, Integer clientId, Integer entityId) {
+    public AddReservationDTO(Integer owner, String entityName, Date startDate, Date endDate, String clientUsername) {
         this.owner = owner;
+        this.entityName = entityName;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.clientId = clientId;
-        this.entityId = entityId;
+        this.clientUsername = clientUsername;
     }
 
     public Integer getOwner() {
@@ -27,6 +27,14 @@ public class AddReservationDTO {
 
     public void setOwner(Integer owner) {
         this.owner = owner;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public Date getStartDate() {
@@ -45,19 +53,11 @@ public class AddReservationDTO {
         this.endDate = endDate;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
-
-    public Integer getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Integer entityId) {
-        this.entityId = entityId;
+    public void setClientUsername(String clientUsername) {
+        this.clientUsername = clientUsername;
     }
 }

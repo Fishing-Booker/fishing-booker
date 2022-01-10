@@ -126,6 +126,11 @@ public class LodgeService implements ILodgeService {
         return LodgeMapper.mapToDTO(lodge);
     }
 
+    @Override
+    public List<String> getOwnerLodgeNames(Integer ownerId) {
+        return lodgeRepository.getOwnerLodgeNames(ownerId);
+    }
+
     private String setNewRules(String[] rules){
         StringBuilder newRules = new StringBuilder();
         for (String rule : rules) {

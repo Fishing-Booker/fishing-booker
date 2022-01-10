@@ -28,4 +28,7 @@ public interface IPriceListRepository extends JpaRepository<PriceList, Integer> 
     @Transactional
     void deletePrice(Integer priceId);
 
+    @Query("SELECT p.serviceName FROM PriceList p WHERE p.reservationEntity.id=?1 AND p.serviceType=?2")
+    List<String> findAdditionalServices(Integer entityId, ServiceType serviceType);
+
 }
