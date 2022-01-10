@@ -20,7 +20,9 @@ const LodgeReservationCalendar = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + "/periods/freePeriods/" + lodgeId, {headers: headers})
-          .then(response => {});
+          .then(response => {
+              console.log(response.data);
+          });
     }, [])
 
     const events = [{
@@ -70,7 +72,6 @@ const LodgeReservationCalendar = () => {
             </div>
 
             <AddLodgeReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} entityId={lodgeId}/>
-            <AddLodgeReservationByOwner modalIsOpen={addReservation} setModalIsOpen={setAddReservation} entityId={lodgeId} />
         </div>
     )
 

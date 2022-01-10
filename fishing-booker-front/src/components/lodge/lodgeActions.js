@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { useState } from 'react';
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import '../../css/usersProfile.css'
 import AddLodgeActionFrom from './addLodgeActionForm';
 
 const LodgeActions = () => {
+
+    const {lodgeId} = useParams();
 
     const [addAction, setAddAction] = useState(false);
         
@@ -58,7 +60,8 @@ const LodgeActions = () => {
                     </div>
                 </div>
             </div>
-            <AddLodgeActionFrom modalIsOpen={addAction} setModalIsOpen={setAddAction} />
+
+            <AddLodgeActionFrom modalIsOpen={addAction} setModalIsOpen={setAddAction} lodgeId={lodgeId}/>
         </div>
     )
 

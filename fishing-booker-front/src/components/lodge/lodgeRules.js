@@ -76,9 +76,7 @@ const LodgeRules = () => {
             )
         })
     ) : (
-        <div>
-            Add rules for your lodge!
-        </div>
+        <div></div>
     );
 
     const rulesForm = editRules ? (

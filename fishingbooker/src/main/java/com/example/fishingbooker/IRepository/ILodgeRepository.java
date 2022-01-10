@@ -32,10 +32,10 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Transactional
     void addRule(String rule, Integer lodgeId);
 
-    @Query("update Lodge l " + "set l.name=?1, l.description=?2 " + "WHERE l.id=?3")
+    @Query("update Lodge l " + "set l.name=?1, l.maxPersons=?2, l.description=?3 " + "WHERE l.id=?4")
     @Modifying
     @Transactional
-    void updateLodge(String name, String description, Integer lodgeId);
+    void updateLodge(String name, Integer maxPersons, String description, Integer lodgeId);
 
     @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '') " +
             "AND (LOWER(l.name) LIKE :letter% OR LOWER(l.name) LIKE '') " +
@@ -50,4 +50,8 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
 
     @Query("SELECT l FROM Lodge l WHERE l.id=?1 AND l.isDeleted=false")
     Lodge getLodgeById(Integer id);
+
+    @Query("SELECT l.name FROM Lodge l WHERE l.owner.id=?1 and l.isDeleted=false")
+    List<String> getOwnerLodgeNames(Integer ownerId);
+
 }

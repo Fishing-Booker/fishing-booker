@@ -1,16 +1,16 @@
 package com.example.fishingbooker.IService;
 
+import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
-import com.example.fishingbooker.Model.ReservationPeriod;
 
 import java.util.List;
 
 public interface IReservationPeriodService {
 
-    void save(ReservationPeriodDTO dto);
+    void save(AddReservationPeriodDTO dto);
 
-    List<ReservationPeriod> findAllPeriods(Integer entityId);
+    List<ReservationPeriodDTO> findAllPeriods(Integer entityId);
 
-    List<ReservationPeriod> findFreePeriods(Integer entityId);
+    List<ReservationPeriodDTO> findFreePeriods(Integer entityId);
 
 }

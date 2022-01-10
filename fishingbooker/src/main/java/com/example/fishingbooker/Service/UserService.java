@@ -101,7 +101,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -149,7 +149,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -173,7 +173,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -214,7 +214,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("isafishingbooker@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);

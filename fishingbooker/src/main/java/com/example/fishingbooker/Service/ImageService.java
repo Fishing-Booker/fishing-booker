@@ -3,11 +3,14 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.ImageDTO;
 import com.example.fishingbooker.DTO.UploadImageDTO;
 import com.example.fishingbooker.IRepository.IImageRepository;
+import com.example.fishingbooker.IRepository.IReservationEntityRepository;
+import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.Image;
 import com.example.fishingbooker.Model.ReservationEntity;
+import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,12 @@ public class ImageService implements IImageService {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
+    private IReservationEntityRepository entityRepository;
 
     @Override
     public void save(Image image) {
@@ -61,7 +70,7 @@ public class ImageService implements IImageService {
     }
 
     public void saveImage(UploadImageDTO uploadImageDTO) throws IOException {
-        ReservationEntity reservationEntity = reservationEntityService.findEntityById(uploadImageDTO.getEntityId());
+        ReservationEntity reservationEntity = setEntity(uploadImageDTO.getEntityId(), uploadImageDTO.getOwner());
         String basePath = new File("images/").getAbsolutePath();
         String path = basePath + "/" + reservationEntity.getName() + setId() + ".jpg";
         decodeImageFromBase64(uploadImageDTO.getBase64(), path);
@@ -102,6 +111,13 @@ public class ImageService implements IImageService {
         String[] paths = relativePath.split("/"); //path is like /images/cottageNameIndex.jpg
         StringBuilder path = new StringBuilder().append(basePath).append("/").append(paths[2]);
         return path.toString();
+    }
+
+    private ReservationEntity setEntity(Integer entityId, Integer ownerId){
+        User owner = userRepository.getById(ownerId);
+        ReservationEntity entity = entityRepository.findEntityById(entityId);
+        entity.setOwner(owner);
+        return entity;
     }
 
 }

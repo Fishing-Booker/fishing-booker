@@ -32,4 +32,6 @@ public interface ILodgeService {
     List<String> getFirstLetters();
 
     LodgeInfoDTO getById(Integer id);
+
+    List<String> getOwnerLodgeNames(Integer ownerId);
 }

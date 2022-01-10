@@ -11,9 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<User, Integer> {
+
+    @Query("select u from User u where u.username=?1")
     User findByUsername(String username);
+
     Optional<User> findById(Integer id);
+
     Boolean existsByUsername(String username);
+
     Boolean existsByEmail(String email);
 
     @Query("select u from User u where u.isDeleted=false")

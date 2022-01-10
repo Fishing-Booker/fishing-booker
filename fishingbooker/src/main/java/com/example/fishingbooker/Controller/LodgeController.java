@@ -39,8 +39,7 @@ public class LodgeController {
 
     @GetMapping("/ownerLodges/{id}")
     public List<Lodge> getOwnerLodges(@PathVariable Integer id){
-        List<Lodge> lodges = lodgeService.findOwnerLodges(id);
-        return lodges;
+        return lodgeService.findOwnerLodges(id);
     }
 
     @DeleteMapping("/deleteLodge/{id}")
@@ -52,33 +51,20 @@ public class LodgeController {
     @PostMapping("/addLodge")
     public ResponseEntity<Lodge> addLodge(@RequestBody LodgeDTO lodgeDTO){
 
-        ReservationEntity entity = new ReservationEntity();
-
         User owner = userService.findUserById(lodgeDTO.getOwner());
-        entity.setOwner(owner);
-
-        entity.setName(lodgeDTO.getName());
 
         Location location = addLocation(lodgeDTO.getAddress(), lodgeDTO.getCity(), lodgeDTO.getCountry());
-        entity.setLocation(location);
-
-        entity.setDescription(lodgeDTO.getDescription());
-        entity.setRules("");
-        entity.setCancelConditions("");
-        entity.setDeleted(false);
-        entity.setAverageGrade(0.0);
-        entity.setImages(new ArrayList<>());
 
         Integer id = 0;
-        if(entityService.findEntities().size() == 0){
+        if(entityService.findEntities().size() == 0) {
             id = 1;
         } else {
-            id = entityService.findEntities().get(entityService.findEntities().size() - 1).getId() + 1;
+            id = entityService.setId();
         }
 
-        Lodge lodge = new Lodge(id, entity.getOwner(), entity.getName(), entity.getLocation(),
-                entity.getDescription(), entity.getRules(), entity.getCancelConditions(), entity.getAverageGrade(), 3,
-                entity.getImages());
+        Lodge lodge = new Lodge(id, owner, lodgeDTO.getName(), location, lodgeDTO.getDescription(),
+                "", "", 0.0, lodgeDTO.getMaxPersons(), new ArrayList<>());
+
         lodgeService.save(lodge);
 
         addBedrooms(lodge, lodgeDTO.getOneBed(), lodgeDTO.getTwoBed(), lodgeDTO.getThreeBed(), lodgeDTO.getFourBed());
@@ -141,6 +127,11 @@ public class LodgeController {
     @GetMapping("/lodge")
     public LodgeInfoDTO getById(@RequestParam Integer id) {
         return lodgeService.getById(id);
+    }
+
+    @GetMapping("/lodgeNames/{id}")
+    public List<String> getOwnerLodgeNames(@PathVariable Integer id){
+        return lodgeService.getOwnerLodgeNames(id);
     }
 
     private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){

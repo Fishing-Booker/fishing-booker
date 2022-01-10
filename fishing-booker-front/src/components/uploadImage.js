@@ -1,18 +1,27 @@
 import React from 'react'
 import '../css/addingForm.css'
 import Modal from 'react-modal'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const UploadImage = ({modalIsOpen, setModalIsOpen}) => {
+const UploadImage = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const [uploadedImage, setUploadedImage] = useState("");
     const SERVER_URL = process.env.REACT_APP_API; 
     const {adventureId} = useParams();
     const [base64, setBase64] = useState("");
-    const [entityId, setEntityId] = useState(0);
+
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+            .then(response => setUser(response.data))
+    }, [])
 
     const values = {
+        owner: user.id,
         base64,
         entityId
     }
@@ -22,7 +31,6 @@ const UploadImage = ({modalIsOpen, setModalIsOpen}) => {
         reader.onload = () =>{
             setUploadedImage(reader.result);
             setBase64(reader.result);
-            setEntityId(adventureId);
             console.log(reader.result);
         }
         reader.readAsDataURL(e.target.files[0])

@@ -1,10 +1,25 @@
 import React from 'react'
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import '../css/addingForm.css'
 import Modal from 'react-modal';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const ClientProfile = ({modalIsOpen, setModalIsOpen}) => {
+const ClientProfile = ({modalIsOpen, setModalIsOpen, clientUsername}) => {
+
+    const SERVER_URL = process.env.REACT_APP_API; 
+
+    const [client, setClient] = useState([]);
+
+    useEffect(() => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/users/user/" + clientUsername, { headers: headers })
+            .then(response => {
+                setClient(response.data);
+            })
+    }, [clientUsername])
 
    return (
        <div>
@@ -18,23 +33,23 @@ const ClientProfile = ({modalIsOpen, setModalIsOpen}) => {
                         <div className="info_data">
                             <div className="client-data">
                                 <h4>Name:</h4>
-                                Client name and surname
+                                {client.name} {client.surname}
                             </div>
                             <div className="client-data">
                                 <h4>Username:</h4>
-                                Client username
+                                {clientUsername}
                             </div>
                             <div className="client-data">
                                 <h4>Email:</h4>
-                                Client email 
-                            </div>
-                            <div className="client-data">
-                                <h4>Address:</h4>
-                                Client address
+                                {client.email}
                             </div>
                             <div className="client-data">
                                 <h4>Phone number:</h4>
-                                Client phone number
+                                {client.phoneNumber}
+                            </div>
+                            <div className="client-data">
+                                <h4>Address:</h4>
+                                {client.address}, {client.city}, {client.country}
                             </div>
                             <Link to="/lodgeReservations" onClick={() => setModalIsOpen(false)}>
                                 <button className="client-btn" >

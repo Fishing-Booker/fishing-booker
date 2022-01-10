@@ -102,7 +102,7 @@ public class LodgeService implements ILodgeService {
     public void updateLodge(UpdateLodgeDTO dto, Integer lodgeId) {
         locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
-        lodgeRepository.updateLodge(dto.getName(), dto.getDescription(), lodgeId);
+        lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), lodgeId);
     }
 
     @Override
@@ -124,6 +124,11 @@ public class LodgeService implements ILodgeService {
     public LodgeInfoDTO getById(Integer id) {
         Lodge lodge = lodgeRepository.getLodgeById(id);
         return LodgeMapper.mapToDTO(lodge);
+    }
+
+    @Override
+    public List<String> getOwnerLodgeNames(Integer ownerId) {
+        return lodgeRepository.getOwnerLodgeNames(ownerId);
     }
 
     private String setNewRules(String[] rules){
