@@ -2,7 +2,9 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.SubscriberDTO;
 import com.example.fishingbooker.DTO.SubscriptionDTO;
+import com.example.fishingbooker.DTO.reservationAction.AddReservationActionDTO;
 import com.example.fishingbooker.IRepository.ISubscriberRepository;
+import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.ISubscriberService;
 import com.example.fishingbooker.IService.IUserService;
@@ -11,12 +13,20 @@ import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Model.Subscriber;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class SubscriberService implements ISubscriberService {
 
     @Autowired
@@ -27,6 +37,9 @@ public class SubscriberService implements ISubscriberService {
 
     @Autowired
     private IReservationEntityService reservationEntityService;
+
+    @Autowired
+    JavaMailSender mailSender;
 
     @Override
     public void addSubscriber(SubscriberDTO dto) {
@@ -58,4 +71,55 @@ public class SubscriberService implements ISubscriberService {
         }
         return subscriptions;
     }
+
+    @Override
+    public void sendEmailWithActionInfo(AddReservationActionDTO action) {
+
+        for (User client : subscriberRepository.getSubscribers(action.getEntityId())) {
+            String subject = "Check our new action!";
+            String sender = "Fishing Booker";
+
+            String content ="<p>Dear " + client.getName() + " " + client.getSurname() + ", </p>";
+            content += "<p>There is a new action you may want to check:</p>";
+
+            ReservationEntity entity = reservationEntityService.getEntityById(action.getEntityId());
+            content += "<p><b>Entity:</b> " + entity.getName() + "<br>";
+
+            String start = new SimpleDateFormat("dd.MM.yyyy.").format(action.getStartDate());
+            String end = new SimpleDateFormat("dd.MM.yyyy.").format(action.getEndDate());
+            content += "<b>Action period:</b> " + start + " - " + end + "<br>";
+
+            content += "<b>Max persons:</b> " + action.getMaxPersons() + "<br>";
+
+            String[] services = action.getAdditionalServices().split("#");
+            String additionalServices = "";
+            for (String service : services) {
+                additionalServices += service;
+                additionalServices += ", ";
+            }
+            additionalServices = additionalServices.substring(0, additionalServices.length()-2);
+            content += "<b>Additional services:</b> " + additionalServices + "<br>";
+
+            content += "<b>Price:</b> " + action.getPrice() + "$<br></p>";
+            content += "<p>We are waiting for you!<br>Fishing Booker</p>";
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+
+            try {
+                helper.setFrom("fishingbookernsm@gmail.com", sender);
+                helper.setTo(client.getEmail());
+                helper.setSubject(subject);
+                helper.setText(content, true);
+
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            mailSender.send(message);
+        }
+
+    }
+
 }
