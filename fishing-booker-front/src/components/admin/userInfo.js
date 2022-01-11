@@ -74,7 +74,7 @@ const UserInfo = () => {
                     <div className="container-entities">
                         <li className="withBorder-ent" key={entity.entityId}>
                             <span className="list">{entity.serialNumber}.</span>
-                            <span>
+                            <div style={{display: 'flex'}}>
                             {entity.profileImage !=="" && <img className="entImage" src={entity.profileImage} alt="" />}
                             {entity.profileImage ==="" && <img className="entImage" src={noImg} alt="" />}
                                 <div>
@@ -84,7 +84,7 @@ const UserInfo = () => {
                                     <p><b>Number of persons: </b> {entity.maxPersons}</p>
                                     <p><b>Average grade: </b> {entity.averageGrade}</p>
                                 </div>
-                            </span>
+                            </div>
                             <button className="del-ent-button">
                                 remove
                             </button>

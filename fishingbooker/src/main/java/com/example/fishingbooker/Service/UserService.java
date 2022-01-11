@@ -77,7 +77,7 @@ public class UserService implements IUserService, UserDetailsService {
         Integer index = 1;
         for (User u: users) {
             String role = findUserRolename(u.getId());
-            UserDTO dto = new UserDTO(index++, u.getUsername(), role, u.getName(), u.getSurname(), u.getAddress(), u.getCity(), u.getCountry(), u.getPhoneNumber(), u.getEmail());
+            UserDTO dto = new UserDTO(index++, u.getId(), u.getUsername(), role, u.getName(), u.getSurname(), u.getAddress(), u.getCity(), u.getCountry(), u.getPhoneNumber(), u.getEmail());
             userDTOS.add(dto);
         }
         return userDTOS;
@@ -93,6 +93,30 @@ public class UserService implements IUserService, UserDetailsService {
         u.setSurname(userDTO.getSurname());
         u.setAddress(userDTO.getAddress());
         u.setApproved(false);
+        u.setFirstLogin(true);
+        u.setCity(userDTO.getCity());
+        u.setCountry(userDTO.getCountry());
+        u.setDeleted(false);
+        u.setPhoneNumber(userDTO.getPhoneNumber());
+        List<Role> roles = roleService.findByName(userDTO.getRole());
+        u.setRoles(roles);
+
+        String verificationCode = RandomString.make(64);
+        u.setVerificationCode(verificationCode);
+
+        return this.userRepository.save(u);
+    }
+
+    @Override
+    public User saveAdmin(UserDTO userDTO) {
+        User u = new User();
+        u.setUsername(userDTO.getUsername());
+        u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        u.setEmail(userDTO.getEmail());
+        u.setName(userDTO.getName());
+        u.setSurname(userDTO.getSurname());
+        u.setAddress(userDTO.getAddress());
+        u.setApproved(true);
         u.setFirstLogin(true);
         u.setCity(userDTO.getCity());
         u.setCountry(userDTO.getCountry());
@@ -216,8 +240,15 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
     public void changePassword(String password, Integer id) {
         userRepository.changePassword(passwordEncoder.encode(password), id);
+    }
+
+    @Override
+    public void adminFirstLogin(String password, Integer id) {
+        userRepository.changePassword(passwordEncoder.encode(password), id);
+        userRepository.adminsFirstLogin(id);
     }
 
     @Override
@@ -264,7 +295,7 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public UserDTO findUserByIdDto(Integer id) {
         User user = userRepository.getById(id);
-        UserDTO userDTO = new UserDTO(0,user.getUsername(), findUserRolename(id), user.getName(), user.getSurname(), user.getAddress(), user.getCity(), user.getCountry(), user.getPhoneNumber(), user.getEmail());
+        UserDTO userDTO = new UserDTO(0,user.getId(), user.getUsername(), findUserRolename(id), user.getName(), user.getSurname(), user.getAddress(), user.getCity(), user.getCountry(), user.getPhoneNumber(), user.getEmail());
         return userDTO;
     }
 

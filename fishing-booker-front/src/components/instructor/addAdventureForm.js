@@ -54,6 +54,7 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
             shouldCloseOnEsc={true}
             onRequestClose={() => setModalIsOpen(false)}
             ariaHideApp={false}>
+                <form onSubmit={addAdventure}>
                 <div id="addLodge" className="adding-wrapper">
                     <div className="right">
                         <div className="info">
@@ -95,15 +96,12 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
                                     <h4>Fishing equipment:</h4>
                                     <textarea type="text" required onChange={(e) => {setFishingEquipment(e.target.value)}} value={fishingEquipment}/>
                                 </div>
-                                <Link to="/" onClick={() => addAdventure()} >
-                                    <button>
-                                        Add
-                                    </button>
-                                </Link>
+                                <input type="submit" className="submit" value="Add" />
                             </div> <br/> <br/>
                         </div>
                     </div>
                 </div>
+                </form>
             </Modal>
         </div>
     )

@@ -54,6 +54,7 @@ import ShipReservation from "./client/shipReservation";
 import AdventureReservation from "./client/adventureReservation";
 import UserList from "./admin/userList";
 import UserInfo from "./admin/userInfo";
+import AdminHomepage from "./admin/adminHomepage";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -72,7 +73,6 @@ const FrontPage = () => {
         if(isLogged === true) {
             const headers = {'Content-Type' : 'application/json',
                              'Authorization' : `Bearer ${localStorage.jwtToken}`}
-            console.log(headers)
             axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers})
             .then(response => {
                 var user = response.data;
@@ -138,7 +138,7 @@ const FrontPage = () => {
 
                 {isLogged && (role==="ROLE_ADMIN" || role === "ROLE_DEFADMIN") && 
                     <Switch>
-                        <Route exact path="/"></Route>
+                        <Route exact path="/"><AdminHomepage/></Route>
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/accountRequests"><AccountRequest/></Route>

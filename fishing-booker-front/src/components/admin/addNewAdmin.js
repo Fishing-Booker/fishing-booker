@@ -1,9 +1,16 @@
-const AddNewAdminForm = () => {
-    const SERVER_URL = process.env.REACT_APP_API; 
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory} from "react-router-dom";
+import '../../css/addingForm.css';
+import Modal from 'react-modal';
+import axios from 'axios';
+import { useToasts } from "react-toast-notifications";
+
+const AddNewAdminForm = ({modalIsOpen, setModalIsOpen}) => {
+  const SERVER_URL = process.env.REACT_APP_API; 
   const { addToast } = useToasts();
   const history = useHistory();
   const url = window.location.href;
-  const [role, setRole] = useState("ROLE_DEFADMIN");
+  const [role, setRole] = useState("ROLE_ADMIN");
   const [name, setName] = useState("")
   const [surname, setSurname] = useState("")
   const [username, setUsername] = useState("")
@@ -17,7 +24,6 @@ const AddNewAdminForm = () => {
   const [isApproved, setIsApproved] = useState(false)
   const [isFirstLogin, setIsFirstLogin] = useState(true);
   const [registrationReason, setRegistrationReason] = useState("")
-  const [confirmationPassword, setConfirmationPassword] = useState("")
 
   const values = {
     name, 
@@ -35,64 +41,77 @@ const AddNewAdminForm = () => {
     isFirstLogin,
     role
   }
+
+  const handleSubmit = (e) => {
+    console.log(values)
+    e.preventDefault();
+    axios.post(SERVER_URL + "/auth/registerAdmin", values)
+          .then(response => {
+        addToast("You registered admin successfully!", { appearance: "success" });
+        const timer = setTimeout(() => {
+          history.push('/');
+          window.location.reload();
+        }, 3000)
+       });
+  }
+
+
     return (
-    <div className="container-reg">
-    <div className="title">Registration</div>
-    <div className="content">
-      <form onSubmit={handleSubmit}>
-        <div className="user-details">
-          <div className="input-box">
-            <span className="details">Name</span>
-            <input type="text" placeholder="Enter your name" required onChange={(e) => {setName(e.target.value)}} value={name}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Phone Number</span>
-            <input type="text" placeholder="Enter your phone number" required onChange={(e) => setPhoneNumber(e.target.value)} value={phoneNumber}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Surname</span>
-            <input type="text" placeholder="Enter your surname" required onChange={(e) => setSurname(e.target.value)} value={surname}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Email</span>
-            <input type="text" placeholder="Enter your email" required onChange={(e) => setEmail(e.target.value)} value={email}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Address</span>
-            <input type="text" placeholder="Enter your address" required onChange={(e) => setAddress(e.target.value)} value={address}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Username</span>
-            <input type="text" placeholder="Choose your username" required onChange={(e) => setUsername(e.target.value)} value={username}/>
-          </div>
-          <div className="input-box">
-            <span className="details">City</span>
-            <input type="text" placeholder="Enter your city" required onChange={(e) => setCity(e.target.value)} value={city}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Password</span>
-            <input type="password" placeholder="Enter your password" required onChange={(e) => setPassword(e.target.value)} value={password}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Country</span>
-            <input type="text" placeholder="Enter your country" required onChange={(e) => setCountry(e.target.value)} value={country}/>
-          </div>
-          <div className="input-box">
-            <span className="details">Confirm Password</span>
-            <input type="password" placeholder="Confirm your password" required onChange={(e) => setConfirmationPassword(e.target.value)} value={confirmationPassword}/>
-          </div>
-          <div className="input-box-reasons">
-            <span className="details">Registration reason</span>
-            <textarea type="text" placeholder="Registration reason" required onChange={(e) => setRegistrationReason(e.target.value)} value={registrationReason}/>
-          </div>
-        </div>
-        <p className="reg-message">Alredy have an account? <Link className="link" to="/login">Log in</Link></p>
-        <div className="button">
-          <input type="submit" value="Register"/>
-        </div>
-      </form>
-    </div>
-  </div>
+      <div>
+        <Modal className="fullscreen" isOpen={modalIsOpen}
+            shouldCloseOnEsc={true}
+            onRequestClose={() => setModalIsOpen(false)}
+            ariaHideApp={false}>
+              <div id="addLodge" className="adding-wrapper">
+                <form onSubmit={handleSubmit}>
+                  <div className="right">
+                    <div className="info">
+                      <h3>ADD ADMIN</h3>
+                      <div className="info_data">
+                        <div className="data">
+                          <h4>Name: </h4>
+                          <input type="text" required onChange={(e) => {setName(e.target.value)}}  value={name} />
+                        </div>
+                        <div className="data">
+                          <h4>Surname: </h4>
+                          <input type="text" required onChange={(e) => {setSurname(e.target.value)}}  value={surname} />
+                        </div>
+                        <div className="data">
+                          <h4>Email: </h4>
+                          <input type="text" required onChange={(e) => {setEmail(e.target.value)}}  value={email} />
+                        </div>
+                        <div className="data">
+                          <h4>Username: </h4>
+                          <input type="text" required onChange={(e) => {setUsername(e.target.value)}}  value={username}/>
+                        </div>
+                        <div className="data">
+                          <h4>Password: </h4>
+                          <input type="text" required onChange={(e) => {setPassword(e.target.value)}}  value={password} />
+                        </div>
+                        <div className="data">
+                          <h4>Address: </h4>
+                          <input type="text" required onChange={(e) => {setAddress(e.target.value)}}  value={address}/>
+                        </div>
+                        <div className="data">
+                          <h4>City: </h4>
+                          <input type="text" required onChange={(e) => {setCity(e.target.value)}}  value={city} />
+                        </div>
+                        <div className="data">
+                          <h4>Country: </h4>
+                          <input type="text" required onChange={(e) => {setCountry(e.target.value)}}  value={country} />
+                        </div>
+                        <div className="data">
+                          <h4>Phone number: </h4>
+                          <input type="text" required onChange={(e) => {setPhoneNumber(e.target.value)}}  value={phoneNumber}/>
+                        </div>
+                        <input type="submit" className="submit"/>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+        </Modal>
+      </div>
     )
 }
 

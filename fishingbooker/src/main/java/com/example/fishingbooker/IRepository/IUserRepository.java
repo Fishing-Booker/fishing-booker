@@ -38,7 +38,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     List<User> findUnapprovedUsers();
     
     //@Query("delete from User u where u.username=?1")
-    @Query("update User u set u.isDeleted = true")
+    @Query("update User u set u.isDeleted = true where u.username=?1")
     @Modifying
     @Transactional
     void deleteByUsername(String username);
@@ -50,4 +50,9 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.id = ?1")
     User getById(Integer id);
+
+    @Query("update User u set u.isFirstLogin=false where u.id =?1")
+    @Modifying
+    @Transactional
+    void adminsFirstLogin(Integer id);
 }

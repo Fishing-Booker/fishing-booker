@@ -11,6 +11,7 @@ import com.example.fishingbooker.Model.DeleteAccountRequest;
 import com.example.fishingbooker.Model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -88,6 +89,12 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
     public List<UserDTO> getUserList() {
         return userService.getUserList();
+    }
+
+    @PutMapping("/changePasswordAdmin")
+    public ResponseEntity<String> firstLoginAdmin(@RequestBody PasswordDTO passwordDTO) {
+        userService.adminFirstLogin(passwordDTO.getPassword(), passwordDTO.getId());
+        return ResponseEntity.ok("Password is successfully changed!");
     }
 
 }

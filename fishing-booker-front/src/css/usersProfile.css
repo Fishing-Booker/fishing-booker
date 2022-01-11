@@ -420,6 +420,22 @@ li p {
   margin-top: 1%
 }
 
+.add-admin-btn{
+  height: 40px;
+  width: 10%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #688cbe;
+  margin-left: 90%;
+  margin-bottom: 1%;
+}
+
 .withBorder .accept-request{
   height: 40px;
   width: 10%;

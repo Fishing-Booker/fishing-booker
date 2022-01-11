@@ -90,4 +90,18 @@ public class AuthenticationController {
 
         return verified ? "Your account is successfully verified!" : "We are sorry, your account is not verified.";
     }
+
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<User> addAdmin(@RequestBody UserDTO userRequest, UriComponentsBuilder ucBuilder) {
+
+        User existUser = this.userService.findByUsername(userRequest.getUsername());
+
+        if (existUser != null) {
+            throw new ResourceConflictException(userRequest.getUsername(), "Username already exists");
+        }
+
+        User user = this.userService.saveAdmin(userRequest);
+
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
 }
