@@ -1,0 +1,253 @@
+.wrapper-info{
+    
+    width: 70%;
+    height: 45%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-left: 15%;
+    display: flex;
+    overflow-y: scroll;
+  }
+  
+  .wrapper-info .left{
+    width: 18%;
+    height: 41.7%;
+    background: #5078ad;
+    padding: 30px 25px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+  }
+  
+  .wrapper-info .left h4{
+    font-size: larger;
+    margin-bottom: 10px;
+  }
+  
+  .wrapper-info .left p{
+    font-size: 12px;
+  }
+  
+  .wrapper-info .left a{
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .wrapper-info .left .del-button{
+    height: 40px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgb(36, 1, 134);
+    margin-left: 0%;
+    margin-top: 50%;
+  }
+
+  .del-ent-button{
+    height: 40px;
+    width: 10%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgb(36, 1, 134);
+    margin-left: 89%;
+  }
+  
+  .wrapper-info .right{
+    width: 70%;
+    background: #fff;
+    padding: 30px 25px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  .wrapper-info .reservations-right{
+    width: 100%;
+    background: #fff;
+    padding: 30px 25px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  
+  .wrapper-info .right .info,
+  .wrapper-info .reservations-right .info{
+    margin-left: 0%;
+  }
+  
+  .wrapper-info .right .info h3,
+  .wrapper-info .reservations-right .info h3{
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #353c4e;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+  }
+  
+  .wrapper-info .right .info_data,
+  .wrapper-info .right .projects_data{
+    display: block;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .wrapper-info .right .info_data .data,
+  .wrapper-info .right .projects_data .data{
+    width: 45%;
+  }
+  
+  .wrapper-info .right .info_data .data h4,
+  .wrapper-info .right .projects_data .data h4{
+      color: #353c4e;
+      margin-bottom: 5px;
+      margin-top: 5px;
+  }
+  
+  .wrapper-info .right .info_data .data input,
+  .wrapper-info .right .projects_data .data input{
+      color: #353c4e;
+      margin-bottom: 5px;
+      height: 35px;
+      width: 200%;
+      border: 1px solid #5078ad;
+      border-width: 1px;
+      border-radius: 5px;
+      padding-left: 11px;
+      outline: none;
+      transition: all 0.3s ease;
+  }
+  
+  
+  .wrapper-info .right .info_data .data .bedroom-input{
+      color: #353c4e;
+      margin-bottom: 5px;
+      margin-left: 2%;
+      margin-top: 2%;
+      height: 22px;
+      width: 12%;
+      border: 1px solid #5078ad;
+      border-width: 1px;
+      border-radius: 5px;
+      padding-left: 11px;
+      outline: none;
+      transition: all 0.3s ease;
+  }
+  
+  .wrapper-info .right .info_data .data textarea,
+  .wrapper-info .right .projects_data .data textarea{
+      color: #353c4e;
+      margin-bottom: 5px;
+      height: 120px;
+      width: 200%;
+      border: 1px solid #5078ad;
+      border-radius: 5px;
+      padding-left: 11px;
+      padding-top: 5px;
+      outline: none;
+      transition: all 0.3s ease;
+  }
+  
+  .wrapper-info .right .info_data .data textarea:hover{
+    border-color: #5078ad;
+    border-width: 2px;
+  }
+  
+  .wrapper-info .right .info_data .data p,
+  .wrapper-info .right .projects_data .data p{
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #919aa3;
+  }
+  
+  .wrapper-info .social_media ul{
+    display: flex;
+  }
+  
+  .wrapper-info .social_media ul li{
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg,#2f5e3d,#5078ad);
+    margin-right: 10px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 45px;
+  }
+  
+  .wrapper-info .social_media ul li a{
+    color :#fff;
+    display: block;
+    font-size: 18px;
+  }
+
+  .profile-card{
+    margin-top: 30px;
+    width: 70%;
+    height: 300;
+    border: 2px;
+    background-color: #fff;
+    border-style: solid;
+    border-color: #5078ad;
+    border-radius: 5px;
+    margin-left: 15%;
+  }
+
+  ol {
+    color: rgb(0, 0, 0);
+    list-style-type: none;
+  }
+   
+  ol li {
+    position: relative;
+    font: bold italic 45px/1.5 Helvetica, Verdana, sans-serif;
+    margin-bottom: 20px;
+  }
+   
+  li p {
+    font: 17px/1.5 Helvetica, sans-serif;
+    padding-left: 5%;
+    color: rgb(0, 0, 0);
+    margin-left: 2%;
+  }
+  .list{
+    position: absolute;
+  }
+  
+  .withBorder-ent {
+    margin-top: 10px;
+    border-top: 3px solid black;
+    padding-top: 10px;
+  }
+
+  .container-entities{
+    width: 80%;
+    height: 400px;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-left: 10%;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+    margin-top: 1%;
+  }
+
+  .entImage {
+      margin-left: 7%;
+      width: 100px;
+      height: 100px;
+  }

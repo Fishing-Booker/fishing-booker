@@ -1,6 +1,7 @@
 package com.example.fishingbooker.DTO;
 
 public class UserDTO {
+    private Integer serialNumber;
     private String username;
     private String role;
     private String name;
@@ -21,7 +22,7 @@ public class UserDTO {
         this.role = role;
     }
 
-    public UserDTO(String username, String role, String name, String surname, String address, String city,
+    public UserDTO( String username, String role, String name, String surname, String address, String city,
                    String country, String phoneNumber, String email, String password, String registrationReason) {
         this.username = username;
         this.role = role;
@@ -34,6 +35,28 @@ public class UserDTO {
         this.email = email;
         this.password = password;
         this.registrationReason = registrationReason;
+    }
+
+    public UserDTO(Integer serialNumber, String username, String role, String name, String surname, String address, String city,
+                   String country, String phoneNumber, String email) {
+        this.serialNumber = serialNumber;
+        this.username = username;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public String getName() {

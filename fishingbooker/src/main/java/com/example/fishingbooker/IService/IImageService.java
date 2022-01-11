@@ -14,4 +14,6 @@ public interface IImageService {
     List<ImageDTO> findEntityImages(Integer entityId) throws IOException;
 
     void deleteImage(Integer imageId);
+
+    String getEntityProfileImage(Integer entityId) throws IOException;
 }

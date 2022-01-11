@@ -53,6 +53,7 @@ import Subscriptions from "./client/subscriptions";
 import ShipReservation from "./client/shipReservation";
 import AdventureReservation from "./client/adventureReservation";
 import UserList from "./admin/userList";
+import UserInfo from "./admin/userInfo";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -143,7 +144,7 @@ const FrontPage = () => {
                         <Route path="/accountRequests"><AccountRequest/></Route>
                         <Route path="/deleteRequests"><DeleteRequest/></Route>
                         <Route path="/userList"><UserList/></Route>
-
+                        <Route path="/userInfo/:userId"><UserInfo/></Route>
                     </Switch>
                 }
 

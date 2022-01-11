@@ -1,11 +1,12 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.EntityDTO;
 import com.example.fishingbooker.DTO.UserDTO;
-import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IRepository.*;
+import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.Model.Role;
-import com.example.fishingbooker.Model.User;
+import com.example.fishingbooker.Model.*;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,21 @@ public class UserService implements IUserService, UserDetailsService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    IAdventureRepository adventureRepository;
+
+    @Autowired
+    ILodgeRepository lodgeRepository;
+
+    @Autowired
+    IShipRepository shipRepository;
+
+    @Autowired
+    ILocationRepository locationRepository;
+
+    @Autowired
+    IImageService imageService;
+
+    @Autowired
     private JavaMailSender mailSender;
 
     @Override
@@ -51,6 +68,19 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public List<User> findAll() {
         return this.userRepository.findAll();
+    }
+
+    @Override
+    public List<UserDTO> getUserList() {
+        List<UserDTO> userDTOS = new ArrayList<>();
+        List<User> users = findAll();
+        Integer index = 1;
+        for (User u: users) {
+            String role = findUserRolename(u.getId());
+            UserDTO dto = new UserDTO(index++, u.getUsername(), role, u.getName(), u.getSurname(), u.getAddress(), u.getCity(), u.getCountry(), u.getPhoneNumber(), u.getEmail());
+            userDTOS.add(dto);
+        }
+        return userDTOS;
     }
 
     @Override
@@ -228,6 +258,64 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     public User findUserById(Integer id) {
-        return userRepository.getById(id);
+        User user = userRepository.getById(id);return user;
     }
+
+    @Override
+    public UserDTO findUserByIdDto(Integer id) {
+        User user = userRepository.getById(id);
+        UserDTO userDTO = new UserDTO(0,user.getUsername(), findUserRolename(id), user.getName(), user.getSurname(), user.getAddress(), user.getCity(), user.getCountry(), user.getPhoneNumber(), user.getEmail());
+        return userDTO;
+    }
+
+    @Override
+    public List<EntityDTO> findUserEntities(Integer userId) throws IOException {
+        List<EntityDTO> dtos = new ArrayList<>();
+        String role = findUserRolename(userId);
+        if (role.equals("ROLE_INSTRUCTOR")) {
+            dtos = setAdventures(userId);
+        } else if(role.equals("ROLE_SHIPOWNER")) {
+            dtos = setShips(userId);
+        } else if(role.equals("ROLE_LODGEOWNER")) {
+            dtos = setLodges(userId);
+        }
+        return dtos;
+    }
+
+    private List<EntityDTO> setAdventures(Integer userId) throws IOException {
+        List<EntityDTO> dtos = new ArrayList<>();
+        List<Adventure> adventures = adventureRepository.findInstructorAdventures(userId);
+        Integer index = 1;
+        for (Adventure a: adventures) {
+            Location location = locationRepository.getById(a.getLocation().getId());
+            EntityDTO dto = new EntityDTO(index++, a.getId(), userId, a.getName(), location.getAddress() + ", " + location.getCity() + ", " + location.getCountry(), a.getDescription(), a.getCancelConditions(), a.getAverageGrade(), a.getMaxPersons(), imageService.getEntityProfileImage(a.getId()));
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    private List<EntityDTO> setLodges(Integer userId) throws IOException {
+        List<EntityDTO> dtos = new ArrayList<>();
+        List<Lodge> lodges = lodgeRepository.findOwnerLodges(userId);
+        Integer index = 1;
+        for (Lodge l : lodges) {
+            Location location = locationRepository.getById(l.getLocation().getId());
+            EntityDTO dto = new EntityDTO(index++, l.getId(), userId, l.getName(), location.getAddress() + ", " + location.getCity() + ", " + location.getCountry(), l.getDescription(), l.getCancelConditions(), l.getAverageGrade(), l.getMaxPersons(), imageService.getEntityProfileImage(l.getId()));
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    private List<EntityDTO> setShips(Integer userId) throws IOException {
+        List<EntityDTO> dtos = new ArrayList<>();
+        List<Ship> ships = shipRepository.findOwnerShips(userId);
+        Integer index = 1;
+        for (Ship s : ships) {
+            Location location = locationRepository.getById(s.getLocation().getId());
+            EntityDTO dto = new EntityDTO(index++, s.getId(), userId, s.getName(), location.getAddress() + ", " + location.getCity() + ", " + location.getCountry(), s.getDescription(), s.getCancelConditions(), s.getAverageGrade(), s.getMaxPersons(), imageService.getEntityProfileImage(s.getId()));
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
 }

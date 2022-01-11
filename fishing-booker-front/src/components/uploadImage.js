@@ -23,7 +23,7 @@ const UploadImage = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const values = {
         owner: user.id,
         base64,
-        entityId
+        entityId : adventureId
     }
 
     const imageHandler = (e) => {

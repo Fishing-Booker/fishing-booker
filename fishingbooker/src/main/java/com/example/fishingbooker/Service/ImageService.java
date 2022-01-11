@@ -65,6 +65,16 @@ public class ImageService implements IImageService {
     }
 
     @Override
+    public String getEntityProfileImage(Integer entityId) throws IOException {
+        List<Image> images = imageRepository.findEnitityImages(entityId);
+        if(images.isEmpty()) return "";
+        Image profileImage = images.get(0);
+        String base64 = encodeImageToBase64(profileImage.getPath());
+        ImageDTO dto = new ImageDTO(profileImage.getId(), base64);
+        return dto.getBase64();
+    }
+
+    @Override
     public void deleteImage(Integer imageId) {
         imageRepository.deleteImage(imageId);
     }
@@ -76,7 +86,7 @@ public class ImageService implements IImageService {
         decodeImageFromBase64(uploadImageDTO.getBase64(), path);
         String relativePath = "/images/" + reservationEntity.getName() + setId() + ".jpg";
 
-        reservationEntity.setOwner(userService.findUserById(11));
+        reservationEntity.setOwner(userService.findUserById(uploadImageDTO.getOwner()));
         Image image = new Image(setId(), reservationEntity, relativePath);
 
         save(image);

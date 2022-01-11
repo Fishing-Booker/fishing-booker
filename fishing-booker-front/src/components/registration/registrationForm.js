@@ -55,7 +55,7 @@ const RegistrationForm = () => {
     console.log(values);
     e.preventDefault();
     if (validate(values.password, confirmationPassword)) {
-      if(role == "ROLE_CLIENT" || role=="ROLE_DEFADMIN"){
+      if(role === "ROLE_CLIENT" || role==="ROLE_DEFADMIN"){
         axios.post(SERVER_URL + "/auth/register", values)
           .then(response => {
         addToast("You are registered successfully! Please check email to verify your account.", { appearance: "success" });

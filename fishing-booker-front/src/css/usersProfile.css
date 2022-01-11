@@ -76,7 +76,7 @@ a:hover {
 
 .wrapper .right .info,
 .wrapper .reservations-right .info{
-  margin-left: 10%;
+  margin-left: 5%;
 }
 
 .wrapper .right .info h3,
@@ -419,3 +419,52 @@ li p {
   margin-bottom: 10px;
   margin-top: 1%
 }
+
+.withBorder .accept-request{
+  height: 40px;
+  width: 10%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #5078ad;
+  margin-bottom: 10px;
+  margin-left: 75%;
+}
+
+.withBorder .reject-request{
+  height: 40px;
+  width: 10%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #2f5e3d;
+  margin-left: 2%;
+}
+
+.withBorder .user-details{
+  height: 40px;
+  width: 10%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #5078ad;
+  margin-bottom: 10px;
+  margin-left: 90%;
+}
+
+

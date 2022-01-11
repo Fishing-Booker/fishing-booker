@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.DeleteAccountRequestDTO;
+import com.example.fishingbooker.DTO.EntityDTO;
 import com.example.fishingbooker.DTO.PasswordDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IService.IDeleteAccountRequestService;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -70,6 +72,22 @@ public class UserController {
     @PostMapping("/deleteAccount")
     public DeleteAccountRequest sendRequestForDeletingAccount(@RequestBody DeleteAccountRequestDTO dto) {
         return deleteAccountRequestService.save(dto);
+    }
+
+    @GetMapping("/getUser/{id}")
+    public UserDTO findUserById(@PathVariable Integer id) {
+        return userService.findUserByIdDto(id);
+    }
+
+    @GetMapping("/getUserEntities/{id}")
+    public List<EntityDTO> findUserEntities(@PathVariable Integer id) throws IOException {
+        return userService.findUserEntities(id);
+    }
+
+    @GetMapping("/getUserList")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
+    public List<UserDTO> getUserList() {
+        return userService.getUserList();
     }
 
 }
