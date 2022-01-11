@@ -13,6 +13,7 @@ const UserInfo = () => {
     const { addToast } = useToasts();
     const [user, setUser] = useState([]);
     const [entities, setEntities] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         console.log(userId);
@@ -29,9 +30,17 @@ const UserInfo = () => {
         axios.get(SERVER_URL + "/users/getUserEntities/" + userId, {headers : headers})
         .then(response => {
             setEntities(response.data);
-            console.log(response.data);
         });
     }, [])
+
+    const deleteUser = (id) => {
+        const headers = {'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/users/deleteUser/" + userId, { headers: headers });
+        console.log(headers);
+        history.push('/');
+    }
+
     return (
         <div>
             <div className="wrapper-info">
@@ -43,7 +52,7 @@ const UserInfo = () => {
                     {user.role==="ROLE_INSTRUCTOR" && <p>INSTRUCTOR</p>}
                     {user.role==="ROLE_SHIPOWNER" && <p>SHIP OWNER</p>}
                     {user.role==="ROLE_LODGEOWNER" && <p>LODGE OWNER</p>}
-                    <button className="del-button">Delete user</button>
+                    <button className="del-button" onClick={() => deleteUser(user.id)}>Delete user</button>
                 </div>
                 <div className="right">
                     <div className="info">

@@ -43,6 +43,11 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     @Transactional
     void deleteByUsername(String username);
 
+    @Query("update User u set u.isDeleted = true where u.id=?1")
+    @Modifying
+    @Transactional
+    void deleteById(Integer id);
+
     @Query("UPDATE User u SET u.password = ?1 WHERE u.id = ?2")
     @Modifying
     @Transactional

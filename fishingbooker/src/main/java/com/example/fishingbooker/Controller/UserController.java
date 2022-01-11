@@ -87,14 +87,23 @@ public class UserController {
 
     @GetMapping("/getUserList")
     @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
-    public List<UserDTO> getUserList() {
-        return userService.getUserList();
+    public List<UserDTO> getUserList(Principal user) {
+        return userService.getUserList(user.getName());
     }
 
     @PutMapping("/changePasswordAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> firstLoginAdmin(@RequestBody PasswordDTO passwordDTO) {
         userService.adminFirstLogin(passwordDTO.getPassword(), passwordDTO.getId());
         return ResponseEntity.ok("Password is successfully changed!");
     }
+
+    @PutMapping("/deleteUser/{id}")
+    //@PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
+    public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

@@ -25,9 +25,10 @@ public interface IUserService {
     User findUserById(Integer id);
     UserDTO findUserByIdDto(Integer id);
     List<EntityDTO> findUserEntities(Integer userId) throws IOException;
-    public List<UserDTO> getUserList();
+    public List<UserDTO> getUserList(String adminUsername);
     User saveAdmin(UserDTO userDTO);
     void adminFirstLogin(String password, Integer id);
+    void deleteUser(Integer id);
 
 
 }

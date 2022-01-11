@@ -71,11 +71,14 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public List<UserDTO> getUserList() {
+    public List<UserDTO> getUserList(String adminUsername) {
         List<UserDTO> userDTOS = new ArrayList<>();
         List<User> users = findAll();
         Integer index = 1;
         for (User u: users) {
+            if(u.getUsername().equals(adminUsername)) {
+                continue;
+            }
             String role = findUserRolename(u.getId());
             UserDTO dto = new UserDTO(index++, u.getId(), u.getUsername(), role, u.getName(), u.getSurname(), u.getAddress(), u.getCity(), u.getCountry(), u.getPhoneNumber(), u.getEmail());
             userDTOS.add(dto);
@@ -347,6 +350,32 @@ public class UserService implements IUserService, UserDetailsService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    @Override
+    public void deleteUser(Integer userId) {
+        deleteUserEntities(userId);
+        userRepository.deleteById(userId);
+    }
+
+    private void deleteUserEntities(Integer userId) {
+        String rolename = findUserRolename(userId);
+        if (rolename.equals("ROLE_INSTRUCTOR")) {
+            List<Adventure> adventures = adventureRepository.findInstructorAdventures(userId);
+            for (Adventure a: adventures) {
+                adventureRepository.deleteAdventure(a.getId());
+            }
+        } else if(rolename.equals("ROLE_SHIPOWNER")) {
+            List<Ship> ships = shipRepository.findOwnerShips(userId);
+            for (Ship s: ships) {
+                shipRepository.deleteShip(s.getId());
+            }
+        } else if (rolename.equals("ROLE_LODGEOWNER")) {
+            List<Lodge> lodges = lodgeRepository.findOwnerLodges(userId);
+            for (Lodge l : lodges) {
+                lodgeRepository.deleteLodge(l.getId());
+            }
+        }
     }
 
 }
