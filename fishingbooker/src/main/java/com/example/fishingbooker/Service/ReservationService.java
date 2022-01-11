@@ -34,7 +34,7 @@ public class ReservationService implements IReservationService {
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
         List<ReservationDTO> reservations = new ArrayList<>();
         for (Reservation r : reservationRepository.findEntityReservations(entityId)) {
-            reservations.add(new ReservationDTO(r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
+            reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
                     r.getReservationEntity().getName()));
         }
         return reservations;

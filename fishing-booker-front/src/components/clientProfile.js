@@ -51,11 +51,9 @@ const ClientProfile = ({modalIsOpen, setModalIsOpen, clientUsername}) => {
                                 <h4>Address:</h4>
                                 {client.address}, {client.city}, {client.country}
                             </div>
-                            <Link to="/lodgeReservations" onClick={() => setModalIsOpen(false)}>
-                                <button className="client-btn" >
-                                    Done
-                                </button>
-                            </Link>
+                            <button className="client-btn" onClick={() => setModalIsOpen(false)}>
+                                Done
+                            </button>
                         </div> <br/> <br/>
                     </div>
                 </div>

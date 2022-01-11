@@ -269,4 +269,20 @@
     margin-left: 5%;
   }
 
+  .adding-wrapper .right .info_data .report-options .data{
+      width: 200%;
+      font-size: 50;
+      display: flex;
+  }
+
+  .adding-wrapper .right .info_data .report-options .data input{
+      margin-top: 1%;
+      width: 15px;
+      height: 15px;
+  }
+
+  .adding-wrapper .right .info_data .report-options .data label{
+    margin-left: 2%;
+}
+
 

@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class ReservationDTO {
 
+    private Integer reservationId;
     private Date startDate;
     private Date endDate;
     private String clientUsername;
@@ -13,12 +14,21 @@ public class ReservationDTO {
     public ReservationDTO() {
     }
 
-    public ReservationDTO(Date startDate, Date endDate, String clientUsername, Integer entityId, String entityName) {
+    public ReservationDTO(Integer reservationId, Date startDate, Date endDate, String clientUsername, Integer entityId, String entityName) {
+        this.reservationId = reservationId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.clientUsername = clientUsername;
         this.entityId = entityId;
         this.entityName = entityName;
+    }
+
+    public Integer getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(Integer reservationId) {
+        this.reservationId = reservationId;
     }
 
     public Date getStartDate() {
