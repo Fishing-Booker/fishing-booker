@@ -99,11 +99,19 @@ public class UserController {
     }
 
     @PutMapping("/deleteUser/{id}")
-    //@PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/deleteUsersEntity/{entityId}/{userId}")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
+    public ResponseEntity<String> deleteUsersEntity(@PathVariable Integer entityId, @PathVariable Integer userId) {
+        userService.deleteUserEntity(entityId, userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 }

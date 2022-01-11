@@ -378,4 +378,16 @@ public class UserService implements IUserService, UserDetailsService {
         }
     }
 
+    @Override
+    public void deleteUserEntity(Integer entityId, Integer userId) {
+        String rolename = findUserRolename(userId);
+        if (rolename.equals("ROLE_INSTRUCTOR")) {
+            adventureRepository.deleteAdventure(entityId);
+        } else if(rolename.equals("ROLE_SHIPOWNER")) {
+            shipRepository.deleteShip(entityId);
+        } else if (rolename.equals("ROLE_LODGEOWNER")) {
+            lodgeRepository.deleteLodge(entityId);
+        }
+    }
+
 }

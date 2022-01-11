@@ -16,7 +16,6 @@ const UserInfo = () => {
     const history = useHistory();
 
     useEffect(() => {
-        console.log(userId);
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getUser/" + userId, { headers: headers })
@@ -37,8 +36,14 @@ const UserInfo = () => {
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.put(SERVER_URL + "/users/deleteUser/" + userId, { headers: headers });
-        console.log(headers);
         history.push('/');
+    }
+
+    const deleteEntity = (id) => {
+        const headers = {'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/users/deleteUsersEntity/" + id + "/" + userId, { headers: headers });
+        window.location.reload();
     }
 
     return (
@@ -94,7 +99,7 @@ const UserInfo = () => {
                                     <p><b>Average grade: </b> {entity.averageGrade}</p>
                                 </div>
                             </div>
-                            <button className="del-ent-button">
+                            <button className="del-ent-button" onClick={() => deleteEntity(entity.entityId)}>
                                 remove
                             </button>
                         </li>

@@ -29,6 +29,7 @@ public interface IUserService {
     User saveAdmin(UserDTO userDTO);
     void adminFirstLogin(String password, Integer id);
     void deleteUser(Integer id);
+    void deleteUserEntity(Integer entityId, Integer userId);
 
 
 }
