@@ -70,7 +70,6 @@ public class ReservationPeriodService implements IReservationPeriodService {
         return freePeriods;
     }
 
-    @Override
     private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, ReservationDTO reservation, Integer entityId){
         List<ReservationPeriodDTO> newPeriods = new ArrayList<>();
         for (ReservationPeriodDTO period : periods) {
@@ -97,10 +96,10 @@ public class ReservationPeriodService implements IReservationPeriodService {
         for (ReservationPeriod p : repository.findPeriodsByDate(entityId, startDate, endDate)) {
             entityPeriods.add(new ReservationPeriodDTO(p.getStartDate(), p.getEndDate(), entityId));
         }
-        List<Reservation> entityReservations = reservationService.findEntityReservations(entityId);
+        List<ReservationDTO> entityReservations = reservationService.findEntityReservations(entityId);
         List<ReservationPeriodDTO> availablePeriods = entityPeriods;
-        for (Reservation r : entityReservations) {
-            availablePeriods = getChangedPeriods(availablePeriods, r);
+        for (ReservationDTO r : entityReservations) {
+            availablePeriods = getChangedPeriods(availablePeriods, r, entityId);
         }
         return availablePeriods;
     }
