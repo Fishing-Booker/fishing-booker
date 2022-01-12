@@ -4,7 +4,10 @@ import { useParams, Link } from "react-router-dom";
 import star from "../../images/star.png";
 import { useToasts } from "react-toast-notifications";
 import { format } from "date-fns";
+import Modal from 'react-modal';
+import NewReservation from "./modals/newReservation";
 
+Modal.setAppElement('#root')
 const LodgeReservation = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [lodge, setLodge] = useState([]);
@@ -21,6 +24,10 @@ const LodgeReservation = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [availablePeriods, setAvailablePeriods] = useState([])
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [start, setStart] = useState('')
+    const [end, setEnd] = useState('')
+    const [maxGuests, setMaxGuests] = useState('')
 
     useEffect(() => {
         axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
@@ -32,6 +39,7 @@ const LodgeReservation = () => {
                 setOwnerName(response.data.owner.name);
                 setOwnerSurname(response.data.owner.surname);
                 setEntityId(response.data.id)
+                setMaxGuests(response.data.maxPersons)
             });
         
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -43,7 +51,7 @@ const LodgeReservation = () => {
                     .then(response => setIsSubscribed(response.data))
             })
         
-    }, [id, isSubscribed])
+    }, [id, isSubscribed, modalIsOpen])
 
     const renderStars = (grade) => {
         let stars = []
@@ -83,7 +91,7 @@ const LodgeReservation = () => {
                 <div key={index} className="period-card">
                     <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
                     <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy.')}</p>
-                    <a className="reservation-link">book lodge</a>
+                    <a className="reservation-link" onClick={() => {setModalIsOpen(true); setStart(period.startDate); setEnd(period.endDate)}}>book lodge</a>
                 </div>
             )
         })
@@ -99,6 +107,7 @@ const LodgeReservation = () => {
             <p className="entity-info location">{address}, {city}, {country}</p>
             <p className="entity-info description">{lodge.description}</p>
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
+            <p className="entity-info description">Max number of guests: {maxGuests}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
             <br></br>
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
@@ -110,6 +119,7 @@ const LodgeReservation = () => {
             <Link to={`/lodge-actions/${id}`} className="available-dates" >See available actions</Link>
             <br></br> <br></br>
             {periods}
+            <NewReservation modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} startOfPeriod={start} endOfPeriod={end} maxGuests={maxGuests}/>
 
         </div>
     )

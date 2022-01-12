@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
+import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.IService.IReservationService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +46,16 @@ public class ReservationController {
     @GetMapping("/getClientUsername/{name}/{id}")
     public String getClientUsername(@PathVariable String name, @PathVariable Integer id){
         return reservationService.getClientUsername(name, id);
+    }
+
+    @GetMapping("/{id}")
+    public List<ReservationDTO> getClientReservations(@PathVariable Integer id) {
+        return reservationService.getClientReservations(id);
+    }
+
+    @PostMapping("/makeReservation")
+    public ResponseEntity<String> makeReservation(@RequestBody ClientReservationDTO dto) {
+        reservationService.makeReservation(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

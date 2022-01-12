@@ -452,6 +452,11 @@ h5 {
 	border-radius: 5px;
 }
 
+.modal {
+	margin-left: 55px;
+	margin-top: 15px;
+}
+
 .available-dates {
 	margin-left: 45px;
 	font-size: 15px;
@@ -487,6 +492,7 @@ h5 {
 	margin-left: 45px;
 	transition: transform 0.5s;
 	position: relative;
+	margin-top: 11px;
 }
 
 .period-card:hover {
@@ -499,4 +505,17 @@ h5 {
 	height: 25vh;
 	cursor: auto;
 	margin-top: 15px;
+}
+
+.make-res-modal {
+	width: 500px;
+	height: 500px;
+}
+
+.modal-info-res {
+	color: cadetblue;
+	font-weight: 450;
+	font-size: 15px;
+	margin-left: 55px;
+	margin-top: 20px;
 }
