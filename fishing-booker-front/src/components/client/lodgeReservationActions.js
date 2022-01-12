@@ -55,8 +55,8 @@ const LodgeReservationActions = () => {
             marginLeft: '50px',
             position: 'absolute'}}>
             <h1 className="title-reservation">Reservation actions</h1> <br></br>
-        </div>
-        {allActions}
+            </div>
+            {allActions}
         </div>
     )
 }

@@ -18,6 +18,7 @@ public class LodgeMapper {
         dto.setBedroom(null);
         dto.setImages(null);
         dto.setOwner(new OwnerDTO(lodge.getOwner().getName(), lodge.getOwner().getSurname()));
+        dto.setMaxPersons(lodge.getMaxPersons());
         return dto;
     }
 }

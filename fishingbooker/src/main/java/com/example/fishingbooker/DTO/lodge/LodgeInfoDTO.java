@@ -11,6 +11,7 @@ public class LodgeInfoDTO {
     private ImageDTO images;
     private BedroomDTO bedroom;
     private OwnerDTO owner;
+    private Integer maxPersons;
 
     public LodgeInfoDTO() {
     }
@@ -106,5 +107,13 @@ public class LodgeInfoDTO {
 
     public void setOwner(OwnerDTO owner) {
         this.owner = owner;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPersons) {
+        this.maxPersons = maxPersons;
     }
 }
