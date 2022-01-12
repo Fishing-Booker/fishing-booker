@@ -7,6 +7,8 @@ import ClientProfile from '../clientProfile';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { useToasts } from "react-toast-notifications";
+import commentImg from '../../images/comment.png';
+import AddLodgeReport from './addLodgeReport';
 
 const LodgeReservations = () => {
 
@@ -14,6 +16,9 @@ const LodgeReservations = () => {
 
     const [addReservationForm, setAddReservationForm] = useState(false);
     const [clientModal, setClientModal] = useState(false);
+    const [addReportForm, setAddReportForm] = useState(false);
+
+    const [reservationId, setReservationId] = useState("");
 
     const [user, setUser] = useState([]);
 
@@ -65,14 +70,22 @@ const LodgeReservations = () => {
         })
     }
 
+    const addReport = (id) => {
+        setReservationId(id);
+        setAddReportForm(true);
+    }
+
     const allReservations = reservations.length ? (
         reservations.map(reservation => {
             return(
-                <li class="table-row" >
-                    <div class="col col-1" >{reservation.entityName}</div>
-                    <div class="col col-2" >{reservation.startDate}</div>
-                    <div class="col col-3" >{reservation.endDate}</div>
-                    <div class="col col-4" onClick={() => showClientForm(reservation.clientUsername)}>{reservation.clientUsername}</div>
+                <li class="table-row" key={reservation.reservationId}>
+                    <div class="col col-1-action" >{reservation.entityName}</div>
+                    <div class="col col-2-action" >{reservation.startDate}</div>
+                    <div class="col col-3-action" >{reservation.endDate}</div>
+                    <div class="col col-4-action" onClick={() => showClientForm(reservation.clientUsername)}>{reservation.clientUsername}</div>
+                    <div class="col col-5-action" >
+                        <img className='info-img' src={commentImg} onClick={() => addReport(reservation.reservationId)}/>
+                    </div>
                 </li>
             )
         })
@@ -91,10 +104,11 @@ const LodgeReservations = () => {
                     <div class="container-table-reservations">
                         <ul class="responsive-table">
                             <li class="table-header">
-                            <div class="col col-1">Lodge</div>
-                            <div class="col col-2">Reservation start</div>
-                            <div class="col col-3">Reservation end</div>
-                            <div class="col col-4">Client</div>
+                            <div class="col col-1-action">Lodge</div>
+                            <div class="col col-2-action">Reservation start</div>
+                            <div class="col col-3-action">Reservation end</div>
+                            <div class="col col-4-action">Client</div>
+                            <div class="col col-5-action">Report</div>
                             </li>
                             {allReservations}
                         </ul>
@@ -102,6 +116,7 @@ const LodgeReservations = () => {
                 </div>
             </div>
 
+            <AddLodgeReport modalIsOpen={addReportForm} setModalIsOpen={setAddReportForm} reservationId={reservationId}/>
             <AddLodgeReservationByOwner modalIsOpen={addReservationForm} setModalIsOpen={setAddReservationForm} />
             <ClientProfile modalIsOpen={clientModal} setModalIsOpen={setClientModal} clientUsername={client} />
         </div>

@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "report")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Report {
 
     @Id
@@ -17,21 +18,24 @@ public class Report {
     @JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private Reservation reservation;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "text")
+    private String text;
 
-    @Column(name = "report_type")
-    @Enumerated(EnumType.STRING)
-    private ReportType reportType;
+    @Column(name = "for_penalty")
+    private boolean forPenalty;
+
+    @Column(name = "is_penalty_given")
+    private boolean isPenaltyGiven;
 
     public Report() {
     }
 
-    public Report(Integer id, Reservation reservation, String description, ReportType reportType) {
+    public Report(Integer id, Reservation reservation, String text, boolean forPenalty, boolean isPenaltyGiven) {
         this.id = id;
         this.reservation = reservation;
-        this.description = description;
-        this.reportType = reportType;
+        this.text = text;
+        this.forPenalty = forPenalty;
+        this.isPenaltyGiven = isPenaltyGiven;
     }
 
     public Integer getId() {
@@ -50,19 +54,27 @@ public class Report {
         this.reservation = reservation;
     }
 
-    public String getDescription() {
-        return description;
+    public String getText() {
+        return text;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public ReportType getReportType() {
-        return reportType;
+    public boolean forPenalty() {
+        return forPenalty;
     }
 
-    public void setReportType(ReportType reportType) {
-        this.reportType = reportType;
+    public void setForPenalty(boolean forPenalty) {
+        this.forPenalty = forPenalty;
+    }
+
+    public boolean isPenaltyGiven() {
+        return isPenaltyGiven;
+    }
+
+    public void setPenaltyGiven(boolean penaltyGiven) {
+        isPenaltyGiven = penaltyGiven;
     }
 }
