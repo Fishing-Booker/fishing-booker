@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import star from "../../images/star.png";
 import { useToasts } from "react-toast-notifications";
 import { format } from "date-fns";
@@ -106,7 +106,9 @@ const LodgeReservation = () => {
             <br></br>
             <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
             <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
-            <a className="available-dates" onClick={() => seeAvailableReservations(startDate, endDate)}>See available reservations</a> <br></br> <br></br>
+            <a className="available-dates" onClick={() => seeAvailableReservations(startDate, endDate)}>See available reservations</a> 
+            <Link to={`/lodge-actions/${id}`} className="available-dates" >See available actions</Link>
+            <br></br> <br></br>
             {periods}
 
         </div>

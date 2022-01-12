@@ -55,6 +55,7 @@ import AdventureReservation from "./client/adventureReservation";
 import UserList from "./admin/userList";
 import UserInfo from "./admin/userInfo";
 import AdminHomepage from "./admin/adminHomepage";
+import LodgeReservationActions from "./client/lodgeReservationActions";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -176,6 +177,7 @@ const FrontPage = () => {
                             <Route path="/subscriptions/:id"><Subscriptions/></Route>
                             <Route path="/ship-reservation/:id"><ShipReservation/></Route>
                             <Route path="/adventure-reservation/:id"><AdventureReservation/></Route>
+                            <Route path="/lodge-actions/:id"><LodgeReservationActions/></Route>
                             <div className="row-search">
                                 <Route path="/adventures"><Adventures/></Route>
                                 <Route path="/lodges"><Lodges/></Route>
