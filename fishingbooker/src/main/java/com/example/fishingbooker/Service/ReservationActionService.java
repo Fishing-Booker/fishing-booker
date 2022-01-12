@@ -46,6 +46,7 @@ public class ReservationActionService implements IReservationActionService {
         action.setClient(userRepository.getById(dto.getOwner()));
         action.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getEntityId()));
         action.setAdditionalServices(dto.getAdditionalServices());
+        action.setBooked(false);
         actionRepository.save(action);
     }
 
@@ -61,9 +62,35 @@ public class ReservationActionService implements IReservationActionService {
             dto.setAdditionalServices(action.getAdditionalServices());
             dto.setMaxPersons(action.getMaxPersons());
             dto.setBookedBy(getIsActionBooked(action));
+            dto.setBooked(action.isBooked());
             actions.add(dto);
         }
         return actions;
+    }
+
+    @Override
+    public void makeReservation(Integer actionId, Integer clientId) {
+        actionRepository.makeReservation(actionId, clientId);
+    }
+
+    @Override
+    public List<ReservationActionDTO> getAvailableActions(Integer id) {
+        List<ReservationActionDTO> availableActions = new ArrayList<>();
+        for (ReservationAction action : actionRepository.findEntityActions(id)) {
+            if (action.isBooked() == false) {
+                ReservationActionDTO dto = new ReservationActionDTO();
+                dto.setActionId(action.getId());
+                dto.setStartDate(action.getStartDate());
+                dto.setEndDate(action.getEndDate());
+                dto.setPrice(action.getPrice());
+                dto.setAdditionalServices(action.getAdditionalServices());
+                dto.setMaxPersons(action.getMaxPersons());
+                dto.setBookedBy(getIsActionBooked(action));
+                dto.setBooked(action.isBooked());
+                availableActions.add(dto);
+            }
+        }
+        return availableActions;
     }
 
     private String getIsActionBooked(ReservationAction action){

@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.reservationAction.AddReservationActionDTO;
+import com.example.fishingbooker.DTO.reservationAction.MakeReservationDTO;
 import com.example.fishingbooker.DTO.reservationAction.ReservationActionDTO;
 import com.example.fishingbooker.IService.IReservationActionService;
 import com.example.fishingbooker.IService.ISubscriberService;
@@ -35,6 +36,17 @@ public class ReservationActionController {
     @GetMapping("/entityActions/{id}")
     public List<ReservationActionDTO> getEntityActions(@PathVariable Integer id){
         return actionService.findEntityActions(id);
+    }
+
+    @PostMapping("/makeReservation")
+    public ResponseEntity<String> makeReservation(@RequestBody MakeReservationDTO dto) {
+        actionService.makeReservation(dto.getActionId(), dto.getClientId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/available/{id}")
+    public List<ReservationActionDTO> getAvailableActions(@PathVariable Integer id) {
+        return actionService.getAvailableActions(id);
     }
 
 }

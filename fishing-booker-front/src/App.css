@@ -492,3 +492,11 @@ h5 {
 .period-card:hover {
 	transform: translateY(-10px);
 }
+
+.res-actions-div {
+	background-color: white;
+	width: 50vw;
+	height: 25vh;
+	cursor: auto;
+	margin-top: 15px;
+}

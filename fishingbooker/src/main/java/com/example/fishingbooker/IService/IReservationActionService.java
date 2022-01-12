@@ -11,4 +11,7 @@ public interface IReservationActionService {
 
     List<ReservationActionDTO> findEntityActions(Integer entityId);
 
+    void makeReservation(Integer actionId, Integer clientId);
+
+    List<ReservationActionDTO> getAvailableActions(Integer id);
 }

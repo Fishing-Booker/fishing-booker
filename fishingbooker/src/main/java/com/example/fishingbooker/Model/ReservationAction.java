@@ -19,6 +19,9 @@ public class ReservationAction extends Reservation{
     @Column(name = "additional_services")
     private String additionalServices;
 
+    @Column(name = "is_booked")
+    private boolean isBooked;
+
     public ReservationAction() {
     }
 
@@ -28,11 +31,12 @@ public class ReservationAction extends Reservation{
         this.additionalServices = additionalServices;
     }
 
-    public ReservationAction(Integer id, Date startDate, Date endDate, ReservationEntity reservationEntity, User client, ReservationType reservationType, double price, Integer maxPersons, String additionalServices) {
+    public ReservationAction(Integer id, Date startDate, Date endDate, ReservationEntity reservationEntity, User client, ReservationType reservationType, double price, Integer maxPersons, String additionalServices, boolean isBooked) {
         super(id, startDate, endDate, reservationEntity, client, reservationType);
         this.price = price;
         this.maxPersons = maxPersons;
         this.additionalServices = additionalServices;
+        this.isBooked = isBooked;
     }
 
     public double getPrice() {
@@ -57,5 +61,13 @@ public class ReservationAction extends Reservation{
 
     public void setAdditionalServices(String additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
     }
 }
