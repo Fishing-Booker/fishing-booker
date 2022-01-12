@@ -3,6 +3,7 @@ package com.example.fishingbooker.IService;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IReservationPeriodService {
@@ -13,4 +14,5 @@ public interface IReservationPeriodService {
 
     List<ReservationPeriodDTO> findFreePeriods(Integer entityId);
 
+    List<ReservationPeriodDTO> getAvailablePeriods(Integer entityId, Date startDate, Date endDate);
 }

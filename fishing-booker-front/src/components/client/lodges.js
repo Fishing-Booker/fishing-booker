@@ -12,6 +12,7 @@ const Lodges = () => {
     const [location, setLocation] = useState('');
     const [letters, setLetters] = useState([])
     const [url, setUrl] = useState(SERVER_URL + '/lodges');
+    const [date, setDate] = useState('')
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -39,9 +40,15 @@ const Lodges = () => {
         if (childData === '') {
             setUrl(SERVER_URL + '/lodges');
         } else {
-            setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData)
+            setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData + "&location=" + location)
         }
         
+    }
+
+    const getByDate = (date) => {
+        var dto = { date }
+        axios.post(SERVER_URL + '/lodges/byDate', dto)
+            .then(response => {console.log(response.data); setLodges(response.data)})
     }
 
     const allLodges = lodges.length ? (
@@ -68,16 +75,34 @@ const Lodges = () => {
                 <input className="search-input" type="search" placeholder="  Enter entity name" value={name} 
                     onChange={(e) => {
                         console.log(e.target.value)
-                    setName(e.target.value);
-                    setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=");
-                    if (e.target.value === '') {
-                        setUrl(SERVER_URL + '/lodges');
-                    }
+                        setName(e.target.value);
+                        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location);
+                        if (e.target.value === '')
+                            setUrl(SERVER_URL + '/lodges');
                     }}></input>
-                <input className="search-input" type="search" placeholder="  Enter entity location" value={location}></input>
-                <input className="search-input" type="date"></input>
-                <input className="search-input btn" type="submit" value="Search"></input>
+                <input className="search-input" type="search" placeholder="  Enter entity location" value={location}
+                    onChange={(e) => {
+                        console.log(e.target.value)
+                        setLocation(e.target.value);
+                        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location)
+                        if (e.target.value === '') 
+                            setUrl(SERVER_URL + '/lodges');
+                    }}
+                ></input>
+                <select className="search-grade">
+                    <option>Select lodge grade</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                </select>
             </div>
+            {isLogged && <div className="card search">
+                <input className="search-input" type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)}></input>
+                <input className="search-input" placeholder=" Enter number of guests"></input> 
+                <input className="search-input btn" type="submit" value="See available reservations" onClick={() => getByDate(date)}></input>
+            </div>}
             <Letters letters={letters} parentCallback={handleCallback}/>
             <div className="row-entities">{allLodges}</div>
                     

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import star from "../../images/star.png";
 import { useToasts } from "react-toast-notifications";
+import { format } from "date-fns";
 
 const LodgeReservation = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -17,6 +18,9 @@ const LodgeReservation = () => {
     const [isSubscribed, setIsSubscribed] = useState(true)
     const [entityId, setEntityId] = useState(id)
     const { addToast } = useToasts();
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [availablePeriods, setAvailablePeriods] = useState([])
 
     useEffect(() => {
         axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
@@ -66,6 +70,25 @@ const LodgeReservation = () => {
             })
     }
 
+    const seeAvailableReservations = (startDate, endDate) => {
+        var periodDTO = { entityId: id, startDate, endDate }
+        console.log(periodDTO)
+        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
+            .then(response => setAvailablePeriods(response.data))
+    }
+
+    const periods = availablePeriods.length ? (
+        availablePeriods.map((period, index) => {
+            return (
+                <div key={index} className="period-card">
+                    <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
+                    <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy')}</p>
+                    <a className="reservation-link">book lodge</a>
+                </div>
+            )
+        })
+    ) : (<div><p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>No available reservations for choosen period.</p></div>)
+
     return (
         <div className="card entity-details">
             {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
@@ -78,10 +101,13 @@ const LodgeReservation = () => {
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
             <br></br>
-            <h4 style={{marginLeft: '3%'}}>Please choose a period for reservation:</h4>
-            <input className="reservation-date" type="datetime-local"></input>
-            <input className="reservation-date" type="datetime-local"></input>
-            <a className="available-dates">See available dates</a>
+            <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
+            <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '38px'}}></div>
+            <br></br>
+            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
+            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
+            <a className="available-dates" onClick={() => seeAvailableReservations(startDate, endDate)}>See available reservations</a> <br></br> <br></br>
+            {periods}
 
         </div>
     )

@@ -4,6 +4,7 @@ import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Model.Lodge;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ILodgeService {
@@ -27,11 +28,14 @@ public interface ILodgeService {
 
     List<LodgeInfoDTO> getAll();
 
-    List<LodgeInfoDTO> search(String name, String letter);
+    List<LodgeInfoDTO> search(String name, String letter, String location);
     
     List<String> getFirstLetters();
 
     LodgeInfoDTO getById(Integer id);
 
     List<String> getOwnerLodgeNames(Integer ownerId);
+
+    List<LodgeInfoDTO> getByReservationDate(Date date);
+
 }

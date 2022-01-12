@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
@@ -38,9 +39,10 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     void updateLodge(String name, Integer maxPersons, String description, Integer lodgeId);
 
     @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '') " +
+            "AND (LOWER(l.location.city) LIKE %:location% OR LOWER(l.location.city) LIKE '')" +
             "AND (LOWER(l.name) LIKE :letter% OR LOWER(l.name) LIKE '') " +
             "ORDER BY l.id")
-    List<Lodge> search(@Param("name") String name, @Param("letter") String letter);
+    List<Lodge> search(@Param("name") String name, @Param("letter") String letter, @Param("location") String location);
 
     @Query("SELECT DISTINCT SUBSTRING(l.name, 1, 1) AS letters FROM Lodge l")
     List<String> getFirstLetters();
@@ -53,5 +55,10 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
 
     @Query("SELECT l.name FROM Lodge l WHERE l.owner.id=?1 and l.isDeleted=false")
     List<String> getOwnerLodgeNames(Integer ownerId);
+
+    @Query("SELECT l FROM Lodge l " +
+            "JOIN ReservationPeriod p ON l.id=p.reservationEntity.id" +
+            " WHERE ?1 BETWEEN p.startDate AND p.endDate")
+    List<Lodge> getByReservationDate(Date date);
 
 }

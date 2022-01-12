@@ -113,6 +113,7 @@ public class AdventureController {
         return adventureService.getById(id);
     }
 
+
     @GetMapping("/adventureRules/{id}")
     public List<String> getAdventureRules(@PathVariable Integer id) {
         return adventureService.getAdventureRules(id);
