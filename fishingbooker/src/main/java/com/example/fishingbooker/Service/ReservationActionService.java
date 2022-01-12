@@ -7,6 +7,7 @@ import com.example.fishingbooker.IRepository.IReservationActionRepository;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationActionService;
+import com.example.fishingbooker.IService.ISubscriberService;
 import com.example.fishingbooker.Model.ReservationAction;
 import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Model.User;
@@ -34,6 +35,9 @@ public class ReservationActionService implements IReservationActionService {
 
     @Autowired
     private IReservationActionRepository actionRepository;
+
+    @Autowired
+    private ISubscriberService subscriberService;
 
     @Override
     public void save(AddReservationActionDTO dto){
@@ -71,6 +75,7 @@ public class ReservationActionService implements IReservationActionService {
     @Override
     public void makeReservation(Integer actionId, Integer clientId) {
         actionRepository.makeReservation(actionId, clientId);
+        subscriberService.sendEmailWithActionReservationInfo(clientId);
     }
 
     @Override
