@@ -16,4 +16,5 @@ public interface ISubscriberService {
     List<SubscriptionDTO> getSubscriptions(Integer id);
 
     void sendEmailWithActionInfo(AddReservationActionDTO action);
+    void sendEmailWithActionReservationInfo(Integer clientId);
 }

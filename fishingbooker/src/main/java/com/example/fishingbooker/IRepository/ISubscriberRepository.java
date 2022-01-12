@@ -19,4 +19,6 @@ public interface ISubscriberRepository extends JpaRepository<Subscriber, Integer
     @Query("SELECT s.client FROM Subscriber s WHERE s.reservationEntity.id=?1")
     List<User> getSubscribers(Integer entityId);
 
+    @Query("SELECT s.client FROM Subscriber s WHERE s.client.id=?1")
+    User getSubscriber(Integer clientId);
 }
