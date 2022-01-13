@@ -7,6 +7,7 @@ import '../../css/usersProfile.css'
 import infoImg from '../../images/info.png';
 import { format } from 'date-fns';
 import axios from 'axios';
+import DeleteAction from './deleteAction';
 
 
 const AdventureActions = () => {
@@ -18,6 +19,8 @@ const AdventureActions = () => {
     const [actions, setActions] = useState([]);
     const [action, setAction] = useState([]);
     const [actionInfo, setActionInfo] = useState(false);
+    const [deleteActionModal, setDeleteActionModal] = useState(false);
+    const [actionId, setActionId] = useState(0);
 
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
@@ -45,14 +48,20 @@ const AdventureActions = () => {
         setActionInfo(true);
     }
 
+    const deleteAction = (id) => {
+        console.log("Delete action by id: " + id)
+        setActionId(id);
+        setDeleteActionModal(true);
+    }
+
     const allActions = actions.length ? (
         actions.map(action => {
             return(
-                <li className="table-row" key={action.actionId}>
+                <li className="table-row" key={action.actionId} onClick={() => deleteAction(action.actionId)}>
                     <div className="col col-1-action" >{action.bookedBy}</div>
                     <div className="col col-2-action" >{action.startDate}</div>
                     <div className="col col-3-action" >{action.endDate}</div>
-                    <div className="col col-4-action" >{action.price}</div>
+                    <div className="col col-4-action" >${action.price}</div>
                     <div className="col col-5-action" onClick={() => showInfo(action)}>
                     <img className='info-img' src={infoImg} />
                     </div>
@@ -94,6 +103,7 @@ const AdventureActions = () => {
                 </div>
             </div>
             <AddAdventureActionForm modalIsOpen={addAction} setModalIsOpen={setAddAction} adventureId={adventureId}/>
+            <DeleteAction modalIsOpen={deleteActionModal} setModalIsOpen={setDeleteActionModal} actionId={actionId} adventureId={adventureId}/>
         </div>
     )
 }

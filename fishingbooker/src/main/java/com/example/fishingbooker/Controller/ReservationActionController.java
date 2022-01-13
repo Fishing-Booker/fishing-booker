@@ -49,4 +49,10 @@ public class ReservationActionController {
         return actionService.getAvailableActions(id);
     }
 
+    @DeleteMapping("/deleteAction/{id}")
+    public ResponseEntity<String> deleteAction(@PathVariable Integer id) {
+        actionService.deleteAction(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

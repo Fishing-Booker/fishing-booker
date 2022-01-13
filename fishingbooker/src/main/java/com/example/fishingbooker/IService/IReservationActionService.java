@@ -14,4 +14,6 @@ public interface IReservationActionService {
     void makeReservation(Integer actionId, Integer clientId);
 
     List<ReservationActionDTO> getAvailableActions(Integer id);
+
+    void deleteAction(Integer id);
 }
