@@ -143,7 +143,7 @@ public class LodgeService implements ILodgeService {
     }
 
     public List<LodgeInfoDTO> getAll() {
-        List<Lodge> lodges = lodgeRepository.findAll();
+        List<Lodge> lodges = lodgeRepository.getAll();
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
         for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
