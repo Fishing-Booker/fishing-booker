@@ -73,7 +73,7 @@ public class ReservationActionService implements IReservationActionService {
     }
 
     @Override
-    public void makeReservation(Integer actionId, Integer clientId) {
+    public void makeReservation(Integer actionId, Integer clientId) throws MessagingException, UnsupportedEncodingException {
         actionRepository.makeReservation(actionId, clientId);
         subscriberService.sendEmailWithActionReservationInfo(clientId);
     }

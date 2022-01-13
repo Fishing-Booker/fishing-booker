@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 public interface IShipRepository extends JpaRepository<Ship, Integer> {
@@ -47,4 +48,9 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
             "AND (LOWER(s.name) LIKE :letter% OR LOWER(s.name) LIKE '')" +
             "ORDER BY s.id")
     List<Ship> searchAndFilter(@Param("name") String name, @Param("letter") String letter);
+
+    @Query("SELECT s FROM Ship s " +
+            "JOIN ReservationPeriodOwner p ON s.owner.id=p.owner.id " +
+            "WHERE ?1 BETWEEN p.startDate AND p.endDate")
+    List<Ship> getByReservationDate(Date date);
 }

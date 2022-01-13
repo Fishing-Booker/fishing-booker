@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -137,5 +138,15 @@ public class ShipService implements IShipService {
     public ShipInfoDTO getById(Integer id) {
         Ship ship = shipRepository.findShipById(id);
         return ShipMapper.mapToDTO(ship);
+    }
+
+    @Override
+    public List<ShipInfoDTO> getByReservationDate(Date date) {
+        List<Ship> ships = shipRepository.getByReservationDate(date);
+        List<ShipInfoDTO> shipsDTO = new ArrayList<>();
+        for (Ship ship : ships) {
+            shipsDTO.add(ShipMapper.mapToDTO(ship));
+        }
+        return shipsDTO;
     }
 }

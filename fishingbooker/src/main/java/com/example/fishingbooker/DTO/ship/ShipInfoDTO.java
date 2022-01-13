@@ -18,6 +18,7 @@ public class ShipInfoDTO {
     private LocationDTO location;
     private ImageDTO images;
     private OwnerDTO owner;
+    private Integer maxPersons;
 
     public ShipInfoDTO() {
     }
@@ -141,5 +142,13 @@ public class ShipInfoDTO {
 
     public void setOwner(OwnerDTO owner) {
         this.owner = owner;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPersons) {
+        this.maxPersons = maxPersons;
     }
 }

@@ -20,6 +20,7 @@ public class ShipMapper {
         dto.setLocation(new LocationDTO(ship.getLocation().getAddress(), ship.getLocation().getCity(), ship.getLocation().getCountry()));
         dto.setImages(null);
         dto.setOwner(new OwnerDTO(ship.getOwner().getName(), ship.getOwner().getSurname()));
+        dto.setMaxPersons(ship.getMaxPersons());
         return dto;
     }
 }

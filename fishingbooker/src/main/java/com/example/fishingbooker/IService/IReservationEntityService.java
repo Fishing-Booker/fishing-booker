@@ -24,4 +24,6 @@ public interface IReservationEntityService {
     ReservationEntityDTO findEntityById(Integer entityId);
 
     ReservationEntity getEntityById(Integer entityId);
+
+    Integer getOwnerId(Integer entityId);
 }

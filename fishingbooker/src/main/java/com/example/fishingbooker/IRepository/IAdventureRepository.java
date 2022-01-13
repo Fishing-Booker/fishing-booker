@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 public interface IAdventureRepository extends JpaRepository<Adventure, Integer> {
@@ -49,4 +50,9 @@ public interface IAdventureRepository extends JpaRepository<Adventure, Integer> 
     @Modifying
     @Transactional
     void addRule(String rule, Integer adventureId);
+
+    @Query("SELECT a FROM Adventure a " +
+            "JOIN ReservationPeriodOwner p ON a.owner.id=p.owner.id " +
+            "WHERE ?1 BETWEEN p.startDate AND p.endDate")
+    List<Adventure> getByReservationDate(Date date);
 }
