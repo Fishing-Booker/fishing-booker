@@ -84,6 +84,9 @@
     .responsive-table .col-5-action {
       flex-basis: 10%;
     }
+    .responsive-table .col-6-action {
+      flex-basis: 10%;
+    }
 
     .responsive-table .col-4-price:hover {
       color: rgb(104, 18, 161);

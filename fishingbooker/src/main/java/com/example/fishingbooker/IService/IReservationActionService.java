@@ -16,4 +16,6 @@ public interface IReservationActionService {
     void makeReservation(Integer actionId, Integer clientId) throws MessagingException, UnsupportedEncodingException;
 
     List<ReservationActionDTO> getAvailableActions(Integer id);
+
+    void deleteAction(Integer id);
 }

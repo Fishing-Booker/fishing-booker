@@ -11,27 +11,37 @@ const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen, adventureId}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const [services, setServices] = useState([]);
+    const [servicesR, setServicesR] = useState([]);
     const [choosenServices, setChoosenServices] = useState([]);
+    const [choosenServicesR, setChoosenServicesR] = useState("");
 
-    const [maxPersons, setMaxPersons] = useState("");
+    const [regularServices, setRegularServices] = useState([]);
+    const [price2, setPrice2] = useState(0);
+    const [adventure, setAdventure] = useState("");
+
+    const [maxPersons, setMaxPersons] = useState(0);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [price, setPrice] = useState("");
+    const [price, setPrice] = useState(0);
     const [user, setUser] = useState("");
     const [additionalServices, setAdditionlServices] = useState("");
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         
-        axios.get(SERVER_URL + "/prices/additionalServices/" + adventureId, { headers: headers })
+        axios.get(SERVER_URL + "/prices/additionalServices2/" + adventureId, { headers: headers })
             .then(response => {
                 setServices(response.data);
+                axios.get(SERVER_URL + "/prices/regularServices/" + adventureId, { headers: headers })
+                .then(response => {
+                    setServicesR(response.data);
+                })
                 
                 axios.get(SERVER_URL + "/adventures/adventure/" + adventureId, {headers: headers})
                     .then(response => {
-                        var lodge = response.data;
-                        setMaxPersons(lodge.maxPersons);
-
+                        var adventure = response.data;
+                        setMaxPersons(adventure.maxPersons);
+                        setAdventure(response.data);
                         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
                             .then(response => {
                                 setUser(response.data);
@@ -65,17 +75,47 @@ const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen, adventureId}) => {
 
     const setServicesAsString = () => {
         var services = "";
-        for(let service of choosenServices){
-            services += service;
+        for(let choosenService of choosenServices){
+            let service = choosenService.split(" ")
+            services += service[0];
             services += "#";
         }
         services = services.substring(0, services.length - 1);
+        console.log(services)
         return services;
     }
 
     const handleSelectChange = (e) => {
         let value = Array.from(e.target.selectedOptions, option => option.value);
         setChoosenServices(value);
+        setPriceFunc(value, choosenServicesR);
+    }
+
+    const handleSelectChangeR = (e) => {
+        let value = Array.from(e.target.selectedOptions, option => option.value);
+        setChoosenServicesR(value);
+        setPriceFunc(choosenServices, value);
+    }
+
+    const setPriceFunc = (_additional, _regular) => {
+        var price = 0;
+        var services = [];
+        for(let i = 0; i < _additional.length; i++) {
+            services.push(_additional[i]);
+        }
+        for(let i = 0; i < _regular.length; i++) {
+            for(let j = 0; j < maxPersons; j++) {
+                services.push(_regular[i]);
+            }
+            
+        }
+        console.log(services);
+        for(let i = 0; i < services.length; i++) {
+            var split1 = services[i].split(" ");
+            var split2 = split1[1].split("$")
+            price += parseInt(split2[0]);
+        }
+        setPrice(price);
     }
 
     return (
@@ -100,21 +140,31 @@ const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen, adventureId}) => {
                                     </div>
                                     <div className="data">
                                         <h4>Number of persons:</h4>
-                                        <input type="number" min="1" step="1" required onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons}/>
+                                        <input type="number" min="1" step="1" max={adventure.maxPersons} required onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons}/>
+                                    </div>
+                                    <div className="data">
+                                        <h4>Regular services:</h4>
+                                        <select  value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
+                                            {servicesR.map((service) => (
+                                                <option>
+                                                    {service.service_name} {service.price}$
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <div className="data">
                                         <h4>Additional services:</h4>
                                         <select style={{height: '90px'}}  value={choosenServices} multiple onChange={(e) => handleSelectChange(e)}>
                                             {services.map((service) => (
                                                 <option>
-                                                    {service}
+                                                    {service.service_name} {service.price}$
                                                 </option>
                                             ))}
                                         </select>
                                     </div>
                                     <div className="data">
                                         <h4>Price:</h4>
-                                        <input type="number" min="0" required onChange={(e) => {setPrice(e.target.value)}}  value={price}/>
+                                        <label>{price}$</label>
                                     </div>
                                     <input type="submit" className="submit"/>
                                 </div> <br/> <br/>

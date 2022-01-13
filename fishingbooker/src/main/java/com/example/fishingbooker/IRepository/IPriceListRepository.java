@@ -31,4 +31,7 @@ public interface IPriceListRepository extends JpaRepository<PriceList, Integer> 
     @Query("SELECT p.serviceName FROM PriceList p WHERE p.reservationEntity.id=?1 AND p.serviceType=?2")
     List<String> findAdditionalServices(Integer entityId, ServiceType serviceType);
 
+    @Query("SELECT p FROM PriceList p WHERE p.reservationEntity.id=?1 AND p.serviceType=?2")
+    List<PriceList> findServices(Integer entityId, ServiceType serviceType);
+
 }

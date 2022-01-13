@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.priceList.AddPriceDTO;
+import com.example.fishingbooker.DTO.priceList.LoadPriceDTO;
 import com.example.fishingbooker.DTO.priceList.PriceDTO;
 import com.example.fishingbooker.IService.IPriceListService;
 import lombok.extern.slf4j.Slf4j;
@@ -55,8 +56,13 @@ public class PriceListController {
     }
 
     @GetMapping("/regularServices/{id}")
-    public List<String> findRegularServices(@PathVariable Integer id) {
+    public List<LoadPriceDTO> findRegularServices(@PathVariable Integer id) {
         return priceListService.findRegularServices(id);
+    }
+
+    @GetMapping("/additionalServices2/{id}")
+    public List<LoadPriceDTO> findAdditionalServices2(@PathVariable Integer id){
+        return priceListService.findAdditionalServices2(id);
     }
 
 }
