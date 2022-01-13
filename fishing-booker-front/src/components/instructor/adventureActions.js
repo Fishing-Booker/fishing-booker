@@ -8,6 +8,7 @@ import infoImg from '../../images/info.png';
 import { format } from 'date-fns';
 import axios from 'axios';
 import DeleteAction from './deleteAction';
+import AdventureActionInfo from './adventureActionInfo';
 
 
 const AdventureActions = () => {
@@ -57,8 +58,8 @@ const AdventureActions = () => {
     const allActions = actions.length ? (
         actions.map(action => {
             return(
-                <li className="table-row" key={action.actionId} onClick={() => deleteAction(action.actionId)}>
-                    <div className="col col-1-action" >{action.bookedBy}</div>
+                <li className="table-row" key={action.actionId}>
+                    <div className="col col-1-action" onClick={() => deleteAction(action.actionId)}>{action.bookedBy}</div>
                     <div className="col col-2-action" >{action.startDate}</div>
                     <div className="col col-3-action" >{action.endDate}</div>
                     <div className="col col-4-action" >${action.price}</div>
@@ -102,6 +103,7 @@ const AdventureActions = () => {
                     </div>
                 </div>
             </div>
+            <AdventureActionInfo modalIsOpen={actionInfo} setModalIsOpen={setActionInfo} action={action} />
             <AddAdventureActionForm modalIsOpen={addAction} setModalIsOpen={setAddAction} adventureId={adventureId}/>
             <DeleteAction modalIsOpen={deleteActionModal} setModalIsOpen={setDeleteActionModal} actionId={actionId} adventureId={adventureId}/>
         </div>

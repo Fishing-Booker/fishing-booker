@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.priceList.AddPriceDTO;
+import com.example.fishingbooker.DTO.priceList.LoadPriceDTO;
 import com.example.fishingbooker.DTO.priceList.PriceDTO;
 import com.example.fishingbooker.Enum.ServiceType;
 import com.example.fishingbooker.IRepository.IPriceListRepository;
@@ -92,8 +93,25 @@ public class PriceListService implements IPriceListService {
     }
 
     @Override
-    public List<String> findRegularServices(Integer entityId) {
-        return repository.findAdditionalServices(entityId, ServiceType.regularService);
+    public List<LoadPriceDTO> findRegularServices(Integer entityId) {
+        List<LoadPriceDTO> loadPriceDTOS = new ArrayList<>();
+        List<PriceList> prices = repository.findServices(entityId, ServiceType.regularService);
+        for (PriceList p: prices) {
+            LoadPriceDTO loadPriceDTO = new LoadPriceDTO(p.getServiceName(), p.getServicePrice());
+            loadPriceDTOS.add(loadPriceDTO);
+        }
+        return loadPriceDTOS;
+    }
+
+    @Override
+    public List<LoadPriceDTO> findAdditionalServices2(Integer entityId) {
+        List<LoadPriceDTO> loadPriceDTOS = new ArrayList<>();
+        List<PriceList> prices = repository.findServices(entityId, ServiceType.additionalService);
+        for (PriceList p: prices) {
+            LoadPriceDTO loadPriceDTO = new LoadPriceDTO(p.getServiceName(), p.getServicePrice());
+            loadPriceDTOS.add(loadPriceDTO);
+        }
+        return loadPriceDTOS;
     }
 
     private ReservationEntity setEntity(Integer entityId, Integer ownerId){
