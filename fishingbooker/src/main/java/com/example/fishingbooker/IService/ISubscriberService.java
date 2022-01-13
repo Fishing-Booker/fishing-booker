@@ -4,6 +4,8 @@ import com.example.fishingbooker.DTO.SubscriberDTO;
 import com.example.fishingbooker.DTO.SubscriptionDTO;
 import com.example.fishingbooker.DTO.reservationAction.AddReservationActionDTO;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface ISubscriberService {
@@ -16,5 +18,5 @@ public interface ISubscriberService {
     List<SubscriptionDTO> getSubscriptions(Integer id);
 
     void sendEmailWithActionInfo(AddReservationActionDTO action);
-    void sendEmailWithActionReservationInfo(Integer clientId);
+    void sendEmailWithActionReservationInfo(Integer clientId) throws MessagingException, UnsupportedEncodingException;
 }

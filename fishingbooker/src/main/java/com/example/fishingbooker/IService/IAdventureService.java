@@ -4,6 +4,8 @@ import com.example.fishingbooker.DTO.AdventureDTO;
 import com.example.fishingbooker.DTO.EditAdventureDTO;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
 import com.example.fishingbooker.Model.Adventure;
+
+import java.util.Date;
 import java.util.List;
 
 public interface IAdventureService {
@@ -34,4 +36,5 @@ public interface IAdventureService {
 
     void deleteRule(Integer ruleIndex, Integer adventureId);
 
+    List<AdventureInfoDTO> getByReservationDate(Date date);
 }

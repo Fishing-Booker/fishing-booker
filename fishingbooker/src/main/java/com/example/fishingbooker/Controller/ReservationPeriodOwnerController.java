@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
 import com.example.fishingbooker.IService.IUserService;
@@ -40,5 +41,10 @@ public class ReservationPeriodOwnerController {
     public List<ReservationPeriodOwnerDTO> getOwnerReservationPeriods(Principal user) {
         User u = userService.findByUsername(user.getName());
         return reservationPeriodOwnerService.findAllPeriods(u.getId());
+    }
+
+    @PostMapping("/availablePeriods")
+    public List<ReservationPeriodDTO> getAvailablePeriods(@RequestBody ReservationPeriodDTO dto) {
+        return reservationPeriodOwnerService.getAvailablePeriods(dto.getEntityId(), dto.getStartDate(), dto.getEndDate());
     }
 }

@@ -7,6 +7,7 @@ public class ReservationPeriodDTO {
     private Date startDate;
     private Date endDate;
     private Integer entityId;
+    private Integer ownerId;
 
     public ReservationPeriodDTO() {
     }
@@ -39,5 +40,13 @@ public class ReservationPeriodDTO {
 
     public void setEntityId(Integer entityId) {
         this.entityId = entityId;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 }

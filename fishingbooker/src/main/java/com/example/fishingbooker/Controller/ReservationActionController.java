@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -39,7 +41,7 @@ public class ReservationActionController {
     }
 
     @PostMapping("/makeReservation")
-    public ResponseEntity<String> makeReservation(@RequestBody MakeReservationDTO dto) {
+    public ResponseEntity<String> makeReservation(@RequestBody MakeReservationDTO dto) throws MessagingException, UnsupportedEncodingException {
         actionService.makeReservation(dto.getActionId(), dto.getClientId());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

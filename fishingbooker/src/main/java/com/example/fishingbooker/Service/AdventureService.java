@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -147,4 +148,13 @@ public class AdventureService implements IAdventureService {
         return rules;
     }
 
+    @Override
+    public List<AdventureInfoDTO> getByReservationDate(Date date) {
+        List<Adventure> adventures = adventureRepository.getByReservationDate(date);
+        List<AdventureInfoDTO> adventuresDTO = new ArrayList<>();
+        for (Adventure adventure : adventures) {
+            adventuresDTO.add(AdventureMapper.mapToDTO(adventure));
+        }
+        return adventuresDTO;
+    }
 }

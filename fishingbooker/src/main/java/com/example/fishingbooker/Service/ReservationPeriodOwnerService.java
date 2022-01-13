@@ -1,9 +1,13 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.reservation.ReservationDTO;
+import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
+import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Model.ReservationPeriodOwner;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,6 +28,12 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IReservationEntityService entityService;
+
+    @Autowired
+    private IReservationService reservationService;
 
     @Override
     public void save(ReservationPeriodOwnerDTO dto) {
@@ -41,6 +52,20 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
         return periods;
     }
 
+    @Override
+    public List<ReservationPeriodDTO> getAvailablePeriods(Integer entityId, Date startDate, Date endDate) {
+        List<ReservationPeriodDTO> entityPeriods = new ArrayList<>();
+        Integer ownerId = entityService.getOwnerId(entityId);
+        for (ReservationPeriodOwner p : reservationPeriodOwnerRepository.findPeriodsByDate(ownerId, startDate, endDate)) {
+            entityPeriods.add(new ReservationPeriodDTO(p.getStartDate(), p.getEndDate(), entityId));
+        }
+        List<ReservationDTO> entityReservations = reservationService.findEntityReservations(entityId);
+        List<ReservationPeriodDTO> availablePeriods = entityPeriods;
+        for (ReservationDTO r : entityReservations) {
+            availablePeriods = getChangedPeriods(availablePeriods, r, entityId);
+        }
+        return availablePeriods;
+    }
 
     private void modifyPeriods(Integer ownerId) {
         List<ReservationPeriodOwner> periodOwnerList = reservationPeriodOwnerRepository.findAllOwnerPeriods(ownerId);
@@ -80,5 +105,24 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
         }
     }
 
+    private List<ReservationPeriodDTO> getChangedPeriods(List<ReservationPeriodDTO> periods, ReservationDTO reservation, Integer entityId) {
+        List<ReservationPeriodDTO> newPeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : periods) {
+            if (period.getStartDate().before(reservation.getStartDate()) && period.getEndDate().after(reservation.getEndDate())) {
+                if (period.getStartDate().before(reservation.getStartDate())) {
+                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), reservation.getStartDate(), entityId); // owner id
+                    newPeriods.add(newPeriod);
+                }
+                if (reservation.getEndDate().before(period.getEndDate())) {
+                    ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(reservation.getEndDate(), period.getEndDate(), entityId); // owner id
+                    newPeriods.add(newPeriod);
+                }
+            } else {
+                ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), entityId); // owner id
+                newPeriods.add(newPeriod);
+            }
+        }
+        return  newPeriods;
+    }
 
 }

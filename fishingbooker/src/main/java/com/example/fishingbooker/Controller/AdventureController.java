@@ -2,6 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.AdventureDTO;
 import com.example.fishingbooker.DTO.EditAdventureDTO;
+import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
@@ -131,4 +132,8 @@ public class AdventureController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/byDate")
+    public List<AdventureInfoDTO> getAdventuresByReservationDate(@RequestBody ReservationDateDTO dto) {
+        return adventureService.getByReservationDate(dto.getDate());
+    }
 }

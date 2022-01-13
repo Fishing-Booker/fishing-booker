@@ -4,6 +4,7 @@ import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.Model.Ship;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IShipService {
@@ -31,4 +32,6 @@ public interface IShipService {
     List<ShipInfoDTO> searchAndFilter(String name, String letter);
 
     ShipInfoDTO getById(Integer id);
+
+    List<ShipInfoDTO> getByReservationDate(Date date);
 }

@@ -8,6 +8,7 @@ import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IService.IEmailService;
 import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Mapper.ReservationMapper;
 import com.example.fishingbooker.Model.Reservation;
@@ -31,6 +32,9 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private IReservationEntityRepository entityRepository;
+
+    @Autowired
+    private IEmailService emailService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -99,6 +103,7 @@ public class ReservationService implements IReservationService {
         reservation.setClient(userRepository.getById(dto.getClientId()));
         reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
         reservationRepository.save(reservation);
+        emailService.sendEmailAfterReservation(dto.getClientId());
     }
 
     private boolean isReservationActive(ReservationDTO reservation){
