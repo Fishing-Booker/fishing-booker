@@ -52,7 +52,7 @@ const AdventureRules = () => {
         })
     ) : (
         <div>
-            Add rules for your lodge!
+            Add rules for your adventure!
         </div>
     );
 
@@ -70,7 +70,7 @@ const AdventureRules = () => {
         })
     ) : (
         <div>
-            Add rules for your lodge!
+            Add rules for your adventure!
         </div>
     );
 
@@ -99,6 +99,7 @@ const AdventureRules = () => {
         <div className="wrapper">
             <div className="left">
                 <h4>ADVENTURE PROFILE</h4><br/>
+                <Link className="sidebar-link" to={"/adventureProfile/"+ adventureId}>Info</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureImages/" + adventureId}>Images</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureRules/" + adventureId}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventurePricelist/" + adventureId}>Pricelist</Link><br/><br/>

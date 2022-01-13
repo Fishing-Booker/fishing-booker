@@ -54,4 +54,9 @@ public class PriceListController {
         return priceListService.findAdditionalServices(id);
     }
 
+    @GetMapping("/regularServices/{id}")
+    public List<String> findRegularServices(@PathVariable Integer id) {
+        return priceListService.findRegularServices(id);
+    }
+
 }

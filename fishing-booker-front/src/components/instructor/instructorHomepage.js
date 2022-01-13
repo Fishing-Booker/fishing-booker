@@ -33,7 +33,7 @@ const InstructorHomepage = () => {
         .then(response => {
             setUser(response.data);
             var user = response.data;
-
+            console.log(SERVER_URL + '/adventures/instructorAdventures/' + user.id)
             axios.get(SERVER_URL + '/adventures/instructorAdventures/' + user.id, { headers: headers})    
                 .then(response => {setAdventures(response.data); console.log(response.data)});
         

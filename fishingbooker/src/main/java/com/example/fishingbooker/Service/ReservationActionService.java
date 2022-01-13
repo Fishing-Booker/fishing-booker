@@ -48,7 +48,7 @@ public class ReservationActionService implements IReservationActionService {
         action.setPrice(dto.getPrice());
         action.setReservationType(ReservationType.quickReservation);
         action.setClient(userRepository.getById(dto.getOwner()));
-        action.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getEntityId()));
+        action.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getOwner()));
         action.setAdditionalServices(dto.getAdditionalServices());
         action.setBooked(false);
         actionRepository.save(action);
