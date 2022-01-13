@@ -91,6 +91,11 @@ public class PriceListService implements IPriceListService {
         return  repository.findAdditionalServices(entityId, ServiceType.additionalService);
     }
 
+    @Override
+    public List<String> findRegularServices(Integer entityId) {
+        return repository.findAdditionalServices(entityId, ServiceType.regularService);
+    }
+
     private ReservationEntity setEntity(Integer entityId, Integer ownerId){
         User owner = userRepository.getById(ownerId);
         ReservationEntity entity = entityRepository.findEntityById(entityId);

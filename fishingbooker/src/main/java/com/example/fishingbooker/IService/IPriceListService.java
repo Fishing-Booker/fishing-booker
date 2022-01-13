@@ -19,4 +19,6 @@ public interface IPriceListService {
 
     List<String> findAdditionalServices(Integer entityId);
 
+    List<String> findRegularServices(Integer entityId);
+
 }
