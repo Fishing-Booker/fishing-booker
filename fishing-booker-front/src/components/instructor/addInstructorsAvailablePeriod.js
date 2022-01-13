@@ -1,6 +1,3 @@
-//import { DateTimePickerComponent} from "@syncfusion/ej2-react-calendars"
-//<DateTimePickerComponent/>
-
 import React, { useEffect, useState } from 'react'
 import '../../css/addingForm.css'
 import Modal from 'react-modal';

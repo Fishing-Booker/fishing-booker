@@ -78,6 +78,7 @@ const AdventureProfile = () => {
         <div className="wrapper">
             <div className="left">
                 <h4>ADVENTURE PROFILE</h4><br/>
+                <Link className="sidebar-link" to={"/adventureProfile/"+ adventure.id}>Info</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureImages/" + adventure.id}>Images</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureRules/" + adventure.id}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventurePricelist/" + adventure.id}>Pricelist</Link><br/><br/>
