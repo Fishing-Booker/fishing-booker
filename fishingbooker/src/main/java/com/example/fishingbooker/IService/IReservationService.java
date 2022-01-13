@@ -4,6 +4,7 @@ import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IReservationService {
@@ -21,4 +22,6 @@ public interface IReservationService {
     List<ReservationDTO> getClientReservations(Integer clientId);
 
     void makeReservation(ClientReservationDTO dto);
+
+    List<ReservationDTO> getCurrentReservation(Date date, Integer clientId);
 }

@@ -106,6 +106,16 @@ public class ReservationService implements IReservationService {
         emailService.sendEmailAfterReservation(dto.getClientId());
     }
 
+    @Override
+    public List<ReservationDTO> getCurrentReservation(Date date, Integer clientId) {
+        List<ReservationDTO> reservationsDTO = new ArrayList<>();
+        List<Reservation> reservations = reservationRepository.getCurrentReservations(date, clientId);
+        for (Reservation r : reservations) {
+            reservationsDTO.add(ReservationMapper.mapToDTO(r));
+        }
+        return reservationsDTO;
+    }
+
     private boolean isReservationActive(ReservationDTO reservation){
         return reservation.getStartDate().before(new Date()) && reservation.getEndDate().after(new Date());
     }

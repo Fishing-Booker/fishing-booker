@@ -4,6 +4,7 @@ import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
+import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
 import com.example.fishingbooker.IRepository.IShipRepository;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
@@ -25,6 +26,9 @@ public class ShipService implements IShipService {
 
     @Autowired
     private ILocationService locationService;
+
+    @Autowired
+    private IReservationPeriodOwnerRepository ownerPeriodRepository;
 
     @Override
     public Ship save(Ship ship) {
