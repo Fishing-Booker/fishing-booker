@@ -68,6 +68,8 @@ public class ShipController {
         ship.setCancelConditions("");
         ship.setDeleted(false);
         ship.setAverageGrade(0.0);
+        ship.setMaxPersons(shipDTO.getCapacity());
+        ship.setNavigationEquipment("");
         ship.setImages(new ArrayList<>());
 
         ship.setShipType(shipDTO.getShipType());
@@ -75,7 +77,6 @@ public class ShipController {
         ship.setEngineNumber(shipDTO.getEngineNumber());
         ship.setEnginePower(shipDTO.getEnginePower());
         ship.setMaxSpeed(shipDTO.getMaxSpeed());
-        ship.setCapacity(shipDTO.getCapacity());
 
         Integer id;
         if(entityService.findEntities().size() == 0){
@@ -148,7 +149,24 @@ public class ShipController {
     }
 
     @PostMapping("/byDate")
-    public List<ShipInfoDTO> getShipsByResrvationDate(@RequestBody ReservationDateDTO dto) {
+    public List<ShipInfoDTO> getShipsByReservationDate(@RequestBody ReservationDateDTO dto) {
         return shipService.getByReservationDate(dto.getDate());
+    }
+
+    @GetMapping("/shipNavEq/{id}")
+    public List<String> findShipNavEquipment(@PathVariable Integer id){
+        return shipService.findShipNavEquipment(id);
+    }
+
+    @PutMapping("/addNavEq/{id}")
+    public ResponseEntity<String> addShipNavEquipment(@RequestBody String equipment, @PathVariable Integer id){
+        shipService.addNavEquipment(equipment, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteNavEq/{id}/{index}")
+    public ResponseEntity<String> deleteShipNavEquipment(@PathVariable Integer index, @PathVariable Integer id){
+        shipService.deleteNavEquipment(index, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

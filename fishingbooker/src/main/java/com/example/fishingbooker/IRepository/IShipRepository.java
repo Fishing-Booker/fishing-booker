@@ -24,7 +24,7 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
     Ship findShipById(Integer id);
 
     @Query("update Ship s " +
-            "set s.name=?1, s.description=?2, s.shipType=?3, s.length=?4, s.engineNumber=?5, s.enginePower=?6, s.maxSpeed=?7, s.capacity=?8 " +
+            "set s.name=?1, s.description=?2, s.shipType=?3, s.length=?4, s.engineNumber=?5, s.enginePower=?6, s.maxSpeed=?7, s.maxPersons=?8 " +
             "WHERE s.id=?9")
     @Modifying
     @Transactional
@@ -53,4 +53,12 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
             "LEFT OUTER JOIN Ship s ON p.owner.id=s.owner.id " +
             "WHERE ?1 BETWEEN p.startDate AND p.endDate")
     List<Ship> getByReservationDate(Date date);
+
+    @Query("SELECT s.navigationEquipment FROM Ship s WHERE s.id=?1 ")
+    String findShipNavEquipment(Integer shipId);
+
+    @Query("update Ship s set s.navigationEquipment=?1 WHERE s.id=?2")
+    @Modifying
+    @Transactional
+    void addNavEquipment(String equipment, Integer shipId);
 }

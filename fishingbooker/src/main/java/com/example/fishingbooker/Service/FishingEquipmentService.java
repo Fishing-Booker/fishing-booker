@@ -1,14 +1,12 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.EquipmentDTO;
+import com.example.fishingbooker.DTO.fishingEquipment.AddFishingEquipmentDTO;
+import com.example.fishingbooker.DTO.fishingEquipment.FishingEquipmentDTO;
 import com.example.fishingbooker.IRepository.IFishingEquipmentRepository;
+import com.example.fishingbooker.IRepository.IReservationEntityRepository;
+import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IFishingEquipmentService;
-import com.example.fishingbooker.IService.IReservationEntityService;
-import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.Model.FishingEquipment;
-import com.example.fishingbooker.Model.NavigationEquipment;
-import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Model.Ship;
+import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,28 +17,28 @@ import java.util.List;
 public class FishingEquipmentService implements IFishingEquipmentService {
 
     @Autowired
-    private IFishingEquipmentRepository fishingEquipmentRepository;
+    IFishingEquipmentRepository fishingEquipmentRepository;
 
     @Autowired
-    private IUserService userService;
+    IUserRepository userRepository;
 
     @Autowired
-    private IReservationEntityService entityService;
+    IReservationEntityRepository entityRepository;
 
     @Override
-    public List<FishingEquipment> findShipFishingEquipment(Integer shipId) {
-        List<FishingEquipment> fishingEquipment = fishingEquipmentRepository.findShipFishingEquipment(shipId);
-        for (FishingEquipment eq : fishingEquipment) {
-            eq.setReservationEntity(null);
+    public List<FishingEquipmentDTO> findShipFishingEquipment(Integer shipId) {
+        List<FishingEquipmentDTO> equipment = new ArrayList<>();
+        for (FishingEquipment eq : fishingEquipmentRepository.findShipFishingEquipment(shipId)) {
+            equipment.add(new FishingEquipmentDTO(eq.getId(), eq.getName()));
         }
-        return fishingEquipment;
+        return equipment;
     }
 
     @Override
-    public void addFishingEquipment(EquipmentDTO fishEquipment, Integer shipId) {
+    public void addFishingEquipment(AddFishingEquipmentDTO fishEquipment) {
         FishingEquipment fishingEquipment = new FishingEquipment();
-        fishingEquipment.setName(fishEquipment.getEquipment());
-        fishingEquipment.setReservationEntity(new ReservationEntity());
+        fishingEquipment.setName(fishEquipment.getName());
+        fishingEquipment.setReservationEntity(getEntity(fishEquipment.getEntityId(), fishEquipment.getOwnerId()));
         fishingEquipmentRepository.save(fishingEquipment);
     }
 
@@ -49,10 +47,10 @@ public class FishingEquipmentService implements IFishingEquipmentService {
         fishingEquipmentRepository.deleteFishingEquipment(equipmentId, shipId);
     }
 
-    private ReservationEntity getEntity(Integer shipId, Integer ownerId){
-        /*ReservationEntity entity = entityService.findEntityById(shipId);
-        entity.setOwner(userService.findUserById(ownerId));
-        entity.setImages(new ArrayList<>());*/
-        return null;
+    private ReservationEntity getEntity(Integer entityId, Integer ownerId){
+        User owner = userRepository.getById(ownerId);
+        ReservationEntity entity = entityRepository.findEntityById(entityId);
+        entity.setOwner(owner);
+        return entity;
     }
 }
