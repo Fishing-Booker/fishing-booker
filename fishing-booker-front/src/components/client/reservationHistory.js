@@ -31,7 +31,7 @@ const ReservationHistory = () => {
                 </div>
             )
         })
-    ) : (<div><p style={{marginLeft: '30px'}}>There are no available actions.</p></div>)
+    ) : (<div><p style={{marginLeft: '30px'}}>You don't have any reservations.</p></div>)
 
 
     return (
@@ -40,9 +40,9 @@ const ReservationHistory = () => {
             marginTop: '170px',
             marginLeft: '50px',
             position: 'absolute'}}>
-            <h1 className="title-reservation">Reservation actions</h1> <br></br>
-            </div>
+            <h1 className="title-reservation">Reservation history</h1> <br></br>
             {allReservations}
+            </div>
         </div>
     )
 }

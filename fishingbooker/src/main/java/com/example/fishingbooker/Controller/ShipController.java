@@ -2,6 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.ship.AddShipDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IService.ILocationService;
@@ -144,5 +145,10 @@ public class ShipController {
     @GetMapping("/ship")
     public ShipInfoDTO getById(@RequestParam Integer id) {
         return shipService.getById(id);
+    }
+
+    @PostMapping("/byDate")
+    public List<ShipInfoDTO> getShipsByResrvationDate(@RequestBody ReservationDateDTO dto) {
+        return shipService.getByReservationDate(dto.getDate());
     }
 }

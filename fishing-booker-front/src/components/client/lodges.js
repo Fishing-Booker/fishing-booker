@@ -21,6 +21,7 @@ const Lodges = () => {
         } else {
             setIsLogged(false)
         }
+
         axios.get(SERVER_URL + "/lodges/letters")
             .then(response => setLetters(response.data));
 
@@ -42,7 +43,6 @@ const Lodges = () => {
         } else {
             setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData + "&location=" + location)
         }
-        
     }
 
     const getByDate = (date) => {

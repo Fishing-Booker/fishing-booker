@@ -31,12 +31,12 @@ const DeleteAdventure = ({modalIsOpen, setModalIsOpen, adventureId}) => {
                                 Are you sure you want to delete this lodge?
                             </div>
                             <div className="buttons">
-                            <button className="delete" onClick={() => deleteAdventure()} >
-                                    Delete
-                                </button>
-                                <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                            <button className="cancelAdventure" onClick={() => setModalIsOpen(false)}>
                                     Cancel
                                 </button> <br />
+                                <button className="delete" onClick={() => deleteAdventure()} >
+                                    Delete
+                                </button>
                             </div>
                         </div>
                         </div>

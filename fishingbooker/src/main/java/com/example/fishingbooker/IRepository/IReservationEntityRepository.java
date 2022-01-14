@@ -21,4 +21,6 @@ public interface IReservationEntityRepository extends JpaRepository<ReservationE
     @Query("SELECT e FROM ReservationEntity e WHERE e.name=?1 AND e.owner.id=?2")
     ReservationEntity findOwnerEntityByName(String entityName, Integer ownerId);
 
+    @Query("SELECT e.owner.id FROM ReservationEntity e WHERE e.id=?1")
+    Integer getOwnerId(Integer entityId);
 }

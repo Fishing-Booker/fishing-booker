@@ -47,7 +47,8 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
         } else {
             addToast("It is not possible to make a reservation in selected period! Please try again!", { appearance: "error" });
         }
-
+        setStartDate('');
+        setEndDate('');
     }
 
     const isDateInRage = (startDate, endDate) => (dateToCheck) => {

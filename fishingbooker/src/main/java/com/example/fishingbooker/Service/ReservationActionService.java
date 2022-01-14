@@ -5,6 +5,7 @@ import com.example.fishingbooker.DTO.reservationAction.ReservationActionDTO;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationActionRepository;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
+import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationActionService;
 import com.example.fishingbooker.IService.ISubscriberService;
@@ -38,6 +39,9 @@ public class ReservationActionService implements IReservationActionService {
 
     @Autowired
     private ISubscriberService subscriberService;
+
+    @Autowired
+    private IReservationRepository reservationRepository;
 
     @Override
     public void save(AddReservationActionDTO dto){
@@ -73,7 +77,7 @@ public class ReservationActionService implements IReservationActionService {
     }
 
     @Override
-    public void makeReservation(Integer actionId, Integer clientId) {
+    public void makeReservation(Integer actionId, Integer clientId) throws MessagingException, UnsupportedEncodingException {
         actionRepository.makeReservation(actionId, clientId);
         subscriberService.sendEmailWithActionReservationInfo(clientId);
     }
@@ -96,6 +100,11 @@ public class ReservationActionService implements IReservationActionService {
             }
         }
         return availableActions;
+    }
+
+    @Override
+    public void deleteAction(Integer id) {
+        actionRepository.deleteById(id);
     }
 
     private String getIsActionBooked(ReservationAction action){

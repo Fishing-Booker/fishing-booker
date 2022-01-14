@@ -52,12 +52,14 @@ const Subscriptions = () => {
     ) : (<div><p style={{marginLeft: '30px'}}>You don't have any subscriptions yet.</p></div>)
 
     return (
-        <div style={{top:'0',
-            marginTop: '170px',
-            marginLeft: '50px',
-            position: 'absolute'}}>
-            <h1 className="title-reservation">Subscriptions</h1> <br></br>
-            {allSubscriptions}
+        <div>
+            <div style={{top:'0',
+                marginTop: '170px',
+                marginLeft: '50px',
+                position: 'absolute'}}>
+                <h1 className="title-reservation">Subscriptions</h1> <br></br>
+                {allSubscriptions}
+            </div>
         </div>
     )
 }

@@ -8,6 +8,7 @@ import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IService.IEmailService;
 import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Mapper.ReservationMapper;
 import com.example.fishingbooker.Model.Reservation;
@@ -31,6 +32,9 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private IReservationEntityRepository entityRepository;
+
+    @Autowired
+    private IEmailService emailService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -99,6 +103,22 @@ public class ReservationService implements IReservationService {
         reservation.setClient(userRepository.getById(dto.getClientId()));
         reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
         reservationRepository.save(reservation);
+        emailService.sendEmailAfterReservation(dto.getClientId());
+    }
+
+    @Override
+    public List<ReservationDTO> getCurrentReservation(Date date, Integer clientId) {
+        List<ReservationDTO> reservationsDTO = new ArrayList<>();
+        List<Reservation> reservations = reservationRepository.getCurrentReservations(date, clientId);
+        for (Reservation r : reservations) {
+            reservationsDTO.add(ReservationMapper.mapToDTO(r));
+        }
+        return reservationsDTO;
+    }
+
+    @Override
+    public void cancelReservation(Integer id) {
+        reservationRepository.cancelReservation(id);
     }
 
     private boolean isReservationActive(ReservationDTO reservation){

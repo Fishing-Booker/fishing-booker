@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import star from "../../images/star.png";
 import { useToasts } from "react-toast-notifications";
+import { format } from "date-fns";
+import Modal from "react-modal";
+import NewReservation from "./modals/newReservation";
 
+Modal.setAppElement("#root")
 const ShipReservation = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [ship, setShip] = useState([]);
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [country, setCountry] = useState('')
     const [ownerName, setOwnerName] = useState('')
     const [ownerSurname, setOwnerSurname] = useState('')
     const { id } = useParams();
@@ -17,17 +18,22 @@ const ShipReservation = () => {
     const [isSubscribed, setIsSubscribed] = useState(true)
     const [entityId, setEntityId] = useState(id)
     const { addToast } = useToasts();
+    const [availablePeriods, setAvailablePeriods] = useState([])
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [start, setStart] = useState('')
+    const [end, setEnd] = useState('')
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+    const [maxPersons, setMaxPersons] = useState('')
 
     useEffect(() => {
         axios.get(SERVER_URL + "/ships/ship?id=" + id)
             .then(response => {
                 setShip(response.data); 
-                setAddress(response.data.location.address);
-                setCity(response.data.location.city);
-                setCountry(response.data.location.country);
                 setOwnerName(response.data.owner.name);
                 setOwnerSurname(response.data.owner.surname);
                 setEntityId(response.data.id)
+                setMaxPersons(response.data.maxPersons)
             });
         
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -39,7 +45,7 @@ const ShipReservation = () => {
                     .then(response => setIsSubscribed(response.data))
             })
         
-    }, [id, isSubscribed])
+    }, [id, isSubscribed, modalIsOpen])
 
     const renderStars = (grade) => {
         let stars = []
@@ -66,23 +72,47 @@ const ShipReservation = () => {
             })
     }
 
+    const seeAvailableReservations = (startDate, endDate) => {
+        var periodDTO = { entityId: id, startDate, endDate }
+        console.log(periodDTO)
+        axios.post(SERVER_URL + "/ownerPeriods/availablePeriods", periodDTO)
+            .then(response => setAvailablePeriods(response.data))
+    }
+    
+    const periods = availablePeriods.length ? (
+        availablePeriods.map((period, index) => {
+            return (
+                <div key={index} className="period-card">
+                    <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
+                    <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy.')}</p>
+                    <a className="reservation-link" onClick={() => {setModalIsOpen(true); setStart(period.startDate); setEnd(period.endDate)}}>book ship</a>
+                </div>
+            )
+        })
+    ) : (<div><p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>No available reservations for choosen period.</p></div>)
+
     return (
         <div className="card entity-details">
             {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(ship.id, user.id)}>Unsubscribe</a>}
             {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(ship.id, user.id)}>Subscribe</a>}
             <p className="entity-info name" style={{marginTop: '2%'}}>{ship.name}
                 <div className="stars">{renderStars(ship.averageGrade)} </div>
-            </p>
-            <p className="entity-info location">{address}, {city}, {country}</p>
+            </p> <br></br>
             <p className="entity-info description">{ship.description}</p>
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
+            <p className="entity-info description">Max number of persons: {maxPersons}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
             <br></br>
-            <h4 style={{marginLeft: '3%'}}>Please choose a period for reservation:</h4>
-            <input className="reservation-date" type="datetime-local"></input>
-            <input className="reservation-date" type="datetime-local"></input>
-            <a className="available-dates">See available dates</a>
-
+            <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
+            <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>
+            <br></br>
+            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => setStartDate(e.target.value)}></input>
+            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => setEndDate(e.target.value)}></input>
+            <a className="available-dates"  onClick={() => seeAvailableReservations(startDate, endDate)}>See available dates</a>
+            <Link to={`/ship-actions/${id}`} className="available-dates" >See available actions</Link>
+            <br></br> <br></br>
+            {periods}
+            <NewReservation modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} startOfPeriod={start} endOfPeriod={end} maxGuests={maxPersons}/>
         </div>
     )
 }

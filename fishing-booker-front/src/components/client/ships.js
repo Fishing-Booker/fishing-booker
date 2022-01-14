@@ -12,6 +12,7 @@ const Ships = () => {
     const [name, setName] = useState('');
     const [letters, setLetters] = useState([])
     const [location, setLocation] = useState('');
+    const [date, setDate] = useState('')
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -43,7 +44,12 @@ const Ships = () => {
         } else {
             setUrl(SERVER_URL + '/ships/search?name=' + name + '&letter=' + childData)
         }
-        
+    }
+
+    const getByDate = (date) => {
+        var dto = { date }
+        axios.post(SERVER_URL + '/ships/byDate', dto)
+            .then(response => {console.log(response.data); setShips(response.data)})
     }
 
     const allShips = ships.length ? (
@@ -70,16 +76,35 @@ const Ships = () => {
                 <input className="search-input" type="search" placeholder="  Enter entity name" value={name} 
                     onChange={(e) => {
                         console.log(e.target.value)
-                    setName(e.target.value);
-                    setUrl(SERVER_URL + '/ships/search?name=' + name + "&letter=");
-                    if (e.target.value === '') {
-                        setUrl(SERVER_URL + '/ships');
-                    }
+                        setName(e.target.value);
+                        setUrl(SERVER_URL + '/ships/search?name=' + name + "&letter=" + "&location=" + location);
+                        if (e.target.value === '') {
+                            setUrl(SERVER_URL + '/ships');
+                        }
                     }}></input>
-                <input className="search-input" type="search" placeholder="  Enter entity location" value={location}></input>
-                <input className="search-input" type="date"></input>
-                <input className="search-input btn" type="submit" value="Search"></input>
+                <input className="search-input" type="search" placeholder="  Enter entity location" value={location}
+                    onChange={(e) => {
+                        console.log(e.target.value)
+                        setLocation(e.target.value);
+                        setUrl(SERVER_URL + '/ships/search?name=' + name + "&letter=" + "&location=" + location)
+                        if (e.target.value === '') 
+                            setUrl(SERVER_URL + '/ships');
+                    }}
+                ></input>
+                <select className="search-grade">
+                    <option>Select ship grade</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                </select>
             </div>
+            {isLogged && <div className="card search">
+                <input className="search-input" type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)}></input>
+                <input className="search-input" placeholder=" Enter number of guests"></input> 
+                <input className="search-input btn" type="submit" value="See available reservations" onClick={() => getByDate(date)}></input>
+            </div>}
             <Letters letters={letters} parentCallback={handleCallback}/>
             <div className="row-entities">{allShips}</div>
             

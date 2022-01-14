@@ -125,27 +125,25 @@ public class SubscriberService implements ISubscriberService {
     @Override
     public void sendEmailWithActionReservationInfo(Integer clientId) {
         User client = subscriberRepository.getSubscriber(clientId);
-            String subject = "Action reservation!";
-            String sender = "Fishing Booker";
+        String subject = "Action reservation!";
+        String sender = "Fishing Booker";
 
-            String content ="<p>Dear " + client.getName() + " " + client.getSurname() + ", </p>";
-            content += "<p>Thank you for choosing our reservation!</p>";
-            content += "<p>We are waiting for you!<br>Fishing Booker</p>";
+        String content ="<p>Dear " + client.getName() + " " + client.getSurname() + ", </p>";
+        content += "<p>Thank you for choosing us to make a reservation!</p>";
+        content += "<p>We are looking forward to see you!<br>Fishing Booker</p>";
 
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-            try {
-                helper.setFrom("fishingbookernsm@gmail.com", sender);
-                helper.setTo(client.getEmail());
-                helper.setSubject(subject);
-                helper.setText(content, true);
+        try {
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setTo(client.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
 
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            mailSender.send(message);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+        mailSender.send(message);
+    }
 }

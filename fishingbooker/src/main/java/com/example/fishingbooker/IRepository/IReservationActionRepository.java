@@ -18,4 +18,9 @@ public interface IReservationActionRepository extends JpaRepository<ReservationA
     @Modifying
     @Transactional
     void makeReservation(Integer actionId, Integer clientId);
+
+    @Query("delete from ReservationAction a where a.id=?1")
+    @Modifying
+    @Transactional
+    void deleteById(Integer id);
 }

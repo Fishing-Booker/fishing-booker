@@ -5,6 +5,7 @@ import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
+import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
 import com.example.fishingbooker.IRepository.IShipRepository;
 import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +31,7 @@ public class ShipService implements IShipService {
     private ILocationService locationService;
 
     @Autowired
+    private IReservationPeriodOwnerRepository ownerPeriodRepository;
     private IImageService imageService;
 
     @Override
@@ -143,5 +146,15 @@ public class ShipService implements IShipService {
     public ShipInfoDTO getById(Integer id) {
         Ship ship = shipRepository.findShipById(id);
         return ShipMapper.mapToDTO(ship);
+    }
+
+    @Override
+    public List<ShipInfoDTO> getByReservationDate(Date date) {
+        List<Ship> ships = shipRepository.getByReservationDate(date);
+        List<ShipInfoDTO> shipsDTO = new ArrayList<>();
+        for (Ship ship : ships) {
+            shipsDTO.add(ShipMapper.mapToDTO(ship));
+        }
+        return shipsDTO;
     }
 }
