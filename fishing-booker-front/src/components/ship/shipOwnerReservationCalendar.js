@@ -4,12 +4,13 @@ import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import Calendar from 'react-awesome-calendar';
 import axios from 'axios';
+import AddOwnerReservationPeriod from './addOwnerReservationPeriod';
 
 const ShipOwnerReservationCalendar = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
-    const [user, setUser]
+    const [user, setUser] = useState([]);
         
     const [addPeriod, setAddPeriod] = useState(false);
     const [addReservation, setAddReservation] = useState(false);
@@ -20,8 +21,6 @@ const ShipOwnerReservationCalendar = () => {
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data);
-
-
             })
     }, [])
 
@@ -47,6 +46,11 @@ const ShipOwnerReservationCalendar = () => {
 
     return (
         <div className="wrapper">
+            <div className="left">
+                <h4>OWNER RESERVATIONS</h4><br/>
+                <Link className="sidebar-link" to={"/shipOwnerReservationCalendar"}>Calendar</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipOwnerReservations"}>Reservation history</Link><br/><br/>
+            </div>
             <div className="right">
                 <div className="info">
                     <h3>SHIP OWNER RESERVATION CALENDAR</h3>
@@ -60,6 +64,7 @@ const ShipOwnerReservationCalendar = () => {
                 </div>
             </div>
 
+            <AddOwnerReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} />
         </div>
     )
 
