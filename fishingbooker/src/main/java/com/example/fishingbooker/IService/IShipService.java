@@ -25,7 +25,7 @@ public interface IShipService {
 
     void addRule(String rule, Integer shipId);
 
-    void deleteRule(Integer ruleIndex, Integer lodgeId);
+    void deleteRule(Integer ruleIndex, Integer shipId);
 
     List<ShipInfoDTO> getAll();
 
@@ -36,4 +36,10 @@ public interface IShipService {
     ShipInfoDTO getById(Integer id);
 
     List<ShipInfoDTO> getByReservationDate(Date date);
+
+    List<String> findShipNavEquipment(Integer shipId);
+
+    void addNavEquipment(String equipment, Integer shipId);
+
+    void deleteNavEquipment(Integer eqIndex, Integer shipId);
 }

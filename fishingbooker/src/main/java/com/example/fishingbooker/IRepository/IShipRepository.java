@@ -53,4 +53,12 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
             "LEFT OUTER JOIN Ship s ON p.owner.id=s.owner.id " +
             "WHERE ?1 BETWEEN p.startDate AND p.endDate")
     List<Ship> getByReservationDate(Date date);
+
+    @Query("SELECT s.navigationEquipment FROM Ship s WHERE s.id=?1 ")
+    String findShipNavEquipment(Integer shipId);
+
+    @Query("update Ship s set s.navigationEquipment=?1 WHERE s.id=?2")
+    @Modifying
+    @Transactional
+    void addNavEquipment(String equipment, Integer shipId);
 }

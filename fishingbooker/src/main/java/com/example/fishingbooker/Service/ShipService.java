@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.NavigationEquipmentDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
@@ -93,12 +94,12 @@ public class ShipService implements IShipService {
     }
 
     @Override
-    public void deleteRule(Integer ruleIndex, Integer lodgeId) {
-        String[] rules = shipRepository.findShipRules(lodgeId).split("#");
+    public void deleteRule(Integer ruleIndex, Integer shipId) {
+        String[] rules = shipRepository.findShipRules(shipId).split("#");
         rules[ruleIndex] = "";
         String newRules = setNewRules(rules);
         newRules = correctRules(newRules);
-        shipRepository.addRule(newRules, lodgeId);
+        shipRepository.addRule(newRules, shipId);
     }
 
     @Override
@@ -158,5 +159,36 @@ public class ShipService implements IShipService {
             shipsDTO.add(ShipMapper.mapToDTO(ship));
         }
         return shipsDTO;
+    }
+
+    @Override
+    public List<String> findShipNavEquipment(Integer shipId) {
+        String eq = shipRepository.findShipNavEquipment(shipId);
+        return getCorrectedEq(eq);
+    }
+
+    private List<String> getCorrectedEq(String eq){
+        List<String> allEq = new ArrayList<>();
+        if(!eq.equals("")){
+            for (String navEq : eq.split("#")) {
+                navEq = navEq.replaceAll("\"", "");
+                allEq.add(navEq);
+            };
+        }
+        return allEq;
+    }
+
+    @Override
+    public void addNavEquipment(String equipment, Integer shipId) {
+        shipRepository.addNavEquipment(equipment, shipId);
+    }
+
+    @Override
+    public void deleteNavEquipment(Integer eqIndex, Integer shipId) {
+        String[] eq = shipRepository.findShipNavEquipment(shipId).split("#");
+        eq[eqIndex] = "";
+        String newEq = setNewRules(eq);
+        newEq = correctRules(newEq);
+        shipRepository.addNavEquipment(newEq, shipId);
     }
 }
