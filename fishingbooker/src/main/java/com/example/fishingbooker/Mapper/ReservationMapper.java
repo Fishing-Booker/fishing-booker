@@ -13,6 +13,7 @@ public class ReservationMapper {
         dto.setStartDate(reservation.getStartDate());
         dto.setEndDate(reservation.getEndDate());
         dto.setEntityName(reservation.getReservationEntity().getName());
+        dto.setEntityId(reservation.getReservationEntity().getId());
         return dto;
     }
 
