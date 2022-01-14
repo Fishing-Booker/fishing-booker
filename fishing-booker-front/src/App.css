@@ -267,6 +267,18 @@ h5 {
 	cursor: pointer;
 }
 
+.cancel-link {
+	text-decoration: none;
+	font-weight: 600;
+	color: darkblue;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	margin-left: 60px;
+	margin-bottom: 2%;
+	cursor: pointer;
+}
+
 /* search */
 .search {
 	background-color: white;
@@ -518,4 +530,14 @@ h5 {
 	font-size: 15px;
 	margin-left: 55px;
 	margin-top: 20px;
+}
+
+.comment-area {
+	height: 150px;
+	width: 400px;
+	border-radius: 2px;
+	border: 1px solid cadetblue;
+	border-radius: 5px;
+	margin-left: 55px;
+	margin-top: 15px;
 }
