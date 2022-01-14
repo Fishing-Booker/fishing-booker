@@ -68,6 +68,7 @@ public class ShipController {
         ship.setCancelConditions("");
         ship.setDeleted(false);
         ship.setAverageGrade(0.0);
+        ship.setMaxPersons(shipDTO.getCapacity());
         ship.setImages(new ArrayList<>());
 
         ship.setShipType(shipDTO.getShipType());
@@ -75,7 +76,6 @@ public class ShipController {
         ship.setEngineNumber(shipDTO.getEngineNumber());
         ship.setEnginePower(shipDTO.getEnginePower());
         ship.setMaxSpeed(shipDTO.getMaxSpeed());
-        ship.setCapacity(shipDTO.getCapacity());
 
         Integer id;
         if(entityService.findEntities().size() == 0){

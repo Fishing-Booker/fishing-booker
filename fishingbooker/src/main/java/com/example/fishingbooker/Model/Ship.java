@@ -24,22 +24,18 @@ public class Ship extends ReservationEntity {
     @Column(name = "max_speed")
     private double maxSpeed;
 
-    @Column(name = "capacity")
-    private Integer capacity;
-
     public Ship() {
     }
 
     public Ship(Integer id, User owner, String name, Location location, String description, String rules, String cancelConditions,
                 double averageGrade, Integer maxPersons, List<Image> images, String shipType, double length, Integer engineNumber,
-                double enginePower, double maxSpeed, Integer capacity) {
+                double enginePower, double maxSpeed) {
         super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons, images);
         this.shipType = shipType;
         this.length = length;
         this.engineNumber = engineNumber;
         this.enginePower = enginePower;
         this.maxSpeed = maxSpeed;
-        this.capacity = capacity;
     }
 
     public String getShipType() {
@@ -80,14 +76,6 @@ public class Ship extends ReservationEntity {
 
     public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.EquipmentDTO;
+import com.example.fishingbooker.DTO.fishingEquipment.FishingEquipmentDTO;
 import com.example.fishingbooker.IService.INavigationEquipmentService;
 import com.example.fishingbooker.Model.NavigationEquipment;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class NavigationEquipmentController {
     }
 
     @PutMapping("/addNavigationEquipment/{id}")
-    public ResponseEntity<String> addNavigationEquipment(@RequestBody EquipmentDTO navEquipment, @PathVariable Integer id){
+    public ResponseEntity<String> addNavigationEquipment(@RequestBody FishingEquipmentDTO navEquipment, @PathVariable Integer id){
         navigationEquipmentService.addNavigationEquipment(navEquipment, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

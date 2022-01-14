@@ -1,9 +1,8 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.EquipmentDTO;
+import com.example.fishingbooker.DTO.fishingEquipment.AddFishingEquipmentDTO;
+import com.example.fishingbooker.DTO.fishingEquipment.FishingEquipmentDTO;
 import com.example.fishingbooker.IService.IFishingEquipmentService;
-import com.example.fishingbooker.Model.FishingEquipment;
-import com.example.fishingbooker.Model.NavigationEquipment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,16 +19,16 @@ import java.util.List;
 public class FishingEquipmentController {
 
     @Autowired
-    private IFishingEquipmentService fishingEquipmentService;
+    IFishingEquipmentService fishingEquipmentService;
 
     @GetMapping("/shipFishingEquipment/{id}")
-    public List<FishingEquipment> findShipNavigationEquipment(@PathVariable Integer id){
+    public List<FishingEquipmentDTO> findShipFishingEquipment(@PathVariable Integer id){
         return fishingEquipmentService.findShipFishingEquipment(id);
     }
 
-    @PutMapping("/addFishingEquipment/{id}")
-    public ResponseEntity<String> addFishingEquipment(@RequestBody EquipmentDTO fishEquipment, @PathVariable Integer id){
-        fishingEquipmentService.addFishingEquipment(fishEquipment, id);
+    @PutMapping("/addFishingEquipment")
+    public ResponseEntity<String> addFishingEquipment(@RequestBody AddFishingEquipmentDTO fishEquipment){
+        fishingEquipmentService.addFishingEquipment(fishEquipment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

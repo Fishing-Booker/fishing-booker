@@ -122,7 +122,7 @@ const ShipPriceList = () => {
         <div class="wrapper">
             <div class="left">
                 <h4>SHIP PROFILE</h4><br/>
-                <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
+                    <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
                     <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
                     <Link className="sidebar-link" to={"/shipPricelist/" + shipId}>Pricelist</Link><br/><br/>
                     <Link className="sidebar-link" to={"/shipActions/" + shipId}>Actions</Link><br/><br/>

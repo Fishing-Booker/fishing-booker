@@ -1,11 +1,12 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.EquipmentDTO;
+import com.example.fishingbooker.DTO.fishingEquipment.FishingEquipmentDTO;
 import com.example.fishingbooker.IRepository.INavigationEquipmentRepository;
 import com.example.fishingbooker.IService.INavigationEquipmentService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.NavigationEquipment;
+import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,10 @@ public class NavigationEquipmentService implements INavigationEquipmentService {
     }
 
     @Override
-    public void addNavigationEquipment(EquipmentDTO navEquipment, Integer shipId) {
+    public void addNavigationEquipment(FishingEquipmentDTO navEquipment, Integer shipId) {
         NavigationEquipment navigationEquipment = new NavigationEquipment();
         navigationEquipment.setName(navEquipment.getEquipment());
-        navigationEquipment.setShip(getShip(shipId, navEquipment.getOwner()));
+        navigationEquipment.setShip(new Ship());
         navigationEquipmentRepository.save(navigationEquipment);
     }
 
