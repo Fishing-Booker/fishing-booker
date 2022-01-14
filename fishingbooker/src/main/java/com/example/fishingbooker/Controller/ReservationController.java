@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
@@ -57,5 +58,16 @@ public class ReservationController {
     public ResponseEntity<String> makeReservation(@RequestBody ClientReservationDTO dto) {
         reservationService.makeReservation(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/currentReservations")
+    public List<ReservationDTO> getCurrentReservations(@RequestBody ReservationDateDTO dto) {
+        return reservationService.getCurrentReservation(dto.getDate(), dto.getClientId());
+    }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<String> cancelReservation(@PathVariable Integer id) {
+        reservationService.cancelReservation(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -21,4 +21,9 @@ public interface IReservationPeriodOwnerRepository extends JpaRepository<Reserva
 
     @Query("SELECT p FROM ReservationPeriodOwner p WHERE p.owner.id=?1 AND (?2 BETWEEN p.startDate AND p.endDate) AND (?3 BETWEEN p.startDate AND p.endDate)")
     List<ReservationPeriodOwner> findPeriodsByDate(Integer ownerId, Date startDate, Date endDate);
+
+    @Query("SELECT p FROM ReservationPeriodOwner p " +
+            "WHERE ?1 BETWEEN p.startDate AND p.endDate")
+    List<ReservationPeriodOwner> getByReservationDate(Date date);
+
 }
