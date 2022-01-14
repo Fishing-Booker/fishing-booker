@@ -61,6 +61,7 @@ import AdventureReservationActions from "./client/adventureReservationActions";
 import ShipImages from "./ship/shipImages";
 import ShipPriceList from "./ship/shipPricelist";
 import ShipReservationCalendar from "./ship/shipReservationCalendar";
+import ShipActions from "./ship/shipActions";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -206,6 +207,7 @@ const FrontPage = () => {
                         <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
                         <Route path="/shipFishEq/:shipId"><ShipFishingEquipment/></Route>
                         <Route path="/shipReservationCalendar/:shipId"><ShipReservationCalendar/></Route>
+                        <Route path="/shipActions/:shipId"><ShipActions/></Route>
                     </Switch>
                 }
                 
