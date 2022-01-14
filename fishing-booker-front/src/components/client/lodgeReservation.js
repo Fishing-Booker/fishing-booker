@@ -113,8 +113,8 @@ const LodgeReservation = () => {
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>
             <br></br>
-            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
-            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
+            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => setStartDate(e.target.value)}></input>
+            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => setEndDate(e.target.value)}></input> 
             <a className="available-dates" onClick={() => seeAvailableReservations(startDate, endDate)}>See available reservations</a> 
             <Link to={`/lodge-actions/${id}`} className="available-dates" >See available actions</Link>
             <br></br> <br></br>

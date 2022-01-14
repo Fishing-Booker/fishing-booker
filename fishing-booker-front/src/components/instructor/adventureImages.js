@@ -61,7 +61,7 @@ const AdventureImages = () => {
                     <button className="edit-profile-btn" onClick={() => setUploadImage(true)}>Add new images</button>
                 </div>
             </div>
-            <UploadImage modalIsOpen={uploadImage} setModalIsOpen={setUploadImage}/>
+            <UploadImage modalIsOpen={uploadImage} setModalIsOpen={setUploadImage} entityId={adventureId}/>
             <DeleteImageDialog modalIsOpen={deleteImage} setModalIsOpen={setDeleteImage} imageId={imageId}/>
         </div>
     )

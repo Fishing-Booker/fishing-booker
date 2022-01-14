@@ -1,6 +1,6 @@
-package com.example.fishingbooker.DTO;
+package com.example.fishingbooker.DTO.lodge;
 
-public class LodgeDTO {
+public class AddLodgeDTO {
 
     private Integer owner;
     private String name;
@@ -14,10 +14,10 @@ public class LodgeDTO {
     private String threeBed;
     private String fourBed;
 
-    public LodgeDTO() {
+    public AddLodgeDTO() {
     }
 
-    public LodgeDTO(Integer owner, String name, String address, String city, String country, Integer maxPersons, String description, String oneBed, String twoBed, String threeBed, String fourBed) {
+    public AddLodgeDTO(Integer owner, String name, String address, String city, String country, Integer maxPersons, String description, String oneBed, String twoBed, String threeBed, String fourBed) {
         this.owner = owner;
         this.name = name;
         this.address = address;

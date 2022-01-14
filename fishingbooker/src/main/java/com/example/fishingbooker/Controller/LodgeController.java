@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.LodgeDTO;
+import com.example.fishingbooker.DTO.lodge.AddLodgeDTO;
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
@@ -15,10 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -54,7 +51,7 @@ public class LodgeController {
     }
 
     @PostMapping("/addLodge")
-    public ResponseEntity<Lodge> addLodge(@RequestBody LodgeDTO lodgeDTO){
+    public ResponseEntity<Lodge> addLodge(@RequestBody AddLodgeDTO lodgeDTO){
 
         User owner = userService.findUserById(lodgeDTO.getOwner());
 

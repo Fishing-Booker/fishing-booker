@@ -49,8 +49,8 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
             "ORDER BY s.id")
     List<Ship> searchAndFilter(@Param("name") String name, @Param("letter") String letter);
 
-    @Query("SELECT s FROM Ship s " +
-            "JOIN ReservationPeriodOwner p ON s.owner.id=p.owner.id " +
+    @Query("SELECT s FROM ReservationPeriodOwner p " +
+            "LEFT OUTER JOIN Ship s ON p.owner.id=s.owner.id " +
             "WHERE ?1 BETWEEN p.startDate AND p.endDate")
     List<Ship> getByReservationDate(Date date);
 }

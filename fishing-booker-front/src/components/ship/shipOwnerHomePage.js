@@ -9,6 +9,7 @@ import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddShipForm from "./addShipForm";
 import DeleteShipForm from "./deleteShipForm";
+import noImg from '../../images/noProfilePicture.jpg';
 
 const ShipOwnerHomePage = () => {
 
@@ -33,7 +34,19 @@ const ShipOwnerHomePage = () => {
             var user = response.data;
 
             axios.get(SERVER_URL + '/ships/ownerShips/' + user.id, { headers: headers})    
-                .then(response => {setShips(response.data); console.log(response.data)});
+                .then(response => {
+
+                    var ships = response.data;
+                    var allShips = [];
+                    for(let ship of ships){
+                        if(ship.profileImage == ""){
+                            ship.profileImage = noImg;
+                        }
+                        allShips.push(ship);
+                    }
+                    setShips(allShips);
+
+                });
         
         });
 
@@ -50,7 +63,7 @@ const ShipOwnerHomePage = () => {
                 <div className="lodge-card" key={ship.id}>
                     <div className="lodge-card-body">
                         <div className="lodge-image">
-                            <img  src={boat1}  />
+                            <img  src={ship.profileImage}  />
                         </div>
                         <Link to={'/ship/' + ship.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{ship.name}</div></Link>
                         

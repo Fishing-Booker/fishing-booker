@@ -11,9 +11,6 @@ Modal.setAppElement("#root")
 const ShipReservation = () => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [ship, setShip] = useState([]);
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [country, setCountry] = useState('')
     const [ownerName, setOwnerName] = useState('')
     const [ownerSurname, setOwnerSurname] = useState('')
     const { id } = useParams();
@@ -33,9 +30,6 @@ const ShipReservation = () => {
         axios.get(SERVER_URL + "/ships/ship?id=" + id)
             .then(response => {
                 setShip(response.data); 
-                setAddress(response.data.location.address);
-                setCity(response.data.location.city);
-                setCountry(response.data.location.country);
                 setOwnerName(response.data.owner.name);
                 setOwnerSurname(response.data.owner.surname);
                 setEntityId(response.data.id)
@@ -51,7 +45,7 @@ const ShipReservation = () => {
                     .then(response => setIsSubscribed(response.data))
             })
         
-    }, [id, isSubscribed])
+    }, [id, isSubscribed, modalIsOpen])
 
     const renderStars = (grade) => {
         let stars = []
@@ -112,15 +106,13 @@ const ShipReservation = () => {
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>
             <br></br>
-            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
-            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input>
+            <input className="reservation-date" type="datetime-local" value={startDate} onChange={(e) => setStartDate(e.target.value)}></input>
+            <input className="reservation-date" type="datetime-local" value={endDate} onChange={(e) => setEndDate(e.target.value)}></input>
             <a className="available-dates"  onClick={() => seeAvailableReservations(startDate, endDate)}>See available dates</a>
-            <Link to={`/lodge-actions/${id}`} className="available-dates" >See available actions</Link>
+            <Link to={`/ship-actions/${id}`} className="available-dates" >See available actions</Link>
             <br></br> <br></br>
             {periods}
             <NewReservation modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} startOfPeriod={start} endOfPeriod={end} maxGuests={maxPersons}/>
-
-
         </div>
     )
 }

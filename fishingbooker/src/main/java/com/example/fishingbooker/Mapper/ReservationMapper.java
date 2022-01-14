@@ -9,9 +9,11 @@ public class ReservationMapper {
 
     public static ReservationDTO mapToDTO(Reservation reservation) {
         ReservationDTO dto = new ReservationDTO();
+        dto.setReservationId(reservation.getId());
         dto.setStartDate(reservation.getStartDate());
         dto.setEndDate(reservation.getEndDate());
         dto.setEntityName(reservation.getReservationEntity().getName());
+        dto.setEntityId(reservation.getReservationEntity().getId());
         return dto;
     }
 

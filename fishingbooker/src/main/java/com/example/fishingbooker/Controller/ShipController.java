@@ -1,15 +1,14 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.ShipDTO;
-import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.ship.AddShipDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
+import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.IService.IUserService;
-import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class ShipController {
     private IReservationEntityService entityService;
 
     @GetMapping("/ownerShips/{id}")
-    public List<Ship> getOwnerShips(@PathVariable Integer id){
+    public List<ShipDTO> getOwnerShips(@PathVariable Integer id) throws IOException {
         return shipService.findOwnerShips(id);
     }
 
@@ -51,7 +51,7 @@ public class ShipController {
     }
 
     @PostMapping("/addShip")
-    public ResponseEntity<Ship> addShip(@RequestBody ShipDTO shipDTO){
+    public ResponseEntity<Ship> addShip(@RequestBody AddShipDTO shipDTO){
 
         Ship ship = new Ship();
 
