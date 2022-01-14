@@ -2,13 +2,15 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import moment from "moment";
+import { useToasts } from "react-toast-notifications";
 
 const Reservation = () => {
     const [reservations, setReservations] = useState([]);
     const SERVER_URL = process.env.REACT_APP_API;
+    const { addToast } = useToasts();
     var today = new Date();
 	const startDate = (moment(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()).format('YYYY-MM-DD'))
-    console.log(startDate);
+    const [isCanceled, setIsCanceled] = useState(false)
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -18,7 +20,18 @@ const Reservation = () => {
                 axios.post(SERVER_URL + "/reservations/currentReservations", dto)
                     .then(res => setReservations(res.data))
             })
-    }, [])
+    }, [isCanceled])
+
+    const handleCanceling = (start, id) => {
+        var differenceInTime = new Date(start) - today;
+        var differenceInDays = differenceInTime / (1000 * 3600 * 24)
+        if (differenceInDays < 4) {
+            addToast("It's not possible to cancel the reservation 3 days before its start!", { appearance: "error" })
+        } else {
+            axios.delete(SERVER_URL + "/reservations/cancel/" + id)
+                .then(setIsCanceled(!isCanceled))
+        }
+    }
 
     const allReservations = reservations.length ? (
         reservations.map((reservation, index) => {
@@ -27,7 +40,7 @@ const Reservation = () => {
                     <div className="card res-actions-div">
                         <div className="info"> <br></br>
                             <p className="entity-info name">Reservation #{index}: {reservation.entityName}</p>
-                            <a className="subscribe-link">cancel reservation</a>
+                            <a className="subscribe-link" onClick={() => handleCanceling(reservation.startDate, reservation.reservationId)}>cancel reservation</a>
                             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '47vw', marginLeft: '15px'}}></div>
                             <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '20px'}}>Reservation period:</p>
                             <p style={{color: 'black', fontWeight: '700', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(reservation.startDate, 'dd.MM.yyyy')} - {format(reservation.endDate, 'dd.MM.yyyy.')}</p>

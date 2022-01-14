@@ -24,4 +24,6 @@ public interface IReservationService {
     void makeReservation(ClientReservationDTO dto);
 
     List<ReservationDTO> getCurrentReservation(Date date, Integer clientId);
+
+    void cancelReservation(Integer id);
 }

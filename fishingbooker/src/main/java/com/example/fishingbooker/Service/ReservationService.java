@@ -116,6 +116,11 @@ public class ReservationService implements IReservationService {
         return reservationsDTO;
     }
 
+    @Override
+    public void cancelReservation(Integer id) {
+        reservationRepository.cancelReservation(id);
+    }
+
     private boolean isReservationActive(ReservationDTO reservation){
         return reservation.getStartDate().before(new Date()) && reservation.getEndDate().after(new Date());
     }

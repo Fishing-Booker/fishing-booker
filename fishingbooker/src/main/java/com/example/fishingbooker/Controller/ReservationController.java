@@ -64,4 +64,10 @@ public class ReservationController {
     public List<ReservationDTO> getCurrentReservations(@RequestBody ReservationDateDTO dto) {
         return reservationService.getCurrentReservation(dto.getDate(), dto.getClientId());
     }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<String> cancelReservation(@PathVariable Integer id) {
+        reservationService.cancelReservation(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
