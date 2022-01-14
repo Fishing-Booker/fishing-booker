@@ -3,9 +3,11 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
+import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
 import com.example.fishingbooker.IRepository.IShipRepository;
+import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.Mapper.ShipMapper;
@@ -13,6 +15,7 @@ import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -29,6 +32,7 @@ public class ShipService implements IShipService {
 
     @Autowired
     private IReservationPeriodOwnerRepository ownerPeriodRepository;
+    private IImageService imageService;
 
     @Override
     public Ship save(Ship ship) {
@@ -36,11 +40,11 @@ public class ShipService implements IShipService {
     }
 
     @Override
-    public List<Ship> findOwnerShips(Integer ownerId) {
-        List<Ship> ships = shipRepository.findOwnerShips(ownerId);
-        for (Ship s : ships) {
-            s.setOwner(null);
-            s.setImages(null);
+    public List<ShipDTO> findOwnerShips(Integer ownerId) throws IOException {
+        List<ShipDTO> ships = new ArrayList<>();
+        for (Ship s : shipRepository.findOwnerShips(ownerId)) {
+            ships.add(new ShipDTO(s.getId(), ownerId, s.getName(), s.getLocation(), s.getDescription(),
+                    s.getAverageGrade(), imageService.getEntityProfileImage(s.getId())));
         }
         return ships;
     }

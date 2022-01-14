@@ -58,6 +58,7 @@ import AdminHomepage from "./admin/adminHomepage";
 import LodgeReservationActions from "./client/lodgeReservationActions";
 import ShipReservationActions from "./client/shipReservationActions";
 import AdventureReservationActions from "./client/adventureReservationActions";
+import ShipImages from "./ship/shipImages";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -197,6 +198,7 @@ const FrontPage = () => {
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/ship/:shipId"><ShipProfile/></Route>
+                        <Route path="/shipImages/:shipId"><ShipImages/></Route>
                         <Route path="/shipRules/:shipId"><ShipRules/></Route>
                         <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
                         <Route path="/shipFishEq/:shipId"><ShipFishingEquipment/></Route>
