@@ -1,10 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import Modal from "react-modal";
+import ReservationRating from "./modals/reservationRating";
+import ReservationReport from "./modals/reservationReport";
 
 const ReservationHistory = () => {
     const [reservations, setReservations] = useState([]);
     const SERVER_URL = process.env.REACT_APP_API;
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [modalReportIsOpen, setModalReportIsOpen] = useState(false)
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -22,10 +27,11 @@ const ReservationHistory = () => {
                     <div className="card res-actions-div">
                         <div className="info"> <br></br>
                             <p className="entity-info name">Reservation #{index}: {reservation.entityName}</p>
-                            <a className="subscribe-link">leave a comment</a>
+                            <a className="subscribe-link" onClick={() => setModalIsOpen(true)}>leave a comment</a>
                             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '47vw', marginLeft: '15px'}}></div>
                             <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '20px'}}>Reservation period:</p>
                             <p style={{color: 'black', fontWeight: '700', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(reservation.startDate, 'dd.MM.yyyy')} - {format(reservation.endDate, 'dd.MM.yyyy.')}</p>
+                            <a className="reservation-link" onClick={() => setModalReportIsOpen(true)}>report</a>
                         </div>
                     </div>
                 </div>
@@ -42,6 +48,8 @@ const ReservationHistory = () => {
             position: 'absolute'}}>
             <h1 className="title-reservation">Reservation history</h1> <br></br>
             {allReservations}
+            <ReservationRating modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} />
+            <ReservationReport modalIsOpen={modalReportIsOpen} setModalIsOpen={setModalReportIsOpen} />
             </div>
         </div>
     )
