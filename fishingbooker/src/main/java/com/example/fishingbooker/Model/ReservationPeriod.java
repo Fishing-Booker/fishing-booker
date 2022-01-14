@@ -33,6 +33,12 @@ public class ReservationPeriod {
         this.reservationEntity = reservationEntity;
     }
 
+    public ReservationPeriod(Date startDate, Date endDate, ReservationEntity reservationEntity) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.reservationEntity = reservationEntity;
+    }
+
     public Integer getId() {
         return id;
     }
