@@ -32,6 +32,8 @@ public class ShipService implements IShipService {
 
     @Autowired
     private IReservationPeriodOwnerRepository ownerPeriodRepository;
+
+    @Autowired
     private IImageService imageService;
 
     @Override
