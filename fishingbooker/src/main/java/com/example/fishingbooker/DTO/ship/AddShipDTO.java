@@ -1,6 +1,6 @@
-package com.example.fishingbooker.DTO;
+package com.example.fishingbooker.DTO.ship;
 
-public class ShipDTO {
+public class AddShipDTO {
 
     private Integer owner;
     private String name;
@@ -15,10 +15,10 @@ public class ShipDTO {
     private double maxSpeed;
     private Integer capacity;
 
-    public ShipDTO() {
+    public AddShipDTO() {
     }
 
-    public ShipDTO(Integer owner, String name, String address, String city, String country, String description, String shipType, double length, Integer engineNumber, double enginePower, double maxSpeed, Integer capacity) {
+    public AddShipDTO(Integer owner, String name, String address, String city, String country, String description, String shipType, double length, Integer engineNumber, double enginePower, double maxSpeed, Integer capacity) {
         this.owner = owner;
         this.name = name;
         this.address = address;

@@ -1,16 +1,18 @@
 package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.Model.Ship;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IShipService {
 
     Ship save(Ship ship);
 
-    List<Ship> findOwnerShips(Integer ownerId);
+    List<ShipDTO> findOwnerShips(Integer ownerId) throws IOException;
 
     void deleteShip(Integer shipId);
 
