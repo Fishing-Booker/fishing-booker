@@ -3,21 +3,18 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.reservationAction.AddReservationActionDTO;
 import com.example.fishingbooker.DTO.reservationAction.ReservationActionDTO;
 import com.example.fishingbooker.Enum.ReservationType;
-import com.example.fishingbooker.IRepository.IReservationActionRepository;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationActionService;
 import com.example.fishingbooker.IService.ISubscriberService;
-import com.example.fishingbooker.Model.ReservationAction;
+import com.example.fishingbooker.Model.Reservation;
 import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -35,9 +32,6 @@ public class ReservationActionService implements IReservationActionService {
     private IReservationEntityRepository entityRepository;
 
     @Autowired
-    private IReservationActionRepository actionRepository;
-
-    @Autowired
     private ISubscriberService subscriberService;
 
     @Autowired
@@ -45,7 +39,7 @@ public class ReservationActionService implements IReservationActionService {
 
     @Override
     public void save(AddReservationActionDTO dto){
-        ReservationAction action = new ReservationAction();
+        Reservation action = new Reservation();
         action.setStartDate(dto.getStartDate());
         action.setEndDate(dto.getEndDate());
         action.setMaxPersons(dto.getMaxPersons());
@@ -55,13 +49,13 @@ public class ReservationActionService implements IReservationActionService {
         action.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getOwner()));
         action.setAdditionalServices(dto.getAdditionalServices());
         action.setBooked(false);
-        actionRepository.save(action);
+        reservationRepository.save(action);
     }
 
     @Override
     public List<ReservationActionDTO> findEntityActions(Integer entityId){
         List<ReservationActionDTO> actions = new ArrayList<>();
-        for (ReservationAction action : actionRepository.findEntityActions(entityId)) {
+        for (Reservation action : reservationRepository.findEntityActions(entityId, ReservationType.quickReservation)) {
             ReservationActionDTO dto = new ReservationActionDTO();
             dto.setActionId(action.getId());
             dto.setStartDate(action.getStartDate());
@@ -78,14 +72,14 @@ public class ReservationActionService implements IReservationActionService {
 
     @Override
     public void makeReservation(Integer actionId, Integer clientId) throws MessagingException, UnsupportedEncodingException {
-        actionRepository.makeReservation(actionId, clientId);
+        reservationRepository.makeReservation(actionId, clientId);
         subscriberService.sendEmailWithActionReservationInfo(clientId);
     }
 
     @Override
     public List<ReservationActionDTO> getAvailableActions(Integer id) {
         List<ReservationActionDTO> availableActions = new ArrayList<>();
-        for (ReservationAction action : actionRepository.findEntityActions(id)) {
+        for (Reservation action : reservationRepository.findEntityActions(id, ReservationType.quickReservation)) {
             if (action.isBooked() == false) {
                 ReservationActionDTO dto = new ReservationActionDTO();
                 dto.setActionId(action.getId());
@@ -104,10 +98,10 @@ public class ReservationActionService implements IReservationActionService {
 
     @Override
     public void deleteAction(Integer id) {
-        actionRepository.deleteById(id);
+        reservationRepository.deleteById(id);
     }
 
-    private String getIsActionBooked(ReservationAction action){
+    private String getIsActionBooked(Reservation action){
         if(Objects.equals(action.getReservationEntity().getOwner().getId(), action.getClient().getId())){
             return "free";
         } else {

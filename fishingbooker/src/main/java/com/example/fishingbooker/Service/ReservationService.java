@@ -2,10 +2,7 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.ReservationEntityDTO;
-import com.example.fishingbooker.DTO.reservation.ActiveReservationDTO;
-import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ReservationDTO;
+import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
@@ -177,6 +174,15 @@ public class ReservationService implements IReservationService {
     @Override
     public void makeReservation(ClientReservationDTO dto) {
         Reservation reservation = ReservationMapper.mapDTOToModel(dto);
+        reservation.setClient(userRepository.getById(dto.getClientId()));
+        reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
+        reservationRepository.save(reservation);
+        emailService.sendEmailAfterReservation(dto.getClientId());
+    }
+
+    @Override
+    public void makeReservationOwner(OwnerReservationDTO dto) {
+        Reservation reservation = ReservationMapper.ownerMapDTOToModel(dto);
         reservation.setClient(userRepository.getById(dto.getClientId()));
         reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
         reservationRepository.save(reservation);

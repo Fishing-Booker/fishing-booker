@@ -2,10 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
-import com.example.fishingbooker.DTO.reservation.ActiveReservationDTO;
-import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ReservationDTO;
+import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.IService.IReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +25,8 @@ public class ReservationController {
 
     @PostMapping("/addReservation")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> addReservation(@RequestBody AddReservationDTO reservation){
-        reservationService.save(reservation);
+    public ResponseEntity<String> addReservation(@RequestBody OwnerReservationDTO reservation){
+        reservationService.makeReservationOwner(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

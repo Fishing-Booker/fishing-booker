@@ -63,7 +63,6 @@ import InstructorReservations from "./instructor/instructorReservations";
 import ShipPriceList from "./ship/shipPricelist";
 import ReservationHistoryOwner from "./reservationHistory";
 import Feedbacks from "./admin/feedbacks";
-import ShipPriceList from "./ship/shipPricelist";
 import ShipReservationCalendar from "./ship/shipReservationCalendar";
 import ShipActions from "./ship/shipActions";
 import ShipOwnerReservationCalendar from "./ship/shipOwnerReservationCalendar";

@@ -23,6 +23,8 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
     const [servicesR, setServicesR] = useState([]);
     const [choosenServices, setChoosenServices] = useState([]);
     const [choosenServicesR, setChoosenServicesR] = useState("");
+    const [additionalServices, setAdditionalServices] = useState("");
+    const [regularService, setRegularService] = useState("");
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -77,7 +79,10 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
         entityId,
         startDate,
         endDate,
-        numberOfGuests
+        numberOfGuests,
+        additionalServices,
+        regularService,
+        price
     }
 
     const setServicesAsString = () => {
@@ -128,6 +133,15 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
         if(startDate==="" || endDate === "" || choosenServicesR === []) {
             addToast("You have to set all fields!", { appearance: "error" });
         }
+        dto.additionalServices = setServicesAsString();
+        dto.regularService = choosenServicesR;
+
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
+        .then(response => {
+            addToast("You made reservation successfully!", {appearance : "success"})
+        })
+
     }
 
     return (

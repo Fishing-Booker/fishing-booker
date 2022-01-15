@@ -103,15 +103,17 @@ const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen, adventureId}) => {
         for(let i = 0; i < _additional.length; i++) {
             services.push(_additional[i]);
         }
-        for(let i = 0; i < _regular.length; i++) {
-            for(let j = 0; j < maxPersons; j++) {
-                services.push(_regular[i]);
+        if(_regular[0] !== "") {
+            for(let i = 0; i < _regular.length; i++) {
+                for(let j = 0; j < maxPersons; j++) {
+                    services.push(_regular[i]);
+                }
+                
             }
-            
         }
         for(let i = 0; i < services.length; i++) {
             var split1 = services[i].split(" ");
-            var split2 = split1[1].split("$")
+            var split2 = split1[split1.length-1].split("$")
             price += parseInt(split2[0]);
         }
         setPrice(price);
@@ -144,6 +146,7 @@ const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen, adventureId}) => {
                                     <div className="data">
                                         <h4>Regular services:</h4>
                                         <select  value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
+                                            <option></option>
                                             {servicesR.map((service) => (
                                                 <option>
                                                     {service.service_name} {service.price}$

@@ -42,6 +42,8 @@ public class ReservationActionController {
 
     @PostMapping("/makeReservation")
     public ResponseEntity<String> makeReservation(@RequestBody MakeReservationDTO dto) throws MessagingException, UnsupportedEncodingException {
+        System.out.println(dto.getActionId());
+        System.out.println(dto.getClientId());
         actionService.makeReservation(dto.getActionId(), dto.getClientId());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

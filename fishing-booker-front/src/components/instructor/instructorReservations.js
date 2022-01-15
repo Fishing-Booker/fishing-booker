@@ -62,6 +62,7 @@ const InstructorReservations = () => {
                 setAddReservationForm(true);
             } else {
                 addToast("There isn't any active reservation.", { appearance: "error" });
+                setAddReservationForm(true);
             }
         })
     }
