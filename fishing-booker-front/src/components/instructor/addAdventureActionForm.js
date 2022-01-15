@@ -109,7 +109,6 @@ const AddAdventureActionFrom = ({modalIsOpen, setModalIsOpen, adventureId}) => {
             }
             
         }
-        console.log(services);
         for(let i = 0; i < services.length; i++) {
             var split1 = services[i].split(" ");
             var split2 = split1[1].split("$")

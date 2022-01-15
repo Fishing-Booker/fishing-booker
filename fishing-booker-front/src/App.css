@@ -267,6 +267,18 @@ h5 {
 	cursor: pointer;
 }
 
+.reservation-link2 {
+	text-decoration: none;
+	font-weight: 600;
+	color: darkblue;
+	position: absolute;
+	right: 0;
+	bottom: 2;
+	margin-right: 2%;
+	margin-top: 2%;
+	cursor: pointer;
+}
+
 .cancel-link {
 	text-decoration: none;
 	font-weight: 600;
@@ -464,6 +476,13 @@ h5 {
 	border-radius: 5px;
 }
 
+.reservation-client {
+	margin-left: 45px;
+	margin-top: 20px;
+	height: 30px;
+	width: 200px;
+}
+
 .modal {
 	margin-left: 55px;
 	margin-top: 15px;
@@ -541,3 +560,21 @@ h5 {
 	margin-left: 55px;
 	margin-top: 15px;
 }
+
+.card-res {
+	width: 80vw;
+	height: 90vh;
+	display: inline-block;
+	border-radius: 10px;
+	padding: 15px 25px;
+	box-sizing: border-box;
+	cursor: pointer;
+	margin: 2% 12%;
+	background-position: center;
+	background-size: cover;
+	transition: transform 0.5s;
+	position: relative;
+	overflow: scroll;
+}
+
+

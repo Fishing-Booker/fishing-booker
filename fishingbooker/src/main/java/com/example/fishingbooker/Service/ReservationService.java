@@ -1,6 +1,8 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.ReservationEntityDTO;
+import com.example.fishingbooker.DTO.reservation.ActiveReservationDTO;
 import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
@@ -75,6 +77,35 @@ public class ReservationService implements IReservationService {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public List<ClientDTO> getClientsOfActiveReservations(Integer ownerId) {
+        List<ClientDTO> clientDTOS = new ArrayList<>();
+        List<ReservationDTO> reservations = findOwnerEntitiesReservations(ownerId);
+        for (ReservationDTO reservation : reservations) {
+            if(isReservationActive(reservation)) {
+                User user = userRepository.findByUsername(reservation.getClientUsername());
+                ClientDTO dto = new ClientDTO(user.getId(), user.getName());
+                clientDTOS.add(dto);
+            }
+        }
+        return clientDTOS;
+    }
+
+    @Override
+    public ActiveReservationDTO getEntityNameOfClientActiveReservation(Integer ownerId, String clientName) {
+        List<ReservationDTO> reservations = findOwnerEntitiesReservations(ownerId);
+        for (ReservationDTO reservation : reservations) {
+            if(isReservationActive(reservation)) {
+                User user = userRepository.findByUsername(reservation.getClientUsername());
+                if(user.getName().equals(clientName)) {
+                    ReservationEntity entity = entityRepository.findEntityById(reservation.getEntityId());
+                    return new ActiveReservationDTO(reservation.getEntityId(), reservation.getEntityName(), entity.getMaxPersons());
+                }
+            }
+        }
+        return null;
     }
 
     @Override

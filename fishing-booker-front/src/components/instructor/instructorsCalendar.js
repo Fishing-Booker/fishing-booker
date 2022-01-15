@@ -24,6 +24,7 @@ const InstructorsCalendar = () => {
         axios.get(SERVER_URL + "/ownerPeriods/getOwnerReservationPeriods", {headers: headers})
           .then(response => {
             var dates = response.data;
+            console.log(response.data);
             for(let dat of dates) {
                 dat.startDate = format(dat.startDate, 'yyyy-MM-dd kk:mm');
                 dat.endDate = format(dat.endDate, 'yyyy-MM-dd kk:mm');

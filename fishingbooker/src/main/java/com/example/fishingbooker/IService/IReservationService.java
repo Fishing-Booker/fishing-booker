@@ -1,5 +1,7 @@
 package com.example.fishingbooker.IService;
 
+import com.example.fishingbooker.DTO.ClientDTO;
+import com.example.fishingbooker.DTO.reservation.ActiveReservationDTO;
 import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
@@ -26,4 +28,8 @@ public interface IReservationService {
     List<ReservationDTO> getCurrentReservation(Date date, Integer clientId);
 
     void cancelReservation(Integer id);
+
+    List<ClientDTO> getClientsOfActiveReservations(Integer ownerId);
+
+    ActiveReservationDTO getEntityNameOfClientActiveReservation(Integer ownerId, String clientName);
 }
