@@ -19,8 +19,9 @@ const ShipFishingEquipment = () => {
     const [equipment, setEquipment] = useState("");
 
     const eq = {
-        owner: user.id,
-        equipment
+        ownerId: user.id,
+        entityId: shipId,
+        name: equipment
     }
 
     useEffect(() => {
@@ -42,7 +43,7 @@ const ShipFishingEquipment = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         console.log(equipment);
-        axios.put(SERVER_URL + '/fishEquipment/addFishingEquipment/' + shipId, eq, {headers: headers})
+        axios.put(SERVER_URL + '/fishEquipment/addFishingEquipment', eq, {headers: headers})
         .then(response => {
             window.location.reload();
         })
@@ -61,7 +62,7 @@ const ShipFishingEquipment = () => {
         fishEq.map(eq => {
             return (
                 <div key={eq.id}>
-                    * {eq.name}
+                    * {eq.equipment}
                     <br/><br/>
                 </div>
             )
@@ -76,8 +77,8 @@ const ShipFishingEquipment = () => {
         fishEq.map((eq) => {
             return (
                 <div key={eq.id}>
-                    * {eq.name} 
-                    <button className='rules-btn' onClick={() => deleteFishEq(eq.id)} >
+                    * {eq.equipment} 
+                    <button className='rules-btn' onClick={() => deleteFishEq(eq.entityId)} >
                         <img src={deleteImg} />
                     </button>
                     <br/><br/>
@@ -115,11 +116,11 @@ const ShipFishingEquipment = () => {
                 <h4>SHIP PROFILE</h4><br/>
                 <Link className="sidebar-link" to={"/shipNavEq/" + shipId}>Navigation equipment</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipFishEq/" + shipId}>Fishing equipment</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgePricelist/"}>Pricelist</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipPricelist/" + shipId}>Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipActions/" + shipId}>Actions</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipReservationCalendar/" + shipId}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">

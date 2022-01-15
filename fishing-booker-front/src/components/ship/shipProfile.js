@@ -61,7 +61,7 @@ const ShipProfile = () => {
                 setEngineNumber(ship.engineNumber);
                 setEnginePower(ship.enginePower);
                 setMaxSpeed(ship.maxSpeed);
-                setCapacity(ship.capacity);
+                setCapacity(ship.maxPersons);
             });
 
     }, []) 

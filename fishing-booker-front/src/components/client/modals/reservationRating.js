@@ -2,12 +2,14 @@ import Modal from "react-modal"
 import { Rating } from "react-simple-star-rating"
 import { useState } from "react"
 import axios from "axios"
+import { useToasts } from "react-toast-notifications";
 
 const ReservationRating = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
     const SERVER_URL = process.env.REACT_APP_API;
     const [grade, setGrade] = useState('')
+    const { addToast } = useToasts();
 
     const dto = {
         entityId: entityId,
@@ -17,7 +19,6 @@ const ReservationRating = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const handleRating = (rate) => {
         setRating(rate / 20)
-        //console.log(rate / 20)
         setGrade(rate / 20)
         console.log(dto.grade)
     }
@@ -25,6 +26,8 @@ const ReservationRating = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const handleSubmit = () => {
         axios.post(SERVER_URL + "/rating/add", dto)
             .then(response => console.log(response.data))
+        addToast("Your comment is successfully recorded!", { appearance: "success" });
+        setModalIsOpen(false);
     }
 
     return (

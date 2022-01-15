@@ -14,7 +14,7 @@ public class ShipMapper {
         dto.setAverageGrade(ship.getAverageGrade());
         dto.setRules(ship.getRules());
         dto.setCancelConditions(ship.getCancelConditions());
-        dto.setCapacity(ship.getCapacity());
+        dto.setCapacity(ship.getMaxPersons());
         dto.setLength(ship.getLength());
         dto.setMaxSpeed(ship.getMaxSpeed());
         dto.setLocation(new LocationDTO(ship.getLocation().getAddress(), ship.getLocation().getCity(), ship.getLocation().getCountry()));
