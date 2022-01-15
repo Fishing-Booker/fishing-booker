@@ -10,20 +10,12 @@ import AddLodgeReport from './lodge/addLodgeReport';
 import ClientProfile from './clientProfile';
 const ReservationHistoryOwner = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
-
-    const [addReservationForm, setAddReservationForm] = useState(false);
     const [clientModal, setClientModal] = useState(false);
     const [addReportForm, setAddReportForm] = useState(false);
-
     const [reservationId, setReservationId] = useState("");
-
     const [user, setUser] = useState([]);
-
     const [reservations, setReservations] = useState([]);
-
     const [client, setClient] = useState("");
-
-    const { addToast } = useToasts();
 
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}

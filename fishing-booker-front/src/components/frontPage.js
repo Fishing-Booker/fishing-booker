@@ -62,6 +62,7 @@ import ShipImages from "./ship/shipImages";
 import InstructorReservations from "./instructor/instructorReservations";
 import ShipPriceList from "./ship/shipPricelist";
 import ReservationHistoryOwner from "./reservationHistory";
+import Feedbacks from "./admin/feedbacks";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -153,6 +154,7 @@ const FrontPage = () => {
                         <Route path="/deleteRequests"><DeleteRequest/></Route>
                         <Route path="/userList"><UserList/></Route>
                         <Route path="/userInfo/:userId"><UserInfo/></Route>
+                        <Route path="/feedbacks"><Feedbacks/></Route>
                     </Switch>
                 }
 
