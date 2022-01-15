@@ -85,4 +85,16 @@ public class ReservationController {
     public ActiveReservationDTO getEntityNameOfClientActiveReservation(@PathVariable Integer ownerId, @PathVariable String clientName){
         return reservationService.getEntityNameOfClientActiveReservation(ownerId, clientName);
     }
+
+    @GetMapping("/getFutureOwnerEntitiesReservations/{id}")
+    public List<ReservationDTO> getFutureOwnerEntitiesReservations(@PathVariable Integer id){
+        return reservationService.findFutureOwnerEntitiesReservations(id);
+    }
+
+    @GetMapping("/getPastOwnerEntitiesReservations/{id}")
+    public List<ReservationDTO> getPastOwnerEntitiesReservations(@PathVariable Integer id){
+        return reservationService.findPastOwnerEntitiesReservations(id);
+    }
+
+
 }

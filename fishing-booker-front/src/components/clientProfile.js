@@ -14,7 +14,7 @@ const ClientProfile = ({modalIsOpen, setModalIsOpen, clientUsername}) => {
 
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
-
+        console.log(clientUsername);
         axios.get(SERVER_URL + "/users/user/" + clientUsername, { headers: headers })
             .then(response => {
                 setClient(response.data);

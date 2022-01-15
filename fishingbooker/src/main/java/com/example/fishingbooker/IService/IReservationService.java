@@ -15,6 +15,10 @@ public interface IReservationService {
 
     List<ReservationDTO> findOwnerEntitiesReservations(Integer ownerId);
 
+    List<ReservationDTO> findFutureOwnerEntitiesReservations(Integer ownerId);
+
+    List<ReservationDTO> findPastOwnerEntitiesReservations(Integer ownerId);
+
     void save(AddReservationDTO dto);
 
     boolean checkActiveReservations(Integer ownerId);

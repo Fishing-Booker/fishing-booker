@@ -45,12 +45,14 @@ const Navbar = () => {
                 <nav>
                     <ul>
                         <li><Link to="/"> HOME</Link></li>
-                        {isLogged ? (<li><Link to="/profile">MY PROFILE</Link></li>) : null}
+                        {isLogged ? (<li><Link to="/profile">PROFILE</Link></li>) : null}
                         {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
                         {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
-                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/reservations/${user.id}`}>RESERVATIONS</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/reservations`}>RESERVATIONS</Link></li>}
+                        {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/reservationHistory`}>RESERVATION HISTORY</Link></li>}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/instructorsCalendar`}>MY CALENDAR</Link></li>}
-                        {userRole==="ROLE_LODGEOWNER" && <li><Link to="/lodgeReservations">RESERVATION HISTORY</Link></li>}
+                        {userRole==="ROLE_LODGEOWNER" && <li><Link to="/lodgeReservations">RESERVATIONS</Link></li>}
+                        {userRole==="ROLE_LODGEOWNER" && <li><Link to={`/reservationHistory`}>RESERVATION HISTORY</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/accountRequests">ACCOUNT REQUESTS</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/deleteRequests">DELETE REQUESTS</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/userList">USERS</Link></li>}

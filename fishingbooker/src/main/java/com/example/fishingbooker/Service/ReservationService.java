@@ -48,11 +48,57 @@ public class ReservationService implements IReservationService {
         return reservations;
     }
 
+    private List<ReservationDTO> findFutureEntityReservations(Integer entityId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (Reservation r : reservationRepository.findEntityReservations(entityId)) {
+            Date date = new Date();
+            if(r.getEndDate().after(date)) {
+                reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
+                        r.getReservationEntity().getName()));
+            }
+        }
+        return reservations;
+    }
+
+    private List<ReservationDTO> findPastEntityReservations(Integer entityId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (Reservation r : reservationRepository.findEntityReservations(entityId)) {
+            Date date = new Date();
+            if(r.getEndDate().before(date)) {
+                reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
+                        r.getReservationEntity().getName()));
+            }
+        }
+        return reservations;
+    }
+
+
+
     @Override
     public List<ReservationDTO> findOwnerEntitiesReservations(Integer ownerId) {
         List<ReservationDTO> reservations = new ArrayList<>();
         for (ReservationEntity entity : entityRepository.findOwnerEntities(ownerId)) {
             List<ReservationDTO> entityReservations = findEntityReservations(entity.getId());
+            reservations.addAll(entityReservations);
+        }
+        return reservations;
+    }
+
+    @Override
+    public List<ReservationDTO> findFutureOwnerEntitiesReservations(Integer ownerId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (ReservationEntity entity : entityRepository.findOwnerEntities(ownerId)) {
+            List<ReservationDTO> entityReservations = findFutureEntityReservations(entity.getId());
+            reservations.addAll(entityReservations);
+        }
+        return reservations;
+    }
+
+    @Override
+    public List<ReservationDTO> findPastOwnerEntitiesReservations(Integer ownerId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (ReservationEntity entity : entityRepository.findOwnerEntities(ownerId)) {
+            List<ReservationDTO> entityReservations = findPastEntityReservations(entity.getId());
             reservations.addAll(entityReservations);
         }
         return reservations;

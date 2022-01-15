@@ -28,7 +28,7 @@ const ReservationHistory = () => {
                 <div className="col" key={index}>
                     <div className="card res-actions-div">
                         <div className="info"> <br></br>
-                            <p className="entity-info name">Reservation #{index}: {reservation.entityName}</p>
+                            <p className="entity-info name">Reservation #{index+1}: {reservation.entityName}</p>
                             <a className="subscribe-link" onClick={() => {setModalIsOpen(true); setEntityId(reservation.entityId)}}>leave a comment</a>
                             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '47vw', marginLeft: '15px'}}></div>
                             <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '20px'}}>Reservation period:</p>

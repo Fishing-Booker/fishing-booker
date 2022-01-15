@@ -61,6 +61,7 @@ import AdventureReservationActions from "./client/adventureReservationActions";
 import ShipImages from "./ship/shipImages";
 import InstructorReservations from "./instructor/instructorReservations";
 import ShipPriceList from "./ship/shipPricelist";
+import ReservationHistoryOwner from "./reservationHistory";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -138,6 +139,7 @@ const FrontPage = () => {
                         <Route path="/clientProfile"><ClientProfile/></Route>
                         <Route path="/addLodgeReservationPeriod"><AddLodgeReservationPeriod/></Route>
                         <Route path="/lodgeReservationCalendar/:lodgeId"><LodgeReservationCalendar/></Route>
+                        <Route path="/reservationHistory"><ReservationHistoryOwner/></Route>
                     </Switch>
 
                 }
@@ -165,7 +167,8 @@ const FrontPage = () => {
                         <Route path="/adventurePricelist/:adventureId"><AdventurePricelist/></Route>
                         <Route path="/adventureActions/:adventureId"><AdventureActions/></Route>
                         <Route path="/instructorsCalendar"><InstructorsCalendar/></Route>
-                        <Route path="/reservations/:id"><InstructorReservations/></Route>
+                        <Route path="/reservations"><InstructorReservations/></Route>
+                        <Route path="/reservationHistory"><ReservationHistoryOwner/></Route>
                     </Switch>
                 }
 
