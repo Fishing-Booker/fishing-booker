@@ -6,6 +6,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { useToasts } from "react-toast-notifications";
 import commentImg from '../../images/comment.png';
+import AddShipReservationByOwner from './addShipReservationByOwner';
 
 const ShipReservations = () => {
 
@@ -113,6 +114,7 @@ const ShipReservations = () => {
                 </div>
             </div>
 
+        <AddShipReservationByOwner modalIsOpen={addReservationForm} setModalIsOpen={setAddReservationForm} />
         </div>
     )
     

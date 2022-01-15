@@ -88,4 +88,9 @@ public class ReservationEntityService implements IReservationEntityService {
     public Integer getOwnerId(Integer entityId) {
         return entityRepository.getOwnerId(entityId);
     }
+
+    @Override
+    public ReservationEntity findOwnerEntityByName(String entityName, Integer ownerId) {
+        return entityRepository.findOwnerEntityByName(entityName, ownerId);
+    }
 }

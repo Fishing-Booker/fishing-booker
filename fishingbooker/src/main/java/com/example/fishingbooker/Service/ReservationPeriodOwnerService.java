@@ -4,14 +4,15 @@ import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
+import com.example.fishingbooker.IRepository.IShipOwnerReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
 import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Model.ReservationPeriodOwner;
+import com.example.fishingbooker.Model.ShipOwnerReservation;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,9 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
 
     @Autowired
     private IReservationService reservationService;
+
+    @Autowired
+    private IShipOwnerReservationRepository ownerRepository;
 
     @Override
     public void save(ReservationPeriodOwnerDTO dto) {
@@ -119,6 +123,44 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
                 }
             } else {
                 ReservationPeriodDTO newPeriod = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), entityId); // owner id
+                newPeriods.add(newPeriod);
+            }
+        }
+        return  newPeriods;
+    }
+
+    public List<ReservationPeriodDTO> getPeriodsWhenOwnerIsFree(List<ReservationPeriodDTO> periods){
+        List<ShipOwnerReservation> ownersReservations = ownerRepository.findOwnerReservations(1);
+        return null;
+    }
+
+    @Override
+    public List<ReservationPeriodOwnerDTO> getShipOwnerFreePeriods(Integer ownerId){
+        List<ShipOwnerReservation> ownersReservations = ownerRepository.findOwnerReservations(ownerId);
+        List<ReservationPeriodOwnerDTO> freePeriods = findAllPeriods(ownerId);
+        for (ShipOwnerReservation r : ownersReservations) {
+            ReservationDTO dto = new ReservationDTO(r.getReservation().getId(), r.getReservation().getStartDate(),
+                    r.getReservation().getEndDate(), r.getReservation().getClient().getUsername(), r.getReservation().getReservationEntity().getId(),
+                    r.getReservation().getReservationEntity().getName());
+            freePeriods = getChangedOwnerPeriods(freePeriods, dto, ownerId);
+        }
+        return freePeriods;
+    }
+
+    private List<ReservationPeriodOwnerDTO> getChangedOwnerPeriods(List<ReservationPeriodOwnerDTO> periods, ReservationDTO reservation, Integer ownerId) {
+        List<ReservationPeriodOwnerDTO> newPeriods = new ArrayList<>();
+        for (ReservationPeriodOwnerDTO period : periods) {
+            if (period.getStartDate().before(reservation.getStartDate()) && period.getEndDate().after(reservation.getEndDate())) {
+                if (period.getStartDate().before(reservation.getStartDate())) {
+                    ReservationPeriodOwnerDTO newPeriod = new ReservationPeriodOwnerDTO(ownerId, period.getStartDate(), reservation.getStartDate());
+                    newPeriods.add(newPeriod);
+                }
+                if (reservation.getEndDate().before(period.getEndDate())) {
+                    ReservationPeriodOwnerDTO newPeriod = new ReservationPeriodOwnerDTO(ownerId, reservation.getEndDate(), period.getEndDate());
+                    newPeriods.add(newPeriod);
+                }
+            } else {
+                ReservationPeriodOwnerDTO newPeriod = new ReservationPeriodOwnerDTO(ownerId, period.getStartDate(), period.getEndDate());
                 newPeriods.add(newPeriod);
             }
         }

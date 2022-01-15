@@ -42,4 +42,6 @@ public interface IShipService {
     void addNavEquipment(String equipment, Integer shipId);
 
     void deleteNavEquipment(Integer eqIndex, Integer shipId);
+
+    List<String> getOwnerShipNames(Integer ownerId);
 }

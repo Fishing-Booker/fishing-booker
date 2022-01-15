@@ -3,6 +3,7 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
+import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationPeriodRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
@@ -40,6 +41,9 @@ public class ReservationPeriodService implements IReservationPeriodService {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IReservationPeriodOwnerService ownerService;
 
     @Override
     public void save(AddReservationPeriodDTO dto) {
@@ -148,5 +152,20 @@ public class ReservationPeriodService implements IReservationPeriodService {
         ReservationEntity entity = entityRepository.findEntityById(entityId);
         entity.setOwner(owner);
         return entity;
+    }
+
+    @Override
+    public List<ReservationPeriodDTO> findFreePeriodsForShipAndOwner(Integer entityId, Integer ownerId){
+        List<ReservationPeriodDTO> shipPeriods = findFreePeriods(entityId);
+        List<ReservationPeriodOwnerDTO> ownerPeriods = ownerService.getShipOwnerFreePeriods(ownerId);
+        List<ReservationPeriodDTO> freePeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : shipPeriods) {
+            for (ReservationPeriodOwnerDTO ownerPeriod : ownerPeriods) {
+                if(ownerPeriod.getStartDate().before(period.getStartDate()) && ownerPeriod.getEndDate().after(period.getEndDate())){
+                    freePeriods.add(period);
+                }
+            }
+        }
+        return  freePeriods;
     }
 }

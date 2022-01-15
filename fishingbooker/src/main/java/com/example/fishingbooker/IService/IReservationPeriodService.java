@@ -15,4 +15,6 @@ public interface IReservationPeriodService {
     List<ReservationPeriodDTO> findFreePeriods(Integer entityId);
 
     List<ReservationPeriodDTO> getAvailablePeriods(Integer entityId, Date startDate, Date endDate);
+
+    List<ReservationPeriodDTO> findFreePeriodsForShipAndOwner(Integer entityId, Integer ownerId);
 }

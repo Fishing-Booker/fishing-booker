@@ -192,4 +192,9 @@ public class ShipService implements IShipService {
         newEq = correctRules(newEq);
         shipRepository.addNavEquipment(newEq, shipId);
     }
+
+    @Override
+    public List<String> getOwnerShipNames(Integer ownerId) {
+        return shipRepository.getOwnerShipNames(ownerId);
+    }
 }
