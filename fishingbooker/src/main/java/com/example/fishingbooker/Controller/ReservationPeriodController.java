@@ -3,6 +3,7 @@ package com.example.fishingbooker.Controller;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IService.IReservationPeriodService;
+import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Service.ReservationEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,10 @@ public class ReservationPeriodController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/freePeriods/{id}")
-    public List<ReservationPeriodDTO> getFreePeriods(@PathVariable Integer id){
-        List<ReservationPeriodDTO> periods = periodService.findFreePeriods(id);
+    @GetMapping("/freePeriods/{owner}/{entity}")
+    public List<ReservationPeriodDTO> getFreePeriods(@PathVariable Integer owner, @PathVariable String entity){
+        ReservationEntity resEntity = entityService.findOwnerEntityByName(entity, owner);
+        List<ReservationPeriodDTO> periods = periodService.findFreePeriods(resEntity.getId());
         for (ReservationPeriodDTO period : periods) {
             System.out.println(period.getStartDate());
             System.out.println(period.getEndDate());
@@ -47,5 +49,12 @@ public class ReservationPeriodController {
     public List<ReservationPeriodDTO> getAvailablePeriods(@RequestBody ReservationPeriodDTO dto) {
         return periodService.getAvailablePeriods(dto.getEntityId(), dto.getStartDate(), dto.getEndDate());
     }
+
+    @GetMapping("/freeOwnerAndShipPeriods/{owner}/{entity}")
+    public List<ReservationPeriodDTO> getShipAndOwnerFreePeriods(@PathVariable Integer owner, @PathVariable String entity){
+        ReservationEntity resEntity = entityService.findOwnerEntityByName(entity, owner);
+        return periodService.findFreePeriodsForShipAndOwner(resEntity.getId(), owner);
+    }
+
 
 }

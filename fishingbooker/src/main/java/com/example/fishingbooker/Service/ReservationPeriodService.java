@@ -3,6 +3,7 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
+import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationPeriodRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
@@ -41,6 +42,9 @@ public class ReservationPeriodService implements IReservationPeriodService {
     @Autowired
     private IUserRepository userRepository;
 
+    @Autowired
+    private IReservationPeriodOwnerService ownerService;
+
     @Override
     public void save(AddReservationPeriodDTO dto) {
         ReservationPeriod newPeriod = new ReservationPeriod();
@@ -48,6 +52,45 @@ public class ReservationPeriodService implements IReservationPeriodService {
         newPeriod.setEndDate(dto.getEndDate());
         newPeriod.setReservationEntity(setEntity(dto.getEntityId(), dto.getOwner()));
         repository.save(newPeriod);
+        modifyPeriods(dto.getEntityId());
+    }
+
+    private void modifyPeriods(Integer entityId) {
+        List<ReservationPeriod> periodList = repository.findAllPeriods(entityId);
+        for (ReservationPeriod p : periodList) {
+            for(ReservationPeriod p2 : periodList) {
+                if(p.getId() == p2.getId()) continue;
+                if( ( p2.getStartDate().before(p.getStartDate()) || p2.getStartDate().equals(p.getStartDate()) )
+                        && (p2.getEndDate().after(p.getEndDate()) || p2.getEndDate().equals(p.getEndDate())) ) { //1111111111111111111
+                    repository.deletePeriod(p.getId());
+                    modifyPeriods(entityId);
+                    return;
+                } else if( (p2.getStartDate().after(p.getStartDate()) || p2.getStartDate().equals(p.getStartDate()))
+                        && (p2.getEndDate().before(p.getEndDate()) || p2.getEndDate().equals(p.getEndDate())) ) { //44444444444444444444
+                    repository.deletePeriod(p2.getId());
+                    modifyPeriods(entityId);
+                    return;
+                } else if( (p2.getStartDate().before(p.getStartDate()) || p2.getStartDate().equals(p.getStartDate()))
+                        && (p2.getEndDate().after(p.getStartDate()) || p2.getEndDate().equals(p.getStartDate()))
+                        && (p2.getEndDate().before(p.getEndDate()) || p2.getEndDate().equals(p.getEndDate())) ){ //33333333333333333
+                    ReservationPeriod newPeriod = new ReservationPeriod(p2.getStartDate(), p.getEndDate(), p.getReservationEntity());
+                    repository.deletePeriod(p2.getId());
+                    repository.deletePeriod(p.getId());
+                    repository.save(newPeriod);
+                    modifyPeriods(entityId);
+                    return;
+                } else if ( (p.getStartDate().before(p2.getStartDate()) || p.getStartDate().equals(p2.getStartDate()))
+                        && (p.getEndDate().after(p2.getStartDate()) || p.getEndDate().equals(p2.getStartDate()))
+                        && (p.getEndDate().before(p2.getEndDate()) || p.getEndDate().equals(p2.getEndDate())) ) { //22222222222222222222222
+                    ReservationPeriod newPeriod = new ReservationPeriod(p.getStartDate(), p2.getEndDate(), p.getReservationEntity());
+                    repository.deletePeriod(p.getId());
+                    repository.deletePeriod(p2.getId());
+                    repository.save(newPeriod);
+                    modifyPeriods(entityId);
+                    return;
+                }
+            }
+        }
     }
 
     @Override
@@ -109,5 +152,20 @@ public class ReservationPeriodService implements IReservationPeriodService {
         ReservationEntity entity = entityRepository.findEntityById(entityId);
         entity.setOwner(owner);
         return entity;
+    }
+
+    @Override
+    public List<ReservationPeriodDTO> findFreePeriodsForShipAndOwner(Integer entityId, Integer ownerId){
+        List<ReservationPeriodDTO> shipPeriods = findFreePeriods(entityId);
+        List<ReservationPeriodOwnerDTO> ownerPeriods = ownerService.getShipOwnerFreePeriods(ownerId);
+        List<ReservationPeriodDTO> freePeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : shipPeriods) {
+            for (ReservationPeriodOwnerDTO ownerPeriod : ownerPeriods) {
+                if(ownerPeriod.getStartDate().before(period.getStartDate()) && ownerPeriod.getEndDate().after(period.getEndDate())){
+                    freePeriods.add(period);
+                }
+            }
+        }
+        return  freePeriods;
     }
 }

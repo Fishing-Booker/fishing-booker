@@ -62,6 +62,7 @@ public class ShipService implements IShipService {
         Ship ship = shipRepository.findShipById(shipId);
         ship.setOwner(null);
         ship.setImages(null);
+        ship.setReservationPeriods(null);
         return ship;
     }
 
@@ -190,5 +191,10 @@ public class ShipService implements IShipService {
         String newEq = setNewRules(eq);
         newEq = correctRules(newEq);
         shipRepository.addNavEquipment(newEq, shipId);
+    }
+
+    @Override
+    public List<String> getOwnerShipNames(Integer ownerId) {
+        return shipRepository.getOwnerShipNames(ownerId);
     }
 }

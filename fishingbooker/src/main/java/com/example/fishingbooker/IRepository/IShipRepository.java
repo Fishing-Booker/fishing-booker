@@ -61,4 +61,7 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
     @Modifying
     @Transactional
     void addNavEquipment(String equipment, Integer shipId);
+
+    @Query("SELECT s.name FROM Ship s WHERE s.owner.id=?1 and s.isDeleted=false")
+    List<String> getOwnerShipNames(Integer ownerId);
 }

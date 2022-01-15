@@ -26,4 +26,6 @@ public interface IReservationEntityService {
     ReservationEntity getEntityById(Integer entityId);
 
     Integer getOwnerId(Integer entityId);
+
+    ReservationEntity findOwnerEntityByName(String entityName, Integer ownerId);
 }

@@ -169,4 +169,9 @@ public class ShipController {
         shipService.deleteNavEquipment(index, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/shipNames/{id}")
+    public List<String> getOwnerShipNames(@PathVariable Integer id){
+        return shipService.getOwnerShipNames(id);
+    }
 }

@@ -63,6 +63,12 @@ import InstructorReservations from "./instructor/instructorReservations";
 import ShipPriceList from "./ship/shipPricelist";
 import ReservationHistoryOwner from "./reservationHistory";
 import Feedbacks from "./admin/feedbacks";
+import ShipPriceList from "./ship/shipPricelist";
+import ShipReservationCalendar from "./ship/shipReservationCalendar";
+import ShipActions from "./ship/shipActions";
+import ShipOwnerReservationCalendar from "./ship/shipOwnerReservationCalendar";
+import ShipOwnerReservations from "./ship/shipOwnerReservations";
+import ShipReservations from "./ship/shipReservations";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -210,6 +216,11 @@ const FrontPage = () => {
                         <Route path="/shipPricelist/:shipId"><ShipPriceList/></Route>
                         <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>
                         <Route path="/shipFishEq/:shipId"><ShipFishingEquipment/></Route>
+                        <Route path="/shipReservationCalendar/:shipId"><ShipReservationCalendar/></Route>
+                        <Route path="/shipActions/:shipId"><ShipActions/></Route>
+                        <Route path="/shipOwnerReservationCalendar"><ShipOwnerReservationCalendar/></Route>
+                        <Route path="/shipOwnerReservations"><ShipOwnerReservations/></Route>
+                        <Route path="/shipReservations"><ShipReservations/></Route>
                     </Switch>
                 }
                 

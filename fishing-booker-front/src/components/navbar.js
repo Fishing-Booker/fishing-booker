@@ -48,18 +48,26 @@ const Navbar = () => {
                         {isLogged ? (<li><Link to="/profile">PROFILE</Link></li>) : null}
                         {!isLogged ? (<li><Link to="/register">REGISTER </Link></li>) : null}
                         {!isLogged ? (<li><Link to="/login">LOG IN</Link></li>) : null}
+
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/reservations`}>RESERVATIONS</Link></li>}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/reservationHistory`}>RESERVATION HISTORY</Link></li>}
                         {userRole==="ROLE_INSTRUCTOR" && <li><Link to={`/instructorsCalendar`}>MY CALENDAR</Link></li>}
+
                         {userRole==="ROLE_LODGEOWNER" && <li><Link to="/lodgeReservations">RESERVATIONS</Link></li>}
                         {userRole==="ROLE_LODGEOWNER" && <li><Link to={`/reservationHistory`}>RESERVATION HISTORY</Link></li>}
+
+                        {userRole==="ROLE_SHIPOWNER" && <li><Link to="/shipReservations">SHIPS RESERVATION HISTORY</Link></li>}
+                        {userRole==="ROLE_SHIPOWNER" && <li><Link to="/shipOwnerReservationCalendar">MY CALENDAR</Link></li>}
+
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/accountRequests">ACCOUNT REQUESTS</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/deleteRequests">DELETE REQUESTS</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/userList">USERS</Link></li>}
                         {(userRole==="ROLE_ADMIN" || userRole==="ROLE_DEFADMIN") && <li><Link to="/feedbacks">FEEDBACKS</Link></li>}
+
                         {userRole === "ROLE_CLIENT" && <li><Link to="/client-reservations">RESERVATIONS</Link></li>}
                         {userRole === "ROLE_CLIENT" && <li><Link to="/reservation-history">RESERVATION HISTORY</Link></li>}
                         {userRole === "ROLE_CLIENT" && <li><Link to={`/subscriptions/${user.id}`}>SUBSCRIPTIONS</Link></li>}
+
                         {isLogged ? (<li><Link to="/logout" onClick={logOut}>LOG OUT</Link></li>) : null}
                     </ul>
                 </nav>
