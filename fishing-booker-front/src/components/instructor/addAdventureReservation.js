@@ -65,6 +65,7 @@ const AddAventureReservation = ({modalIsOpen, setModalIsOpen}) => {
                 .then(res => {
                     setClientAdventure(res.data.name);
                     setEntityId(res.data.id)
+                    console.log(res.data.id);
                     setMaxPersons(res.data.maxPersons)
                 })
 

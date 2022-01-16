@@ -97,6 +97,16 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
         return services;
     }
 
+    const changeRegularServiceFormat = () => {
+        var pom = choosenServicesR[0].split(" ");
+        var regService = "";
+        for(let i=0; i < pom.length-1; i++) {
+            regService += pom[i] + " ";
+        }
+        regService = regService.substring(0, regService.length-1);
+        return regService;
+    }
+
     const handleSelectChange = (e) => {
         let value = Array.from(e.target.selectedOptions, option => option.value);
         setChoosenServices(value);
@@ -134,7 +144,9 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
             addToast("You have to set all fields!", { appearance: "error" });
         }
         dto.additionalServices = setServicesAsString();
-        dto.regularService = choosenServicesR;
+        dto.regularService = changeRegularServiceFormat();
+        dto.entityId = entityOfId;
+        console.log(dto);
 
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
