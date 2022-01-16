@@ -116,14 +116,14 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
             services.push(_additional[i]);
         }
         for(let i = 0; i < _regular.length; i++) {
-            for(let j = 0; j < maxGuests; j++) {
+            for(let j = 0; j < numberOfGuests; j++) {
                 services.push(_regular[i]);
             }
             
         }
         for(let i = 0; i < services.length; i++) {
             var split1 = services[i].split(" ");
-            var split2 = split1[1].split("$")
+            var split2 = split1[split1.length-1].split("$")
             price += parseInt(split2[0]);
         }
         setPrice(price);
