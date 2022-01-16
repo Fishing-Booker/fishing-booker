@@ -1,15 +1,15 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
-import com.example.fishingbooker.DTO.reservation.AddReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ReservationDTO;
+import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.IService.IReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +24,9 @@ public class ReservationController {
     private IReservationService reservationService;
 
     @PostMapping("/addReservation")
-    public ResponseEntity<String> addReservation(@RequestBody AddReservationDTO reservation){
-        reservationService.save(reservation);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> addReservation(@RequestBody OwnerReservationDTO reservation){
+        reservationService.makeReservationOwner(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -70,4 +71,27 @@ public class ReservationController {
         reservationService.cancelReservation(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/getClientsOfActiveReservations/{ownerId}") //id od instruktora
+    public List<ClientDTO> getClientsOfActiveReservations(@PathVariable Integer ownerId) {
+        return reservationService.getClientsOfActiveReservations(ownerId);
+    }
+
+    @GetMapping("/getEntityNameOfClientActiveReservation/{ownerId}/{clientName}")
+    //@PreAuthorize("isAuthenticated()")
+    public ActiveReservationDTO getEntityNameOfClientActiveReservation(@PathVariable Integer ownerId, @PathVariable String clientName){
+        return reservationService.getEntityNameOfClientActiveReservation(ownerId, clientName);
+    }
+
+    @GetMapping("/getFutureOwnerEntitiesReservations/{id}")
+    public List<ReservationDTO> getFutureOwnerEntitiesReservations(@PathVariable Integer id){
+        return reservationService.findFutureOwnerEntitiesReservations(id);
+    }
+
+    @GetMapping("/getPastOwnerEntitiesReservations/{id}")
+    public List<ReservationDTO> getPastOwnerEntitiesReservations(@PathVariable Integer id){
+        return reservationService.findPastOwnerEntitiesReservations(id);
+    }
+
+
 }

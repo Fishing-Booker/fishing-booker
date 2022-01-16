@@ -59,7 +59,10 @@ import LodgeReservationActions from "./client/lodgeReservationActions";
 import ShipReservationActions from "./client/shipReservationActions";
 import AdventureReservationActions from "./client/adventureReservationActions";
 import ShipImages from "./ship/shipImages";
+import InstructorReservations from "./instructor/instructorReservations";
 import ShipPriceList from "./ship/shipPricelist";
+import ReservationHistoryOwner from "./reservationHistory";
+import Feedbacks from "./admin/feedbacks";
 import ShipReservationCalendar from "./ship/shipReservationCalendar";
 import ShipActions from "./ship/shipActions";
 import ShipOwnerReservationCalendar from "./ship/shipOwnerReservationCalendar";
@@ -142,6 +145,7 @@ const FrontPage = () => {
                         <Route path="/clientProfile"><ClientProfile/></Route>
                         <Route path="/addLodgeReservationPeriod"><AddLodgeReservationPeriod/></Route>
                         <Route path="/lodgeReservationCalendar/:lodgeId"><LodgeReservationCalendar/></Route>
+                        <Route path="/reservationHistory"><ReservationHistoryOwner/></Route>
                     </Switch>
 
                 }
@@ -155,6 +159,7 @@ const FrontPage = () => {
                         <Route path="/deleteRequests"><DeleteRequest/></Route>
                         <Route path="/userList"><UserList/></Route>
                         <Route path="/userInfo/:userId"><UserInfo/></Route>
+                        <Route path="/feedbacks"><Feedbacks/></Route>
                     </Switch>
                 }
 
@@ -169,7 +174,8 @@ const FrontPage = () => {
                         <Route path="/adventurePricelist/:adventureId"><AdventurePricelist/></Route>
                         <Route path="/adventureActions/:adventureId"><AdventureActions/></Route>
                         <Route path="/instructorsCalendar"><InstructorsCalendar/></Route>
-
+                        <Route path="/reservations"><InstructorReservations/></Route>
+                        <Route path="/reservationHistory"><ReservationHistoryOwner/></Route>
                     </Switch>
                 }
 

@@ -81,7 +81,7 @@ const AdventureReservation = () => {
     const seeAvailableReservations = (startDate, endDate) => {
         var periodDTO = { entityId: id, startDate, endDate }
         console.log(periodDTO)
-        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
+        axios.post(SERVER_URL + "/ownerPeriods/availablePeriods", periodDTO)
             .then(response => setAvailablePeriods(response.data))
     }
 

@@ -23,6 +23,7 @@ const LodgeReservationActions = () => {
 
     const handleClick = (actionId) => {
         var dto = { actionId: actionId, clientId: user.id}
+        console.log(dto)
         axios.post(SERVER_URL + "/actions/makeReservation", dto)
             .then(response => setIsBooked(true))
     }

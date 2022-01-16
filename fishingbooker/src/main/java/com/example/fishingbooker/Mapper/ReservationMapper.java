@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Mapper;
 
 import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
+import com.example.fishingbooker.DTO.reservation.OwnerReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.Model.Reservation;
@@ -22,6 +23,18 @@ public class ReservationMapper {
         reservation.setReservationType(ReservationType.regularReservation);
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
+        return reservation;
+    }
+
+    public static Reservation ownerMapDTOToModel(OwnerReservationDTO dto) {
+        Reservation reservation = new Reservation();
+        reservation.setReservationType(ReservationType.regularReservation);
+        reservation.setStartDate(dto.getStartDate());
+        reservation.setEndDate(dto.getEndDate());
+        reservation.setMaxPersons(dto.getNumberOfGuests());
+        reservation.setPrice(dto.getPrice());
+        reservation.setAdditionalServices(dto.getAdditionalServices());
+        reservation.setRegularService(dto.getRegularService());
         return reservation;
     }
 }

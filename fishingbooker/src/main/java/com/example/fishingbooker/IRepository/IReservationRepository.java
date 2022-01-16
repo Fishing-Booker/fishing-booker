@@ -1,5 +1,6 @@
 package com.example.fishingbooker.IRepository;
 
+import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.Model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,6 +13,9 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
 
     @Query("SELECT r FROM Reservation r WHERE r.reservationEntity.id=?1")
     List<Reservation> findEntityReservations(Integer entityId);
+
+    @Query("SELECT a FROM Reservation a WHERE a.reservationEntity.id=?1 and a.reservationType=?2")
+    List<Reservation> findEntityActions(Integer entityId, ReservationType reservationType);
 
     @Query("SELECT r FROM Reservation r WHERE r.id=?1")
     Reservation findReservationById(Integer id);
@@ -32,4 +36,8 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
     @Query("DELETE from Reservation r WHERE r.id=?1")
     void cancelReservation(Integer id);
 
+    @Query("UPDATE Reservation a SET a.isBooked=true, a.client.id=?2 WHERE a.id=?1")
+    @Modifying
+    @Transactional
+    void makeReservation(Integer actionId, Integer clientId);
 }
