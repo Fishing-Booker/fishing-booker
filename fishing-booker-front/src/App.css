@@ -530,6 +530,17 @@ h5 {
 	transform: translateY(-10px);
 }
 
+.period-card-reservation {
+	border: 1px solid cadetblue;
+	border-radius: 5px;
+	height: 100px;
+	width: 180%;
+	margin-left: 5%;
+	transition: transform 0.5s;
+	position: relative;
+	margin-top: 11px;
+}
+
 .res-actions-div {
 	background-color: white;
 	width: 50vw;
