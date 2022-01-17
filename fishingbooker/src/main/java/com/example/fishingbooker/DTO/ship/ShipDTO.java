@@ -11,11 +11,12 @@ public class ShipDTO {
     private String description;
     private double averageGrade;
     private String profileImage;
+    private Integer maxPersons;
 
     public ShipDTO() {
     }
 
-    public ShipDTO(Integer id, Integer ownerId, String name, Location location, String description, double averageGrade, String profileImage) {
+    public ShipDTO(Integer id, Integer ownerId, String name, Location location, String description, double averageGrade, String profileImage, Integer maxPersons) {
         this.id = id;
         this.ownerId = ownerId;
         this.name = name;
@@ -23,6 +24,7 @@ public class ShipDTO {
         this.description = description;
         this.averageGrade = averageGrade;
         this.profileImage = profileImage;
+        this.maxPersons = maxPersons;
     }
 
     public Integer getId() {
@@ -79,5 +81,13 @@ public class ShipDTO {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPersons) {
+        this.maxPersons = maxPersons;
     }
 }
