@@ -111,6 +111,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
         for (ReservationDTO reservation : allReservations) {
             freePeriods = getChangedPeriods(freePeriods, reservation, entityId);
         }
+        freePeriods = getFuturePeriods(freePeriods);
         return freePeriods;
     }
 
@@ -166,6 +167,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
                 if(Math.abs(period.getStartDate().getTime() - period.getEndDate().getTime()) > MILLIS_PER_DAY){
                     if(ownerPeriod.getStartDate().before(period.getStartDate()) && ownerPeriod.getEndDate().after(period.getEndDate())){
                         freePeriods.add(period);
+                        break;
                     }
                     else if(ownerPeriod.getStartDate().getDay() == period.getStartDate().getDay() &&
                             ownerPeriod.getStartDate().getMonth() == period.getStartDate().getMonth() &&
@@ -178,6 +180,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
                             dto = new ReservationPeriodDTO(ownerPeriod.getStartDate(), period.getEndDate(), entityId);
                         }
                         freePeriods.add(dto);
+                        break;
                     }
                     else if(ownerPeriod.getEndDate().getDay() == period.getEndDate().getDay() &&
                             ownerPeriod.getEndDate().getMonth() == period.getEndDate().getMonth() &&
@@ -190,6 +193,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
                             dto = new ReservationPeriodDTO(period.getStartDate(), ownerPeriod.getEndDate(), entityId);
                         }
                         freePeriods.add(dto);
+                        break;
                     } else if(ownerPeriod.getStartDate().getDay() == period.getStartDate().getDay() &&
                             ownerPeriod.getStartDate().getMonth() == period.getStartDate().getMonth() &&
                             ownerPeriod.getStartDate().getYear() == period.getStartDate().getYear() &&
@@ -209,6 +213,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
                             dto.setEndDate(ownerPeriod.getEndDate());
                         }
                         freePeriods.add(dto);
+                        break;
                     }
                 }
             }

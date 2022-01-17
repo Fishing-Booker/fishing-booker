@@ -5,11 +5,13 @@ import com.example.fishingbooker.DTO.reservationAction.ReservationActionDTO;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
+import com.example.fishingbooker.IRepository.IShipOwnerReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationActionService;
 import com.example.fishingbooker.IService.ISubscriberService;
 import com.example.fishingbooker.Model.Reservation;
 import com.example.fishingbooker.Model.ReservationEntity;
+import com.example.fishingbooker.Model.ShipOwnerReservation;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +39,11 @@ public class ReservationActionService implements IReservationActionService {
     @Autowired
     private IReservationRepository reservationRepository;
 
+    @Autowired
+    private IShipOwnerReservationRepository ownerRepository;
+
     @Override
-    public void save(AddReservationActionDTO dto){
+    public Reservation save(AddReservationActionDTO dto){
         Reservation action = new Reservation();
         action.setStartDate(dto.getStartDate());
         action.setEndDate(dto.getEndDate());
@@ -48,8 +53,17 @@ public class ReservationActionService implements IReservationActionService {
         action.setClient(userRepository.getById(dto.getOwner()));
         action.setReservationEntity(setReservationEntity(dto.getEntityId(), dto.getOwner()));
         action.setAdditionalServices(dto.getAdditionalServices());
+        action.setRegularService(dto.getRegularService());
         action.setBooked(false);
-        reservationRepository.save(action);
+        return reservationRepository.save(action);
+    }
+
+    public void addShipOwnerAction(Reservation reservation, Integer ownerId){
+        User owner = userRepository.getById(ownerId);
+        ShipOwnerReservation newReservation = new ShipOwnerReservation();
+        newReservation.setReservation(reservation);
+        newReservation.setOwner(owner);
+        ownerRepository.save(newReservation);
     }
 
     @Override
