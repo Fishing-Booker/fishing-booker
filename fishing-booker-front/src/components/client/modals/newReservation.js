@@ -16,10 +16,28 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
     const [entityId, setEntityId] = useState(id)
     const { addToast } = useToasts();
 
+    const [price, setPrice] = useState(0)
+    const [services, setServices] = useState([]);
+    const [servicesR, setServicesR] = useState([]);
+    const [choosenServices, setChoosenServices] = useState([]);
+    const [choosenServicesR, setChoosenServicesR] = useState("");
+    const [additionalServices, setAdditionalServices] = useState("");
+    const [regularService, setRegularService] = useState("");
+
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => setClientId(response.data.id))
+
+        axios.get(SERVER_URL + "/prices/additionalServices2/" + entityId, { headers: headers })
+        .then(response => {
+            setServices(response.data);
+        })
+
+        axios.get(SERVER_URL + "/prices/regularServices/" + entityId, { headers: headers })
+            .then(response => {
+                setServicesR(response.data);
+        })
     }, [])
 
     const dto = {
@@ -27,12 +45,72 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
         entityId,
         startDate,
         endDate,
-        numberOfGuests
+        numberOfGuests,
+        additionalServices,
+        regularService,
+        price
+    }
+
+    const setServicesAsString = () => {
+        var services = "";
+        for(let choosenService of choosenServices){
+            let service = choosenService.split(" ")
+            services += service[0];
+            services += "#";
+        }
+        services = services.substring(0, services.length - 1);
+        console.log(services)
+        return services;
+    }
+
+    const changeRegularServiceFormat = () => {
+        var pom = choosenServicesR[0].split(" ");
+        var regService = "";
+        for(let i=0; i < pom.length-1; i++) {
+            regService += pom[i] + " ";
+        }
+        regService = regService.substring(0, regService.length-1);
+        return regService;
+    }
+
+    const handleSelectChange = (e) => {
+        let value = Array.from(e.target.selectedOptions, option => option.value);
+        setChoosenServices(value);
+        setPriceFunc(value, choosenServicesR);
+    }
+
+    const handleSelectChangeR = (e) => {
+        let value = Array.from(e.target.selectedOptions, option => option.value);
+        setChoosenServicesR(value);
+        setPriceFunc(choosenServices, value);
+    }
+
+    const setPriceFunc = (_additional, _regular) => {
+        var price = 0;
+        var services = [];
+        for(let i = 0; i < _additional.length; i++) {
+            services.push(_additional[i]);
+        }
+        for(let i = 0; i < _regular.length; i++) {
+            for(let j = 0; j < numberOfGuests; j++) {
+                services.push(_regular[i]);
+            }
+            
+        }
+        for(let i = 0; i < services.length; i++) {
+            var split1 = services[i].split(" ");
+            var split2 = split1[split1.length-1].split("$")
+            price += parseInt(split2[0]);
+        }
+        setPrice(price);
     }
 
     const handleSubmit = () => {
         console.log(moment(startDate).format())
         console.log(moment(endDate).format())
+        dto.additionalServices = setServicesAsString();
+        dto.regularService = changeRegularServiceFormat();
+        console.log(dto)
         if (isInRangeOne(moment(startDate).format()) && isInRangeOne(moment(endDate).format()) && numberOfGuests <= maxGuests) {
             axios.post(SERVER_URL + "/reservations/makeReservation", dto)
                 .then(response => {
@@ -73,8 +151,24 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
                     <p className='modal-info-res'>Number of guests:</p>
                     <input className="reservation-date modal" type="number" value={numberOfGuests} onChange={(e) => setNumberOfGuests(e.target.value)} ></input> 
                     <a  className="reservation-link" onClick={() => handleSubmit()}>Make reservation</a>
+                    <p className='modal-info-res'>Regular service:</p>
+                    <select className="reservation-date modal" value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
+                        <option></option>
+                        {servicesR.map((service) => (
+                            <option>
+                                {service.service_name} {service.price}$
+                            </option>
+                        ))}
+                    </select>
                     <p className='modal-info-res'>Additional services:</p>
-                    <p className='modal-info-res'>Price:</p>
+                    <select className="reservation-date modal" style={{height: '90px'}}  value={choosenServices} multiple onChange={(e) => handleSelectChange(e)}>
+                        {services.map((service) => (
+                            <option>
+                                {service.service_name} {service.price}$
+                            </option>
+                        ))}
+                    </select>
+                    <p className='modal-info-res'>Price: {price}$</p>
                 </div>
             </Modal>
         </div>

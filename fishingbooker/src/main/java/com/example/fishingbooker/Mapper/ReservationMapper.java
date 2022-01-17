@@ -15,6 +15,9 @@ public class ReservationMapper {
         dto.setEndDate(reservation.getEndDate());
         dto.setEntityName(reservation.getReservationEntity().getName());
         dto.setEntityId(reservation.getReservationEntity().getId());
+        dto.setPrice(reservation.getPrice());
+        dto.setAdditionalService(reservation.getAdditionalServices());
+        dto.setRegularService(reservation.getRegularService());
         return dto;
     }
 
@@ -23,6 +26,10 @@ public class ReservationMapper {
         reservation.setReservationType(ReservationType.regularReservation);
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
+        reservation.setBooked(true);
+        reservation.setPrice(dto.getPrice());
+        reservation.setAdditionalServices(dto.getAdditionalServices());
+        reservation.setRegularService(dto.getRegularService());
         return reservation;
     }
 

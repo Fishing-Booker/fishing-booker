@@ -8,6 +8,9 @@ public class ClientReservationDTO {
     private Date startDate;
     private Date endDate;
     private Integer numberOfGuests;
+    private String additionalServices;
+    private String regularService;
+    private double price;
 
     public ClientReservationDTO() {
     }
@@ -58,5 +61,29 @@ public class ClientReservationDTO {
 
     public void setNumberOfGuests(Integer numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
+    }
+
+    public String getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(String additionalService) {
+        this.additionalServices = additionalService;
+    }
+
+    public String getRegularService() {
+        return regularService;
+    }
+
+    public void setRegularService(String regularService) {
+        this.regularService = regularService;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
