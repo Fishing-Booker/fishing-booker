@@ -46,7 +46,7 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
     public void rejectDeleteRequest(ResponseDTO responseDTO) {
         repository.disapprove(responseDTO.getRequestId());
         User user = userRepository.findByUsername(responseDTO.getUserUsername());
-        userService.sendEmailResponse(user, responseDTO.getResponse());
+        userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
         repository.approve(responseDTO.getRequestId());
         User user = userRepository.findByUsername(responseDTO.getUserUsername());
         userRepository.deleteByUsername(user.getUsername());
-        userService.sendEmailResponse(user, responseDTO.getResponse());
+        userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
     }
 
     @Override

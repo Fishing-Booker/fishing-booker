@@ -145,7 +145,6 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
         if(startDate==="" || endDate === "" || choosenServicesR === []) {
             addToast("You have to set all fields!", { appearance: "error" });
         } else {
-
             dto.additionalServices = setServicesAsString();
 
             let end = regularS.lastIndexOf(" ");

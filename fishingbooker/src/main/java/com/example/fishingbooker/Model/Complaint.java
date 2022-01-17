@@ -22,14 +22,18 @@ public class Complaint {
     @JoinColumn(name = "client_id", referencedColumnName = "user_id")
     private User client;
 
+    @Column(name = "is_responded")
+    private Boolean isResponded;
+
     public Complaint() {
     }
 
-    public Complaint(Integer id, String text, ReservationEntity reservationEntity, User client) {
+    public Complaint(Integer id, String text, ReservationEntity reservationEntity, User client, Boolean isResponded) {
         this.id = id;
         this.text = text;
         this.reservationEntity = reservationEntity;
         this.client = client;
+        this.isResponded = isResponded;
     }
 
     public Integer getId() {
@@ -62,5 +66,13 @@ public class Complaint {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Boolean getResponded() {
+        return isResponded;
+    }
+
+    public void setResponded(Boolean responded) {
+        isResponded = responded;
     }
 }

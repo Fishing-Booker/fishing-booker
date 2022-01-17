@@ -142,6 +142,7 @@ const ReservationForm  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeri
     const handleSubmit = () => {
         if(startDate==="" || endDate === "" || choosenServicesR === []) {
             addToast("You have to set all fields!", { appearance: "error" });
+            return;
         }
         dto.additionalServices = setServicesAsString();
         dto.regularService = changeRegularServiceFormat();
