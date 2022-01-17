@@ -444,4 +444,33 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
+    public void sendEmailPenaltyGiven(User user, Report report) {
+        String subject = "Notification about penalty approval";
+        String sender = "Fishing Booker";
+        String content ="<p>Dear users, <p>";
+        content += "<p>We inform you that penalty request is approved. </p>";
+        content += "<p>"+ report.getReservation().getClient().getName() + " " + report.getReservation().getClient().getSurname() + " is assigned with penalty.</p>";
+        content += "<p>----------------------------------------------------------------------------------------------------------------------</p>";
+        content += "<p><b>Demanded by: </b>" + report.getReservation().getReservationEntity().getOwner().getName() + "(owner)</p>";
+        content += "<p>----------------------------------------------------------------------------------------------------------------------</p>";
+        content += "<p>If you have any complaints, please contact us! <br> Your,<br>Fishing Booker</p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mailSender.send(message);
+    }
+
 }

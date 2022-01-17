@@ -27,15 +27,19 @@ public class Report {
     @Column(name = "is_penalty_given")
     private boolean isPenaltyGiven;
 
+    @Column(name = "is_penalty_rejected")
+    private boolean isPenaltyRejected;
+
     public Report() {
     }
 
-    public Report(Integer id, Reservation reservation, String text, boolean forPenalty, boolean isPenaltyGiven) {
+    public Report(Integer id, Reservation reservation, String text, boolean forPenalty, boolean isPenaltyGiven, boolean isPenaltyRejected) {
         this.id = id;
         this.reservation = reservation;
         this.text = text;
         this.forPenalty = forPenalty;
         this.isPenaltyGiven = isPenaltyGiven;
+        this.isPenaltyRejected = isPenaltyRejected;
     }
 
     public Integer getId() {
@@ -76,5 +80,17 @@ public class Report {
 
     public void setPenaltyGiven(boolean penaltyGiven) {
         isPenaltyGiven = penaltyGiven;
+    }
+
+    public boolean isForPenalty() {
+        return forPenalty;
+    }
+
+    public boolean isPenaltyRejected() {
+        return isPenaltyRejected;
+    }
+
+    public void setPenaltyRejected(boolean penaltyRejected) {
+        isPenaltyRejected = penaltyRejected;
     }
 }

@@ -35,6 +35,12 @@ const Feedbacks = () => {
                     setComments(res.data);
                     console.log(res.data);
                 })
+
+                axios.get(SERVER_URL + "/reports/getReportsForAdmin", {headers: headers})
+                .then(res => {
+                    setReports(res.data);
+                    console.log(res.data);
+                })
             })
     }, [])
 
@@ -49,6 +55,22 @@ const Feedbacks = () => {
     const approveRating = (dto) => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.put(SERVER_URL + "/rating/approve", dto, { headers: headers })
+        .then(response => {
+            window.location.reload();
+        });
+    }
+
+    const approvePenalty = (reportId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/reports/approvePenalty/" + reportId, { headers: headers })
+        .then(response => {
+            window.location.reload();
+        });
+    }
+
+    const rejectPenalty = (reportId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/reports/rejectPenalty/" + reportId, { headers: headers })
         .then(response => {
             window.location.reload();
         });
@@ -94,6 +116,26 @@ const Feedbacks = () => {
         })
     ) : (<div><p style={{marginLeft: '30px'}}>You don't have any unreviewed comments.</p></div>)
 
+    const reportsList = reports.length ? (
+        reports.map((report, index) => {
+            return (
+                <div className="col" key={index}>
+                    <div className="card res-actions-div">
+                        <div className="info"> <br></br>
+                            <p className="entity-info name">#{index+1} Report</p>
+                            <a className="subscribe-link" onClick={() => {rejectPenalty(report.id)}}>reject</a>
+                            <a className="reservation-link" onClick={() =>{approvePenalty(report.id)}}>accept</a>
+                            <br />
+                            <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '47vw', marginLeft: '15px'}}></div>
+                            <p style={{color: 'black', fontWeight: '700', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}>Content: {report.clientName} {report.clientSurname}</p>
+                            <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '20px'}}>{report.text} </p>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
+    ) : (<div><p style={{marginLeft: '30px'}}>You don't have any reservation reports.</p></div>)
+
 
     return (
         <div>
@@ -104,6 +146,7 @@ const Feedbacks = () => {
             </div>
             {seeComplaints && complaintsList}
             {seeComments && commentsList}
+            {seeReports && reportsList}
             <ComplainInfo modalIsOpen={complainInfoModal} setModalIsOpen={setComplainInfoModal} complainInfo={complainInfo}/>
             <ComplainResponse modalIsOpen={complainResponseModal} setModalIsOpen={setComplainResponseModal} complainInfo={complainInfo}/>
         </div>
