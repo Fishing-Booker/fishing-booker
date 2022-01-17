@@ -2,8 +2,10 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.ComplaintDTO;
 import com.example.fishingbooker.DTO.ComplaintInfoDTO;
+import com.example.fishingbooker.DTO.CompliantResponseDTO;
 import com.example.fishingbooker.IService.IComplaintService;
 import com.example.fishingbooker.Model.Complaint;
+import com.example.fishingbooker.Model.ComplaintResponse;
 import com.example.fishingbooker.Model.ReservationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,12 @@ public class ComplaintController {
     @GetMapping("/get")
     public List<ComplaintInfoDTO> getComplaints(){
         return complaintService.getAll();
+    }
+
+    @PostMapping("/respond")
+    public ResponseEntity<ComplaintResponse> responseToCompliant(@RequestBody CompliantResponseDTO dto){
+        complaintService.sendCompliantResponse(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 

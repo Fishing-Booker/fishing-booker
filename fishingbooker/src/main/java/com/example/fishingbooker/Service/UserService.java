@@ -269,7 +269,7 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public void sendEmailResponse(User user, String response) {
+    public void sendEmailResponseDeleteReq(User user, String response) {
         String subject = "Response on delete request";
         String sender = "Fishing Booker";
         String content = response;
@@ -388,6 +388,29 @@ public class UserService implements IUserService, UserDetailsService {
         } else if (rolename.equals("ROLE_LODGEOWNER")) {
             lodgeRepository.deleteLodge(entityId);
         }
+    }
+
+    @Override
+    public void sendEmailCompliantResponse(User user, String response) {
+        String subject = "Response on compliant";
+        String sender = "Fishing Booker";
+        String content = response;
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mailSender.send(message);
     }
 
 }

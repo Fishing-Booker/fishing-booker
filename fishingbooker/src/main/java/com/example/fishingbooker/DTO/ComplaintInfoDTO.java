@@ -1,17 +1,29 @@
 package com.example.fishingbooker.DTO;
 
 public class ComplaintInfoDTO {
+    private Integer id;
     private String text;
     private String entityName;
     private String entityOwner;
+    private Integer entityOwnerId;
     private double averageGrade;
+    private Integer clientId;
     private String clientName;
     private String clientSurname;
     private String clientEmail;
     private String clientUsername;
     private String clientPhone;
+    private boolean isResponded;
 
     public ComplaintInfoDTO() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getText() {
@@ -84,5 +96,29 @@ public class ComplaintInfoDTO {
 
     public void setClientPhone(String clientPhone) {
         this.clientPhone = clientPhone;
+    }
+
+    public Integer getEntityOwnerId() {
+        return entityOwnerId;
+    }
+
+    public void setEntityOwnerId(Integer entityOwnerId) {
+        this.entityOwnerId = entityOwnerId;
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    public boolean isResponded() {
+        return isResponded;
+    }
+
+    public void setResponded(boolean responded) {
+        isResponded = responded;
     }
 }

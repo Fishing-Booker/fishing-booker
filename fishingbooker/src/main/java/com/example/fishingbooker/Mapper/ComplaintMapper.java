@@ -16,15 +16,19 @@ public class ComplaintMapper {
 
     public static ComplaintInfoDTO mapModelToDTO(Complaint complaint, ReservationEntity entity, User client) {
         ComplaintInfoDTO dto = new ComplaintInfoDTO();
+        dto.setId(complaint.getId());
         dto.setText(complaint.getText());
         dto.setEntityName(entity.getName());
         dto.setEntityOwner(entity.getOwner().getName() + " " + entity.getOwner().getSurname());
+        dto.setEntityOwnerId(entity.getOwner().getId());
         dto.setAverageGrade(entity.getAverageGrade());
+        dto.setClientId(client.getId());
         dto.setClientName(client.getName());
         dto.setClientSurname(client.getSurname());
         dto.setClientEmail(client.getEmail());
         dto.setClientUsername(client.getUsername());
         dto.setClientPhone(client.getPhoneNumber());
+        dto.setResponded(complaint.getResponded());
         return dto;
     }
 }

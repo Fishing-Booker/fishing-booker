@@ -21,7 +21,7 @@ public interface IUserService {
     void sendRejectingEmail(User user);
     void changePassword(String password, Integer id);
     User update(UserDTO userDTO, Integer id);
-    void sendEmailResponse(User user, String response);
+    void sendEmailResponseDeleteReq(User user, String response);
     User findUserById(Integer id);
     UserDTO findUserByIdDto(Integer id);
     List<EntityDTO> findUserEntities(Integer userId) throws IOException;
@@ -30,6 +30,7 @@ public interface IUserService {
     void adminFirstLogin(String password, Integer id);
     void deleteUser(Integer id);
     void deleteUserEntity(Integer entityId, Integer userId);
+    void sendEmailCompliantResponse(User user, String response);
 
 
 }
