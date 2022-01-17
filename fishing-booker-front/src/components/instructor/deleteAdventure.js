@@ -28,15 +28,20 @@ const DeleteAdventure = ({modalIsOpen, setModalIsOpen, adventureId}) => {
                         <h3>DELETE YOUR ADVENTURE</h3>
                         <div className="info_data">
                             <div className="data">
-                                Are you sure you want to delete this lodge?
+                                Are you sure you want to delete this adventure?
                             </div>
                             <div className="buttons">
-                            <button className="cancelAdventure" onClick={() => setModalIsOpen(false)}>
-                                    Cancel
-                                </button> <br />
-                                <button className="delete" onClick={() => deleteAdventure()} >
-                                    Delete
-                                </button>
+
+                                <Link to="/" onClick={() => setModalIsOpen(false)}>
+                                    <button className="cancel" >
+                                        Cancel
+                                    </button>
+                                </Link>
+                                <Link to="/" onClick={() => deleteAdventure()}>
+                                    <button className="delete" >
+                                        Delete
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                         </div>

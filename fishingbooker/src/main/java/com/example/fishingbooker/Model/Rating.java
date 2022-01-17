@@ -24,6 +24,14 @@ public class Rating {
     @Column(name = "is_approved")
     private boolean isApproved;
 
+    @Column(name = "is_disapproved")
+    private boolean isDisapproved;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
+    private User user;
+
+
     public Rating() {
     }
 
@@ -33,6 +41,7 @@ public class Rating {
         this.grade = grade;
         this.comment = comment;
         this.isApproved = false;
+        this.isDisapproved = false;
     }
 
     public Integer getId() {
@@ -73,5 +82,21 @@ public class Rating {
 
     public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isDispproved() {
+        return isDisapproved;
+    }
+
+    public void setDispproved(boolean dispproved) {
+        isDisapproved = dispproved;
     }
 }

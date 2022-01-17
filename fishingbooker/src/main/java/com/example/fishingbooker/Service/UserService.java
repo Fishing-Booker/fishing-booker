@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.EntityDTO;
+import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.IRepository.*;
 import com.example.fishingbooker.IService.IImageService;
@@ -395,6 +396,36 @@ public class UserService implements IUserService, UserDetailsService {
         String subject = "Response on compliant";
         String sender = "Fishing Booker";
         String content = response;
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        try {
+            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendEmailApprovedComment(User user, RatingInfoDTO response) {
+        String subject = "Comment approval";
+        String sender = "Fishing Booker";
+        String content ="<p>Dear " + user.getName() + " " + user.getSurname() + ", <p>";
+        content += "<p>We are sending you comment that we approved for you entity: </p>";
+        content += "<p>------------------------------------------------------</p>";
+        content += "<p><b>Client: </b>" + response.getClientName() + "</p>";
+        content += "<p><b>Your entity: </b>" + response.getEntityName() + "</p>";
+        content += "<p><b>Content: </b>" + response.getComment() + "</p>";
+        content += "<p>------------------------------------------------------</p>";
+        content += "<p>If you have any complaints, please contact us! <br> Your,<br>Fishing Booker</p>";
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);

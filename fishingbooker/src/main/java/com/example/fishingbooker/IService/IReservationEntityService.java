@@ -28,4 +28,6 @@ public interface IReservationEntityService {
     Integer getOwnerId(Integer entityId);
 
     ReservationEntity findOwnerEntityByName(String entityName, Integer ownerId);
+
+    void updateEntityAverageGrade(Integer entityId, double updatedGrade);
 }

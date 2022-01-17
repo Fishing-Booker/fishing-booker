@@ -1,6 +1,6 @@
 import Modal from "react-modal"
 import { Rating } from "react-simple-star-rating"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import { useToasts } from "react-toast-notifications";
 
@@ -10,11 +10,23 @@ const ReservationRating = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const SERVER_URL = process.env.REACT_APP_API;
     const [grade, setGrade] = useState('')
     const { addToast } = useToasts();
+    const [user, setUser] = useState("");
+    const [clientId, setClientId] = useState(0);
+
+    useEffect(() => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+            .then(response => {
+                setUser(response.data);
+                setClientId(response.data.id)
+            })
+    }, [])
 
     const dto = {
         entityId: entityId,
         grade,
-        comment: comment
+        comment: comment,
+        clientId
     }
 
     const handleRating = (rate) => {
@@ -24,6 +36,7 @@ const ReservationRating = ({modalIsOpen, setModalIsOpen, entityId}) => {
     }
 
     const handleSubmit = () => {
+        console.log(dto);
         axios.post(SERVER_URL + "/rating/add", dto)
             .then(response => console.log(response.data))
         addToast("Your comment is successfully recorded!", { appearance: "success" });

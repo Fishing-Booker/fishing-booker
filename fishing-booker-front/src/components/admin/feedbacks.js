@@ -30,8 +30,29 @@ const Feedbacks = () => {
                     setComplaints(res.data);
                     console.log(res.data);
                 })
+                axios.get(SERVER_URL + "/rating/get", {headers: headers})
+                .then(res => {
+                    setComments(res.data);
+                    console.log(res.data);
+                })
             })
     }, [])
+
+    const disapproveRating = (ratingId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/rating/disapprove/" + ratingId, { headers: headers })
+        .then(response => {
+            window.location.reload();
+        });
+    }
+
+    const approveRating = (dto) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/rating/approve", dto, { headers: headers })
+        .then(response => {
+            window.location.reload();
+        });
+    }
 
 
     const complaintsList = complaints.length ? (
@@ -52,17 +73,37 @@ const Feedbacks = () => {
                 </div>
             )
         })
-    ) : (<div><p style={{marginLeft: '30px'}}>You don't have any active reservations.</p></div>)
+    ) : (<div><p style={{marginLeft: '30px'}}>You don't have any complaints.</p></div>)
+
+    const commentsList = comments.length ? (
+        comments.map((comment, index) => {
+            return (
+                <div className="col" key={index}>
+                    <div className="card res-actions-div">
+                        <div className="info"> <br></br>
+                            <p className="entity-info name">#{index+1} Comment for : {comment.entityName}</p>
+                            <a className="subscribe-link" onClick={() => {disapproveRating(comment.id)}}>disapprove</a>
+                            <a className="reservation-link" onClick={() =>{approveRating(comment)}}>approve</a>
+                            <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '47vw', marginLeft: '15px'}}></div>
+                            <p style={{color: 'black', fontWeight: '700', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}>Comment from: {comment.clientName} {comment.clientSurname}</p>
+                            <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '20px'}}>Content: {comment.comment} </p>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
+    ) : (<div><p style={{marginLeft: '30px'}}>You don't have any unreviewed comments.</p></div>)
 
 
     return (
         <div>
             <div className="card search">
-                <button style={{fontSize: '20px'}}>Reservation reports</button>
-                <button style={{fontSize: '20px'}}>&nbsp; &nbsp; Complaints</button>
-                <button style={{fontSize: '20px'}}>&nbsp; &nbsp; Grades and comments</button>
+                <button style={{fontSize: '20px'}} onClick={() => {setSeeReports(true); setSeeComplaints(false); setSeeComments(false);}}>Reservation reports</button>
+                <button style={{fontSize: '20px'}} onClick={() => {setSeeReports(false); setSeeComplaints(true); setSeeComments(false);}}>&nbsp; &nbsp; Complaints</button>
+                <button style={{fontSize: '20px'}} onClick={() => {setSeeReports(false); setSeeComplaints(false); setSeeComments(true);}}>&nbsp; &nbsp; Grades and comments</button>
             </div>
-            {complaintsList}
+            {seeComplaints && complaintsList}
+            {seeComments && commentsList}
             <ComplainInfo modalIsOpen={complainInfoModal} setModalIsOpen={setComplainInfoModal} complainInfo={complainInfo}/>
             <ComplainResponse modalIsOpen={complainResponseModal} setModalIsOpen={setComplainResponseModal} complainInfo={complainInfo}/>
         </div>

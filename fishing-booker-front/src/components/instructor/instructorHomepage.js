@@ -33,7 +33,6 @@ const InstructorHomepage = () => {
         .then(response => {
             setUser(response.data);
             var user = response.data;
-            console.log(SERVER_URL + '/adventures/instructorAdventures/' + user.id)
             axios.get(SERVER_URL + '/adventures/instructorAdventures/' + user.id, { headers: headers})    
                 .then(response => {setAdventures(response.data); console.log(response.data)});
         
@@ -48,12 +47,12 @@ const InstructorHomepage = () => {
     }
 
     const allAdventures = adventures.length ? (
-        adventures.map(adventure => {
+        adventures.map((adventure, index) => {
             return (
-                <div className="lodge-card" key={adventure.id}>
+                <div className="lodge-card" key={index}>
                     <div className="lodge-card-body">
                         <div className="lodge-image">
-                            <img  src={lodge1}  />
+                            <img  src={adventure.profileImage}  />
                         </div>
                         <Link to={'/adventureProfile/' + adventure.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{adventure.name}</div></Link>
                         
@@ -68,7 +67,7 @@ const InstructorHomepage = () => {
         })
     ) : (
         <div className="center">
-            Add your lodge
+            Add your adventure
         </div>
     );
 

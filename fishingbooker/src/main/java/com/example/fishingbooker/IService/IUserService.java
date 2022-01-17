@@ -1,6 +1,7 @@
 package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.EntityDTO;
+import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Model.User;
 
@@ -31,6 +32,7 @@ public interface IUserService {
     void deleteUser(Integer id);
     void deleteUserEntity(Integer entityId, Integer userId);
     void sendEmailCompliantResponse(User user, String response);
+    void sendEmailApprovedComment(User user, RatingInfoDTO response);
 
 
 }

@@ -2,15 +2,19 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.AdventureDTO;
 import com.example.fishingbooker.DTO.EditAdventureDTO;
+import com.example.fishingbooker.DTO.adventure.AdventureMiniDTO;
 import com.example.fishingbooker.IRepository.IAdventureRepository;
 import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
+import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Mapper.AdventureMapper;
 import com.example.fishingbooker.Model.Adventure;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +32,9 @@ public class AdventureService implements IAdventureService {
     @Autowired
     private LocationService locationService;
 
+    @Autowired
+    private IImageService imageService;
+
     @Override
     public Adventure save(Adventure adventure) {
         return adventureRepository.save(adventure);
@@ -39,14 +46,18 @@ public class AdventureService implements IAdventureService {
     }
 
     @Override
-    public List<Adventure> findInstructorAdventures(Integer ownerId) {
+    public List<AdventureMiniDTO> findInstructorAdventures(Integer ownerId) throws IOException {
         List<Adventure> adventures = adventureRepository.findInstructorAdventures(ownerId);
-        for (Adventure a : adventures) {
-            a.setOwner(null);
-            a.setImages(null);
-            a.setReservationPeriods(null);
+        List<AdventureMiniDTO> dtos = new ArrayList<>();
+        for (Adventure a :
+                adventures) {
+            AdventureMiniDTO dto = new AdventureMiniDTO();
+            dto.setId(a.getId());
+            dto.setName(a.getName());
+            dto.setProfileImage(imageService.getEntityProfileImage(a.getId()));
+            dtos.add(dto);
         }
-        return adventures;
+        return dtos;
     }
 
     @Override

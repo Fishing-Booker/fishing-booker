@@ -2,6 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.AdventureDTO;
 import com.example.fishingbooker.DTO.EditAdventureDTO;
+import com.example.fishingbooker.DTO.adventure.AdventureMiniDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.IService.IAdventureService;
 import com.example.fishingbooker.IService.ILocationService;
@@ -15,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
@@ -39,7 +42,7 @@ public class AdventureController {
 
     @GetMapping("/instructorAdventures/{id}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public List<Adventure> getInstructorAdventures(@PathVariable Integer id) {
+    public List<AdventureMiniDTO> getInstructorAdventures(@PathVariable Integer id) throws IOException {
         return adventureService.findInstructorAdventures(id);
     }
 
