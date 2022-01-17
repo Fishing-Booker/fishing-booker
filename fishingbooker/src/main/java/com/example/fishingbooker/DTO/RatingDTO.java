@@ -5,16 +5,19 @@ public class RatingDTO {
     private String comment;
     private Integer grade;
     private static boolean isApproved = false;
+    private static boolean isDisapproved = false;
     private Integer entityId;
+    private Integer clientId;
 
     public RatingDTO() {
     }
 
-    public RatingDTO(Integer id, String comment, Integer grade, Integer entityId) {
+    public RatingDTO(Integer id, String comment, Integer grade, Integer entityId, Integer clientId) {
         this.id = id;
         this.comment = comment;
         this.grade = grade;
         this.entityId = entityId;
+        this.clientId = clientId;
     }
 
     public Integer getId() {
@@ -55,5 +58,21 @@ public class RatingDTO {
 
     public void setEntityId(Integer entityId) {
         this.entityId = entityId;
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    public static boolean isIsDisapproved() {
+        return isDisapproved;
+    }
+
+    public static void setIsDisapproved(boolean isDisapproved) {
+        RatingDTO.isDisapproved = isDisapproved;
     }
 }

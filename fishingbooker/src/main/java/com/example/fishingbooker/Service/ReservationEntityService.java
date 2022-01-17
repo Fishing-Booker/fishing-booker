@@ -93,4 +93,9 @@ public class ReservationEntityService implements IReservationEntityService {
     public ReservationEntity findOwnerEntityByName(String entityName, Integer ownerId) {
         return entityRepository.findOwnerEntityByName(entityName, ownerId);
     }
+
+    @Override
+    public void updateEntityAverageGrade(Integer entityId, double updatedGrade){
+        entityRepository.updateGrade(updatedGrade, entityId);
+    }
 }

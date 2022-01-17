@@ -3,8 +3,10 @@ package com.example.fishingbooker.IService;
 import com.example.fishingbooker.DTO.AdventureDTO;
 import com.example.fishingbooker.DTO.EditAdventureDTO;
 import com.example.fishingbooker.DTO.adventure.AdventureInfoDTO;
+import com.example.fishingbooker.DTO.adventure.AdventureMiniDTO;
 import com.example.fishingbooker.Model.Adventure;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public interface IAdventureService {
 
     List<Adventure> findAll();
 
-    List<Adventure> findInstructorAdventures(Integer ownerId);
+    List<AdventureMiniDTO> findInstructorAdventures(Integer ownerId) throws IOException;
 
     void deleteAdventure(Integer id);
 
