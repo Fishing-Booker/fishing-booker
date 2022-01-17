@@ -9,6 +9,7 @@ import com.example.fishingbooker.IRepository.IReservationPeriodRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
+import org.hibernate.internal.util.ZonedDateTimeComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -159,10 +160,56 @@ public class ReservationPeriodService implements IReservationPeriodService {
         List<ReservationPeriodDTO> shipPeriods = findFreePeriods(entityId);
         List<ReservationPeriodOwnerDTO> ownerPeriods = ownerService.getShipOwnerFreePeriods(ownerId);
         List<ReservationPeriodDTO> freePeriods = new ArrayList<>();
+        long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
         for (ReservationPeriodDTO period : shipPeriods) {
             for (ReservationPeriodOwnerDTO ownerPeriod : ownerPeriods) {
-                if(ownerPeriod.getStartDate().before(period.getStartDate()) && ownerPeriod.getEndDate().after(period.getEndDate())){
-                    freePeriods.add(period);
+                if(Math.abs(period.getStartDate().getTime() - period.getEndDate().getTime()) > MILLIS_PER_DAY){
+                    if(ownerPeriod.getStartDate().before(period.getStartDate()) && ownerPeriod.getEndDate().after(period.getEndDate())){
+                        freePeriods.add(period);
+                    }
+                    else if(ownerPeriod.getStartDate().getDay() == period.getStartDate().getDay() &&
+                            ownerPeriod.getStartDate().getMonth() == period.getStartDate().getMonth() &&
+                            ownerPeriod.getStartDate().getYear() == period.getStartDate().getYear() &&
+                            ownerPeriod.getEndDate().after(period.getEndDate())){
+                        ReservationPeriodDTO dto;
+                        if(ownerPeriod.getStartDate().getTime() > period.getStartDate().getTime()){
+                            dto = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), entityId);
+                        } else {
+                            dto = new ReservationPeriodDTO(ownerPeriod.getStartDate(), period.getEndDate(), entityId);
+                        }
+                        freePeriods.add(dto);
+                    }
+                    else if(ownerPeriod.getEndDate().getDay() == period.getEndDate().getDay() &&
+                            ownerPeriod.getEndDate().getMonth() == period.getEndDate().getMonth() &&
+                            ownerPeriod.getEndDate().getYear() == period.getEndDate().getYear() &&
+                            ownerPeriod.getStartDate().before(period.getStartDate())){
+                        ReservationPeriodDTO dto;
+                        if(ownerPeriod.getEndDate().getTime() > period.getEndDate().getTime()){
+                            dto = new ReservationPeriodDTO(period.getStartDate(), period.getEndDate(), entityId);
+                        } else {
+                            dto = new ReservationPeriodDTO(period.getStartDate(), ownerPeriod.getEndDate(), entityId);
+                        }
+                        freePeriods.add(dto);
+                    } else if(ownerPeriod.getStartDate().getDay() == period.getStartDate().getDay() &&
+                            ownerPeriod.getStartDate().getMonth() == period.getStartDate().getMonth() &&
+                            ownerPeriod.getStartDate().getYear() == period.getStartDate().getYear() &&
+                            ownerPeriod.getEndDate().getDay() == period.getEndDate().getDay() &&
+                            ownerPeriod.getEndDate().getMonth() == period.getEndDate().getMonth() &&
+                            ownerPeriod.getEndDate().getYear() == period.getEndDate().getYear()){
+                        ReservationPeriodDTO dto = new ReservationPeriodDTO();
+                        dto.setEntityId(entityId);
+                        if(ownerPeriod.getStartDate().getTime() > period.getStartDate().getTime()){
+                            dto.setStartDate(period.getStartDate());
+                        } else {
+                            dto.setStartDate(ownerPeriod.getStartDate());
+                        }
+                        if(ownerPeriod.getEndDate().getTime() > period.getEndDate().getTime()){
+                            dto.setEndDate(period.getEndDate());
+                        } else {
+                            dto.setEndDate(ownerPeriod.getEndDate());
+                        }
+                        freePeriods.add(dto);
+                    }
                 }
             }
         }

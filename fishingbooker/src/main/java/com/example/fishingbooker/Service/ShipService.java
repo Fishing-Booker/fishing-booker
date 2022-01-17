@@ -47,7 +47,7 @@ public class ShipService implements IShipService {
         List<ShipDTO> ships = new ArrayList<>();
         for (Ship s : shipRepository.findOwnerShips(ownerId)) {
             ships.add(new ShipDTO(s.getId(), ownerId, s.getName(), s.getLocation(), s.getDescription(),
-                    s.getAverageGrade(), imageService.getEntityProfileImage(s.getId())));
+                    s.getAverageGrade(), imageService.getEntityProfileImage(s.getId()), s.getMaxPersons()));
         }
         return ships;
     }

@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Service;
 
+import com.example.fishingbooker.DTO.reservation.OwnerReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
@@ -9,6 +10,7 @@ import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
 import com.example.fishingbooker.IService.IReservationService;
+import com.example.fishingbooker.Model.Reservation;
 import com.example.fishingbooker.Model.ReservationPeriodOwner;
 import com.example.fishingbooker.Model.ShipOwnerReservation;
 import com.example.fishingbooker.Model.User;
@@ -165,6 +167,15 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
             }
         }
         return  newPeriods;
+    }
+
+    @Override
+    public void addShipOwnerReservation(Reservation reservation, Integer ownerId){
+        User owner = userRepository.getById(ownerId);
+        ShipOwnerReservation newReservation = new ShipOwnerReservation();
+        newReservation.setReservation(reservation);
+        newReservation.setOwner(owner);
+        ownerRepository.save(newReservation);
     }
 
 }

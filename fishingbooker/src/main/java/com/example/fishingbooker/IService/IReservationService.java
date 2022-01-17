@@ -2,6 +2,7 @@ package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.reservation.*;
+import com.example.fishingbooker.Model.Reservation;
 
 import java.util.Date;
 import java.util.List;
@@ -34,5 +35,5 @@ public interface IReservationService {
 
     ActiveReservationDTO getEntityNameOfClientActiveReservation(Integer ownerId, String clientName);
 
-    void makeReservationOwner(OwnerReservationDTO dto);
+    Reservation makeReservationOwner(OwnerReservationDTO dto);
 }
