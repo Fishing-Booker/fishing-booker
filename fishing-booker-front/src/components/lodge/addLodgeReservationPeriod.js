@@ -13,7 +13,13 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
+    const [start, setStart] = useState("");
+
     useEffect(() => {
+        var start = new Date();
+        start = generateDate(start);
+        setStart(start);
+
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
@@ -22,7 +28,32 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
                 var user = response.data;
                 console.log(user.id)
             })
-    }, [])
+    }, [modalIsOpen])
+
+    const generateDate = (date) => {
+        var day = date.getDate();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        if(getlength(day) === 1) {
+            day = "0"+day;
+        }
+        if(getlength(month) === 1) {
+            month = "0"+month;
+        }
+        if(getlength(hours) === 1) {
+            hours = "0"+hours;
+        }
+        if(getlength(minutes) === 1) {
+            minutes = "0"+minutes;
+        }
+        return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+    }
+
+    const getlength = (number) => {
+        return number.toString().length;
+    }
 
     const newPeriod = {
         owner: user.id,
@@ -53,11 +84,11 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
                             <div className="info_data">
                                 <div className="data">
                                     <h4>Period start date and time:</h4>
-                                    <input type="datetime-local" required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
+                                    <input type="datetime-local" min={start} required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
                                 </div>
                                 <div className="data">
                                     <h4>Period end date and time:</h4>
-                                    <input type="datetime-local" required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
+                                    <input type="datetime-local" min={start} required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
                                 </div>
                                 <button class="reservation-period-btn" onClick={() => addPeriod()}>
                                     Add

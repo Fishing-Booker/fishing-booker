@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,8 @@ public class ReservationPeriodService implements IReservationPeriodService {
 
     @Autowired
     private IReservationPeriodOwnerService ownerService;
+
+    long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     @Override
     public void save(AddReservationPeriodDTO dto) {
@@ -112,6 +116,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
             freePeriods = getChangedPeriods(freePeriods, reservation, entityId);
         }
         freePeriods = getFuturePeriods(freePeriods);
+        freePeriods = reducePeriods(freePeriods);
         return freePeriods;
     }
 
@@ -133,6 +138,16 @@ public class ReservationPeriodService implements IReservationPeriodService {
             }
         }
         return newPeriods;
+    }
+
+    private List<ReservationPeriodDTO> reducePeriods(List<ReservationPeriodDTO> periods){
+        List<ReservationPeriodDTO> reducedPeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : periods) {
+            if(Math.abs(period.getStartDate().getTime() - period.getEndDate().getTime()) > MILLIS_PER_DAY){
+                reducedPeriods.add(period);
+            }
+        }
+        return reducedPeriods;
     }
 
     @Override
@@ -161,7 +176,6 @@ public class ReservationPeriodService implements IReservationPeriodService {
         List<ReservationPeriodDTO> shipPeriods = findFreePeriods(entityId);
         List<ReservationPeriodOwnerDTO> ownerPeriods = ownerService.getShipOwnerFreePeriods(ownerId);
         List<ReservationPeriodDTO> freePeriods = new ArrayList<>();
-        long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
         for (ReservationPeriodDTO period : shipPeriods) {
             for (ReservationPeriodOwnerDTO ownerPeriod : ownerPeriods) {
                 if(Math.abs(period.getStartDate().getTime() - period.getEndDate().getTime()) > MILLIS_PER_DAY){

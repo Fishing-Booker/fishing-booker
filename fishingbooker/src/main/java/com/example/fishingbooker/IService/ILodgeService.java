@@ -1,9 +1,11 @@
 package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Model.Lodge;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface ILodgeService {
 
     List<Lodge> findAll();
 
-    List<Lodge> findOwnerLodges(Integer ownerId);
+    List<LodgeDTO> findOwnerLodges(Integer ownerId) throws IOException;
 
     void deleteLodge(Integer lodgeId);
 

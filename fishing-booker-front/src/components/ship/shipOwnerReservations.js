@@ -6,6 +6,7 @@ import '../../css/usersProfile.css'
 import axios from 'axios';
 import { format } from 'date-fns';
 import infoImg from '../../images/info.png';
+import commentImg from '../../images/comment.png';
 
 const ShipOwnerReservations = () => {
 
@@ -21,8 +22,9 @@ const ShipOwnerReservations = () => {
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data);
+                var user = response.data;
 
-                axios.get(SERVER_URL + "/actions/entityActions/", {headers: headers})
+                axios.get(SERVER_URL + "/reservations/shipOwnerReservations/" + user.id, {headers: headers})
                     .then(response => {
                         var actions = response.data;
                         for(let action of actions){
@@ -39,19 +41,16 @@ const ShipOwnerReservations = () => {
     const allReservations = reservations.length ? (
         reservations.map(reservation => {
             return(
-                <li class="table-row" key={reservation.id}>
-                    <div class="col col-1-action" >{reservation.startDate}</div>
-                    <div class="col col-2-action" >{reservation.endDate}</div>
-                    <div class="col col-3-action" >{reservation.price}</div>
-                    <div class="col col-4-action" >{reservation.client}</div>
-                    <div class="col col-5-action" >
-                        <img className='info-img' src={infoImg} />
-                    </div>
+                <li class="table-row" key={reservation.reservationId}>
+                    <div class="col col-1-action" >{reservation.entityName}</div>
+                    <div class="col col-2-action" >{reservation.startDate}</div>
+                    <div class="col col-3-action" >{reservation.endDate}</div>
+                    <div class="col col-4-action" >{reservation.clientUsername}</div>
                 </li>
             )
         })
     ) : (
-        <div></div>
+        <div>Your lodge still does not have reservations....</div>
     );
         
     return (
@@ -62,16 +61,15 @@ const ShipOwnerReservations = () => {
                 <Link className="sidebar-link" to={"/shipOwnerReservations"}>Reservation history</Link><br/><br/>
             </div>
             <div className="right">
-                <div className="info">
-                    <h3>OWNER RESERVATIONS</h3><br/>
-                    <div class="container-table">
+            <div className="info">
+                    <h3>MY RESERVATIONS</h3>
+                    <div class="container-table-reservations"><br/>
                         <ul class="responsive-table">
                             <li class="table-header">
-                            <div class="col col-1-action">Start date</div>
-                            <div class="col col-2-action">End date</div>
-                            <div class="col col-3-action">Price</div>
+                            <div class="col col-1-action">Ship</div>
+                            <div class="col col-2-action">Reservation start</div>
+                            <div class="col col-3-action">Reservation end</div>
                             <div class="col col-4-action">Client</div>
-                            <div class="col col-5-action">Info</div>
                             </li>
                             {allReservations}
                         </ul>

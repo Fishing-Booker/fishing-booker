@@ -4,7 +4,6 @@ import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import AddLodgeReservationPeriod from './addLodgeReservationPeriod';
 import Calendar from 'react-awesome-calendar';
-import AddLodgeReservationByOwner from './addLodgeReservationByOwner';
 import axios from 'axios';
 
 const LodgeReservationCalendar = () => {
@@ -49,11 +48,11 @@ const LodgeReservationCalendar = () => {
         <div className="wrapper">
             <div className="left">
                 <h4>LODGE PROFILE</h4><br/>
-                <Link className="sidebar-link" to={"/lodgeImages/"}>Images</Link><br/><br/>
-                <Link className="sidebar-link" to={"/lodgeRules/"}>Rules</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgePricelist">Pricelist</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeActions">Actions</Link><br/><br/>
-                <Link className="sidebar-link" to="/lodgeReservationCalendar">Reservation calendar</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgePricelist/" + lodgeId}>Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeActions/" + lodgeId}>Actions</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeReservationCalendar/" + lodgeId}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">
@@ -61,9 +60,6 @@ const LodgeReservationCalendar = () => {
                     <div className="info_data">
                         <button className="new-period-btn" onClick={() => setAddPeriod(true)}>
                             New reservation period
-                        </button>
-                        <button className="new-period-btn" onClick={() => setAddReservation(true)}>
-                            New reservation
                         </button>
 
                         <Calendar events={events}/>

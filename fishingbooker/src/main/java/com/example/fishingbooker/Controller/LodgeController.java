@@ -2,6 +2,7 @@ package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.lodge.AddLodgeDTO;
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.Enum.BedroomType;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class LodgeController {
     private ILocationService locationService;
 
     @GetMapping("/ownerLodges/{id}")
-    public List<Lodge> getOwnerLodges(@PathVariable Integer id){
+    public List<LodgeDTO> getOwnerLodges(@PathVariable Integer id) throws IOException {
         return lodgeService.findOwnerLodges(id);
     }
 
