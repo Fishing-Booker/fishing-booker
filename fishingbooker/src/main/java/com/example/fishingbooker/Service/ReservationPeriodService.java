@@ -213,6 +213,21 @@ public class ReservationPeriodService implements IReservationPeriodService {
                 }
             }
         }
+        freePeriods = getFuturePeriods(freePeriods);
         return  freePeriods;
+    }
+
+    private List<ReservationPeriodDTO> getFuturePeriods(List<ReservationPeriodDTO> periods){
+        List<ReservationPeriodDTO> futurePeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : periods) {
+            if(period.getEndDate().compareTo(new Date()) >= 0){
+                if(period.getStartDate().compareTo(new Date()) < 0){
+                    futurePeriods.add(new ReservationPeriodDTO(new Date(), period.getEndDate(), period.getEntityId()));
+                } else {
+                    futurePeriods.add(period);
+                }
+            }
+        }
+        return futurePeriods;
     }
 }
