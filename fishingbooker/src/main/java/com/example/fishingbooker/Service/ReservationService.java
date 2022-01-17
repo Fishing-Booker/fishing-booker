@@ -181,12 +181,12 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public void makeReservationOwner(OwnerReservationDTO dto) {
+    public Reservation makeReservationOwner(OwnerReservationDTO dto) {
         Reservation reservation = ReservationMapper.ownerMapDTOToModel(dto);
         reservation.setClient(userRepository.getById(dto.getClientId()));
         reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
-        reservationRepository.save(reservation);
         emailService.sendEmailAfterReservation(dto.getClientId());
+        return reservationRepository.save(reservation);
     }
 
     @Override

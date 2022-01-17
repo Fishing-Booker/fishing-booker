@@ -33,6 +33,9 @@ const ReservationHistory = () => {
                             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '47vw', marginLeft: '15px'}}></div>
                             <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '20px'}}>Reservation period:</p>
                             <p style={{color: 'black', fontWeight: '700', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(reservation.startDate, 'dd.MM.yyyy')} - {format(reservation.endDate, 'dd.MM.yyyy.')}</p>
+                            <p className="entity-info description reserv" style={{fontSize: '15px', fontWeight:'600'}}>Price: {reservation.price}$</p>
+                            <p className="entity-info description reserv">Regular services: {reservation.regularService}</p>
+                            <p className="entity-info description reserv">Additional services: {reservation.additionalService}</p>
                             <a className="reservation-link" onClick={() =>{ setModalReportIsOpen(true); setEntityId(reservation.entityId); }}>report</a>
                         </div>
                     </div>

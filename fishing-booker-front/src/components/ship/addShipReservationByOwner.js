@@ -66,7 +66,7 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
         for(let ship of ships){
             if(ship.name == name){
                 setEntityId(ship.id);
-                setMaxPersons(10);
+                setMaxPersons(ship.maxPersons);
             }
         }
 
@@ -167,7 +167,7 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                 </div>
             </Modal>
             
-            <MakeShipReservation modalIsOpen={makeReservationForm} setModalIsOpen={setMakeReservationForm} startOfPeriod={startDate} endOfPeriod={endDate} maxGuests={maxPersons} clientUsername={clientUsername} entityOfId={entityId}/>
+            <MakeShipReservation modalIsOpen={makeReservationForm} setModalIsOpen={setMakeReservationForm} startOfPeriod={startDate} endOfPeriod={endDate} maxGuests={maxPersons} clientUsername={clientUsername} entityOfId={entityId} isOwnerInvolved={ownerService}/>
         </div>
    )
     

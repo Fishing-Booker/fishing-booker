@@ -7,17 +7,18 @@ import { useToasts } from "react-toast-notifications";
 import { format, set } from "date-fns";
 import '../../css/addingForm.css'
 
-const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod, maxGuests, clientUsername, entityOfId}) => {
+const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod, maxGuests, clientUsername, entityOfId, isOwnerInvolved}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
     const [numberOfGuests, setNumberOfGuests] = useState(1)
-    const [clientId, setClientId] = useState(0)
+    const [userId, setUserId] = useState(0)
     const [entityId, setEntityId] = useState(entityOfId)
     const { addToast } = useToasts();
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
     const [price, setPrice] = useState(0);
+    const [clientId, setClientId] = useState(0);
 
     const [services, setServices] = useState([]);
     const [servicesR, setServicesR] = useState([]);
@@ -28,9 +29,15 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
     const [regularService, setRegularService] = useState("");
 
     useEffect(() => {
+
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => setClientId(response.data.id))
+            .then(response => setUserId(response.data.id))
+
+        axios.get(SERVER_URL + "/users/user/" + clientUsername, { headers: headers })
+        .then(response => {
+            setClientId(response.data.id);
+        })
         
         axios.get(SERVER_URL + "/prices/additionalServices2/" + entityOfId, { headers: headers })
         .then(response => {
@@ -79,7 +86,7 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
     }
 
     const dto = {
-        clientId: 5,
+        clientId,
         entityId,
         startDate,
         endDate,
@@ -142,17 +149,27 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
 
             let end = regularS.lastIndexOf(" ");
             let reg = regularS.substring(0, end);
-
             dto.regularService = reg;
-            console.log(dto);
 
             const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
-            axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
-            .then(response => {
-                addToast("You made reservation successfully!", {appearance : "success"});
-                setModalIsOpen(false);
-                window.location.reload();
-            })
+            
+
+            if(isOwnerInvolved){
+                axios.post(SERVER_URL + "/reservations/addOwnerReservation/" + userId, dto, {headers: headers})
+                .then(response => {
+                    addToast("You made reservation successfully!", {appearance : "success"});
+                    setModalIsOpen(false);
+                    window.location.reload();
+                })
+            } else {
+                axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
+                .then(response => {
+                    addToast("You made reservation successfully!", {appearance : "success"});
+                    setModalIsOpen(false);
+                    window.location.reload();
+                })
+            }
+            
         }
         
 
@@ -161,39 +178,68 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
     return (
         <div >
             <Modal isOpen={modalIsOpen}
+            className="fullscreen"
             shouldCloseOnEsc={true}
             onRequestClose={() => setModalIsOpen(false)} >
-                <div className='make-res-modal' >
-                    <h4 style={{marginLeft: '9%'}}>Please enter reservation details:</h4>
-                    <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '38px'}}></div>
-                    <br></br>
-                    <p className='modal-info-res'>Client:</p>
-                    <input disabled className="reservation-date modal" type="text" value={clientUsername} />
-                    <p className='modal-info-res'>Start date:</p>
-                    <input className="reservation-date modal" min={minDate} max={maxDate} type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
-                    <p className='modal-info-res'>End date:</p>
-                    <input className="reservation-date modal" min={minDate} max={maxDate} type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
-                    <p className='modal-info-res'>Number of guests:</p>
-                    <input className="reservation-date modal" min="1" type="number" value={numberOfGuests} max={maxGuests} onChange={(e) => setNumberOfGuests(e.target.value)} ></input> 
-                    <p className='modal-info-res'>Regular service:</p>
-                    <select className="reservation-date modal" value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
-                        {servicesR.map((service) => (
-                            <option>
-                                {service.service_name} {service.price}$
-                            </option>
-                        ))}
-                    </select>
-                    <p className='modal-info-res'>Additional services:</p>
-                    <select className="reservation-date modal" style={{height: '90px'}}  value={choosenServices} multiple onChange={(e) => handleSelectChange(e)}>
-                        {services.map((service) => (
-                            <option>
-                                {service.service_name} {service.price}$
-                            </option>
-                        ))}
-                    </select>
-                    <p className='modal-info-res'>Price: {price}$</p>
-                    <a  className="reservation-link2" onClick={() => handleSubmit()}>Make reservation</a>
+                <div className="adding-wrapper">
+                    <div className="right">
+                        <div className="info">
+                            <h3>Please enter reservation details</h3>
+                            <div className="info_data">
+                                <div className="data">
+                                    <h4>Client:</h4>
+                                    <input disabled  type="text" value={clientUsername} />
+                                </div>
+                                <div className="data">
+                                    <h4>Start date:</h4>
+                                    <input  min={minDate} max={maxDate} type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
+                                </div>
+                                <div className="data">
+                                    <h4>End date:</h4>
+                                    <input  min={minDate} max={maxDate} type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
+                                </div>
+                                <div className="data">
+                                    <h4>Number of guests:</h4>
+                                    <input  min="1" type="number" value={numberOfGuests} max={maxGuests} onChange={(e) => setNumberOfGuests(e.target.value)} ></input> 
+                                </div>
+                                <div className="data">
+                                    <h4>Regular service:</h4>
+                                    <select  value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
+                                        {servicesR.map((service) => (
+                                            <option>
+                                                {service.service_name} {service.price}$
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="data">
+                                    <h4>Additional services:</h4>
+                                    <select  style={{height: '90px'}}  value={choosenServices} multiple onChange={(e) => handleSelectChange(e)}>
+                                        {services.map((service) => (
+                                            <option>
+                                                {service.service_name} {service.price}$
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <p className='modal-info-res'>Price: {price}$</p>
+                                <a  className="reservation-link2" onClick={() => handleSubmit()}>Make reservation</a>
+                            </div> <br/> <br/>
+                        </div>
+                    </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+                
             </Modal>
         </div>
     )

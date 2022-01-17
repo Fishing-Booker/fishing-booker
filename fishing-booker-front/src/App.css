@@ -255,6 +255,10 @@ h5 {
 	font-size: 1em;
 }
 
+.reserv {
+	margin-left: 10%;
+}
+
 .reservation-link {
 	text-decoration: none;
 	font-weight: 600;
