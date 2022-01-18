@@ -43,6 +43,9 @@ public class AuthenticationController {
             @RequestBody JwtAuthenticationDTO authenticationRequest, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        if(userService.findByUsername(authenticationRequest.getUsername()).isDeleted()) {
+            throw new ResourceConflictException(authenticationRequest.getUsername(), "User is deleted!");
+        }
         //ubacivanje u sesiju
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
