@@ -36,4 +36,6 @@ public interface IReservationService {
     ActiveReservationDTO getEntityNameOfClientActiveReservation(Integer ownerId, String clientName);
 
     Reservation makeReservationOwner(OwnerReservationDTO dto);
+
+    List<ReservationForCalendarDTO> findOwnerReservations(Integer ownerId);
 }

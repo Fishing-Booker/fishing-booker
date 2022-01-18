@@ -214,4 +214,17 @@ public class ReservationService implements IReservationService {
         entity.setOwner(owner);
         return entity;
     }
+
+    @Override
+    public List<ReservationForCalendarDTO> findOwnerReservations(Integer ownerId) {
+        List<ReservationForCalendarDTO> dtos = new ArrayList<>();
+        List<Reservation> allReservations = reservationRepository.findAll();
+        for (Reservation r :
+                allReservations) {
+            if (r.getReservationEntity().getOwner().getId() == ownerId) {
+                dtos.add(ReservationMapper.mapModelToCalendarDTO(r));
+            }
+        }
+        return dtos;
+    }
 }

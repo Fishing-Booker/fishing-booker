@@ -106,5 +106,9 @@ public class ReservationController {
         return reservationService.findPastOwnerEntitiesReservations(id);
     }
 
+    @GetMapping("/getOwnerReservations/{id}")
+    public List<ReservationForCalendarDTO> getOwnerReservations(@PathVariable Integer id){
+        return reservationService.findOwnerReservations(id);
+    }
 
 }

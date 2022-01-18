@@ -3,6 +3,7 @@ package com.example.fishingbooker.Mapper;
 import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
 import com.example.fishingbooker.DTO.reservation.OwnerReservationDTO;
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
+import com.example.fishingbooker.DTO.reservation.ReservationForCalendarDTO;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.Model.Reservation;
 
@@ -43,5 +44,18 @@ public class ReservationMapper {
         reservation.setAdditionalServices(dto.getAdditionalServices());
         reservation.setRegularService(dto.getRegularService());
         return reservation;
+    }
+
+    public static ReservationForCalendarDTO mapModelToCalendarDTO(Reservation reservation) {
+        ReservationForCalendarDTO dto = new ReservationForCalendarDTO();
+        dto.setReservationId(reservation.getId());
+        dto.setClientName(reservation.getClient().getName());
+        dto.setClientSurname(reservation.getClient().getSurname());
+        dto.setStartDate(reservation.getStartDate());
+        dto.setEndDate(reservation.getEndDate());
+        dto.setPrice(reservation.getPrice());
+        dto.setEntityName(reservation.getReservationEntity().getName());
+        dto.setReservationType(reservation.getReservationType());
+        return dto;
     }
 }
