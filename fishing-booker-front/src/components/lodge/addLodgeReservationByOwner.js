@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import { useToasts } from "react-toast-notifications";
 import { DateTimePickerComponent} from "@syncfusion/ej2-react-calendars"
+import { format } from 'date-fns';
+import MakeLodgeReservation from './makeLodgeReservation';
 
 const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
 
@@ -14,14 +16,21 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
     const [endDate, setEndDate] = useState("");
     const [clientUsername, setClientUsername] = useState("");
     const [lodgeNames, setLodgeNames] = useState([]);
-
+    const [lodges, setLodges] = useState([]);
+    const [entityId, setEntityId] = useState("");
     const [user, setUser] = useState("");
 
     const [lodgeName, setLodgeName] = useState("");
 
-    const [allowAdding, setAllowAdding] = useState(false);
+    const [allowSearch, setAllowSearch] = useState(false);
 
-    const [dates, setDates] = useState([]);
+    const [periods, setPeriods] = useState([]);
+
+    const [showPeriods, setShowPeriods] = useState(false);
+
+    const [makeReservationForm, setMakeReservationForm] = useState(false);
+
+    const [maxPersons, setMaxPersons] = useState("");
 
     const { addToast } = useToasts();
 
@@ -32,64 +41,84 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
             .then(response => {
                 setUser(response.data);
                 var owner = response.data;
+                console.log(owner);
 
-                axios.get(SERVER_URL + "/lodges/lodgeNames/" + owner.id, {headers: headers})
+                axios.get(SERVER_URL + "/lodges/ownerLodges/" + user.id, {headers: headers})
                     .then(response => {
-                        setLodgeNames(response.data);
-                        var names = response.data;
-                        getClient(names[0])
-                        var entityId = 7;
-                        axios.get(SERVER_URL + "/periods/freePeriods/" + entityId, {headers: headers})
-                        .then(response => {
-                            console.log(response.data);
-                            setDates(response.data);
-                        });               
+                        setLodges(response.data);
+                        var lodges = response.data;
+                        setLodgeName(lodges[0].name);
+
+                        var lodgeNames = [];
+                        for(let lodge of lodges){
+                            lodgeNames.push(lodge.name);
+                        }
+                        setLodgeNames(lodgeNames);
                     })
             })
     }, [modalIsOpen])
 
-    const newReservation = {
-        owner: user.id,
-        entityName: lodgeName,
-        startDate,
-        endDate,
-        clientUsername
-    }
-
-
-    const addReservation = () => {
-        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
-
-        if(allowAdding){
-            axios.post(SERVER_URL + "/reservations/addReservation", newReservation, {headers: headers})
-            .then(response => {
-                setModalIsOpen(false)
-                window.location.reload();
-            });
-        } else {
-            addToast("You cannot make reservation for this entity.", { appearance: "error" });
-        }
-    }
 
     const getClient = (name) => {
         setLodgeName(name);
+
+        for(let lodge of lodges){
+            if(lodge.name == name){
+                setEntityId(lodge.id);
+                setMaxPersons(lodge.maxPersons);
+            }
+        }
+
         axios.get(SERVER_URL + "/reservations/getClientUsername/" + name + "/" + user.id)
             .then(response => {
                 setClientUsername(response.data);
                 if(response.data != ""){
-                    setAllowAdding(true);
+                    setAllowSearch(true);
                 } else {
-                    setAllowAdding(false);
+                    setAllowSearch(false);
                     addToast("There isn't any active reservation for this entity.", { appearance: "error" });
                 }
             })
     }
 
+    const getFreePeriods = () => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/periods/freePeriods/" + user.id + "/" + lodgeName, {headers: headers})
+            .then(response => {
+                var periods = (response.data);
+                setPeriods(periods);
+                setShowPeriods(true);
+            })
+    }
+
+    const makeReservation = (start, end) => {
+        setStartDate(start);
+        setEndDate(end);
+        setMakeReservationForm(true);
+        setModalIsOpen(false);
+    }
+
+    const freePeriods = periods.length ? (
+        periods.map((period, index) => {
+            return(
+                <div key={index} className="period-card-reservation">
+                    <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
+                    <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy.')}</p>
+                    <a className="reservation-link" onClick={() => makeReservation(period.startDate, period.endDate)}>make reservation</a>
+                </div>
+            ) 
+        })
+    ) : (
+        <div>We don't have available periods for this entity.</div>
+    )
+
     return (
        <div>
             <Modal className="fullscreen" isOpen={modalIsOpen}
             shouldCloseOnEsc={true}
-            onRequestClose={() => setModalIsOpen(false)} >
+            onRequestClose={() => setModalIsOpen(false)} 
+            ariaHideApp={false}>
                 <div id="addLodgeReservation" className="adding-wrapper">
                     <div className="right">
                         <div className="info">
@@ -105,26 +134,25 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="data">
-                                    <h4>Client:</h4>
-                                    <input type="text" disabled value={clientUsername}/>
-                                </div>
-                                <div className="data">
-                                    <h4>Reservation start:</h4>
-                                    <input type="datetime-local" required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
-                                </div>
-                                <div className="data">
-                                    <h4>Reservation end:</h4>
-                                    <input type="datetime-local" required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
-                                </div>
-                                <button disabled={!allowAdding} onClick={() => addReservation()}>
-                                    Add
+                                
+                                <button disabled={!allowSearch} onClick={() => getFreePeriods()}>
+                                    Search periods
                                 </button>
+
+                                {showPeriods && 
+                                    <div>
+                                        <br/>
+                                        {freePeriods}
+                                    </div>
+                                }
+
                             </div> <br/> <br/>
                         </div>
                     </div>
                 </div>
             </Modal>
+            
+            <MakeLodgeReservation modalIsOpen={modalIsOpen} setModalIsOpen={modalIsOpen} startOfPeriod={startDate} endOfPeriod={endDate} maxGuests={maxPersons} clientUsername={clientUsername} entityOfId={entityId} />
         </div>
    )
     

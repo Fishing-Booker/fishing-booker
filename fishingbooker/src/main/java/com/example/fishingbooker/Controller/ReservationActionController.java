@@ -4,7 +4,9 @@ import com.example.fishingbooker.DTO.reservationAction.AddReservationActionDTO;
 import com.example.fishingbooker.DTO.reservationAction.MakeReservationDTO;
 import com.example.fishingbooker.DTO.reservationAction.ReservationActionDTO;
 import com.example.fishingbooker.IService.IReservationActionService;
+import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
 import com.example.fishingbooker.IService.ISubscriberService;
+import com.example.fishingbooker.Model.Reservation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,14 @@ public class ReservationActionController {
     @PostMapping("/addAction")
     public ResponseEntity<String> addAction(@RequestBody AddReservationActionDTO action){
         actionService.save(action);
+        subscriberService.sendEmailWithActionInfo(action);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/addShipOwnerAction")
+    public ResponseEntity<String> addShipOwnerAction(@RequestBody AddReservationActionDTO action){
+        Reservation newAction = actionService.save(action);
+        actionService.addShipOwnerAction(newAction, action.getOwner());
         subscriberService.sendEmailWithActionInfo(action);
         return new ResponseEntity<>(HttpStatus.OK);
     }

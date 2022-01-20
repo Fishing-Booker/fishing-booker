@@ -1,14 +1,18 @@
 package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.IRepository.ILodgeRepository;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
+import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILodgeService;
 import com.example.fishingbooker.Mapper.LodgeMapper;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -32,6 +36,9 @@ public class LodgeService implements ILodgeService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private IImageService imageService;
+
     @Override
     public Lodge save(Lodge lodge) {
         return lodgeRepository.save(lodge);
@@ -43,13 +50,11 @@ public class LodgeService implements ILodgeService {
     }
 
     @Override
-    public List<Lodge> findOwnerLodges(Integer ownerId) {
-        List<Lodge> lodges = lodgeRepository.findOwnerLodges(ownerId);
-        for (Lodge l : lodges) {
-            l.setOwner(null);
-            l.setBedrooms(null);
-            l.setImages(null);
-            l.setReservationPeriods(null);
+    public List<LodgeDTO> findOwnerLodges(Integer ownerId) throws IOException {
+        List<LodgeDTO> lodges = new ArrayList<>();
+        for (Lodge l : lodgeRepository.findOwnerLodges(ownerId)) {
+            lodges.add(new LodgeDTO(l.getId(), l.getOwner().getId(), l.getName(), l.getLocation(), l.getDescription(),
+                    l.getAverageGrade(), imageService.getEntityProfileImage(l.getId()), l.getMaxPersons()));
         }
         return lodges;
     }

@@ -100,7 +100,7 @@ const ShipActions = () => {
             </div>
 
             <ShipActionInfo modalIsOpen={actionInfo} setModalIsOpen={setActionInfo} action={action} />
-            <AddShipAction modalIsOpen={addAction} setModalIsOpen={setAddAction} shipId={shipId}/>
+            <AddShipAction modalIsOpen={addAction} setModalIsOpen={setAddAction} entityId={shipId}/>
         </div>
     )
 

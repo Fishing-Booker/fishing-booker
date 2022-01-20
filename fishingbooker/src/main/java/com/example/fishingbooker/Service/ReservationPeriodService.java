@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,8 @@ public class ReservationPeriodService implements IReservationPeriodService {
 
     @Autowired
     private IReservationPeriodOwnerService ownerService;
+
+    long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     @Override
     public void save(AddReservationPeriodDTO dto) {
@@ -111,6 +115,8 @@ public class ReservationPeriodService implements IReservationPeriodService {
         for (ReservationDTO reservation : allReservations) {
             freePeriods = getChangedPeriods(freePeriods, reservation, entityId);
         }
+        freePeriods = getFuturePeriods(freePeriods);
+        freePeriods = reducePeriods(freePeriods);
         return freePeriods;
     }
 
@@ -132,6 +138,16 @@ public class ReservationPeriodService implements IReservationPeriodService {
             }
         }
         return newPeriods;
+    }
+
+    private List<ReservationPeriodDTO> reducePeriods(List<ReservationPeriodDTO> periods){
+        List<ReservationPeriodDTO> reducedPeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : periods) {
+            if(Math.abs(period.getStartDate().getTime() - period.getEndDate().getTime()) > MILLIS_PER_DAY){
+                reducedPeriods.add(period);
+            }
+        }
+        return reducedPeriods;
     }
 
     @Override
@@ -160,12 +176,12 @@ public class ReservationPeriodService implements IReservationPeriodService {
         List<ReservationPeriodDTO> shipPeriods = findFreePeriods(entityId);
         List<ReservationPeriodOwnerDTO> ownerPeriods = ownerService.getShipOwnerFreePeriods(ownerId);
         List<ReservationPeriodDTO> freePeriods = new ArrayList<>();
-        long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
         for (ReservationPeriodDTO period : shipPeriods) {
             for (ReservationPeriodOwnerDTO ownerPeriod : ownerPeriods) {
                 if(Math.abs(period.getStartDate().getTime() - period.getEndDate().getTime()) > MILLIS_PER_DAY){
                     if(ownerPeriod.getStartDate().before(period.getStartDate()) && ownerPeriod.getEndDate().after(period.getEndDate())){
                         freePeriods.add(period);
+                        break;
                     }
                     else if(ownerPeriod.getStartDate().getDay() == period.getStartDate().getDay() &&
                             ownerPeriod.getStartDate().getMonth() == period.getStartDate().getMonth() &&
@@ -178,6 +194,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
                             dto = new ReservationPeriodDTO(ownerPeriod.getStartDate(), period.getEndDate(), entityId);
                         }
                         freePeriods.add(dto);
+                        break;
                     }
                     else if(ownerPeriod.getEndDate().getDay() == period.getEndDate().getDay() &&
                             ownerPeriod.getEndDate().getMonth() == period.getEndDate().getMonth() &&
@@ -190,6 +207,7 @@ public class ReservationPeriodService implements IReservationPeriodService {
                             dto = new ReservationPeriodDTO(period.getStartDate(), ownerPeriod.getEndDate(), entityId);
                         }
                         freePeriods.add(dto);
+                        break;
                     } else if(ownerPeriod.getStartDate().getDay() == period.getStartDate().getDay() &&
                             ownerPeriod.getStartDate().getMonth() == period.getStartDate().getMonth() &&
                             ownerPeriod.getStartDate().getYear() == period.getStartDate().getYear() &&
@@ -209,10 +227,26 @@ public class ReservationPeriodService implements IReservationPeriodService {
                             dto.setEndDate(ownerPeriod.getEndDate());
                         }
                         freePeriods.add(dto);
+                        break;
                     }
                 }
             }
         }
+        freePeriods = getFuturePeriods(freePeriods);
         return  freePeriods;
+    }
+
+    private List<ReservationPeriodDTO> getFuturePeriods(List<ReservationPeriodDTO> periods){
+        List<ReservationPeriodDTO> futurePeriods = new ArrayList<>();
+        for (ReservationPeriodDTO period : periods) {
+            if(period.getEndDate().compareTo(new Date()) >= 0){
+                if(period.getStartDate().compareTo(new Date()) < 0){
+                    futurePeriods.add(new ReservationPeriodDTO(new Date(), period.getEndDate(), period.getEntityId()));
+                } else {
+                    futurePeriods.add(period);
+                }
+            }
+        }
+        return futurePeriods;
     }
 }

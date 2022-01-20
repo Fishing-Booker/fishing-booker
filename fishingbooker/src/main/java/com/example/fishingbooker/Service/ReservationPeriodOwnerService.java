@@ -178,4 +178,15 @@ public class ReservationPeriodOwnerService implements IReservationPeriodOwnerSer
         ownerRepository.save(newReservation);
     }
 
+    @Override
+    public List<ReservationDTO> findShipOwnerReservations(Integer ownerId) {
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (ShipOwnerReservation reservation : ownerRepository.findAll()) {
+            reservations.add(new ReservationDTO(reservation.getReservation().getId(),reservation.getReservation().getStartDate(),
+                    reservation.getReservation().getEndDate(), reservation.getReservation().getClient().getUsername(),
+                    reservation.getReservation().getReservationEntity().getId(), reservation.getReservation().getReservationEntity().getName()));
+        }
+        return reservations;
+    }
+
 }

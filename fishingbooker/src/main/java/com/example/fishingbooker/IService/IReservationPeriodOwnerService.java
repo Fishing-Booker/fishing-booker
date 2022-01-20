@@ -1,5 +1,6 @@
 package com.example.fishingbooker.IService;
 
+import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.Model.Reservation;
@@ -17,4 +18,6 @@ public interface IReservationPeriodOwnerService {
     List<ReservationPeriodOwnerDTO> getShipOwnerFreePeriods(Integer ownerId);
 
     void addShipOwnerReservation(Reservation reservation, Integer ownerId);
+
+    List<ReservationDTO> findShipOwnerReservations(Integer ownerId);
 }

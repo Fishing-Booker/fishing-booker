@@ -7,7 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import { format, set } from "date-fns";
 import '../../css/addingForm.css'
 
-const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod, maxGuests, clientUsername, entityOfId, isOwnerInvolved}) => {
+const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod, maxGuests, clientUsername, entityOfId}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
@@ -166,23 +166,13 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
                     dto.regularService = reg;
         
                     const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
-                    
-        
-                    if(isOwnerInvolved){
-                        axios.post(SERVER_URL + "/reservations/addOwnerReservation/" + userId, dto, {headers: headers})
-                        .then(response => {
-                            addToast("You made reservation successfully!", {appearance : "success"});
-                            setModalIsOpen(false);
-                            window.location.reload();
-                        })
-                    } else {
-                        axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
-                        .then(response => {
-                            addToast("You made reservation successfully!", {appearance : "success"});
-                            setModalIsOpen(false);
-                            window.location.reload();
-                        })
-                    }
+
+                    axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
+                    .then(response => {
+                        addToast("You made reservation successfully!", {appearance : "success"});
+                        setModalIsOpen(false);
+                        window.location.reload();
+                    })
 
                 }
 
@@ -251,4 +241,4 @@ const MakeShipReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOf
         </div>
     )
 }
-export default MakeShipReservation;
+export default MakeLodgeReservation;

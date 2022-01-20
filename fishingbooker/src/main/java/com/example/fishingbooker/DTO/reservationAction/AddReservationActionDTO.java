@@ -10,18 +10,20 @@ public class AddReservationActionDTO {
     private Date endDate;
     private double price;
     private String additionalServices;
+    private String regularService;
     private Integer maxPersons;
 
     public AddReservationActionDTO() {
     }
 
-    public AddReservationActionDTO(Integer owner, Integer entityId, Date startDate, Date endDate, double price, String additionalServices, Integer maxPersons) {
+    public AddReservationActionDTO(Integer owner, Integer entityId, Date startDate, Date endDate, double price, String additionalServices, String regularService, Integer maxPersons) {
         this.owner = owner;
         this.entityId = entityId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
         this.additionalServices = additionalServices;
+        this.regularService = regularService;
         this.maxPersons = maxPersons;
     }
 
@@ -71,6 +73,14 @@ public class AddReservationActionDTO {
 
     public void setAdditionalServices(String additionalServices) {
         this.additionalServices = additionalServices;
+    }
+
+    public String getRegularService() {
+        return regularService;
+    }
+
+    public void setRegularService(String regularService) {
+        this.regularService = regularService;
     }
 
     public Integer getMaxPersons() {

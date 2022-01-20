@@ -43,6 +43,11 @@ public class ReservationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/shipOwnerReservations/{id}")
+    public List<ReservationDTO> getShipOwnerReservations(@PathVariable Integer id){
+        return ownerService.findShipOwnerReservations(id);
+    }
+
     @GetMapping("/getEntityReservations/{id}")
     public List<ReservationDTO> getEntityReservations(@PathVariable Integer id){
         return reservationService.findEntityReservations(id);

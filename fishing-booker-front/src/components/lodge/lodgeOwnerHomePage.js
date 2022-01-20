@@ -12,6 +12,7 @@ import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddLodgeFrom from "./addLodgeForm";
 import DeleteLodgeForm from "./deleteLodgeForm";
+import noImg from '../../images/noProfilePicture.jpg';
 
 const LodgeOwnerHomePage = () => {
 
@@ -36,7 +37,19 @@ const LodgeOwnerHomePage = () => {
             var user = response.data;
 
             axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
-                .then(response => {setLodges(response.data); console.log(response.data)});
+                .then(response => {
+                    setLodges(response.data); 
+
+                    var lodges = response.data;
+                    var allLodges = [];
+                    for(let lodge of lodges){
+                        if(lodge.profileImage == ""){
+                            lodge.profileImage = noImg;
+                        }
+                        allLodges.push(lodge);
+                    }
+                    setLodges(allLodges);
+                });
         
         });
 
@@ -53,7 +66,7 @@ const LodgeOwnerHomePage = () => {
                 <div className="lodge-card" key={lodge.id}>
                     <div className="lodge-card-body">
                         <div className="lodge-image">
-                            <img  src={lodge1}  />
+                            <img  src={lodge.profileImage}  />
                         </div>
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
                         
