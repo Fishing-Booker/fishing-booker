@@ -5,6 +5,7 @@ import '../../css/usersProfile.css'
 import AddLodgeReservationPeriod from './addLodgeReservationPeriod';
 import Calendar from 'react-awesome-calendar';
 import axios from 'axios';
+import LodgeReservationPeriods from './lodgeReservationPeriods';
 
 const LodgeReservationCalendar = () => {
 
@@ -15,13 +16,15 @@ const LodgeReservationCalendar = () => {
     const [addPeriod, setAddPeriod] = useState(false);
     const [addReservation, setAddReservation] = useState(false);
 
+    const [showPeriods, setShowPeriods] = useState(false);
+
     useEffect(() => {
-        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        /*const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + "/periods/freePeriods/" + lodgeId, {headers: headers})
           .then(response => {
               console.log(response.data);
-          });
+          });*/
     }, [])
 
     const events = [{
@@ -58,8 +61,8 @@ const LodgeReservationCalendar = () => {
                 <div className="info">
                     <h3>LODGE RESERVATION CALENDAR</h3>
                     <div className="info_data">
-                        <button className="new-period-btn" onClick={() => setAddPeriod(true)}>
-                            New reservation period
+                        <button className="new-period-btn" onClick={() => setShowPeriods(true)}>
+                            Edit reservation periods
                         </button>
 
                         <Calendar events={events}/>
@@ -68,6 +71,7 @@ const LodgeReservationCalendar = () => {
             </div>
 
             <AddLodgeReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} entityId={lodgeId}/>
+            <LodgeReservationPeriods modalIsOpen={showPeriods} setModalIsOpen={setShowPeriods} entityId={lodgeId} />
         </div>
     )
 

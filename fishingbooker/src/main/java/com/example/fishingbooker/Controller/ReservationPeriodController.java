@@ -1,9 +1,11 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
+import com.example.fishingbooker.DTO.reservationPeriod.GetReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IService.IReservationPeriodService;
 import com.example.fishingbooker.Model.ReservationEntity;
+import com.example.fishingbooker.Model.ReservationPeriod;
 import com.example.fishingbooker.Service.ReservationEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,16 @@ public class ReservationPeriodController {
     public List<ReservationPeriodDTO> getShipAndOwnerFreePeriods(@PathVariable Integer owner, @PathVariable String entity){
         ReservationEntity resEntity = entityService.findOwnerEntityByName(entity, owner);
         return periodService.findFreePeriodsForShipAndOwner(resEntity.getId(), owner);
+    }
+
+    @GetMapping("/entityPeriods/{entity}")
+    public List<GetReservationPeriodDTO> getEntityPeriods(@PathVariable Integer entity){
+        return periodService.findEntityPeriods(entity);
+    }
+
+    @DeleteMapping("/deletePeriod/{id}/{entity}")
+    public void deletePeriod(@PathVariable Integer id, @PathVariable Integer entity){
+        periodService.deletePeriod(entity, id);
     }
 
 

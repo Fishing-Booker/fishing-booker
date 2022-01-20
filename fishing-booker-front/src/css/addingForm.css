@@ -385,4 +385,20 @@
     margin-left: 2%;
 }
 
+.res-period-btn{
+    height: 40px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 60%;
+    margin-top: 10%;
+}
+
 

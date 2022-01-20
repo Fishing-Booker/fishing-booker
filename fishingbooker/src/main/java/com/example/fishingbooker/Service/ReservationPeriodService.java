@@ -2,6 +2,7 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
+import com.example.fishingbooker.DTO.reservationPeriod.GetReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
@@ -96,6 +97,15 @@ public class ReservationPeriodService implements IReservationPeriodService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<GetReservationPeriodDTO> findEntityPeriods(Integer entityId) {
+        List<GetReservationPeriodDTO> periods =  new ArrayList<>();
+        for (ReservationPeriod period : repository.findAllPeriods(entityId)) {
+            periods.add(new GetReservationPeriodDTO(period.getId(), period.getStartDate(), period.getEndDate(), entityId));
+        }
+        return periods;
     }
 
     @Override
@@ -248,5 +258,11 @@ public class ReservationPeriodService implements IReservationPeriodService {
             }
         }
         return futurePeriods;
+    }
+
+    @Override
+    public void deletePeriod(Integer entityId, Integer periodId){
+        repository.deletePeriod(periodId);
+        modifyPeriods(entityId);
     }
 }
