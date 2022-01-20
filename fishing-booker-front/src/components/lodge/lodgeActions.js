@@ -98,7 +98,7 @@ const LodgeActions = () => {
             </div>
 
             <LodgeActionInfo modalIsOpen={actionInfo} setModalIsOpen={setActionInfo} action={action} />
-            <AddLodgeActionFrom modalIsOpen={addAction} setModalIsOpen={setAddAction} lodgeId={lodgeId}/>
+            <AddLodgeActionFrom modalIsOpen={addAction} setModalIsOpen={setAddAction} entityId={lodgeId}/>
         </div>
     )
 
