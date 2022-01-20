@@ -5,7 +5,6 @@ import com.example.fishingbooker.DTO.reservationPeriod.GetReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IService.IReservationPeriodService;
 import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Model.ReservationPeriod;
 import com.example.fishingbooker.Service.ReservationEntityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -68,5 +66,9 @@ public class ReservationPeriodController {
         periodService.deletePeriod(entity, id);
     }
 
+    @GetMapping("/checkIsPeriodFree/{id}")
+    public boolean checkIsPeriodAvailable(@PathVariable Integer id){
+        return periodService.isPeriodAvailable(id);
+    }
 
 }

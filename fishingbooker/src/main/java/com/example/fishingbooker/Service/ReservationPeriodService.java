@@ -265,4 +265,17 @@ public class ReservationPeriodService implements IReservationPeriodService {
         repository.deletePeriod(periodId);
         modifyPeriods(entityId);
     }
+
+    @Override
+    public boolean isPeriodAvailable(Integer periodId){
+        ReservationPeriod period = repository.findPeriodById(periodId);
+        List<ReservationDTO> allReservations = reservationService.findEntityReservations(period.getReservationEntity().getId());
+        for (ReservationDTO reservation : allReservations) {
+            if(reservation.getStartDate().after(period.getStartDate()) && reservation.getEndDate().before(period.getEndDate())){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

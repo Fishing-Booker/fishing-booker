@@ -113,11 +113,21 @@ const LodgeReservationPeriods = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const deletePeriod = (id) => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        axios.delete(SERVER_URL + "/periods/deletePeriod/" + id + "/" + entityId, { headers: headers })
-            .then(response => {
-                setModalIsOpen(false);
-                window.location.reload();
-            })
+        axios.get(SERVER_URL + "/periods/checkIsPeriodFree/" + id, {headers: headers})
+        .then(response => {
+            var available = response.data;
+            if(available === true){
+                axios.delete(SERVER_URL + "/periods/deletePeriod/" + id + "/" + entityId, { headers: headers })
+                .then(response => {
+                    setModalIsOpen(false);
+                    window.location.reload();
+                })
+            } else {
+                addToast("It is not available to delete this period, because there are active reservations in it!", { appearance: "error" });
+            }
+        })
+
+        
     }
 
 

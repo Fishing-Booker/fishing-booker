@@ -23,4 +23,7 @@ public interface IReservationPeriodRepository extends JpaRepository<ReservationP
     @Modifying
     void deletePeriod(Integer periodId);
 
+    @Query("SELECT p FROM ReservationPeriod p WHERE p.id=?1")
+    ReservationPeriod findPeriodById(Integer periodId);
+
 }

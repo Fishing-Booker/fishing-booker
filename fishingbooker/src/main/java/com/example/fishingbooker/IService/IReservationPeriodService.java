@@ -3,7 +3,6 @@ package com.example.fishingbooker.IService;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.GetReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
-import com.example.fishingbooker.Model.ReservationPeriod;
 
 import java.util.Date;
 import java.util.List;
@@ -23,4 +22,6 @@ public interface IReservationPeriodService {
     List<GetReservationPeriodDTO> findEntityPeriods(Integer entityId);
 
     void deletePeriod(Integer entityId, Integer periodId);
+
+    boolean isPeriodAvailable(Integer periodId);
 }

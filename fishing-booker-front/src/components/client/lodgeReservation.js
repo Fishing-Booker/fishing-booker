@@ -79,10 +79,11 @@ const LodgeReservation = () => {
     }
 
     const seeAvailableReservations = (startDate, endDate) => {
-        var periodDTO = { entityId: id, startDate, endDate }
+        var ownerId = 3;
+        var periodDTO = { startDate, endDate, entityId : id, ownerId }
         console.log(periodDTO)
         axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
-            .then(response => setAvailablePeriods(response.data))
+            .then(response => {setAvailablePeriods(response.data); console.log(response.data)})
     }
 
     const periods = availablePeriods.length ? (
