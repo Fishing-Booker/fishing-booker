@@ -8,6 +8,7 @@ public class UpdateLodgeDTO {
     private String country;
     private Integer maxPersons;
     private String description;
+    private double cancelConditions;
     private Integer oneBed;
     private Integer twoBed;
     private Integer threeBed;
@@ -16,7 +17,8 @@ public class UpdateLodgeDTO {
     public UpdateLodgeDTO() {
     }
 
-    public UpdateLodgeDTO(String name, Integer locationId, String address, String city, String country, Integer maxPersons, String description, Integer oneBed, Integer twoBed, Integer threeBed, Integer fourBed) {
+    public UpdateLodgeDTO(String name, Integer locationId, String address, String city, String country, Integer maxPersons,
+                          String description, double cancelConditions, Integer oneBed, Integer twoBed, Integer threeBed, Integer fourBed) {
         this.name = name;
         this.locationId = locationId;
         this.address = address;
@@ -24,6 +26,7 @@ public class UpdateLodgeDTO {
         this.country = country;
         this.maxPersons = maxPersons;
         this.description = description;
+        this.cancelConditions = cancelConditions;
         this.oneBed = oneBed;
         this.twoBed = twoBed;
         this.threeBed = threeBed;
@@ -116,5 +119,13 @@ public class UpdateLodgeDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getCancelConditions() {
+        return cancelConditions;
+    }
+
+    public void setCancelConditions(double cancelConditions) {
+        this.cancelConditions = cancelConditions;
     }
 }

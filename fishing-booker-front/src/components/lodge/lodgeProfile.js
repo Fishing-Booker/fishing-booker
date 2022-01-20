@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import axios from 'axios';
+import { useToasts } from "react-toast-notifications";
 
 const LodgeProfile = () => {
 
     const {lodgeId} = useParams();
+
+    const { addToast } = useToasts();
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
@@ -21,6 +24,7 @@ const LodgeProfile = () => {
     const [bedrooms, setBedrooms] = useState([]);
     const [allBedrooms, setAllBedrooms] = useState([]);
     const [description, setDescription] = useState("");
+    const [cancelConditions, setCancelConditions] = useState("");
 
     const [oneBed, setOneBed] = useState("");
     const [twoBed, setTwoBed] = useState("");
@@ -37,6 +41,7 @@ const LodgeProfile = () => {
         country,
         maxPersons,
         description,
+        cancelConditions,
         oneBed, 
         twoBed,
         threeBed,
@@ -67,6 +72,7 @@ const LodgeProfile = () => {
                 setCountry(lodge.location.country);
                 setMaxPersons(lodge.maxPersons);
                 setDescription(lodge.description);
+                setCancelConditions(lodge.cancelConditions);
 
                 for(let b of lodge.bedrooms){
                     if(b.bedroomType === "oneBed"){
@@ -83,14 +89,39 @@ const LodgeProfile = () => {
 
     }, []) 
 
-    const saveChanges = () => {
+    const editLodge = () => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
 
-        axios.put(SERVER_URL + '/lodges/updateLodge/' + lodgeId, editedLodge, {headers: headers})
+        axios.get(SERVER_URL + '/reservations/checkEntityFutureReservations/' + lodgeId, {headers: headers})
+            .then(response => {
+                var availableEdit = response.data;
+                console.log(availableEdit);
+                if(availableEdit === false){
+                    setDisabledEdit(false);
+                } else {
+                    addToast("It is not available to edit lodge informations, because there are future reservations!", { appearance: "error" });
+                }
+            });
+    }
+
+    const cancelChanges = () => {
+        setDisabledEdit(true);
+        window.location.reload();
+    }
+
+    const saveChanges = () => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        
+        if(editedLodge.name == ""){
+            addToast("Field for lodge name cannot be empty!", { appearance: "error" });
+        } else {
+            axios.put(SERVER_URL + '/lodges/updateLodge/' + lodgeId, editedLodge, {headers: headers})
             .then(response => {
                 window.location.reload();
                 console.log(response.data);
             });
+        }
+        
     }
 
     const allBedroomsForm = bedrooms.length ? (
@@ -147,26 +178,26 @@ const LodgeProfile = () => {
                         {!disabledEdit ? (
                             <div className="data">
                                 <h4>Name</h4>
-                                <input onChange={(e) => {setName(e.target.value)}}  value={name} disabled={disabledEdit}/>
+                                <input required onChange={(e) => {setName(e.target.value)}}  value={name} disabled={disabledEdit}/>
                             </div>
                         ) : (
                             <div></div>
                         )}
                         <div className="data">
                             <h4>Address</h4>
-                            <input onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
+                            <input required onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>City</h4>
-                            <input onChange={(e) => {setCity(e.target.value)}}  value={city} disabled={disabledEdit}/>
+                            <input required onChange={(e) => {setCity(e.target.value)}}  value={city} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Country</h4>
-                            <input onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
+                            <input required onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Max persons</h4>
-                            <input onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons} disabled={disabledEdit}/>
+                            <input type="number" min="0" onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             {disabledEdit ? (
@@ -186,14 +217,18 @@ const LodgeProfile = () => {
                             <h4>Description</h4>
                             <textarea onChange={(e) => {setDescription(e.target.value)}} value={description} disabled={disabledEdit}/>
                         </div>
+                        <div className="data">
+                            <h4>Cancel conditions</h4>
+                            <input type="number" min="0" onChange={(e) => {setCancelConditions(e.target.value)}}  value={cancelConditions} disabled={disabledEdit}/>
+                        </div>
                     </div> <br/> <br/>
                     {disabledEdit ? (
-                        <button className="edit-profile-btn" onClick={() => setDisabledEdit(false)}>
+                        <button className="edit-profile-btn" onClick={() => editLodge()}>
                             Edit
                         </button>
                     ) : (
                         <div className="edit-profile-btns">
-                            <button className="edit-profile-cancel" onClick={() => setDisabledEdit(true)}>
+                            <button className="edit-profile-cancel" onClick={() => cancelChanges()}>
                                 Cancel
                             </button>
                             <button className="edit-profile-save" onClick={() => saveChanges()}>

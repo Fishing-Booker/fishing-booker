@@ -30,16 +30,12 @@ const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
                                 Are you sure you want to delete this lodge?
                             </div>
                             <div className="buttons">
-                                <Link to="/" onClick={() => setModalIsOpen(false)}>
-                                    <button className="cancel" >
-                                        Cancel
-                                    </button>
-                                </Link>
-                                <Link to="/" onClick={() => deleteLodge()}>
-                                    <button className="delete" >
-                                        Delete
-                                    </button>
-                                </Link><br/><br/>
+                                <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                    Cancel
+                                </button>
+                                <button className="delete" onClick={() => deleteLodge()}>
+                                    Delete
+                                </button><br/><br/><br/>
                             </div>
                         </div>
                         </div>

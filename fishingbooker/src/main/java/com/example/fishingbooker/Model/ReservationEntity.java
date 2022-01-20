@@ -31,7 +31,7 @@ public class ReservationEntity {
     private String rules;
 
     @Column(name = "cancel_conditions")
-    private String cancelConditions;
+    private double cancelConditions;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -51,7 +51,7 @@ public class ReservationEntity {
     public ReservationEntity() { }
 
     public ReservationEntity(Integer id, User owner, String name, Location location, String description, String rules,
-                             String cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
+                             double cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
         this.id = id;
         this.owner = owner;
         this.name = name;
@@ -121,11 +121,11 @@ public class ReservationEntity {
         this.rules = rules;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

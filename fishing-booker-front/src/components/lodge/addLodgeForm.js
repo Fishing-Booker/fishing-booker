@@ -3,10 +3,13 @@ import { Link} from "react-router-dom";
 import '../../css/addingForm.css';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { useToasts } from "react-toast-notifications";
 
 const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const { addToast } = useToasts();
 
     const [user, setUser] = useState({});
 
@@ -14,8 +17,9 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
-    const [maxPersons, setMaxPersons] = useState("");
+    const [maxPersons, setMaxPersons] = useState("0");
     const [description, setDescription] = useState("");
+    const [cancelConditions, setCancelConditions] = useState("0");
     const [oneBed, setOneBed] = useState("0");
     const [twoBed, setTwoBed] = useState("0");
     const [threeBed, setThreeBed] = useState("0");
@@ -36,6 +40,7 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
         country, 
         maxPersons,
         description,
+        cancelConditions,
         oneBed,
         twoBed, 
         threeBed,
@@ -43,12 +48,16 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     }
 
     const addLodge = () => {
-        console.log(newLodge);
-        axios.post(SERVER_URL + "/lodges/addLodge", newLodge)
-          .then(response => {
-            setModalIsOpen(false);
-            window.location.reload();
-        });
+        if(newLodge.name == ""){
+            addToast("Field for lodge name cannot be empty!", { appearance: "error" });
+        } else {
+            axios.post(SERVER_URL + "/lodges/addLodge", newLodge)
+            .then(response => {
+              setModalIsOpen(false);
+              window.location.reload();
+          });
+        }
+        
     }
 
    return (
@@ -85,6 +94,10 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
                                     <h4>Description:</h4>
                                     <textarea type="text" required onChange={(e) => {setDescription(e.target.value)}} value={description}/>
                                 </div>
+                                <div className="data">
+                                    <h4>Cancel conditions:</h4>
+                                    <input type="number" min="0" required onChange={(e) => {setCancelConditions(e.target.value)}} value={cancelConditions}/>
+                                </div>
                                 <div className="data" style={{width: '150%'}}>
                                     <h4>Bedrooms:</h4>
                                     <div style={{display:'flex'}}>
@@ -108,11 +121,14 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
                                         </div>
                                     </div>
                                 </div>
-                                <Link to="/" onClick={() => addLodge()} >
-                                    <button>
-                                        Add
+                                <div className="buttons">
+                                    <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                        Cancel
                                     </button>
-                                </Link>
+                                    <button className="add" onClick={() => addLodge()}>
+                                        Add
+                                    </button><br/>
+                                </div>
                             </div> <br/> <br/>
                         </div>
                     </div>

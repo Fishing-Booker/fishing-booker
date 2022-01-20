@@ -13,10 +13,13 @@ import axios from "axios";
 import AddLodgeFrom from "./addLodgeForm";
 import DeleteLodgeForm from "./deleteLodgeForm";
 import noImg from '../../images/noProfilePicture.jpg';
+import { useToasts } from "react-toast-notifications";
 
 const LodgeOwnerHomePage = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const { addToast } = useToasts();
 
     const [user, setUser]  =useState([]);
     const [lodges, setLodges] = useState([]);
@@ -57,7 +60,19 @@ const LodgeOwnerHomePage = () => {
 
     const deleteLodge = (id) => {
         setLodgeId(id);
-        setDeleteLodgeForm(true);
+        
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + '/reservations/checkEntityFutureReservations/' + id, {headers: headers})
+            .then(response => {
+                var availableDelete = response.data;
+                if(availableDelete === false){
+                    setLodgeId(id);
+                    setDeleteLodgeForm(true);
+                } else {
+                    addToast("It is not available to delete lodge, because there are future reservations!", { appearance: "error" });
+                }
+            });
     }
 
     const allLodges = lodges.length ? (
@@ -71,11 +86,9 @@ const LodgeOwnerHomePage = () => {
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
                         
                         <div className="buttons">
-                            <Link to="#deleteLodge" onClick={() => deleteLodge(lodge.id)}>
-                                <button title="Delete lodge">
-                                    <img src={deleteImg}/>
-                                </button>
-                            </Link>
+                            <button title="Delete lodge" onClick={() => deleteLodge(lodge.id)}>
+                                <img src={deleteImg}/>
+                            </button>
                         </div>
                     </div>
                 </div>

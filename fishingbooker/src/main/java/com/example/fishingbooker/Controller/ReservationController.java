@@ -116,4 +116,9 @@ public class ReservationController {
         return reservationService.findOwnerReservations(id);
     }
 
+    @GetMapping("/checkEntityFutureReservations/{id}")
+    public boolean hasEntityFutureReservations(@PathVariable Integer id){
+        return reservationService.hasEntityFutureReservations(id);
+    }
+
 }

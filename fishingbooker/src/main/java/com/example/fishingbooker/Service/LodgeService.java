@@ -108,7 +108,7 @@ public class LodgeService implements ILodgeService {
     public void updateLodge(UpdateLodgeDTO dto, Integer lodgeId) {
         locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
-        lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), lodgeId);
+        lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), dto.getCancelConditions(), lodgeId);
     }
 
     @Override

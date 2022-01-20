@@ -7,7 +7,7 @@ public class EntityDTO {
     private String name;
     private String location;
     private String description;
-    private String cancelConditions;
+    private double cancelConditions;
     private double averageGrade;
     private Integer maxPersons;
     private String profileImage;
@@ -15,7 +15,8 @@ public class EntityDTO {
     public EntityDTO() {
     }
 
-    public EntityDTO(Integer serialNumber,Integer entityId, Integer ownerId, String name, String location, String description, String cancelConditions, double averageGrade, Integer maxPersons, String profileImage) {
+    public EntityDTO(Integer serialNumber,Integer entityId, Integer ownerId, String name, String location, String description,
+                     double cancelConditions, double averageGrade, Integer maxPersons, String profileImage) {
         this.serialNumber = serialNumber;
         this.entityId = entityId;
         this.ownerId = ownerId;
@@ -76,11 +77,11 @@ public class EntityDTO {
         this.description = description;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

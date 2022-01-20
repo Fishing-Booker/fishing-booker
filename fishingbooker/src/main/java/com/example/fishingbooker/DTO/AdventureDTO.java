@@ -9,13 +9,14 @@ public class AdventureDTO {
     private String description;
     private String biography;
     private Integer maxPersons;
-    private String cancelConditions;
+    private double cancelConditions;
     private String fishingEquipment;
 
     public AdventureDTO() {
     }
 
-    public AdventureDTO(Integer owner, String name, String address, String city, String country, String description, String biography, Integer maxPersons, String cancelConditions, String fishingEquipment) {
+    public AdventureDTO(Integer owner, String name, String address, String city, String country, String description,
+                        String biography, Integer maxPersons, double cancelConditions, String fishingEquipment) {
         this.owner = owner;
         this.name = name;
         this.address = address;
@@ -92,11 +93,11 @@ public class AdventureDTO {
         this.maxPersons = maxPersons;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

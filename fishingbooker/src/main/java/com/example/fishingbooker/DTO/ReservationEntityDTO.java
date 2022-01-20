@@ -7,14 +7,14 @@ public class ReservationEntityDTO {
     private Integer locationId;
     private String description;
     private String rules;
-    private String cancelConditions;
+    private double cancelConditions;
     private double averageGrade;
     private Integer maxPersons;
 
     public ReservationEntityDTO() {
     }
 
-    public ReservationEntityDTO(Integer id, String name, Integer locationId, String description, String rules, String cancelConditions, double averageGrade, Integer maxPersons) {
+    public ReservationEntityDTO(Integer id, String name, Integer locationId, String description, String rules, double cancelConditions, double averageGrade, Integer maxPersons) {
         this.id = id;
         this.name = name;
         this.locationId = locationId;
@@ -65,11 +65,11 @@ public class ReservationEntityDTO {
         this.rules = rules;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

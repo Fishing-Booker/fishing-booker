@@ -227,4 +227,14 @@ public class ReservationService implements IReservationService {
         }
         return dtos;
     }
+
+    @Override
+    public boolean hasEntityFutureReservations(Integer entityId){
+        for (ReservationDTO reservation : findEntityReservations(entityId)) {
+            if(reservation.getEndDate().compareTo(new Date()) >= 0){
+                return true;
+            }
+        }
+        return false;
+    }
 }

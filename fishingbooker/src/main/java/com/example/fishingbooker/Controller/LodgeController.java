@@ -67,7 +67,7 @@ public class LodgeController {
         }
 
         Lodge lodge = new Lodge(id, owner, lodgeDTO.getName(), location, lodgeDTO.getDescription(),
-                "", "", 0.0, lodgeDTO.getMaxPersons(), new ArrayList<>());
+                "", lodgeDTO.getCancelConditions(), 0.0, lodgeDTO.getMaxPersons(), new ArrayList<>());
 
         lodgeService.save(lodge);
 

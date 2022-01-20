@@ -38,4 +38,6 @@ public interface IReservationService {
     Reservation makeReservationOwner(OwnerReservationDTO dto);
 
     List<ReservationForCalendarDTO> findOwnerReservations(Integer ownerId);
+
+    boolean hasEntityFutureReservations(Integer entityId);
 }
