@@ -38,6 +38,10 @@ const LodgeActionInfo = ({modalIsOpen, setModalIsOpen, action}) => {
                                 <h4>Additional services:</h4>
                                 {action.additionalServices}
                             </div>
+                            <div className="client-data">
+                                <h4>Regular service:</h4>
+                                {action.regularService}
+                            </div>
                             <button className="client-btn" onClick={() => setModalIsOpen(false)}>
                                 Done
                             </button>

@@ -7,6 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import { DateTimePickerComponent} from "@syncfusion/ej2-react-calendars"
 import { format } from 'date-fns';
 import MakeLodgeReservation from './makeLodgeReservation';
+import MakeLodgeAction from './makeLodgeAction';
 
 const AddLodgeActionForm = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
@@ -23,7 +24,7 @@ const AddLodgeActionForm = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const [showPeriods, setShowPeriods] = useState(false);
 
-    const [makeReservationForm, setMakeReservationForm] = useState(false);
+    const [makeActionForm, setMakeActionForm] = useState(false);
 
     const [maxPersons, setMaxPersons] = useState("");
 
@@ -37,11 +38,11 @@ const AddLodgeActionForm = ({modalIsOpen, setModalIsOpen, entityId}) => {
             .then(response => {
                 setUser(response.data);
                 var owner = response.data;
-                console.log(owner);
 
-                axios.get(SERVER_URL + "/lodges/ownerLodges/" + user.id, {headers: headers})
+                axios.get(SERVER_URL + "/lodges/ownerLodges/" + owner.id, {headers: headers})
                     .then(response => {
                         setLodges(response.data);
+                        console.log(response.data);
                         var lodges = response.data;
                         for(let lodge of lodges){
                             if(lodge.id == entityId){
@@ -64,10 +65,10 @@ const AddLodgeActionForm = ({modalIsOpen, setModalIsOpen, entityId}) => {
             })
     }
 
-    const makeReservation = (start, end) => {
+    const makeAction = (start, end) => {
         setStartDate(start);
         setEndDate(end);
-        setMakeReservationForm(true);
+        setMakeActionForm(true);
         setModalIsOpen(false);
     }
 
@@ -77,7 +78,7 @@ const AddLodgeActionForm = ({modalIsOpen, setModalIsOpen, entityId}) => {
                 <div key={index} className="period-card-reservation">
                     <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
                     <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy.')}</p>
-                    <a className="reservation-link" onClick={() => makeReservation(period.startDate, period.endDate)}>make reservation</a>
+                    <a className="reservation-link" onClick={() => makeAction(period.startDate, period.endDate)}>make action</a>
                 </div>
             ) 
         })
@@ -118,6 +119,7 @@ const AddLodgeActionForm = ({modalIsOpen, setModalIsOpen, entityId}) => {
                 </div>
             </Modal>
             
+            <MakeLodgeAction modalIsOpen={makeActionForm} setModalIsOpen={setMakeActionForm} startOfPeriod={startDate} endOfPeriod={endDate} maxGuests={maxPersons} entityOfId={entityId} />
         </div>
    )
     

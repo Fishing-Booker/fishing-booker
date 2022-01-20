@@ -79,6 +79,7 @@ public class ReservationActionService implements IReservationActionService {
             dto.setMaxPersons(action.getMaxPersons());
             dto.setBookedBy(getIsActionBooked(action));
             dto.setBooked(action.isBooked());
+            dto.setRegularService(action.getRegularService());
             actions.add(dto);
         }
         return actions;
