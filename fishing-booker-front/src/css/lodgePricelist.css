@@ -91,6 +91,25 @@
     .responsive-table .col-4-price:hover {
       color: rgb(104, 18, 161);
     }
+
+
+    .responsive-table .col-1-reservation {
+      flex-basis: 10%;
+    }
+    .responsive-table .col-2-reservation {
+      margin-left: 3%;
+      flex-basis: 20%;
+    }
+    .responsive-table .col-3-reservation {
+      flex-basis:20%;
+    }
+    .responsive-table .col-4-reservation {
+      flex-basis: 10%;
+    }
+    .responsive-table .col-5-reservation {
+      flex-basis: 20%;
+    }
+
     
     @media all and (max-width: 767px) {
       .table-header {

@@ -39,8 +39,15 @@ public class ReservationService implements IReservationService {
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
         List<ReservationDTO> reservations = new ArrayList<>();
         for (Reservation r : reservationRepository.findEntityReservations(entityId)) {
+            String reservationType;
+            if(r.getReservationType() == ReservationType.regularReservation){
+                reservationType = "regular reservation";
+            } else {
+                reservationType = "quick reservation";
+            }
             reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
-                    r.getReservationEntity().getName()));
+                    r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
+                    reservationType, r.getMaxPersons()));
         }
         return reservations;
     }
@@ -48,10 +55,23 @@ public class ReservationService implements IReservationService {
     private List<ReservationDTO> findFutureEntityReservations(Integer entityId) {
         List<ReservationDTO> reservations = new ArrayList<>();
         for (Reservation r : reservationRepository.findEntityReservations(entityId)) {
+            String reservationType;
+            if(r.getReservationType() == ReservationType.regularReservation){
+                reservationType = "regular reservation";
+            } else {
+                reservationType = "quick reservation";
+            }
+            String bookedBy;
+            if(r.getClient().getUsername().equals(entityRepository.findEntityById(entityId).getOwner().getUsername())){
+                bookedBy = "free";
+            } else{
+                bookedBy = r.getClient().getUsername();
+            }
             Date date = new Date();
             if(r.getEndDate().after(date)) {
-                reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
-                        r.getReservationEntity().getName()));
+                reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), bookedBy, entityId,
+                        r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
+                        reservationType, r.getMaxPersons()));
             }
         }
         return reservations;
