@@ -2,9 +2,25 @@ import '../../css/registration.css';
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom";
 
 const RegistrationType = () => {
+
     const[role, setRole] = useState("")
+
+    const { addToast } = useToasts();
+
+    let history = useHistory();
+
+    const register = () => {
+      if(role == ""){
+        addToast("You have to choose role for registration!", { appearance: "error" });
+      } else {
+        history.push({pathname: `/registrationForm/${role}`});
+      }
+    }
+
     return (
       <div className="container-reg">
       <div className="title">Choose registration type</div> <br></br>
@@ -28,10 +44,10 @@ const RegistrationType = () => {
         <label className="typeName" htmlFor="boatOwner" aria-label="boatOwner">
           <span></span>
           
-          Boat owner
+          Ship owner
           
           <br/><label className="description">
-            You can rent your boat for adventures to our clients and have professional insight in your business!
+            You can rent your ship for adventures to our clients and have professional insight in your business!
           </label>
           
         </label>
@@ -65,11 +81,9 @@ const RegistrationType = () => {
         </label>
       </div>
 
-      <Link to={`/registrationForm/${role}`}>
         <div className="button">
-            <input type="submit" value="Next"/>
+            <input type="submit" value="Next" onClick={() => register()}/>
         </div>
-      </Link>
       </div>
 
     </div>

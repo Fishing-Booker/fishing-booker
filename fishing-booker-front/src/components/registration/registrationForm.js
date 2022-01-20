@@ -125,10 +125,15 @@ const RegistrationForm = () => {
             <span className="details">Confirm Password</span>
             <input type="password" placeholder="Confirm your password" required onChange={(e) => setConfirmationPassword(e.target.value)} value={confirmationPassword}/>
           </div>
-          <div className="input-box-reasons">
-            <span className="details">Registration reason</span>
-            <textarea type="text" placeholder="Registration reason" required onChange={(e) => setRegistrationReason(e.target.value)} value={registrationReason}/>
-          </div>
+          
+          {(role != "ROLE_CLIENT") ? (
+            <div className="input-box-reasons">
+              <span className="details">Registration reason</span>
+              <textarea type="text" placeholder="Registration reason" required onChange={(e) => setRegistrationReason(e.target.value)} value={registrationReason}/>
+            </div>
+          ) : 
+          (<div></div>)}
+          
         </div>
         <p className="reg-message">Alredy have an account? <Link className="link" to="/login">Log in</Link></p>
         <div className="button">
