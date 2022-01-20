@@ -29,8 +29,10 @@ const LodgeOwnerHomePage = () => {
     const [addLodge, setAddLodge] = useState(false);
     const [deleteLodgeForm, setDeleteLodgeForm] = useState(false);
 
-    useEffect(() => {
+    const [lodgeName, setLodgeName] = useState("");
+    const [url, setUrl] = useState(SERVER_URL + '/lodges');
 
+    useEffect(() => {
         const headers = {'Content-Type' : 'application/json',
                      'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
@@ -38,7 +40,7 @@ const LodgeOwnerHomePage = () => {
         .then(response => {
             setUser(response.data);
             var user = response.data;
-
+        
             axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
                 .then(response => {
                     setLodges(response.data); 
@@ -53,10 +55,34 @@ const LodgeOwnerHomePage = () => {
                     }
                     setLodges(allLodges);
                 });
-        
         });
 
     }, [])
+    
+
+    useEffect(() => {
+
+        const headers = {'Content-Type' : 'application/json',
+                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(url, {headers: headers})
+            .then(response => {
+                console.log(response.data);
+                var lodges = response.data;
+                    var allLodges = [];
+                    for(let lodge of lodges){
+                        if(lodge.profileImage == ""){
+                            lodge.profileImage = noImg;
+                        }
+                        allLodges.push(lodge);
+                    }
+                    setLodges(allLodges);
+            })
+        
+
+    }, [url])
+
+    
 
     const deleteLodge = (id) => {
         setLodgeId(id);
@@ -105,10 +131,18 @@ const LodgeOwnerHomePage = () => {
                 
             <div className="container-home">
                 
-                <div className="title">Welcome Lodge Owner!</div>
+                <div className="title">Welcome {user.username}!</div>
 
                 <div className="input-box-lodge">
-                    <input type="text" placeholder="Search..."/>
+                    <input type="search" placeholder="Enter lodge name " value={lodgeName}
+                        onChange={(e) => {
+                            setLodgeName(e.target.value)
+                            setUrl(SERVER_URL + '/lodges/searchLodge?name=' + lodgeName + "&owner=" + user.id);
+                            if(e.target.value === ''){
+                                setUrl(SERVER_URL + '/lodges/ownerLodges/' + user.id);
+                            }
+                        }}
+                    />
                     <div className="modal-place">
                         <Link to="#addLodge" onClick={() => setAddLodge(true)}>
                             <button title="Add lodge">

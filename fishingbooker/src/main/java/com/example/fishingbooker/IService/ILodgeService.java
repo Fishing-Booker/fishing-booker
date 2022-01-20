@@ -40,4 +40,6 @@ public interface ILodgeService {
 
     List<LodgeInfoDTO> getByReservationDate(Date date);
 
+    List<LodgeDTO> searchLodgesByName(String name, Integer ownerId) throws IOException;
+
 }

@@ -122,6 +122,19 @@ public class LodgeService implements ILodgeService {
     }
 
     @Override
+    public List<LodgeDTO> searchLodgesByName(String name, Integer owner) throws IOException {
+        List<Lodge> lodges = lodgeRepository .searchByName(name);
+        List<LodgeDTO> lodgesDTO = new ArrayList<>();
+        for (Lodge l : lodges) {
+            if(l.getOwner().getId() == owner){
+                lodgesDTO.add(new LodgeDTO(l.getId(), l.getOwner().getId(), l.getName(), l.getLocation(), l.getDescription(),
+                        l.getAverageGrade(), imageService.getEntityProfileImage(l.getId()), l.getMaxPersons()));
+            }
+        }
+        return lodgesDTO;
+    }
+
+    @Override
     public List<String> getFirstLetters() {
         return lodgeRepository.getFirstLetters();
     }

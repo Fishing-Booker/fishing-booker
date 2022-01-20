@@ -61,4 +61,7 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
             " WHERE ?1 BETWEEN p.startDate AND p.endDate")
     List<Lodge> getByReservationDate(Date date);
 
+    @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '')")
+    List<Lodge> searchByName(@Param("name") String name);
+
 }

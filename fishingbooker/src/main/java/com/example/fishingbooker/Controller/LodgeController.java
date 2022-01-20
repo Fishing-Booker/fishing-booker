@@ -86,6 +86,11 @@ public class LodgeController {
         return lodgeService.search(name, letter, location);
     }
 
+    @GetMapping("/searchLodge")
+    public List<LodgeDTO> getSearchedLodges(@RequestParam(required = false) String name, @RequestParam(required = false) Integer owner) throws IOException {
+        return lodgeService.searchLodgesByName(name, owner);
+    }
+
     @PostMapping("/byDate")
     public List<LodgeInfoDTO> getLodgesByReservationDate(@RequestBody ReservationDateDTO dto) {
         return lodgeService.getByReservationDate(dto.getDate());
