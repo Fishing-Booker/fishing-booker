@@ -151,3 +151,12 @@
   .sidebar-link:hover{
     color: white;
   }
+  
+  .search-box{
+    margin-top: 20px;
+    border-width: 1px;
+    border-radius: 4px;
+    height: 35px;
+    width: 200px;
+    margin-left: 1%;
+}

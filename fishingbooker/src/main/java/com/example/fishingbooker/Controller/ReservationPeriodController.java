@@ -45,6 +45,11 @@ public class ReservationPeriodController {
         return periods;
     }
 
+    @GetMapping("/allFreePeriods/{owner}/{entity}")
+    public List<ReservationPeriodDTO> getAllFreePeriods(@PathVariable Integer owner, @PathVariable Integer entity){
+        return periodService.findAllFreePeriods(entity);
+    }
+
     @PostMapping("/availablePeriods")
     public List<ReservationPeriodDTO> getAvailablePeriods(@RequestBody ReservationPeriodDTO dto) {
         return periodService.getAvailablePeriods(dto.getEntityId(), dto.getStartDate(), dto.getEndDate());

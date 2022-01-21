@@ -59,21 +59,33 @@ const LodgeReservations = () => {
 
     useEffect(() => {
 
-        const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        axios.get(SERVER_URL + '/reservations/getFutureOwnerEntitiesReservations/' + user.id, {headers: headers})
-        .then(response => {
-            console.log(response.data)
-            var reservations = response.data;
-            for(let r of reservations){
-                r.startDate = format(r.startDate, 'dd.MM.yyyy. kk:mm');
-                r.endDate = format(r.endDate, 'dd.MM.yyyy. kk:mm');
-            }
-            setReservations(reservations);
+        if(clientName == "free"){
+            axios.get(SERVER_URL + '/reservations/searchClients?username=' + user.username + "&owner=" + user.id, {headers: headers})
+                .then(response => {
+                    console.log(response.data)
+                    var reservations = response.data;
+                    for(let r of reservations){
+                        r.startDate = format(r.startDate, 'dd.MM.yyyy. kk:mm');
+                        r.endDate = format(r.endDate, 'dd.MM.yyyy. kk:mm');
+                    }
+                    setReservations(reservations);
 
-        })
-        
+                })
+        } else {
+            axios.get(url, {headers: headers})
+                .then(response => {
+                    console.log(response.data)
+                    var reservations = response.data;
+                    for(let r of reservations){
+                        r.startDate = format(r.startDate, 'dd.MM.yyyy. kk:mm');
+                        r.endDate = format(r.endDate, 'dd.MM.yyyy. kk:mm');
+                    }
+                    setReservations(reservations);
+
+                })
+        }
 
     }, [url])
 
@@ -128,18 +140,19 @@ const LodgeReservations = () => {
             <div className="reservations-right">
                 <div className="info">
                     <h3>RESERVATIONS</h3>
-                    <button className="new-reservation-btn" onClick={() => addReservation()}>
-                        Create new reservation
-                    </button>
-                    <input type="search" placeholder="Enter client username " value={clientName} style={{'margin-left': '5%'}}
+                    
+                    <input className="search-box" type="search" placeholder="Enter client username " value={clientName} 
                         onChange={(e) => {
                             setClientName(e.target.value)
-                            setUrl(SERVER_URL + '/lodges/searchLodge?name=' + clientName + "&owner=" + user.id);
+                            setUrl(SERVER_URL + '/reservations/searchClients?username=' + clientName + "&owner=" + user.id);
                             if(e.target.value === ''){
-                                setUrl(SERVER_URL + "/reservations/checkActiveReservations/" + user.id);
+                                setUrl(SERVER_URL + '/reservations/getFutureOwnerEntitiesReservations/' + user.id);
                             }
                         }}
                     />
+                    <button className="new-reservation-btn" onClick={() => addReservation()} style={{'margin-left': '50%'}}>
+                        Create new reservation
+                    </button>
                     <br/><br/>
                     <div class="container-table-reservations">
                         <ul class="responsive-table">
@@ -156,7 +169,6 @@ const LodgeReservations = () => {
                 </div>
             </div>
 
-            <AddLodgeReport modalIsOpen={addReportForm} setModalIsOpen={setAddReportForm} reservationId={reservationId}/>
             <AddLodgeReservationByOwner modalIsOpen={addReservationForm} setModalIsOpen={setAddReservationForm} />
             <ClientProfile modalIsOpen={clientModal} setModalIsOpen={setClientModal} clientUsername={client} />
             <LodgeReservationInfo modalIsOpen={showInfo} setModalIsOpen={setShowInfo} reservation={reservation} />

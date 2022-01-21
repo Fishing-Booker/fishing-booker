@@ -24,4 +24,6 @@ public interface IReservationPeriodService {
     void deletePeriod(Integer entityId, Integer periodId);
 
     boolean isPeriodAvailable(Integer periodId);
+
+    List<ReservationPeriodDTO> findAllFreePeriods(Integer entityId);
 }

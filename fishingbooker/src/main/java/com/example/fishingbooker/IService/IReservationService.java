@@ -40,4 +40,6 @@ public interface IReservationService {
     List<ReservationForCalendarDTO> findOwnerReservations(Integer ownerId);
 
     boolean hasEntityFutureReservations(Integer entityId);
+
+    List<ReservationDTO> searchClients(String username, Integer entityId);
 }

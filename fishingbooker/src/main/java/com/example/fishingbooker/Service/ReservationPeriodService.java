@@ -118,6 +118,17 @@ public class ReservationPeriodService implements IReservationPeriodService {
     }
 
     @Override
+    public List<ReservationPeriodDTO> findAllFreePeriods(Integer entityId) {
+        List<ReservationPeriodDTO> allPeriods = findAllPeriods(entityId);
+        List<ReservationDTO> allReservations = reservationService.findEntityReservations(entityId);
+        List<ReservationPeriodDTO> freePeriods = allPeriods;
+        for (ReservationDTO reservation : allReservations) {
+            freePeriods = getChangedPeriods(freePeriods, reservation, entityId);
+        }
+        return freePeriods;
+    }
+
+    @Override
     public List<ReservationPeriodDTO> findFreePeriods(Integer entityId) {
         List<ReservationPeriodDTO> allPeriods = findAllPeriods(entityId);
         List<ReservationDTO> allReservations = reservationService.findEntityReservations(entityId);

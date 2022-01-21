@@ -31,6 +31,7 @@ const LodgeOwnerCalendar = () => {
 
                     console.log(resDates)
 
+                    var allPeriods = []
                     for(let d of resDates){
                         if(d.reservationType === "regularReservation") {
                             var event = {
@@ -39,7 +40,7 @@ const LodgeOwnerCalendar = () => {
                                 to: d.endDate,
                                 title: "Reservation #" + d.reservationId + " for "+ d.entityName + ": client - " + d.clientName + " " + d.clientSurname + ", service type - " +  d.regularService
                             }
-                            periods.push(event);
+                            allPeriods.push(event);
                         } else {
                             var event = {
                                 color: '#97FB48',
@@ -47,12 +48,33 @@ const LodgeOwnerCalendar = () => {
                                 to: d.endDate,
                                 title: "Action #" + d.reservationId + " for "+ d.entityName + ": client - " + d.clientName + " " + d.clientSurname + ", service type - " +  d.regularService
                             }
-                            periods.push(event);
+                            allPeriods.push(event);
                         }
                     }
 
-                    console.log(periods)
-                    setPeriods(periods);
+                    setPeriods(allPeriods);
+
+                    axios.get(SERVER_URL + "/periods/entityPeriods/" + 4, { headers: headers })
+                    .then(response => {
+                        var periods = response.data;
+                        for(let p of periods) {
+                            p.startDate = format(p.startDate, 'yyyy-MM-dd kk:mm');
+                            p.endDate = format(p.endDate, 'yyyy-MM-dd kk:mm');
+                        }
+
+                        for(let p of periods){
+                            var event = {
+                                color: '#FF0000',
+                                from: p.startDate,
+                                to: p.endDate,
+                                title: "Free period #"
+                            }
+                            allPeriods.push(event);
+                        }
+
+                        setPeriods(allPeriods);
+
+                    })
 
                 });
     })

@@ -1,13 +1,9 @@
-import Entities from "../entities";
+
 import { useState, useEffect } from "react";
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "../navbar";
+import { Link} from "react-router-dom";
 import React from 'react'
 import '../../css/homePage.css';
-import lodge1 from '../../images/lodge1.jpg';
-import lodge2 from '../../images/lodge2.jpg';
 import deleteImg from '../../images/trash.png';
-import editImg from '../../images/pencil.png'
 import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddLodgeFrom from "./addLodgeForm";
@@ -58,7 +54,7 @@ const LodgeOwnerHomePage = () => {
         });
 
     }, [])
-    
+
 
     useEffect(() => {
 

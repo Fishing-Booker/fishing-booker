@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReservationService implements IReservationService {
@@ -45,7 +46,13 @@ public class ReservationService implements IReservationService {
             } else {
                 reservationType = "quick reservation";
             }
-            reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), r.getClient().getUsername(), entityId,
+            String bookedBy;
+            if(r.getClient().getUsername().equals(entityRepository.findEntityById(entityId).getOwner().getUsername())){
+                bookedBy = "free";
+            } else{
+                bookedBy = r.getClient().getUsername();
+            }
+            reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), bookedBy, entityId,
                     r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
                     reservationType, r.getMaxPersons()));
         }
@@ -256,5 +263,30 @@ public class ReservationService implements IReservationService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<ReservationDTO> searchClients(String username, Integer ownerId){
+        List<ReservationDTO> reservations = new ArrayList<>();
+        for (Reservation r : reservationRepository.searchClients(username)) {
+            if(Objects.equals(r.getReservationEntity().getOwner().getId(), ownerId)){
+                String reservationType;
+                if(r.getReservationType() == ReservationType.regularReservation){
+                    reservationType = "regular reservation";
+                } else {
+                    reservationType = "quick reservation";
+                }
+                String bookedBy;
+                if(r.getClient().getUsername().equals(entityRepository.findEntityById(ownerId).getOwner().getUsername())){
+                    bookedBy = "free";
+                } else{
+                    bookedBy = r.getClient().getUsername();
+                }
+                reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), bookedBy, ownerId,
+                        r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
+                        reservationType, r.getMaxPersons()));
+            }
+        }
+        return reservations;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.ClientDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -119,6 +121,11 @@ public class ReservationController {
     @GetMapping("/checkEntityFutureReservations/{id}")
     public boolean hasEntityFutureReservations(@PathVariable Integer id){
         return reservationService.hasEntityFutureReservations(id);
+    }
+
+    @GetMapping("/searchClients")
+    public List<ReservationDTO> searchClients(@RequestParam(required = false) String username, @RequestParam(required = false) Integer owner) {
+        return reservationService.searchClients(username, owner);
     }
 
 }

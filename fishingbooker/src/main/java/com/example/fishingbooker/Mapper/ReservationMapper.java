@@ -56,6 +56,7 @@ public class ReservationMapper {
         dto.setPrice(reservation.getPrice());
         dto.setEntityName(reservation.getReservationEntity().getName());
         dto.setReservationType(reservation.getReservationType());
+        dto.setRegularService(reservation.getRegularService());
         return dto;
     }
 }
