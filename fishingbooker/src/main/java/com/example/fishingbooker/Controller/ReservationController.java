@@ -101,7 +101,7 @@ public class ReservationController {
     }
 
     @GetMapping("/getEntityNameOfClientActiveReservation/{ownerId}/{clientName}")
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     public ActiveReservationDTO getEntityNameOfClientActiveReservation(@PathVariable Integer ownerId, @PathVariable String clientName){
         return reservationService.getEntityNameOfClientActiveReservation(ownerId, clientName);
     }
@@ -140,4 +140,9 @@ public class ReservationController {
         return reservationService.getEntityNamesOfActiveReservations(id);
     }
 
+    @GetMapping("/getReservationReportAdmin")
+    @PreAuthorize("isAuthenticated()")
+    public List<ReservationReportDTO> getReservationReportAdmin() {
+        return reservationService.getReservationReport();
+    }
 }

@@ -1,9 +1,6 @@
 package com.example.fishingbooker.Mapper;
 
-import com.example.fishingbooker.DTO.reservation.ClientReservationDTO;
-import com.example.fishingbooker.DTO.reservation.OwnerReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ReservationDTO;
-import com.example.fishingbooker.DTO.reservation.ReservationForCalendarDTO;
+import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.Model.Reservation;
 
@@ -58,6 +55,16 @@ public class ReservationMapper {
         dto.setEntityName(reservation.getReservationEntity().getName());
         dto.setReservationType(reservation.getReservationType());
         dto.setRegularService(reservation.getRegularService());
+        return dto;
+    }
+
+    public static ReservationReportDTO mapModelToReportDTO(Reservation reservation) {
+        ReservationReportDTO dto = new ReservationReportDTO();
+        dto.setId(reservation.getId());
+        dto.setEntityName(reservation.getReservationEntity().getName());
+        dto.setUserName(reservation.getClient().getName());
+        dto.setUserSurname(reservation.getClient().getSurname());
+        dto.setPrice(reservation.getPrice());
         return dto;
     }
 }
