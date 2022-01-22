@@ -2,6 +2,7 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.ReservationEntityDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
@@ -291,5 +292,18 @@ public class ReservationService implements IReservationService {
             }
         }
         return reservations;
+    }
+
+    @Override
+    public List<String> getEntityNamesOfActiveReservations(Integer ownerId){
+        List<ReservationDTO> reservations = findOwnerEntitiesReservations(ownerId);
+        List<String> entityNames = new ArrayList<>();
+        for (ReservationDTO reservation : reservations) {
+            if(isReservationActive(reservation)) {
+                ReservationEntity entity = entityRepository.findEntityById(reservation.getEntityId());
+                entityNames.add(entity.getName());
+            }
+        }
+        return entityNames;
     }
 }

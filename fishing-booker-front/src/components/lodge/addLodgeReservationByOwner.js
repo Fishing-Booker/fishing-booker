@@ -14,7 +14,10 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+
     const [clientUsername, setClientUsername] = useState("");
+    const [usernames, setUsernames] = useState([]);
+
     const [lodgeNames, setLodgeNames] = useState([]);
     const [lodges, setLodges] = useState([]);
     const [entityId, setEntityId] = useState("");
@@ -22,7 +25,7 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
 
     const [lodgeName, setLodgeName] = useState("");
 
-    const [allowSearch, setAllowSearch] = useState(false);
+    const [allowSearch, setAllowSearch] = useState(true);
 
     const [periods, setPeriods] = useState([]);
 
@@ -46,55 +49,56 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                 axios.get(SERVER_URL + "/lodges/ownerLodges/" + user.id, {headers: headers})
                     .then(response => {
                         setLodges(response.data);
-                        var lodges = response.data;
-                        setLodgeName(lodges[0].name);
 
-                        var lodgeNames = [];
-                        for(let lodge of lodges){
-                            lodgeNames.push(lodge.name);
+                        var names = [];
+                        for(let lodge of response.data){
+                            names.push(lodge.name);
                         }
-                        setLodgeNames(lodgeNames);
+                        setLodgeNames(names);
+                    })
+
+                    axios.get(SERVER_URL + "/reservations/getClientsOfActiveReservations/" + user.id, {headers: headers})
+                    .then(response => {
+                        var usernames = response.data;
+                        var names = []
+                        for(let name of usernames){
+                            names.push(name.name);
+                        }
+                        setUsernames(names);
+
                     })
             })
     }, [modalIsOpen])
 
 
-    const getClient = (name) => {
-        setLodgeName(name);
-
-        for(let lodge of lodges){
-            if(lodge.name == name){
-                setEntityId(lodge.id);
-                setMaxPersons(lodge.maxPersons);
-            }
-        }
-
-        axios.get(SERVER_URL + "/reservations/getClientUsername/" + name + "/" + user.id)
-            .then(response => {
-                setClientUsername(response.data);
-                if(response.data != ""){
-                    setAllowSearch(true);
-                } else {
-                    setAllowSearch(false);
-                    addToast("There isn't any active reservation for this entity.", { appearance: "error" });
-                }
-            })
-    }
-
     const getFreePeriods = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        axios.get(SERVER_URL + "/periods/freePeriods/" + user.id + "/" + lodgeName, {headers: headers})
-            .then(response => {
-                var periods = (response.data);
-                setPeriods(periods);
-                setShowPeriods(true);
-            })
+        if(clientUsername === "" || lodgeName === ""){
+            addToast("You have to choose client and entity for reservation!", { appearance: "error" });
+        } else {
+            axios.get(SERVER_URL + "/periods/freePeriods/" + user.id + "/" + lodgeName, {headers: headers})
+                .then(response => {
+                    var periods = (response.data);
+                    setAllowSearch(false);
+                    setPeriods(periods);
+                    setShowPeriods(true);
+                })
+        }
+        
     }
 
     const makeReservation = (start, end) => {
         setStartDate(start);
         setEndDate(end);
+
+        for(let l of lodges){
+            if(l.name == lodgeName){
+                setEntityId(l.id);
+                setMaxPersons(l.maxPersons);
+            }
+        }
+
         setMakeReservationForm(true);
         setModalIsOpen(false);
     }
@@ -125,8 +129,20 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                             <h3>ADD NEW RESERVATION</h3>
                             <div className="info_data">
                                 <div className="data">
+                                    <h4>Client:</h4>
+                                    <select disabled={!allowSearch} onChange={(e) => setClientUsername(e.target.value)} value={clientUsername}>
+                                        <option></option>
+                                        {usernames.map((username) => (
+                                            <option className="card-image" key={username}>
+                                                {username}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="data">
                                     <h4>Lodge:</h4>
-                                    <select onChange={(e) => getClient(e.target.value)} value={lodgeName}>
+                                    <select disabled={!allowSearch} onChange={(e) => setLodgeName(e.target.value)} value={lodgeName}>
+                                        <option></option>
                                         {lodgeNames.map((name) => (
                                             <option className="card-image" key={name}>
                                                 {name}
@@ -135,7 +151,7 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                     </select>
                                 </div>
                                 
-                                <button disabled={!allowSearch} onClick={() => getFreePeriods()}>
+                                <button onClick={() => getFreePeriods()}>
                                     Search periods
                                 </button>
 
@@ -152,7 +168,7 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                 </div>
             </Modal>
             
-            <MakeLodgeReservation modalIsOpen={modalIsOpen} setModalIsOpen={modalIsOpen} startOfPeriod={startDate} endOfPeriod={endDate} maxGuests={maxPersons} clientUsername={clientUsername} entityOfId={entityId} />
+            <MakeLodgeReservation modalIsOpen={makeReservationForm} setModalIsOpen={setMakeReservationForm} startOfPeriod={startDate} endOfPeriod={endDate} clientUsername={clientUsername} maxGuests={maxPersons} entityOfId={entityId} />
         </div>
    )
     

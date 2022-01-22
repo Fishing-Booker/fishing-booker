@@ -128,4 +128,9 @@ public class ReservationController {
         return reservationService.searchClients(username, owner);
     }
 
+    @GetMapping("/getEntityNamesOfActiveReservations/{id}")
+    public List<String> getEntityNamesOfActiveReservations(@PathVariable Integer id){
+        return reservationService.getEntityNamesOfActiveReservations(id);
+    }
+
 }

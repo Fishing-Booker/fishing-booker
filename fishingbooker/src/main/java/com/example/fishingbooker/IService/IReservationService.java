@@ -42,4 +42,6 @@ public interface IReservationService {
     boolean hasEntityFutureReservations(Integer entityId);
 
     List<ReservationDTO> searchClients(String username, Integer entityId);
+
+    List<String> getEntityNamesOfActiveReservations(Integer ownerId);
 }

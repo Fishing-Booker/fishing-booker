@@ -29,6 +29,7 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
     const [regularService, setRegularService] = useState("");
 
     useEffect(() => {
+        console.log(maxGuests);
 
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
@@ -48,7 +49,6 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
             .then(response => {
                 console.log(response.data);
                 setServicesR(response.data);
-                setChoosenServicesR(response.data[0]);
         })
 
         startOfPeriod = new Date(startOfPeriod)
@@ -159,20 +159,25 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
                     addToast("Ship is available from: " + start + ", until " + end, { appearance: "error" });
                 } else {
 
-                    dto.additionalServices = setServicesAsString();
+                    if(dto.numberOfGuests > maxGuests){
+                        addToast("Maximum number of guests is " + maxGuests, { appearance: "error" });
+                    } else {
+                        dto.additionalServices = setServicesAsString();
 
-                    let end = regularS.lastIndexOf(" ");
-                    let reg = regularS.substring(0, end);
-                    dto.regularService = reg;
-        
-                    const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
-
-                    axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
-                    .then(response => {
-                        addToast("You made reservation successfully!", {appearance : "success"});
-                        setModalIsOpen(false);
-                        window.location.reload();
-                    })
+                        let end = regularS.lastIndexOf(" ");
+                        let reg = regularS.substring(0, end);
+                        dto.regularService = reg;
+            
+                        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+    
+                        axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
+                        .then(response => {
+                            addToast("You made reservation successfully!", {appearance : "success"});
+                            setModalIsOpen(false);
+                            window.location.reload();
+                        })
+                    }
+                    
 
                 }
 
@@ -213,6 +218,7 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
                                 <div className="data">
                                     <h4>Regular service:</h4>
                                     <select  value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
+                                        <option></option>
                                         {servicesR.map((service) => (
                                             <option>
                                                 {service.service_name} {service.price}$

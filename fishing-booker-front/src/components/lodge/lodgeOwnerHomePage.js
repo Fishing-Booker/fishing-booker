@@ -10,6 +10,7 @@ import AddLodgeFrom from "./addLodgeForm";
 import DeleteLodgeForm from "./deleteLodgeForm";
 import noImg from '../../images/noProfilePicture.jpg';
 import { useToasts } from "react-toast-notifications";
+import star from "../../images/star.png";
 
 const LodgeOwnerHomePage = () => {
 
@@ -78,6 +79,13 @@ const LodgeOwnerHomePage = () => {
 
     }, [url])
 
+    const renderStars = (grade) => {
+        let stars = []
+        for (var i = 0; i < parseInt(grade); i++) {
+            stars.push(<img key={i} src={star}/>)
+        }
+        return stars;
+    }
     
 
     const deleteLodge = (id) => {
@@ -106,7 +114,7 @@ const LodgeOwnerHomePage = () => {
                             <img  src={lodge.profileImage}  />
                         </div>
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
-                        
+                        <div className="stars" style={{'margin-left': '0%', 'margin-top': '1%'}}>{renderStars(lodge.averageGrade)} </div>
                         <div className="buttons">
                             <button title="Delete lodge" onClick={() => deleteLodge(lodge.id)}>
                                 <img src={deleteImg}/>
