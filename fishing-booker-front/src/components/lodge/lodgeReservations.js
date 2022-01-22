@@ -95,8 +95,13 @@ const LodgeReservations = () => {
     }
 
     const showClientForm = (username) => {
-        setClient(username);
-        setClientModal(true);
+        if(username == "free"){
+            addToast("This action is still free.", { appearance: "error" });
+        } else {
+            setClient(username);
+            setClientModal(true);
+        }
+        
     }
 
     const addReservation= () => {
@@ -122,8 +127,8 @@ const LodgeReservations = () => {
     const allReservations = reservations.length ? (
         reservations.map(reservation => {
             return(
-                <li class="table-row" key={reservation.reservationId} onClick={() => showResInfo(reservation)}>
-                    <div class="col col-1-reservation" >{reservation.entityName}</div>
+                <li class="table-row" key={reservation.reservationId} >
+                    <div class="col col-1-reservation" onClick={() => showResInfo(reservation)}>{reservation.entityName}</div>
                     <div class="col col-2-reservation" >{reservation.startDate}</div>
                     <div class="col col-3-reservation" >{reservation.endDate}</div>
                     <div class="col col-4-reservation" onClick={() => showClientForm(reservation.clientUsername)}>{reservation.clientUsername}</div>
@@ -139,7 +144,7 @@ const LodgeReservations = () => {
         <div className="wrapper">
             <div className="reservations-right">
                 <div className="info">
-                    <h3>RESERVATIONS</h3>
+                    <h3>FUTURE RESERVATIONS</h3>
                     
                     <input className="search-box" type="search" placeholder="Enter client username " value={clientName} 
                         onChange={(e) => {

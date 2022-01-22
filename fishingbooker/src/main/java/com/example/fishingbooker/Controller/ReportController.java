@@ -51,4 +51,9 @@ public class ReportController {
         reportService.rejectPenalty(id);
     }
 
+    @GetMapping("/checkHasReservationReport/{id}")
+    public boolean hasReservationReport(@PathVariable Integer id){
+        return reportService.hasReservationReport(id);
+    }
+
 }

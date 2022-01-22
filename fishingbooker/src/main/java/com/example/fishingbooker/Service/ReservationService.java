@@ -156,7 +156,8 @@ public class ReservationService implements IReservationService {
         for (ReservationDTO reservation : reservations) {
             if(isReservationActive(reservation)) {
                 User user = userRepository.findByUsername(reservation.getClientUsername());
-                ClientDTO dto = new ClientDTO(user.getId(), user.getName());
+                //ClientDTO dto = new ClientDTO(user.getId(), user.getName());
+                ClientDTO dto = new ClientDTO(user.getId(), user.getUsername());
                 clientDTOS.add(dto);
             }
         }
@@ -282,9 +283,11 @@ public class ReservationService implements IReservationService {
                 } else{
                     bookedBy = r.getClient().getUsername();
                 }
-                reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), bookedBy, ownerId,
-                        r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
-                        reservationType, r.getMaxPersons()));
+                if(r.getEndDate().compareTo(new Date()) >= 0){
+                    reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), bookedBy, ownerId,
+                            r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
+                            reservationType, r.getMaxPersons()));
+                }
             }
         }
         return reservations;

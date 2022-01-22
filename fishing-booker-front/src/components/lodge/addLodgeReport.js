@@ -58,9 +58,14 @@ const AddLodgeReport = ({modalIsOpen, setModalIsOpen, reservationId}) => {
                                     <h4>Comment:</h4>
                                     <textarea required onChange={(e) => {setText(e.target.value)}}  value={text}/>
                                 </div>
-                                <button onClick={() => addReport()}>
-                                    Post
-                                </button>
+                                <div className="buttons">
+                                    <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                        Cancel
+                                    </button>
+                                    <button className="add" onClick={() => addReport()}>
+                                        Post
+                                    </button><br/>
+                                </div>
                             </div> <br/>
                         </div>
                     </div>

@@ -16,4 +16,6 @@ public interface IReportService {
 
     void rejectPenalty(Integer reportId);
 
+    boolean hasReservationReport(Integer reservationId);
+
 }
