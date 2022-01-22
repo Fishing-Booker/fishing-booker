@@ -4,7 +4,7 @@ import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import Calendar from 'react-awesome-calendar';
 import axios from 'axios';
-import AddShipReservationPeriod from './addShipreservationPeriod';
+import AddShipReservationPeriod from './addShipReservationPeriod';
 import { format } from 'date-fns';
 import ShipReservationPeriods from './shipReservationPeriods';
 
