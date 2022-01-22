@@ -5,6 +5,7 @@ import '../../css/usersProfile.css'
 import Calendar from 'react-awesome-calendar';
 import axios from 'axios';
 import AddOwnerReservationPeriod from './addOwnerReservationPeriod';
+import { format } from 'date-fns';
 
 const ShipOwnerReservationCalendar = () => {
 
@@ -15,34 +16,74 @@ const ShipOwnerReservationCalendar = () => {
     const [addPeriod, setAddPeriod] = useState(false);
     const [addReservation, setAddReservation] = useState(false);
 
+    const [periods, setPeriods] = useState([]);
+
     useEffect(() => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
+                var owner = response.data;
                 setUser(response.data);
+             
+
+        axios.get(SERVER_URL + "/ownerPeriods/allFreeOwnerPeriods/" + owner.id, { headers: headers })
+        .then(response => {
+            console.log(response.data);
+            var periods = response.data;
+            for(let p of periods) {
+                p.startDate = format(p.startDate, 'yyyy-MM-dd kk:mm');
+                p.endDate = format(p.endDate, 'yyyy-MM-dd kk:mm');
+            }
+
+            var allPeriods = [];
+            for(let p of periods){
+                var event = {
+                    color: '#FF0000',
+                    from: p.startDate,
+                    to: p.endDate,
+                    title: "Free period #"
+                }
+                allPeriods.push(event);
+            }
+
+            setPeriods(allPeriods);
+
+            axios.get(SERVER_URL + "/reservations/shipOwnerReservations/" + owner.id, {headers: headers})
+                    .then(response => {
+                        var reservations = response.data;
+                        for(let res of reservations){
+                            res.startDate = format(res.startDate, 'dd.MM.yyyy. kk:mm');
+                            res.endDate = format(res.endDate, 'dd.MM.yyyy. kk:mm');
+                        }
+                        for(let r of reservations){
+                            if(r.reservationType === "regular reservation") {
+                                var event = {
+                                    color: '#FB8C48',
+                                    from: r.startDate,
+                                    to: r.endDate,
+                                    title: "Reservation #" + r.reservationId + " for "+ r.entityName + ": client - " + r.clientUsername + ", service type - " +  r.regularService
+                                }
+                                allPeriods.push(event);
+                            } else {
+                                var event = {
+                                    color: '#97FB48',
+                                    from: r.startDate,
+                                    to: r.endDate,
+                                    title: "Action #" + r.reservationId + " for "+ r.entityName + ": client - " + r.clientUsername + ", service type - " +  r.regularService
+                                }
+                                allPeriods.push(event);
+                            }
+                        }
+                        setPeriods(allPeriods);
+                    });
+            
+
             })
+        })
     }, [])
 
-    const events = [{
-        id: 1,
-        color: '#fd3153',
-        from: '2021-12-02T00:00:00+00:00',
-        to: '2021-12-04T19:00:00+00:00',
-        title: 'This is an event'
-    }, {
-        id: 2,
-        color: '#1ccb9e',
-        from: '2021-12-03T00:00:00+00:00',
-        to: '2021-12-06T19:00:00+00:00',
-        title: 'This is another event'
-    }, {
-        id: 3,
-        color: '#3694DF',
-        from: '2019-05-05T13:00:00+00:00',
-        to: '2019-05-05T20:00:00+00:00',
-        title: 'This is also another event'
-    }];
+    
 
     return (
         <div className="wrapper">
@@ -56,10 +97,12 @@ const ShipOwnerReservationCalendar = () => {
                     <h3>SHIP OWNER RESERVATION CALENDAR</h3>
                     <div className="info_data">
                         <button className="new-period-btn" onClick={() => setAddPeriod(true)}>
-                            New reservation period
+                            Edit reservation periods
                         </button>
 
-                        <Calendar events={events}/>
+                        <div style={{'background-color': '#2f5e3d'}}>
+                            <Calendar events={periods}/>
+                        </div>
                     </div> <br/> <br/>
                 </div>
             </div>

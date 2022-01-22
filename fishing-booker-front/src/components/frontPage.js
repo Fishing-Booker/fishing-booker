@@ -70,6 +70,7 @@ import ShipOwnerReservations from "./ship/shipOwnerReservations";
 import ShipReservations from "./ship/shipReservations";
 import LodgeOwnerCalendar from "./lodge/lodgeOwnerCalendar";
 import LodgeReservationHistory from "./lodge/lodgeReservationHistory";
+import ShipReservationHistory from "./ship/shipReservationHistory";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -223,6 +224,7 @@ const FrontPage = () => {
                         <Route path="/shipOwnerReservationCalendar"><ShipOwnerReservationCalendar/></Route>
                         <Route path="/shipOwnerReservations"><ShipOwnerReservations/></Route>
                         <Route path="/shipReservations"><ShipReservations/></Route>
+                        <Route path="/reservationHistory"><ShipReservationHistory/></Route>
                     </Switch>
                 }
                 

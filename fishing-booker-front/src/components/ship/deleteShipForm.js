@@ -29,16 +29,12 @@ const DeleteShipForm = ({modalIsOpen, setModalIsOpen, shipId}) => {
                                 Are you sure you want to delete this ship?
                             </div>
                             <div className="buttons">
-                                <Link to="/" onClick={() => setModalIsOpen(false)}>
-                                    <button className="cancel" >
-                                        Cancel
-                                    </button>
-                                </Link>
-                                <Link to="/" onClick={() => deleteShip()}>
-                                    <button className="delete" >
-                                        Delete
-                                    </button>
-                                </Link>
+                                <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                    Cancel
+                                </button>
+                                <button className="delete" onClick={() => deleteShip()}>
+                                    Delete
+                                </button><br/><br/><br/>
                             </div>
                         </div>
                         </div>

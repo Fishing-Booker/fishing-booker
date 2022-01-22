@@ -1,5 +1,6 @@
 package com.example.fishingbooker.IRepository;
 
+import com.example.fishingbooker.Model.Lodge;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -64,4 +65,7 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
 
     @Query("SELECT s.name FROM Ship s WHERE s.owner.id=?1 and s.isDeleted=false")
     List<String> getOwnerShipNames(Integer ownerId);
+
+    @Query("SELECT s FROM Ship s WHERE (LOWER(s.name) LIKE %:name% OR LOWER(s.name) LIKE '')")
+    List<Ship> searchByName(@Param("name") String name);
 }

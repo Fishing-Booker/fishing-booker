@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.ship.AddShipDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -45,12 +47,14 @@ public class ShipController {
     }
 
     @DeleteMapping("/deleteShip/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
         shipService.deleteShip(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/addShip")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<Ship> addShip(@RequestBody AddShipDTO shipDTO){
 
         Ship ship = new Ship();
@@ -101,11 +105,13 @@ public class ShipController {
     }
 
     @GetMapping("/ship/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public Ship findShip(@PathVariable Integer id){
         return shipService.findById(id);
     }
 
     @PutMapping("/updateShip/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<Ship> updateShip(@RequestBody UpdateShipDTO dto, @PathVariable Integer id){
         shipService.updateShip(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -117,12 +123,14 @@ public class ShipController {
     }
 
     @PutMapping("/addRule/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
         shipService.addRule(rule, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteRule/{id}/{index}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
         shipService.deleteRule(index, id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -159,19 +167,28 @@ public class ShipController {
     }
 
     @PutMapping("/addNavEq/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> addShipNavEquipment(@RequestBody String equipment, @PathVariable Integer id){
         shipService.addNavEquipment(equipment, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteNavEq/{id}/{index}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> deleteShipNavEquipment(@PathVariable Integer index, @PathVariable Integer id){
         shipService.deleteNavEquipment(index, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/shipNames/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public List<String> getOwnerShipNames(@PathVariable Integer id){
         return shipService.getOwnerShipNames(id);
+    }
+
+    @GetMapping("/searchShip")
+    @PreAuthorize("hasRole('SHIPOWNER')")
+    public List<ShipDTO> getSearchedLodges(@RequestParam(required = false) String name, @RequestParam(required = false) Integer owner) throws IOException {
+        return shipService.searchShipsByName(name, owner);
     }
 }

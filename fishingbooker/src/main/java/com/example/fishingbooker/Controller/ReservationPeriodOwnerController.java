@@ -47,4 +47,10 @@ public class ReservationPeriodOwnerController {
     public List<ReservationPeriodDTO> getAvailablePeriods(@RequestBody ReservationPeriodDTO dto) {
         return reservationPeriodOwnerService.getAvailablePeriods(dto.getEntityId(), dto.getStartDate(), dto.getEndDate());
     }
+
+    @GetMapping("/allFreeOwnerPeriods/{owner}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
+    public List<ReservationPeriodOwnerDTO> getAllFreePeriods(@PathVariable Integer owner){
+        return reservationPeriodOwnerService.getShipOwnerFreePeriods(owner);
+    }
 }
