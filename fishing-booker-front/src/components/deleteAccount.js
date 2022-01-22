@@ -27,11 +27,17 @@ const DeleteAccount = () => {
     }, [])
 
     const sendDeleteRequest = () => {
-        const headers = {'Content-Type': 'application/json',
-                         'Authorization': `Bearer ${localStorage.jwtToken}`}
-        axios.post(SERVER_URL + "/users/deleteAccount", dto, { headers : headers });
-        console.log(dto)
-        setReason("");
+        if(dto.reason == ""){
+            addToast("You have to enter reason for deleting account!", { appearance: "error" });
+        } else {
+            const headers = {'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.jwtToken}`}
+            axios.post(SERVER_URL + "/users/deleteAccount", dto, { headers : headers });
+            console.log(dto)
+            setReason("");
+            addToast("Your request is sent to our administrators!", { appearance: "success" });
+        }
+        
     }
 
     return (

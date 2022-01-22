@@ -64,26 +64,30 @@ const UserProfilePage = () => {
     }
 
     const onSaveClick = () => {
-        setVisibility(false);
-        console.log(values)
-        const headers = {'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.jwtToken}`}
-        axios.put(SERVER_URL + "/users/user/" + user.id, values, { headers: headers })
-            .then(response => {
-                console.log(response.data);
-                addToast("Your account is successfully updated!", { appearance: "success"});
-                if (username !== user.username) {  
-                    localStorage.removeItem('jwtToken');
-                    history.push('/')
-                    window.location.reload()
-                } else {
-                    const timer = setTimeout(() => {
-                        history.push("/profile");
-                        window.location.reload();
-                    }, 2000)
-                }
-            })
-            .catch(error => addToast("Cannot update: " + error.message, { appearance: "error"}))
+        if(name == "" || surname == "" || username == "" || email == "" || address == "" || city == "" || country == "" || phoneNumber == ""){
+            addToast("All fields are required", { appearance: "error"})
+        } else {
+            setVisibility(false);
+            console.log(values)
+            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+            axios.put(SERVER_URL + "/users/user/" + user.id, values, { headers: headers })
+                .then(response => {
+                    console.log(response.data);
+                    addToast("Your account is successfully updated!", { appearance: "success"});
+                    if (username !== user.username) {  
+                        localStorage.removeItem('jwtToken');
+                        history.push('/')
+                        window.location.reload()
+                    } else {
+                        const timer = setTimeout(() => {
+                            history.push("/profile");
+                            window.location.reload();
+                        }, 2000)
+                    }
+                })
+                .catch(error => addToast("Cannot update: " + error.message, { appearance: "error"}))
+        }
+        
     }
 
     const onCancelClick = () => {
