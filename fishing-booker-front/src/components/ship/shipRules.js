@@ -104,11 +104,13 @@ const ShipRules = () => {
         <div className="wrapper">
             <div className="left">
                 <h4>SHIP PROFILE</h4><br/>
-                    <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
-                    <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
-                    <Link className="sidebar-link" to={"/shipPricelist/" + shipId}>Pricelist</Link><br/><br/>
-                    <Link className="sidebar-link" to={"/shipActions/" + shipId}>Actions</Link><br/><br/>
-                    <Link className="sidebar-link" to={"/shipReservationCalendar/" + shipId}>Reservation calendar</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipNavEq/" + shipId}>Navigation equipment</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipFishEq/" + shipId}>Fishing equipment</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipPricelist/" + shipId}>Pricelist</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipActions/" + shipId}>Actions</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipReservationCalendar/" + shipId}>Reservation calendar</Link><br/><br/>
             </div>
             <div className="right">
                 <div className="info">

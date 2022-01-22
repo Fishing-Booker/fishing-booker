@@ -31,6 +31,7 @@ public class ReservationMapper {
         reservation.setPrice(dto.getPrice());
         reservation.setAdditionalServices(dto.getAdditionalServices());
         reservation.setRegularService(dto.getRegularService());
+        reservation.setMaxPersons(dto.getNumberOfGuests());
         return reservation;
     }
 

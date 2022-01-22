@@ -124,7 +124,7 @@ public class ReservationController {
     }
 
     @GetMapping("/checkEntityFutureReservations/{id}")
-    @PreAuthorize("hasRole('LODGEOWNER')")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public boolean hasEntityFutureReservations(@PathVariable Integer id){
         return reservationService.hasEntityFutureReservations(id);
     }

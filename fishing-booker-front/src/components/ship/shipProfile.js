@@ -3,12 +3,15 @@ import { useState } from 'react';
 import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import axios from 'axios';
+import { useToasts } from "react-toast-notifications";
 
 const ShipProfile = () => {
 
     const {shipId} = useParams();
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const { addToast } = useToasts();
 
     const [ship, setShip] = useState([]);
 
@@ -19,13 +22,15 @@ const ShipProfile = () => {
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
     const [shipType, setShipType] = useState("");
-    const [length, setLength] = useState("");
-    const [engineNumber, setEngineNumber] = useState("");
-    const [enginePower, setEnginePower] = useState("");
-    const [maxSpeed, setMaxSpeed] = useState("");
-    const [capacity, setCapacity] = useState("");
+    const [length, setLength] = useState(0);
+    const [engineNumber, setEngineNumber] = useState(0);
+    const [enginePower, setEnginePower] = useState(0);
+    const [maxSpeed, setMaxSpeed] = useState(0);
+    const [capacity, setCapacity] = useState(0);
 
     const [disabledEdit, setDisabledEdit] = useState(true);
+
+    const [names, setNames] = useState([]);
 
     const editedShip = {
         name, 
@@ -62,18 +67,63 @@ const ShipProfile = () => {
                 setEnginePower(ship.enginePower);
                 setMaxSpeed(ship.maxSpeed);
                 setCapacity(ship.maxPersons);
+
+                axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+                .then(response => {
+                    var user = response.data;
+
+                    axios.get(SERVER_URL + "/ships/shipNames/" + user.id, {headers: headers})
+                    .then(response => {
+                        setNames(response.data);
+                    })
+                })
             });
 
     }, []) 
 
-    const saveChanges = () => {
+    const editShip = () => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
 
-        axios.put(SERVER_URL + '/ships/updateShip/' + shipId, editedShip, {headers: headers})
+        axios.get(SERVER_URL + '/reservations/checkEntityFutureReservations/' + shipId, {headers: headers})
+            .then(response => {
+                var availableEdit = response.data;
+                console.log(availableEdit);
+                if(availableEdit === false){
+                    setDisabledEdit(false);
+                } else {
+                    addToast("It is not available to edit ship informations, because there are future reservations!", { appearance: "error" });
+                }
+            });
+    }
+
+    const cancelChanges = () => {
+        setDisabledEdit(true);
+        window.location.reload();
+    }
+
+    const saveChanges = () => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        
+        if(editedShip.name == ""){
+            addToast("Field for ship name cannot be empty!", { appearance: "error" });
+        } else if(!isNameValid(name)){
+            addToast("You already have ship with this name.", { appearance: "error" });
+        } else {
+            axios.put(SERVER_URL + '/ships/updateShip/' + shipId, editedShip, {headers: headers})
             .then(response => {
                 window.location.reload();
                 console.log(response.data);
             });
+        }
+    }
+
+    const isNameValid = (name) => {
+        for(let n of names){
+            if(n == name && ship.name != name){
+                return false;
+            }
+        }
+        return true;
     }
    
     return (
@@ -126,28 +176,28 @@ const ShipProfile = () => {
                         </div>
                         <div className="data">
                             <h4>Number of engines</h4>
-                            <input type="number" onChange={(e) => {setEngineNumber(e.target.value)}}  value={engineNumber} disabled={disabledEdit}/>
+                            <input type="number" min="0" onChange={(e) => {setEngineNumber(e.target.value)}}  value={engineNumber} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Engine power</h4>
-                            <input type="number" onChange={(e) => {setEnginePower(e.target.value)}}  value={enginePower} disabled={disabledEdit}/>
+                            <input type="number" min="0" onChange={(e) => {setEnginePower(e.target.value)}}  value={enginePower} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Max speed</h4>
-                            <input type="number" onChange={(e) => {setMaxSpeed(e.target.value)}}  value={maxSpeed} disabled={disabledEdit}/>
+                            <input type="number" min="0" onChange={(e) => {setMaxSpeed(e.target.value)}}  value={maxSpeed} disabled={disabledEdit}/>
                         </div>
                         <div className="data">
                             <h4>Capacity</h4>
-                            <input type="number" onChange={(e) => {setCapacity(e.target.value)}}  value={capacity} disabled={disabledEdit}/>
+                            <input type="number" min="0" onChange={(e) => {setCapacity(e.target.value)}}  value={capacity} disabled={disabledEdit}/>
                         </div>
                     </div> <br/> <br/>
                     {disabledEdit ? (
-                        <button className="edit-profile-btn" onClick={() => setDisabledEdit(false)}>
+                        <button className="edit-profile-btn" onClick={() => editShip()}>
                             Edit
                         </button>
                     ) : (
                         <div className="edit-profile-btns">
-                            <button className="edit-profile-cancel" onClick={() => setDisabledEdit(true)}>
+                            <button className="edit-profile-cancel" onClick={() => cancelChanges()}>
                                 Cancel
                             </button>
                             <button className="edit-profile-save" onClick={() => saveChanges()}>

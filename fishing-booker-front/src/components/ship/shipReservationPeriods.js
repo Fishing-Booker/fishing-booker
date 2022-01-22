@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import '../../css/addingForm.css'
 import Modal from 'react-modal';
 import axios from 'axios';
-import { format } from 'date-fns';
 import { useToasts } from "react-toast-notifications";
+import deleteImg from '../../images/trash.png';
+import { format } from 'date-fns';
 
-const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
+const ShipReservationPeriods = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
@@ -17,42 +18,35 @@ const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
-    const [start, setStart] = useState("");
+    const [minDate, setMinDate] = useState("");
 
     const [periods, setPeriods] = useState([]);
 
-    const [minDate, setMinDate] = useState("");
-
     useEffect(() => {
+
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/periods/entityPeriods/" + entityId, { headers: headers })
+            .then(response => {
+                var periods = response.data;
+                for(let p of periods){
+                    p.startDate = format(p.startDate, 'dd.MM.yyyy. kk:mm');
+                    p.endDate = format(p.endDate, 'dd.MM.yyyy. kk:mm');
+                }
+                setPeriods(periods);
+            });
+
+        var start = new Date();
+        start = generateDate(start);
+        setMinDate(start);
 
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
-                var owner = response.data;
                 setUser(response.data);
-             
-
-        axios.get(SERVER_URL + "/ownerPeriods/allFreeOwnerPeriods/" + owner.id, { headers: headers })
-        .then(response => {
-            console.log(response.data);
-            var periods = response.data;
-            var allPeriods = [];
-            for(let p of periods) {
-                p.startDate = format(p.startDate, 'yyyy-MM-dd kk:mm');
-                p.endDate = format(p.endDate, 'yyyy-MM-dd kk:mm');
-                allPeriods.push(p);
-            }
-
-            console.log(allPeriods)
-            setPeriods(allPeriods);
-
-            var start = new Date();
-            start = generateDate(start);
-            setMinDate(start);
-
+                var user = response.data;
+                console.log(user.id)
             })
-        })
-    }, [])
+    }, [modalIsOpen])
 
     const generateDate = (date) => {
         var day = date.getDate();
@@ -82,12 +76,13 @@ const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
     const newPeriod = {
         owner: user.id,
         startDate, 
-        endDate
+        endDate,
+        entityId
     }
 
     const addPeriod = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
-
+        
         if(newPeriod.startDate == "" || newPeriod.endDate == ""){
             addToast("Start and end date are required!", { appearance: "error" });
         } else {
@@ -103,18 +98,38 @@ const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
                 } else if(start.getDate() == min.getDate() && start.getMonth()+1 == min.getMonth()+1 && start.getFullYear() == min.getFullYear() && start.getHours() < min.getHours()){
                     addToast("Start date has to be after current time!", { appearance: "error" });
                 } else {
-                    axios.post(SERVER_URL + "/ownerPeriods/addOwnerReservationPeriod", newPeriod, {headers: headers})
-                    .then(response => {
-                        setModalIsOpen(false)
-                        window.location.reload();
-                    });
+                    axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod, {headers: headers})
+                        .then(response => {
+                            setModalIsOpen(false);
+                            window.location.reload();
+                        });
                 }
                 
             }
         }
+        
+    }
+
+    const deletePeriod = (id) => {
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/periods/checkIsPeriodFree/" + id, {headers: headers})
+        .then(response => {
+            var available = response.data;
+            if(available === true){
+                axios.delete(SERVER_URL + "/periods/deletePeriod/" + id + "/" + entityId, { headers: headers })
+                .then(response => {
+                    setModalIsOpen(false);
+                    window.location.reload();
+                })
+            } else {
+                addToast("It is not available to delete this period, because there are active reservations in it!", { appearance: "error" });
+            }
+        })
 
         
     }
+
 
     const allPeriods = periods.length ? (
         periods.map(period => {
@@ -126,11 +141,14 @@ const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
                         <label style={{'font-weight': 'bold'}}>End date: </label>
                         {period.endDate}<br/>
                     </div>
+                    <button className='rules-btn' onClick={() => deletePeriod(period.id)}>
+                        <img src={deleteImg} />
+                    </button>
                 </div>
             )
         })
         ) : (
-            <div>You don't have defined periods...</div>
+            <div>This ship doesn't have defined periods...</div>
         );
 
    return (
@@ -138,7 +156,7 @@ const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
             <Modal className="fullscreen" isOpen={modalIsOpen}
             shouldCloseOnEsc={true}
             onRequestClose={() => setModalIsOpen(false)} >
-                <div id="addlodgeReservationPeriod" className="adding-wrapper">
+                <div id="lodgeReservationPeriods" className="adding-wrapper">
                     <div className="right">
                         <div className="info">
                             <h3>RESERVATION PERIODS</h3>
@@ -172,4 +190,4 @@ const AddOwnerReservationPeriod = ({modalIsOpen, setModalIsOpen}) => {
     
 }
 
-export default AddOwnerReservationPeriod;
+export default ShipReservationPeriods;

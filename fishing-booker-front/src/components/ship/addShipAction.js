@@ -28,6 +28,8 @@ const AddShipAction = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const [makeActionForm, setMakeActionForm] = useState(false);
 
     const [maxPersons, setMaxPersons] = useState("");
+
+    const [disabled, setDisabled] = useState(false);
     
 
     const { addToast } = useToasts();
@@ -55,8 +57,16 @@ const AddShipAction = ({modalIsOpen, setModalIsOpen, entityId}) => {
             })
     }, [modalIsOpen])
 
+    const cancel = () => {
+        setDisabled(false);
+        setModalIsOpen(false);
+        window.location.reload();
+    }
+
 
     const getFreePeriods = () => {
+        setDisabled(true);
+
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         if(ownerService){
@@ -110,7 +120,7 @@ const AddShipAction = ({modalIsOpen, setModalIsOpen, entityId}) => {
                             <div className="info_data">
                                 <div className="data">
                                     <div style={{'font-size': '15px', display: 'flex', width: '200%'}}>
-                                        <input style={{transform: 'scale(0.5)', 'margin-left': '-90%'}}  type="checkbox" checked={ownerService} id="owner" name="card" onChange={(e) => setOwnerService(!ownerService)} value="ownerService" />
+                                        <input disabled={disabled} style={{transform: 'scale(0.5)', 'margin-left': '-90%'}}  type="checkbox" checked={ownerService} id="owner" name="card" onChange={(e) => setOwnerService(!ownerService)} value="ownerService" />
                                         <label style={{width: '100%', 'margin-left': '-90%', 'margin-top': '2%'}} htmlFor="ownerService" aria-label="ownerService"> Use owner service (as a captain)</label>
                                     </div><br/>
                                     <h4>Ship:</h4>
@@ -125,6 +135,9 @@ const AddShipAction = ({modalIsOpen, setModalIsOpen, entityId}) => {
                                     <div>
                                         <br/>
                                         {freePeriods}
+                                        <button onClick={() => cancel()}>
+                                            Cancel
+                                        </button>
                                     </div>
                                 }
 

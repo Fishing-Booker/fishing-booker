@@ -23,7 +23,7 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
     const [shipName, setShipName] = useState("");
     const [ownerService, setOwnerService] = useState(false);
 
-    const [allowSearch, setAllowSearch] = useState(false);
+    const [allowSearch, setAllowSearch] = useState(true);
 
     const [periods, setPeriods] = useState([]);
 
@@ -32,6 +32,8 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
     const [makeReservationForm, setMakeReservationForm] = useState(false);
 
     const [maxPersons, setMaxPersons] = useState("");
+
+    const [usernames, setUsernames] = useState([]);
 
     const { addToast } = useToasts();
 
@@ -48,66 +50,73 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                     .then(response => {
                         setShips(response.data);
                         var ships = response.data;
-                        setShipName(ships[0].name);
 
                         var shipNames = [];
                         for(let ship of ships){
                             shipNames.push(ship.name);
                         }
                         setShipNames(shipNames);
+
+                        axios.get(SERVER_URL + "/reservations/getClientsOfActiveReservations/" + user.id, {headers: headers})
+                        .then(response => {
+                            var usernames = response.data;
+                            var names = []
+                            for(let name of usernames){
+                                names.push(name.name);
+                            }
+                            setUsernames(names);
+
+                        })
+
                     })
             })
     }, [modalIsOpen])
 
 
-    const getClient = (name) => {
-        setShipName(name);
-
-        for(let ship of ships){
-            if(ship.name == name){
-                setEntityId(ship.id);
-                setMaxPersons(ship.maxPersons);
-            }
-        }
-
-        axios.get(SERVER_URL + "/reservations/getClientUsername/" + name + "/" + user.id)
-            .then(response => {
-                setClientUsername(response.data);
-                if(response.data != ""){
-                    setAllowSearch(true);
-                } else {
-                    setAllowSearch(false);
-                    addToast("There isn't any active reservation for this entity.", { appearance: "error" });
-                }
-            })
-    }
-
     const getFreePeriods = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
-        if(ownerService){
-            axios.get(SERVER_URL + "/periods/freeOwnerAndShipPeriods/" + user.id + "/" + shipName, {headers: headers})
-                .then(response => {
-                    var periods = (response.data);
-                    setPeriods(periods);
-                    setShowPeriods(true);
-                })
+        if(clientUsername === "" || shipName === ""){
+            addToast("You have to choose client and entity for reservation!", { appearance: "error" });
         } else {
-            axios.get(SERVER_URL + "/periods/freePeriods/" + user.id + "/" + shipName, {headers: headers})
-                .then(response => {
-                    var periods = (response.data);
-                    setPeriods(periods);
-                    setShowPeriods(true);
-                })
-        } 
+
+            if(ownerService){
+                axios.get(SERVER_URL + "/periods/freeOwnerAndShipPeriods/" + user.id + "/" + shipName, {headers: headers})
+                    .then(response => {
+                        var periods = (response.data);
+                        setAllowSearch(false);
+                        setPeriods(periods);
+                        setShowPeriods(true);
+                    })
+            } else {
+                axios.get(SERVER_URL + "/periods/freePeriods/" + user.id + "/" + shipName, {headers: headers})
+                    .then(response => {
+                        var periods = (response.data);
+                        setAllowSearch(false);
+                        setPeriods(periods);
+                        setShowPeriods(true);
+                    })
+            } 
+        }
     }
 
     const makeReservation = (start, end) => {
         setStartDate(start);
         setEndDate(end);
-        console.log(maxPersons);
+
+        for(let s of ships){
+            if(s.name == shipName){
+                setEntityId(s.id);
+                setMaxPersons(s.maxPersons);
+            }
+        }
         setMakeReservationForm(true);
         setModalIsOpen(false);
+    }
+
+    const cancel = () => {
+        setModalIsOpen(false);
+        window.location.reload();
     }
 
     const freePeriods = periods.length ? (
@@ -136,12 +145,24 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                             <h3>ADD NEW RESERVATION</h3>
                             <div className="info_data">
                                 <div className="data">
+                                    <h4>Client:</h4>
+                                    <select disabled={!allowSearch} onChange={(e) => setClientUsername(e.target.value)} value={clientUsername}>
+                                        <option></option>
+                                        {usernames.map((username) => (
+                                            <option className="card-image" key={username}>
+                                                {username}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="data">
                                     <div style={{'font-size': '15px', display: 'flex', width: '200%'}}>
-                                        <input style={{transform: 'scale(0.5)', 'margin-left': '-90%'}}  type="checkbox" checked={ownerService} id="owner" name="card" onChange={(e) => setOwnerService(!ownerService)} value="ownerService" />
+                                        <input disabled={!allowSearch} style={{transform: 'scale(0.5)', 'margin-left': '-90%'}}  type="checkbox" checked={ownerService} id="owner" name="card" onChange={(e) => setOwnerService(!ownerService)} value="ownerService" />
                                         <label style={{width: '100%', 'margin-left': '-90%', 'margin-top': '2%'}} htmlFor="ownerService" aria-label="ownerService"> Use owner service (as a captain)</label>
-                                    </div><br/>
+                                    </div>
                                     <h4>Ship:</h4>
-                                    <select onChange={(e) => getClient(e.target.value)} value={shipName}>
+                                    <select disabled={!allowSearch} onChange={(e) => setShipName(e.target.value)} value={shipName}>
+                                        <option></option>
                                         {shipNames.map((name) => (
                                             <option className="card-image" key={name}>
                                                 {name}
@@ -150,7 +171,7 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                     </select>
                                 </div>
                                 
-                                <button disabled={!allowSearch} onClick={() => getFreePeriods()}>
+                                <button onClick={() => getFreePeriods()}>
                                     Search periods
                                 </button>
 
@@ -158,6 +179,9 @@ const AddShipReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                     <div>
                                         <br/>
                                         {freePeriods}
+                                        <button onClick={() => cancel()}>
+                                            Cancel
+                                        </button>
                                     </div>
                                 }
 

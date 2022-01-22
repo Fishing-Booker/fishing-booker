@@ -9,6 +9,8 @@ const AddShipForm = ({modalIsOpen, setModalIsOpen}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
 
+    const { addToast } = useToasts();
+
     const [user, setUser] = useState({});
 
     const [name, setName] = useState("");
@@ -17,17 +19,26 @@ const AddShipForm = ({modalIsOpen, setModalIsOpen}) => {
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
     const [shipType, setShipType] = useState("");
-    const [length, setLength] = useState("");
-    const [engineNumber, setEngineNumber] = useState("");
-    const [enginePower, setEnginePower] = useState("");
-    const [maxSpeed, setMaxSpeed] = useState("");
-    const [capacity, setCapacity] = useState("");
+    const [length, setLength] = useState(0);
+    const [engineNumber, setEngineNumber] = useState(0);
+    const [enginePower, setEnginePower] = useState(0);
+    const [maxSpeed, setMaxSpeed] = useState(0);
+    const [capacity, setCapacity] = useState(0);
+
+    const [shipNames, setShipNames] = useState("");
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => setUser(response.data))
+            .then(response => {
+                setUser(response.data);
+            
+                axios.get(SERVER_URL + "/ships/shipNames/" + user.id, {headers: headers})
+                .then(response => {
+                    setShipNames(response.data);
+                })
+            })
     }, [])
 
     const newShip = {
@@ -46,13 +57,29 @@ const AddShipForm = ({modalIsOpen, setModalIsOpen}) => {
     }
 
     const addShip = () => {
-        console.log(newShip);
-        axios.post(SERVER_URL + "/ships/addShip", newShip)
-          .then(response => {
-            setModalIsOpen(false);
-            window.location.reload();
-        });
+        if(newShip.name == ""){
+            addToast("Field for ship name cannot be empty!", { appearance: "error" });
+        } else if(!isNameValid(name)){
+            addToast("You already have ship with this name.", { appearance: "error" });
+        } else {
+            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+            axios.post(SERVER_URL + "/ships/addShip", newShip, {headers: headers})
+            .then(response => {
+                setModalIsOpen(false);
+                window.location.reload();
+            });
+        }
         
+    }
+
+    const isNameValid = (name) => {
+        for(let ship of shipNames){
+            if(ship == name){
+                return false;
+            }
+        }
+        return true;
     }
 
    return (
@@ -109,11 +136,14 @@ const AddShipForm = ({modalIsOpen, setModalIsOpen}) => {
                                     <h4>Capacity:</h4>
                                     <input type="number" required onChange={(e) => {setCapacity(e.target.value)}} value={capacity}/>
                                 </div>
-                                <Link to="/" onClick={() => addShip()} >
-                                    <button>
-                                        Add
+                                <div className="buttons">
+                                    <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                        Cancel
                                     </button>
-                                </Link>
+                                    <button className="add" onClick={() => addShip()}>
+                                        Add
+                                    </button><br/>
+                                </div>
                             </div> <br/> <br/>
                         </div>
                     </div>
