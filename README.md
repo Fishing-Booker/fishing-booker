@@ -35,3 +35,6 @@
 	- u gornjem levom uglu prostora za query-je nalazi se ikonica žute munje, i pritiskom na nju podaci će se upisati u bazu
 
 * Za logovanje (kao korisnik odgovarajuće kategorije) koristiti username-ove i password-e iz fajla "korisnici i lozinke" iz foldera "podaci za bazu"
+
+Za januarski rok preuzeti projekat sa grane: feat-januarkiRok
+
