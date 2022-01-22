@@ -33,6 +33,8 @@ const LodgeProfile = () => {
 
     const [disabledEdit, setDisabledEdit] = useState(true);
 
+    const [names, setNames] = useState([]);
+
     const editedLodge = {
         name, 
         locationId,
@@ -85,6 +87,16 @@ const LodgeProfile = () => {
                         setFourBed(b.roomNumber);
                     }
                 }
+
+                axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
+                .then(response => {
+                    var user = response.data;
+
+                    axios.get(SERVER_URL + "/lodges/lodgeNames/" + user.id, {headers: headers})
+                    .then(response => {
+                        setNames(response.data);
+                    })
+                })
             });
 
     }, []) 
@@ -114,6 +126,8 @@ const LodgeProfile = () => {
         
         if(editedLodge.name == ""){
             addToast("Field for lodge name cannot be empty!", { appearance: "error" });
+        } else if(!isNameValid(name)){
+            addToast("You already have lodge with this name.", { appearance: "error" });
         } else {
             axios.put(SERVER_URL + '/lodges/updateLodge/' + lodgeId, editedLodge, {headers: headers})
             .then(response => {
@@ -122,6 +136,15 @@ const LodgeProfile = () => {
             });
         }
         
+    }
+
+    const isNameValid = (name) => {
+        for(let n of names){
+            if(n == name && lodge.name != name){
+                return false;
+            }
+        }
+        return true;
     }
 
     const allBedroomsForm = bedrooms.length ? (

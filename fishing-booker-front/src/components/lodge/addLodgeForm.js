@@ -13,6 +13,8 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
 
     const [user, setUser] = useState({});
 
+    const [lodges, setLodges] = useState([]);
+
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
@@ -29,7 +31,15 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => setUser(response.data))
+            .then(response => {
+                setUser(response.data);
+                var user = response.data;
+
+                axios.get(SERVER_URL + "/lodges/lodgeNames/" + user.id, {headers: headers})
+                .then(response => {
+                    setLodges(response.data);
+                })
+            })
     }, [])
 
     const newLodge = {
@@ -48,8 +58,11 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     }
 
     const addLodge = () => {
+        console.log(name);
         if(newLodge.name == ""){
             addToast("Field for lodge name cannot be empty!", { appearance: "error" });
+        } else if(!isNameValid(name)){
+            addToast("You already have lodge with this name.", { appearance: "error" });
         } else {
             axios.post(SERVER_URL + "/lodges/addLodge", newLodge)
             .then(response => {
@@ -58,6 +71,15 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
           });
         }
         
+    }
+
+    const isNameValid = (name) => {
+        for(let lodge of lodges){
+            if(lodge == name){
+                return false;
+            }
+        }
+        return true;
     }
 
    return (
