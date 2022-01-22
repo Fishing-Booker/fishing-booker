@@ -59,8 +59,7 @@ const LodgeOwnerHomePage = () => {
 
     useEffect(() => {
 
-        const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(url, {headers: headers})
             .then(response => {
@@ -148,11 +147,10 @@ const LodgeOwnerHomePage = () => {
                         }}
                     />
                     <div className="modal-place">
-                        <Link to="#addLodge" onClick={() => setAddLodge(true)}>
-                            <button title="Add lodge">
-                                <img src={addImg}/>
-                            </button>
-                        </Link>
+                        <button title="Add lodge" onClick={() => setAddLodge(true)}>
+                            <img src={addImg}/>
+                        </button>
+                        
                         <AddLodgeFrom modalIsOpen={addLodge} setModalIsOpen={setAddLodge} />
                     </div>
                     

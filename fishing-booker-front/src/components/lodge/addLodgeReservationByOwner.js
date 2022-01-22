@@ -103,6 +103,11 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
         setModalIsOpen(false);
     }
 
+    const cancel = () => {
+        setModalIsOpen(false);
+        window.location.reload();
+    }
+
     const freePeriods = periods.length ? (
         periods.map((period, index) => {
             return(
@@ -110,11 +115,13 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                     <p style={{color: 'black', fontSize: '17px', marginLeft: '50px', marginTop: '15px'}}>Available reservation in a period:</p>
                     <p style={{color: 'black', fontWeight: '600', fontSize: '15px', marginLeft: '55px', marginTop: '15px'}}> {format(period.startDate, 'dd.MM.yyyy')} - {format(period.endDate, 'dd.MM.yyyy.')}</p>
                     <a className="reservation-link" onClick={() => makeReservation(period.startDate, period.endDate)}>make reservation</a>
+                    
                 </div>
             ) 
         })
     ) : (
-        <div>We don't have available periods for this entity.</div>
+        <div>We don't have available periods for this entity.
+        </div>
     )
 
     return (
@@ -159,6 +166,9 @@ const AddLodgeReservationByOwner = ({modalIsOpen, setModalIsOpen}) => {
                                     <div>
                                         <br/>
                                         {freePeriods}
+                                        <button onClick={() => cancel()}>
+                                            Cancel
+                                        </button>
                                     </div>
                                 }
 

@@ -126,7 +126,7 @@ public class LodgeService implements ILodgeService {
         List<Lodge> lodges = lodgeRepository .searchByName(name);
         List<LodgeDTO> lodgesDTO = new ArrayList<>();
         for (Lodge l : lodges) {
-            if(l.getOwner().getId() == owner){
+            if(l.getOwner().getId() == owner && !l.isDeleted()){
                 lodgesDTO.add(new LodgeDTO(l.getId(), l.getOwner().getId(), l.getName(), l.getLocation(), l.getDescription(),
                         l.getAverageGrade(), imageService.getEntityProfileImage(l.getId()), l.getMaxPersons()));
             }

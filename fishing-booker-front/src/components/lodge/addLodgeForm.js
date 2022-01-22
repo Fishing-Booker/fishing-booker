@@ -58,13 +58,14 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     }
 
     const addLodge = () => {
-        console.log(name);
         if(newLodge.name == ""){
             addToast("Field for lodge name cannot be empty!", { appearance: "error" });
         } else if(!isNameValid(name)){
             addToast("You already have lodge with this name.", { appearance: "error" });
         } else {
-            axios.post(SERVER_URL + "/lodges/addLodge", newLodge)
+            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+            
+            axios.post(SERVER_URL + "/lodges/addLodge", newLodge, {headers: headers})
             .then(response => {
               setModalIsOpen(false);
               window.location.reload();

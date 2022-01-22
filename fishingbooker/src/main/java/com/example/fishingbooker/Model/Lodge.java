@@ -3,6 +3,7 @@ package com.example.fishingbooker.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,7 +12,7 @@ import java.util.List;
 public class Lodge  extends ReservationEntity{
 
     @OneToMany(mappedBy = "lodge", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Bedroom> bedrooms;
+    private List<Bedroom> bedrooms = new ArrayList<>();
 
     public Lodge() {
     }

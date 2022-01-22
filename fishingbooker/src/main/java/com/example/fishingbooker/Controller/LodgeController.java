@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -42,17 +43,20 @@ public class LodgeController {
     private ILocationService locationService;
 
     @GetMapping("/ownerLodges/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public List<LodgeDTO> getOwnerLodges(@PathVariable Integer id) throws IOException {
         return lodgeService.findOwnerLodges(id);
     }
 
     @DeleteMapping("/deleteLodge/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
         lodgeService.deleteLodge(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/addLodge")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public ResponseEntity<Lodge> addLodge(@RequestBody AddLodgeDTO lodgeDTO){
 
         User owner = userService.findUserById(lodgeDTO.getOwner());
@@ -87,6 +91,7 @@ public class LodgeController {
     }
 
     @GetMapping("/searchLodge")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public List<LodgeDTO> getSearchedLodges(@RequestParam(required = false) String name, @RequestParam(required = false) Integer owner) throws IOException {
         return lodgeService.searchLodgesByName(name, owner);
     }
@@ -97,6 +102,7 @@ public class LodgeController {
     }
 
     @GetMapping("/lodge/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public Lodge findLodge(@PathVariable Integer id){
         return lodgeService.findById(id);
     }
@@ -107,18 +113,21 @@ public class LodgeController {
     }
 
     @PutMapping("/addRule/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
         lodgeService.addRule(rule, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteRule/{id}/{index}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
         lodgeService.deleteRule(index, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/updateLodge/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
         lodgeService.updateLodge(lodge, id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -144,6 +153,7 @@ public class LodgeController {
     }
 
     @GetMapping("/lodgeNames/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public List<String> getOwnerLodgeNames(@PathVariable Integer id){
         return lodgeService.getOwnerLodgeNames(id);
     }

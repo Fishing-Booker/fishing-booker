@@ -73,7 +73,9 @@ const LodgeReservations = () => {
                     setReservations(reservations);
 
                 })
-        } else {
+        } else if(clientName == user.username){
+            setReservations([]);
+        }else {
             axios.get(url, {headers: headers})
                 .then(response => {
                     console.log(response.data)

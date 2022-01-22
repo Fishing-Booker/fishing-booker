@@ -9,8 +9,7 @@ const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const deleteLodge = () => {
-        const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.delete(SERVER_URL + '/lodges/deleteLodge/' + lodgeId, { headers: headers})    
         .then(response => {setModalIsOpen(false); window.location.reload();});

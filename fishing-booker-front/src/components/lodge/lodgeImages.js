@@ -21,8 +21,7 @@ const LodgeImages = () => {
 
     useEffect(() => {
 
-        const headers = {'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + '/images/getImages/' + lodgeId, {headers:headers})
         .then(response => {
             setImages(response.data);

@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,10 +44,10 @@ public class ReservationEntity {
     private Integer maxPersons;
 
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<ReservationPeriod> reservationPeriods;
+    private List<ReservationPeriod> reservationPeriods = new ArrayList<>();
 
     public ReservationEntity() { }
 

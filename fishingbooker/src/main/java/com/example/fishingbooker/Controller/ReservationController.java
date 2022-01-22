@@ -31,7 +31,7 @@ public class ReservationController {
     private IReservationPeriodOwnerService ownerService;
 
     @PostMapping("/addReservation")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public ResponseEntity<String> addReservation(@RequestBody OwnerReservationDTO reservation){
         reservationService.makeReservationOwner(reservation);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -51,6 +51,7 @@ public class ReservationController {
     }
 
     @GetMapping("/getEntityReservations/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public List<ReservationDTO> getEntityReservations(@PathVariable Integer id){
         return reservationService.findEntityReservations(id);
     }
@@ -61,6 +62,7 @@ public class ReservationController {
     }
 
     @GetMapping("/checkActiveReservations/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public boolean checkActiveReservations(@PathVariable Integer id){
         return reservationService.checkActiveReservations(id);
     }
@@ -93,6 +95,7 @@ public class ReservationController {
     }
 
     @GetMapping("/getClientsOfActiveReservations/{ownerId}") //id od instruktora
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public List<ClientDTO> getClientsOfActiveReservations(@PathVariable Integer ownerId) {
         return reservationService.getClientsOfActiveReservations(ownerId);
     }
@@ -104,11 +107,13 @@ public class ReservationController {
     }
 
     @GetMapping("/getFutureOwnerEntitiesReservations/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public List<ReservationDTO> getFutureOwnerEntitiesReservations(@PathVariable Integer id){
         return reservationService.findFutureOwnerEntitiesReservations(id);
     }
 
     @GetMapping("/getPastOwnerEntitiesReservations/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public List<ReservationDTO> getPastOwnerEntitiesReservations(@PathVariable Integer id){
         return reservationService.findPastOwnerEntitiesReservations(id);
     }
@@ -119,11 +124,13 @@ public class ReservationController {
     }
 
     @GetMapping("/checkEntityFutureReservations/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER')")
     public boolean hasEntityFutureReservations(@PathVariable Integer id){
         return reservationService.hasEntityFutureReservations(id);
     }
 
     @GetMapping("/searchClients")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public List<ReservationDTO> searchClients(@RequestParam(required = false) String username, @RequestParam(required = false) Integer owner) {
         return reservationService.searchClients(username, owner);
     }
