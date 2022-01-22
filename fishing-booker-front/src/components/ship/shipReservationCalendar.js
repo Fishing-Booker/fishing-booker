@@ -4,7 +4,7 @@ import { Link, useParams} from "react-router-dom";
 import '../../css/usersProfile.css'
 import Calendar from 'react-awesome-calendar';
 import axios from 'axios';
-import AddShipReservationPeriod from './addShipReservationPeriod';
+import AddShipReservationPeriod from './addShipreservationPeriod';
 
 const ShipReservationCalendar = () => {
 
@@ -68,7 +68,6 @@ const ShipReservationCalendar = () => {
                     </div> <br/> <br/>
                 </div>
             </div>
-
             <AddShipReservationPeriod modalIsOpen={addPeriod} setModalIsOpen={setAddPeriod} entityId={shipId}/>
         </div>
     )

@@ -86,7 +86,7 @@ const AddNewAdminForm = ({modalIsOpen, setModalIsOpen}) => {
                         </div>
                         <div className="data">
                           <h4>Password: </h4>
-                          <input type="text" required onChange={(e) => {setPassword(e.target.value)}}  value={password} />
+                          <input type="password" required onChange={(e) => {setPassword(e.target.value)}}  value={password} />
                         </div>
                         <div className="data">
                           <h4>Address: </h4>

@@ -77,12 +77,11 @@ public class UserService implements IUserService, UserDetailsService {
         List<User> users = findAll();
         Integer index = 1;
         for (User u: users) {
-            if(u.getUsername().equals(adminUsername)) {
-                continue;
+            if(!u.getUsername().equals(adminUsername) && u.isApproved()) {
+                String role = findUserRolename(u.getId());
+                UserDTO dto = new UserDTO(index++, u.getId(), u.getUsername(), role, u.getName(), u.getSurname(), u.getAddress(), u.getCity(), u.getCountry(), u.getPhoneNumber(), u.getEmail());
+                userDTOS.add(dto);
             }
-            String role = findUserRolename(u.getId());
-            UserDTO dto = new UserDTO(index++, u.getId(), u.getUsername(), role, u.getName(), u.getSurname(), u.getAddress(), u.getCity(), u.getCountry(), u.getPhoneNumber(), u.getEmail());
-            userDTOS.add(dto);
         }
         return userDTOS;
     }
