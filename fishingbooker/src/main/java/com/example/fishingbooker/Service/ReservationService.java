@@ -306,4 +306,15 @@ public class ReservationService implements IReservationService {
         }
         return entityNames;
     }
+
+    @Override
+    public List<ReservationReportDTO> getReservationReport() {
+        List<ReservationReportDTO> dtos = new ArrayList<>();
+        List<Reservation> reservations = reservationRepository.findAll();
+        for (Reservation reservation : reservations) {
+            ReservationReportDTO dto = ReservationMapper.mapModelToReportDTO(reservation);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
 }

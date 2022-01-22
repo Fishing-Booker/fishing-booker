@@ -44,4 +44,6 @@ public interface IReservationService {
     List<ReservationDTO> searchClients(String username, Integer entityId);
 
     List<String> getEntityNamesOfActiveReservations(Integer ownerId);
+
+    List<ReservationReportDTO> getReservationReport();
 }

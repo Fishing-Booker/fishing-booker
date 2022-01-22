@@ -71,6 +71,7 @@ import ShipReservations from "./ship/shipReservations";
 import LodgeOwnerCalendar from "./lodge/lodgeOwnerCalendar";
 import LodgeReservationHistory from "./lodge/lodgeReservationHistory";
 import ShipReservationHistory from "./ship/shipReservationHistory";
+import ReservationReport from "./admin/reservationReport";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -164,6 +165,7 @@ const FrontPage = () => {
                         <Route path="/userList"><UserList/></Route>
                         <Route path="/userInfo/:userId"><UserInfo/></Route>
                         <Route path="/feedbacks"><Feedbacks/></Route>
+                        <Route path="/reservationReport"><ReservationReport/></Route>
                     </Switch>
                 }
 
