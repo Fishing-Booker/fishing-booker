@@ -1,0 +1,1 @@
+INSERT INTO `image` VALUES (1,_binary '\0','/images/Avantura na Dunavu1.jpg',3),(2,_binary '\0','/images/Plovite sa Kacom2.jpg',2),(3,_binary '\0','/images/Vikendica kod Milana3.jpg',1);

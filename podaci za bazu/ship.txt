@@ -1,0 +1,1 @@
+INSERT INTO `ship` VALUES (3,200,50,50,'','recni brod',2);

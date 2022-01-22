@@ -1,0 +1,1 @@
+INSERT INTO `reservation_entity` VALUES (1,0,0,'Cekamo vas!',_binary '\0',5,'Vikendica kod Milana','',1,8),(2,0,0,'Cekamo vas da plovimo od Novog Sada do Beograda',_binary '\0',20,'Plovite sa Kacom','',2,7),(3,0,0,'Naucite da pecate sa nama!',_binary '\0',10,'Avantura na Dunavu','',3,9);

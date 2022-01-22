@@ -1,0 +1,12 @@
+* Redosled popunjavanja tabela:
+	- roles
+	- users
+	- users_roles
+	- location
+	- reservation_entity
+	- lodge
+	- bedroom
+	- image
+	- ship
+	- adventure
+	

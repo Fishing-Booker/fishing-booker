@@ -1,0 +1,1 @@
+INSERT INTO `location` VALUES (1,'Kralja Petra 5','Novi Sad','Srbija',0,0),(2,'Marko Miljanova 6','Novi Sad','Srbija',0,0),(3,'Gunduliceva 10','Zrenjanin','Srbija',0,0);

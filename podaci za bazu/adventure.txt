@@ -1,0 +1,1 @@
+INSERT INTO `adventure` VALUES ('Iskusan stari ','Morate poneti svoju opremu',3);

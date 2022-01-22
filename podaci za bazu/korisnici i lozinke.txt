@@ -1,0 +1,22 @@
+* Kategorija KLIJENT:
+	username: marija
+	password: marija123
+
+* Kategorija ADMIN:
+	username: admin
+	password: admin123
+
+* Kategorija INSTRUKTOR:
+	username: nadja
+	password: nadja123
+
+* Kategorija VLASNIK BRODA:
+	username: katarina
+	password: katarina123
+
+* Kategorija VLASNIKA VIKENDICE:
+	username: milan
+	password: milan123
+
+
+=> za sve entitete lozinka je: username123
