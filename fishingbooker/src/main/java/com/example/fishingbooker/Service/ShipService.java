@@ -3,6 +3,7 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.NavigationEquipmentDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.LocationDTO;
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
@@ -12,6 +13,7 @@ import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.Mapper.ShipMapper;
+import com.example.fishingbooker.Model.Lodge;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -196,5 +198,18 @@ public class ShipService implements IShipService {
     @Override
     public List<String> getOwnerShipNames(Integer ownerId) {
         return shipRepository.getOwnerShipNames(ownerId);
+    }
+
+    @Override
+    public List<ShipDTO> searchShipsByName(String name, Integer owner) throws IOException {
+        List<Ship> ships = shipRepository .searchByName(name);
+        List<ShipDTO> shipsDTO = new ArrayList<>();
+        for (Ship s : ships) {
+            if(s.getOwner().getId() == owner && !s.isDeleted()){
+                shipsDTO.add(new ShipDTO(s.getId(), s.getOwner().getId(), s.getName(), s.getLocation(), s.getDescription(),
+                        s.getAverageGrade(), imageService.getEntityProfileImage(s.getId()), s.getMaxPersons()));
+            }
+        }
+        return shipsDTO;
     }
 }

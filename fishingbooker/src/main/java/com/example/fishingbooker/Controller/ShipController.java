@@ -1,5 +1,6 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.ship.AddShipDTO;
 import com.example.fishingbooker.DTO.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -45,12 +47,14 @@ public class ShipController {
     }
 
     @DeleteMapping("/deleteShip/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
         shipService.deleteShip(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/addShip")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<Ship> addShip(@RequestBody AddShipDTO shipDTO){
 
         Ship ship = new Ship();
@@ -171,7 +175,14 @@ public class ShipController {
     }
 
     @GetMapping("/shipNames/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public List<String> getOwnerShipNames(@PathVariable Integer id){
         return shipService.getOwnerShipNames(id);
+    }
+
+    @GetMapping("/searchShip")
+    @PreAuthorize("hasRole('SHIPOWNER')")
+    public List<ShipDTO> getSearchedLodges(@RequestParam(required = false) String name, @RequestParam(required = false) Integer owner) throws IOException {
+        return shipService.searchShipsByName(name, owner);
     }
 }

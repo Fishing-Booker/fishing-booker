@@ -44,4 +44,6 @@ public interface IShipService {
     void deleteNavEquipment(Integer eqIndex, Integer shipId);
 
     List<String> getOwnerShipNames(Integer ownerId);
+
+    List<ShipDTO> searchShipsByName(String name, Integer owner) throws IOException;
 }

@@ -10,10 +10,14 @@ import axios from "axios";
 import AddShipForm from "./addShipForm";
 import DeleteShipForm from "./deleteShipForm";
 import noImg from '../../images/noProfilePicture.jpg';
+import star from "../../images/star.png";
+import { useToasts } from "react-toast-notifications";
 
 const ShipOwnerHomePage = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const { addToast } = useToasts();
 
     const [user, setUser]  =useState([]);
     const [ships, setShips] = useState([]);
@@ -23,10 +27,12 @@ const ShipOwnerHomePage = () => {
     const [addShip, setAddShip] = useState(false);
     const [deleteShipForm, setDeleteShipForm] = useState(false);
 
+    const [url, setUrl] = useState("");
+    const [shipName, setShipName] = useState("");
+
     useEffect(() => {
 
-        const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
         .then(response => {
@@ -52,9 +58,50 @@ const ShipOwnerHomePage = () => {
 
     }, [])
 
+    useEffect(() => {
+
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(url, {headers: headers})
+            .then(response => {
+                console.log(response.data);
+                var ships = response.data;
+                    var allShips = [];
+                    for(let ship of ships){
+                        if(ship.profileImage == ""){
+                            ship.profileImage = noImg;
+                        }
+                        allShips.push(ship);
+                    }
+                    setShips(allShips);
+            })
+        
+
+    }, [url])
+
+    const renderStars = (grade) => {
+        let stars = []
+        for (var i = 0; i < parseInt(grade); i++) {
+            stars.push(<img key={i} src={star}/>)
+        }
+        return stars;
+    }
+
     const deleteShip = (id) => {
         setShipId(id);
-        setDeleteShipForm(true);
+
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + '/reservations/checkEntityFutureReservations/' + id, {headers: headers})
+            .then(response => {
+                var availableDelete = response.data;
+                if(availableDelete === false){
+                    setShipId(id);
+                    setDeleteShipForm(true);
+                } else {
+                    addToast("It is not available to delete this ship, because there are future reservations!", { appearance: "error" });
+                }
+            });
     }
 
     const allShips = ships.length ? (
@@ -66,13 +113,11 @@ const ShipOwnerHomePage = () => {
                             <img  src={ship.profileImage}  />
                         </div>
                         <Link to={'/ship/' + ship.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{ship.name}</div></Link>
-                        
+                        <div className="stars" style={{'margin-left': '0%', 'margin-top': '1%'}}>{renderStars(ship.averageGrade)} </div>
                         <div className="buttons">
-                            <Link to="#deleteShip" onClick={() => deleteShip(ship.id)}>
-                                <button title="Delete ship">
-                                    <img src={deleteImg}/>
-                                </button>
-                            </Link>
+                            <button title="Delete ship" onClick={() => deleteShip(ship.id)}>
+                                <img src={deleteImg}/>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -89,16 +134,22 @@ const ShipOwnerHomePage = () => {
                 
             <div className="container-home">
                 
-                <div className="title">Welcome Ship Owner!</div>
+                <div className="title">Welcome {user.username}!</div>
 
                 <div className="input-box-lodge">
-                    <input type="text" placeholder="Search..."/>
+                <input type="search" placeholder="Enter ship name " value={shipName}
+                        onChange={(e) => {
+                            setShipName(e.target.value)
+                            setUrl(SERVER_URL + '/ships/searchShip?name=' + shipName + "&owner=" + user.id);
+                            if(e.target.value === ''){
+                                setUrl(SERVER_URL + '/ships/ownerShips/' + user.id);
+                            }
+                        }}
+                    />
                     <div className="modal-place">
-                        <Link to="#addShip" onClick={() => setAddShip(true)}>
-                            <button title="Add ship">
-                                <img src={addImg}/>
-                            </button>
-                        </Link>
+                        <button title="Add ship" onClick={() => setAddShip(true)}>
+                            <img src={addImg}/>
+                        </button>
                         <AddShipForm modalIsOpen={addShip} setModalIsOpen={setAddShip} />
                     </div>
                     
