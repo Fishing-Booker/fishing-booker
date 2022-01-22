@@ -43,7 +43,6 @@ const MakeShipAction  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPerio
             .then(response => {
                 console.log(response.data);
                 setServicesR(response.data);
-                setChoosenServicesR(response.data[0]);
         })
 
         startOfPeriod = new Date(startOfPeriod)
@@ -138,7 +137,7 @@ const MakeShipAction  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPerio
 
     const handleSubmit = () => {
 
-        if(startDate==="" || endDate === "" || choosenServicesR === []) {
+        if(startDate==="" || endDate === "" || choosenServicesR === "") {
             addToast("You have to set all fields!", { appearance: "error" });
         } else {
 
@@ -214,6 +213,7 @@ const MakeShipAction  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPerio
                                 <div className="data">
                                     <h4>Regular service:</h4>
                                     <select  value={choosenServicesR} onChange={(e) => handleSelectChangeR(e)}>
+                                        <option></option>
                                         {servicesR.map((service) => (
                                             <option>
                                                 {service.service_name} {service.price}$

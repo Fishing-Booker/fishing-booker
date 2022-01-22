@@ -105,11 +105,13 @@ public class ShipController {
     }
 
     @GetMapping("/ship/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public Ship findShip(@PathVariable Integer id){
         return shipService.findById(id);
     }
 
     @PutMapping("/updateShip/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<Ship> updateShip(@RequestBody UpdateShipDTO dto, @PathVariable Integer id){
         shipService.updateShip(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -121,12 +123,14 @@ public class ShipController {
     }
 
     @PutMapping("/addRule/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> addRule(@RequestBody String rule, @PathVariable Integer id){
         shipService.addRule(rule, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteRule/{id}/{index}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> deleteRule(@PathVariable Integer index, @PathVariable Integer id){
         shipService.deleteRule(index, id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -163,12 +167,14 @@ public class ShipController {
     }
 
     @PutMapping("/addNavEq/{id}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> addShipNavEquipment(@RequestBody String equipment, @PathVariable Integer id){
         shipService.addNavEquipment(equipment, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteNavEq/{id}/{index}")
+    @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> deleteShipNavEquipment(@PathVariable Integer index, @PathVariable Integer id){
         shipService.deleteNavEquipment(index, id);
         return new ResponseEntity<>(HttpStatus.OK);

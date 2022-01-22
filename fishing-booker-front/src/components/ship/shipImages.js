@@ -21,8 +21,7 @@ const ShipImages = () => {
 
     useEffect(() => {
 
-        const headers = {'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + '/images/getImages/' + shipId, {headers:headers})
         .then(response => {
             setImages(response.data);
@@ -56,6 +55,8 @@ const ShipImages = () => {
         <div className="wrapper">
             <div className="left">
                 <h4>SHIP PROFILE</h4><br/>
+                <Link className="sidebar-link" to={"/shipNavEq/" + shipId}>Navigation equipment</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipFishEq/" + shipId}>Fishing equipment</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipPricelist/" + shipId}>Pricelist</Link><br/><br/>
