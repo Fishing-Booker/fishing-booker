@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { useToasts } from "react-toast-notifications";
 import commentImg from '../../images/comment.png';
 import AddLodgeReport from './addLodgeReport';
+import LodgeReservationInfo from './lodgeReservationInfo';
 
 const LodgeReservations = () => {
 
@@ -26,6 +27,12 @@ const LodgeReservations = () => {
 
     const [client, setClient] = useState("");
 
+    const [showInfo, setShowInfo] = useState(false);
+    const [reservation, setReservation] = useState([]);
+
+    const [url, setUrl] = useState("");
+    const [clientName, setClientName] = useState("");
+
     const { addToast } = useToasts();
 
     useEffect(() => {
@@ -35,7 +42,7 @@ const LodgeReservations = () => {
             .then(response => {
                 setUser(response.data);
                 var user = response.data;
-                axios.get(SERVER_URL + '/reservations/getOwnerEntitiesReservations/' + user.id, {headers: headers})
+                axios.get(SERVER_URL + '/reservations/getFutureOwnerEntitiesReservations/' + user.id, {headers: headers})
                 .then(response => {
                     console.log(response.data)
                     var reservations = response.data;
@@ -50,9 +57,53 @@ const LodgeReservations = () => {
         
     }, [])
 
+    useEffect(() => {
+
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        if(clientName == "free"){
+            axios.get(SERVER_URL + '/reservations/searchClients?username=' + user.username + "&owner=" + user.id, {headers: headers})
+                .then(response => {
+                    console.log(response.data)
+                    var reservations = response.data;
+                    for(let r of reservations){
+                        r.startDate = format(r.startDate, 'dd.MM.yyyy. kk:mm');
+                        r.endDate = format(r.endDate, 'dd.MM.yyyy. kk:mm');
+                    }
+                    setReservations(reservations);
+
+                })
+        } else if(clientName == user.username){
+            setReservations([]);
+        }else {
+            axios.get(url, {headers: headers})
+                .then(response => {
+                    console.log(response.data)
+                    var reservations = response.data;
+                    for(let r of reservations){
+                        r.startDate = format(r.startDate, 'dd.MM.yyyy. kk:mm');
+                        r.endDate = format(r.endDate, 'dd.MM.yyyy. kk:mm');
+                    }
+                    setReservations(reservations);
+
+                })
+        }
+
+    }, [url])
+
+    const showResInfo = (reservation) => {
+        setReservation(reservation);
+        setShowInfo(true);
+    }
+
     const showClientForm = (username) => {
-        setClient(username);
-        setClientModal(true);
+        if(username == "free"){
+            addToast("This action is still free.", { appearance: "error" });
+        } else {
+            setClient(username);
+            setClientModal(true);
+        }
+        
     }
 
     const addReservation= () => {
@@ -78,14 +129,12 @@ const LodgeReservations = () => {
     const allReservations = reservations.length ? (
         reservations.map(reservation => {
             return(
-                <li class="table-row" key={reservation.reservationId}>
-                    <div class="col col-1-action" >{reservation.entityName}</div>
-                    <div class="col col-2-action" >{reservation.startDate}</div>
-                    <div class="col col-3-action" >{reservation.endDate}</div>
-                    <div class="col col-4-action" onClick={() => showClientForm(reservation.clientUsername)}>{reservation.clientUsername}</div>
-                    <div class="col col-5-action" >
-                        <img className='info-img' src={commentImg} onClick={() => addReport(reservation.reservationId)}/>
-                    </div>
+                <li class="table-row" key={reservation.reservationId} >
+                    <div class="col col-1-reservation" onClick={() => showResInfo(reservation)}>{reservation.entityName}</div>
+                    <div class="col col-2-reservation" >{reservation.startDate}</div>
+                    <div class="col col-3-reservation" >{reservation.endDate}</div>
+                    <div class="col col-4-reservation" onClick={() => showClientForm(reservation.clientUsername)}>{reservation.clientUsername}</div>
+                    <div class="col col-5-reservation" >{reservation.reservationType}</div>
                 </li>
             )
         })
@@ -97,18 +146,29 @@ const LodgeReservations = () => {
         <div className="wrapper">
             <div className="reservations-right">
                 <div className="info">
-                    <h3>RESERVATIONS</h3>
-                    <button className="new-reservation-btn" onClick={() => addReservation()}>
+                    <h3>FUTURE RESERVATIONS</h3>
+                    
+                    <input className="search-box" type="search" placeholder="Enter client username " value={clientName} 
+                        onChange={(e) => {
+                            setClientName(e.target.value)
+                            setUrl(SERVER_URL + '/reservations/searchClients?username=' + clientName + "&owner=" + user.id);
+                            if(e.target.value === ''){
+                                setUrl(SERVER_URL + '/reservations/getFutureOwnerEntitiesReservations/' + user.id);
+                            }
+                        }}
+                    />
+                    <button className="new-reservation-btn" onClick={() => addReservation()} style={{'margin-left': '50%'}}>
                         Create new reservation
-                    </button><br/><br/>
+                    </button>
+                    <br/><br/>
                     <div class="container-table-reservations">
                         <ul class="responsive-table">
                             <li class="table-header">
-                            <div class="col col-1-action">Lodge</div>
-                            <div class="col col-2-action">Reservation start</div>
-                            <div class="col col-3-action">Reservation end</div>
-                            <div class="col col-4-action">Client</div>
-                            <div class="col col-5-action">Report</div>
+                            <div class="col col-1-reservation">Lodge</div>
+                            <div class="col col-2-reservation">Reservation start</div>
+                            <div class="col col-3-reservation">Reservation end</div>
+                            <div class="col col-4-reservation">Client</div>
+                            <div class="col col-5-reservation">Type</div>
                             </li>
                             {allReservations}
                         </ul>
@@ -116,9 +176,9 @@ const LodgeReservations = () => {
                 </div>
             </div>
 
-            <AddLodgeReport modalIsOpen={addReportForm} setModalIsOpen={setAddReportForm} reservationId={reservationId}/>
             <AddLodgeReservationByOwner modalIsOpen={addReservationForm} setModalIsOpen={setAddReservationForm} />
             <ClientProfile modalIsOpen={clientModal} setModalIsOpen={setClientModal} clientUsername={client} />
+            <LodgeReservationInfo modalIsOpen={showInfo} setModalIsOpen={setShowInfo} reservation={reservation} />
         </div>
     )
     

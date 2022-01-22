@@ -13,6 +13,8 @@ public class ReservationDTO {
     private String additionalService;
     private String regularService;
     private double price;
+    private String reservationType;
+    private Integer maxPersons;
 
     public ReservationDTO() {
     }
@@ -26,7 +28,9 @@ public class ReservationDTO {
         this.entityName = entityName;
     }
 
-    public ReservationDTO(Integer reservationId, Date startDate, Date endDate, String clientUsername, Integer entityId, String entityName, String additionalService, String regularService, double price) {
+    public ReservationDTO(Integer reservationId, Date startDate, Date endDate, String clientUsername, Integer entityId,
+                          String entityName, String additionalService, String regularService, double price,
+                          String reservationType, Integer maxPersons) {
         this.reservationId = reservationId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,6 +40,8 @@ public class ReservationDTO {
         this.additionalService = additionalService;
         this.regularService = regularService;
         this.price = price;
+        this.reservationType = reservationType;
+        this.maxPersons = maxPersons;
     }
 
     public Integer getReservationId() {
@@ -108,5 +114,21 @@ public class ReservationDTO {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getReservationType() {
+        return reservationType;
+    }
+
+    public void setReservationType(String reservationType) {
+        this.reservationType = reservationType;
+    }
+
+    public Integer getMaxPersons() {
+        return maxPersons;
+    }
+
+    public void setMaxPersons(Integer maxPersons) {
+        this.maxPersons = maxPersons;
     }
 }

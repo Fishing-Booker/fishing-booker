@@ -7,7 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import { format, set } from "date-fns";
 import '../../css/addingForm.css'
 
-const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod, maxGuests, clientUsername, entityOfId}) => {
+const MakeLodgeAction  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod, maxGuests, entityOfId}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
@@ -18,7 +18,6 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
     const [minDate, setMinDate] = useState("");
     const [maxDate, setMaxDate] = useState("");
     const [price, setPrice] = useState(0);
-    const [clientId, setClientId] = useState(0);
 
     const [services, setServices] = useState([]);
     const [servicesR, setServicesR] = useState([]);
@@ -29,16 +28,11 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
     const [regularService, setRegularService] = useState("");
 
     useEffect(() => {
-        console.log(maxGuests);
 
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => setUserId(response.data.id))
 
-        axios.get(SERVER_URL + "/users/user/" + clientUsername, { headers: headers })
-        .then(response => {
-            setClientId(response.data.id);
-        })
         
         axios.get(SERVER_URL + "/prices/additionalServices2/" + entityOfId, { headers: headers })
         .then(response => {
@@ -49,6 +43,7 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
             .then(response => {
                 console.log(response.data);
                 setServicesR(response.data);
+                //setChoosenServicesR(response.data[0]);
         })
 
         startOfPeriod = new Date(startOfPeriod)
@@ -86,14 +81,14 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
     }
 
     const dto = {
-        clientId,
+        owner: userId,
         entityId,
         startDate,
         endDate,
-        numberOfGuests,
         price,
         additionalServices,
-        regularService
+        regularService,
+        maxPersons: numberOfGuests
     }
 
     const setServicesAsString = () => {
@@ -143,9 +138,11 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
 
     const handleSubmit = () => {
 
-        if(startDate==="" || endDate === "" || choosenServicesR === []) {
+        if(startDate==="" || endDate === "" || choosenServicesR === "") {
             addToast("You have to set all fields!", { appearance: "error" });
-        } else {
+        } else if(numberOfGuests > maxGuests){
+            addToast("Maximum number of guests is " + maxGuests + "!", { appearance: "error" });
+        }else {
 
             var start = new Date(startDate);
             var end = new Date(endDate);
@@ -159,25 +156,20 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
                     addToast("Ship is available from: " + start + ", until " + end, { appearance: "error" });
                 } else {
 
-                    if(dto.numberOfGuests > maxGuests){
-                        addToast("Maximum number of guests is " + maxGuests, { appearance: "error" });
-                    } else {
-                        dto.additionalServices = setServicesAsString();
+                    dto.additionalServices = setServicesAsString();
 
-                        let end = regularS.lastIndexOf(" ");
-                        let reg = regularS.substring(0, end);
-                        dto.regularService = reg;
-            
-                        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
-    
-                        axios.post(SERVER_URL + "/reservations/addReservation", dto, {headers:headers})
-                        .then(response => {
-                            addToast("You made reservation successfully!", {appearance : "success"});
-                            setModalIsOpen(false);
-                            window.location.reload();
-                        })
-                    }
+                    let end = regularS.lastIndexOf(" ");
+                    let reg = regularS.substring(0, end);
+                    dto.regularService = reg;
+        
+                    const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
                     
+                    axios.post(SERVER_URL + "/actions/addAction", dto, {headers:headers})
+                    .then(response => {
+                        addToast("You made action successfully!", {appearance : "success"});
+                        setModalIsOpen(false);
+                        window.location.reload();
+                    })
 
                 }
 
@@ -197,23 +189,19 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
                 <div className="adding-wrapper">
                     <div className="right">
                         <div className="info">
-                            <h3>Please enter reservation details</h3>
+                            <h3>ACTION DETAILS</h3>
                             <div className="info_data">
                                 <div className="data">
-                                    <h4>Client:</h4>
-                                    <input disabled  type="text" value={clientUsername} />
-                                </div>
-                                <div className="data">
                                     <h4>Start date:</h4>
-                                    <input  min={minDate} max={maxDate} type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }></input>
+                                    <input  min={minDate} max={maxDate} type="datetime-local" value={startDate} onChange={(e) => {setStartDate(e.target.value); } }/>
                                 </div>
                                 <div className="data">
                                     <h4>End date:</h4>
-                                    <input  min={minDate} max={maxDate} type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}></input> 
+                                    <input  min={minDate} max={maxDate} type="datetime-local" value={endDate} onChange={(e) => {setEndDate(e.target.value); }}/> 
                                 </div>
                                 <div className="data">
                                     <h4>Number of guests:</h4>
-                                    <input  min="1" type="number" value={numberOfGuests} max={maxGuests} onChange={(e) => setNumberOfGuests(e.target.value)} ></input> 
+                                    <input  min="1" type="number" value={numberOfGuests} max={maxGuests} onChange={(e) => setNumberOfGuests(e.target.value)} />
                                 </div>
                                 <div className="data">
                                     <h4>Regular service:</h4>
@@ -237,7 +225,7 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
                                     </select>
                                 </div>
                                 <p className='modal-info-res'>Price: {price}$</p>
-                                <a  className="reservation-link2" onClick={() => handleSubmit()}>Make reservation</a>
+                                <a  className="reservation-link2" onClick={() => handleSubmit()}>Make action</a>
                             </div> <br/> <br/>
                         </div>
                     </div>
@@ -247,4 +235,4 @@ const MakeLodgeReservation  = ({modalIsOpen, setModalIsOpen, startOfPeriod, endO
         </div>
     )
 }
-export default MakeLodgeReservation;
+export default MakeLodgeAction;

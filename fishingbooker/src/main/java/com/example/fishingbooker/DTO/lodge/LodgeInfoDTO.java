@@ -6,7 +6,7 @@ public class LodgeInfoDTO {
     private String description;
     private double averageGrade;
     private String rules;
-    private String cancelConditions;
+    private double cancelConditions;
     private LocationDTO location;
     private ImageDTO images;
     private BedroomDTO bedroom;
@@ -16,7 +16,7 @@ public class LodgeInfoDTO {
     public LodgeInfoDTO() {
     }
 
-    public LodgeInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, LocationDTO location, ImageDTO images, BedroomDTO bedroom, OwnerDTO owner) {
+    public LodgeInfoDTO(Integer id, String name, String description, double averageGrade, String rules, double cancelConditions, LocationDTO location, ImageDTO images, BedroomDTO bedroom, OwnerDTO owner) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -69,11 +69,11 @@ public class LodgeInfoDTO {
         this.rules = rules;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

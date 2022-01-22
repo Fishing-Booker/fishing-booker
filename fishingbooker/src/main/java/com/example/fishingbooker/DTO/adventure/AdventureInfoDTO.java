@@ -10,7 +10,7 @@ public class AdventureInfoDTO {
     private String description;
     private double averageGrade;
     private String rules;
-    private String cancelConditions;
+    private double cancelConditions;
     private String biography;
     private Integer maxPersons;
     private LocationDTO location;
@@ -20,7 +20,7 @@ public class AdventureInfoDTO {
     public AdventureInfoDTO() {
     }
 
-    public AdventureInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, String biography,
+    public AdventureInfoDTO(Integer id, String name, String description, double averageGrade, String rules, double cancelConditions, String biography,
                             Integer maxPersons, LocationDTO location, ImageDTO images, OwnerDTO owner) {
         this.id = id;
         this.name = name;
@@ -75,11 +75,11 @@ public class AdventureInfoDTO {
         this.rules = rules;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

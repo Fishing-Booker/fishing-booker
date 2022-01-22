@@ -228,11 +228,50 @@
     margin-top: 10%;
 }
 
+.adding-wrapper .right .info_data .buttons{
+    width: 100%;
+    margin-top: 10%;
+    display: flex;
+    margin-left: 30%;
+}
+
+.adding-wrapper .right .info_data .buttons .add{
+    height: 40px;
+    width: 250%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+.adding-wrapper .right .info_data .buttons .cancel{
+    height: 40px;
+    width: 250%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
 .deleting-wrapper .right .info_data .buttons{
     width: 100%;
     margin-top: 5%;
     display: flex;
-    margin-left: 70%;
+    margin-left: 60%;
 }
 
 .deleting-wrapper .right .info_data .buttons .delete{
@@ -247,7 +286,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #2f5e3d, #5078ad);
-    margin-left: 200%;
+    margin-left: 10%;
     margin-top: 5%;
 }
 
@@ -344,6 +383,22 @@
 
   .adding-wrapper .right .info_data .report-options .data label{
     margin-left: 2%;
+}
+
+.res-period-btn{
+    height: 40px;
+    width: 50%;
+    border-radius: 20px;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2f5e3d, #5078ad);
+    margin-left: 60%;
+    margin-top: 10%;
 }
 
 

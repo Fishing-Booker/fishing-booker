@@ -10,7 +10,7 @@ public class ShipInfoDTO {
     private String description;
     private double averageGrade;
     private String rules;
-    private String cancelConditions;
+    private double cancelConditions;
     private String shipType;
     private double length;
     private double maxSpeed;
@@ -23,7 +23,7 @@ public class ShipInfoDTO {
     public ShipInfoDTO() {
     }
 
-    public ShipInfoDTO(Integer id, String name, String description, double averageGrade, String rules, String cancelConditions, String shipType, double length, double maxSpeed,
+    public ShipInfoDTO(Integer id, String name, String description, double averageGrade, String rules, double cancelConditions, String shipType, double length, double maxSpeed,
                        Integer capacity, LocationDTO location, ImageDTO images, OwnerDTO owner) {
         this.id = id;
         this.name = name;
@@ -80,11 +80,11 @@ public class ShipInfoDTO {
         this.rules = rules;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

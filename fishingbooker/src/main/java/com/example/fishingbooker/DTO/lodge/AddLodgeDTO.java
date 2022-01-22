@@ -9,6 +9,7 @@ public class AddLodgeDTO {
     private String country;
     private Integer maxPersons;
     private String description;
+    private double cancelConditions;
     private String oneBed;
     private String twoBed;
     private String threeBed;
@@ -17,7 +18,8 @@ public class AddLodgeDTO {
     public AddLodgeDTO() {
     }
 
-    public AddLodgeDTO(Integer owner, String name, String address, String city, String country, Integer maxPersons, String description, String oneBed, String twoBed, String threeBed, String fourBed) {
+    public AddLodgeDTO(Integer owner, String name, String address, String city, String country, Integer maxPersons,
+                       String description, double cancelConditions, String oneBed, String twoBed, String threeBed, String fourBed) {
         this.owner = owner;
         this.name = name;
         this.address = address;
@@ -25,6 +27,7 @@ public class AddLodgeDTO {
         this.country = country;
         this.maxPersons = maxPersons;
         this.description = description;
+        this.cancelConditions = cancelConditions;
         this.oneBed = oneBed;
         this.twoBed = twoBed;
         this.threeBed = threeBed;
@@ -77,6 +80,14 @@ public class AddLodgeDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getCancelConditions() {
+        return cancelConditions;
+    }
+
+    public void setCancelConditions(double cancelConditions) {
+        this.cancelConditions = cancelConditions;
     }
 
     public Integer getOwner() {

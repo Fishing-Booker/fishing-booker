@@ -65,7 +65,7 @@ public class ShipController {
 
         ship.setDescription(shipDTO.getDescription());
         ship.setRules("");
-        ship.setCancelConditions("");
+        ship.setCancelConditions(0.0);
         ship.setDeleted(false);
         ship.setAverageGrade(0.0);
         ship.setMaxPersons(shipDTO.getCapacity());

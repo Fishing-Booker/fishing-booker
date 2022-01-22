@@ -91,6 +91,8 @@ public class SubscriberService implements ISubscriberService {
 
             content += "<b>Max persons:</b> " + action.getMaxPersons() + "<br>";
 
+            content += "<b>Regular service:</b> " + action.getRegularService() + "<br>";
+
             String[] services = action.getAdditionalServices().split("#");
             String additionalServices = "";
             for (String service : services) {

@@ -2,6 +2,7 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.reservation.ReservationDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
+import com.example.fishingbooker.DTO.reservationPeriod.GetReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriodOwner.ReservationPeriodOwnerDTO;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
@@ -99,12 +100,32 @@ public class ReservationPeriodService implements IReservationPeriodService {
     }
 
     @Override
+    public List<GetReservationPeriodDTO> findEntityPeriods(Integer entityId) {
+        List<GetReservationPeriodDTO> periods =  new ArrayList<>();
+        for (ReservationPeriod period : repository.findAllPeriods(entityId)) {
+            periods.add(new GetReservationPeriodDTO(period.getId(), period.getStartDate(), period.getEndDate(), entityId));
+        }
+        return periods;
+    }
+
+    @Override
     public List<ReservationPeriodDTO> findAllPeriods(Integer entityId) {
         List<ReservationPeriodDTO> periods = new ArrayList<>();
         for (ReservationPeriod p : repository.findAllPeriods(entityId)) {
             periods.add(new ReservationPeriodDTO(p.getStartDate(), p.getEndDate(), entityId));
         }
         return periods;
+    }
+
+    @Override
+    public List<ReservationPeriodDTO> findAllFreePeriods(Integer entityId) {
+        List<ReservationPeriodDTO> allPeriods = findAllPeriods(entityId);
+        List<ReservationDTO> allReservations = reservationService.findEntityReservations(entityId);
+        List<ReservationPeriodDTO> freePeriods = allPeriods;
+        for (ReservationDTO reservation : allReservations) {
+            freePeriods = getChangedPeriods(freePeriods, reservation, entityId);
+        }
+        return freePeriods;
     }
 
     @Override
@@ -249,4 +270,23 @@ public class ReservationPeriodService implements IReservationPeriodService {
         }
         return futurePeriods;
     }
+
+    @Override
+    public void deletePeriod(Integer entityId, Integer periodId){
+        repository.deletePeriod(periodId);
+        modifyPeriods(entityId);
+    }
+
+    @Override
+    public boolean isPeriodAvailable(Integer periodId){
+        ReservationPeriod period = repository.findPeriodById(periodId);
+        List<ReservationDTO> allReservations = reservationService.findEntityReservations(period.getReservationEntity().getId());
+        for (ReservationDTO reservation : allReservations) {
+            if(reservation.getStartDate().after(period.getStartDate()) && reservation.getEndDate().before(period.getEndDate())){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

@@ -323,7 +323,9 @@ public class UserService implements IUserService, UserDetailsService {
         Integer index = 1;
         for (Adventure a: adventures) {
             Location location = locationRepository.getById(a.getLocation().getId());
-            EntityDTO dto = new EntityDTO(index++, a.getId(), userId, a.getName(), location.getAddress() + ", " + location.getCity() + ", " + location.getCountry(), a.getDescription(), a.getCancelConditions(), a.getAverageGrade(), a.getMaxPersons(), imageService.getEntityProfileImage(a.getId()));
+            EntityDTO dto = new EntityDTO(index++, a.getId(), userId, a.getName(),
+                    location.getAddress() + ", " + location.getCity() + ", " + location.getCountry(),
+                    a.getDescription(), a.getCancelConditions(), a.getAverageGrade(), a.getMaxPersons(), imageService.getEntityProfileImage(a.getId()));
             dtos.add(dto);
         }
         return dtos;

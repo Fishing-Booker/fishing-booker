@@ -2,7 +2,7 @@ import React from 'react'
 import '../../css/addingForm.css'
 import Modal from 'react-modal';
 
-const LodgeActionInfo = ({modalIsOpen, setModalIsOpen, action}) => {
+const LodgeReservationInfo = ({modalIsOpen, setModalIsOpen, reservation}) => {
 
    return (
        <div>
@@ -12,35 +12,39 @@ const LodgeActionInfo = ({modalIsOpen, setModalIsOpen, action}) => {
             <div id="actionInfo" className="adding-wrapper">
                 <div className="right">
                     <div className="info">
-                        <h3>ACTION INFO</h3>
+                        <h3>RESERVATION INFO</h3>
                         <div className="info_data">
                             <div className="client-data">
                                 <h4>Booked by:</h4>
-                                {action.bookedBy}
+                                {reservation.clientUsername}
+                            </div>
+                            <div className="client-data">
+                                <h4>Reservation type:</h4>
+                                {reservation.reservationType}
                             </div>
                             <div className="client-data">
                                 <h4>Start date:</h4>
-                                {action.startDate}
+                                {reservation.startDate}
                             </div>
                             <div className="client-data">
                                 <h4>End date:</h4>
-                                {action.endDate}
+                                {reservation.endDate}
                             </div>
                             <div className="client-data">
                                 <h4>Price:</h4>
-                                {action.price}
+                                ${reservation.price}
                             </div>
                             <div className="client-data">
                                 <h4>Max persons:</h4>
-                                {action.maxPersons}
+                                {reservation.maxPersons}
                             </div>
                             <div className="client-data">
                                 <h4>Additional services:</h4>
-                                {action.additionalServices}
+                                {reservation.additionalService}
                             </div>
                             <div className="client-data">
                                 <h4>Regular service:</h4>
-                                {action.regularService}
+                                {reservation.regularService}
                             </div>
                             <button className="client-btn" onClick={() => setModalIsOpen(false)}>
                                 Done
@@ -55,4 +59,4 @@ const LodgeActionInfo = ({modalIsOpen, setModalIsOpen, action}) => {
     
 }
 
-export default LodgeActionInfo;
+export default LodgeReservationInfo;

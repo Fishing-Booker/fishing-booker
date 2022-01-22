@@ -73,4 +73,14 @@ public class ReportService implements IReportService {
     public void rejectPenalty(Integer reportId) {
         reportRepository.rejectPenalty(reportId);
     }
+
+    @Override
+    public boolean hasReservationReport(Integer reservationId){
+        for (Report report : reportRepository.findAll()) {
+            if(report.getReservation().getId() == reservationId){
+                return true;
+            }
+        }
+        return false;
+    }
 }

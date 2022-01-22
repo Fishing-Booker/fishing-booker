@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -31,6 +32,7 @@ public class ReservationActionController {
     ISubscriberService subscriberService;
 
     @PostMapping("/addAction")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public ResponseEntity<String> addAction(@RequestBody AddReservationActionDTO action){
         actionService.save(action);
         subscriberService.sendEmailWithActionInfo(action);

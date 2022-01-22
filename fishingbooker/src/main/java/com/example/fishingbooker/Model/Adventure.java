@@ -19,7 +19,7 @@ public class Adventure extends ReservationEntity {
     }
 
     public Adventure(Integer id, User owner, String name, Location location, String description, String rules,
-                     String cancelConditions, double averageGrade, String biography, Integer maxPersons, List<Image> images, String fishingEquipment) {
+                     double cancelConditions, double averageGrade, String biography, Integer maxPersons, List<Image> images, String fishingEquipment) {
         super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons, images);
         this.biography = biography;
         this.fishingEquipment = fishingEquipment;

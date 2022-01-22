@@ -3,22 +3,26 @@ import { Link } from "react-router-dom";
 import '../../css/addingForm.css'
 import Modal from 'react-modal';
 import axios from 'axios';
+import { useToasts } from "react-toast-notifications";
+import LodgeReservationPeriods from './lodgeReservationPeriods';
 
 const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const { addToast } = useToasts();
 
     const [user, setUser] = useState([]);
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
-    const [start, setStart] = useState("");
+    const [minDate, setMinDate] = useState("");
 
     useEffect(() => {
         var start = new Date();
         start = generateDate(start);
-        setStart(start);
+        setMinDate(start);
 
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
@@ -64,12 +68,32 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
 
     const addPeriod = () => {
         const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        
+        if(newPeriod.startDate == "" || newPeriod.endDate == ""){
+            addToast("Start and end date are required!", { appearance: "error" });
+        } else {
 
-        axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod, {headers: headers})
-          .then(response => {
-            setModalIsOpen(false)
-            window.location.reload();
-        });
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            if(start > end){
+                addToast("Start date has to be before end date!", { appearance: "error" });
+            } else {
+                var min = new Date();
+                if(start < minDate || end < minDate){
+                    addToast("Start date and end date have to be after current time!", { appearance: "error" });
+                } else if(start.getDate() == min.getDate() && start.getMonth()+1 == min.getMonth()+1 && start.getFullYear() == min.getFullYear() && start.getHours() < min.getHours()){
+                    addToast("Start date has to be after current time!", { appearance: "error" });
+                } else {
+                    axios.post(SERVER_URL + "/periods/addReservationPeriod", newPeriod, {headers: headers})
+                        .then(response => {
+                            setModalIsOpen(false);
+                            window.location.reload();
+                        });
+                }
+                
+            }
+        }
+        
     }
 
    return (
@@ -84,20 +108,27 @@ const AddLodgeReservationPeriod = ({modalIsOpen, setModalIsOpen, entityId}) => {
                             <div className="info_data">
                                 <div className="data">
                                     <h4>Period start date and time:</h4>
-                                    <input type="datetime-local" min={start} required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
+                                    <input type="datetime-local" min={minDate} required onChange={(e) => {setStartDate(e.target.value)}}  value={startDate}/>
                                 </div>
                                 <div className="data">
                                     <h4>Period end date and time:</h4>
-                                    <input type="datetime-local" min={start} required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
+                                    <input type="datetime-local" min={minDate} required onChange={(e) => {setEndDate(e.target.value)}}  value={endDate}/>
                                 </div>
-                                <button class="reservation-period-btn" onClick={() => addPeriod()}>
-                                    Add
-                                </button><br/> <br/>
+                                <div className="buttons">
+                                    <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                        Cancel
+                                    </button>
+                                    <button className="add" onClick={() => addPeriod()}>
+                                        Add
+                                    </button><br/>
+                                </div><br/><br/>
                             </div>
                         </div> 
                     </div>
                 </div>
             </Modal>
+
+            
         </div>
    )
     

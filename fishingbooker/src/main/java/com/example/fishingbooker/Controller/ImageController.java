@@ -42,7 +42,7 @@ public class ImageController {
     private IReservationEntityService reservationEntityService;
 
     @PostMapping("/uploadImage")
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public ResponseEntity<Image> uploadImage(@RequestBody UploadImageDTO uploadImageDTO) throws IOException {
         service.saveImage(uploadImageDTO);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -54,6 +54,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/deleteImage/{imageId}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public ResponseEntity<Image> deleteImage(@PathVariable Integer imageId) {
         imageService.deleteImage(imageId);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -91,6 +91,25 @@
     .responsive-table .col-4-price:hover {
       color: rgb(104, 18, 161);
     }
+
+
+    .responsive-table .col-1-reservation {
+      flex-basis: 10%;
+    }
+    .responsive-table .col-2-reservation {
+      margin-left: 3%;
+      flex-basis: 20%;
+    }
+    .responsive-table .col-3-reservation {
+      flex-basis:20%;
+    }
+    .responsive-table .col-4-reservation {
+      flex-basis: 10%;
+    }
+    .responsive-table .col-5-reservation {
+      flex-basis: 20%;
+    }
+
     
     @media all and (max-width: 767px) {
       .table-header {
@@ -123,6 +142,12 @@
   display: flex;
 }
 
+.res-period-form {
+  width: 200%;
+  height: 80px;
+  display: flex;
+}
+
 .edit-pricelist {
   border-style: solid;
   border-color: #2f5e3d;
@@ -130,6 +155,24 @@
   border-radius: 5px;
   margin-top: 2%;
   width: 80%;
+}
+
+.res-period {
+  border-style: solid;
+  border-color: #2f5e3d;
+  border-width: 2px;
+  border-radius: 5px;
+  margin-top: 2%;
+  width: 80%;
+}
+
+.res-period-form button {
+  border-style: solid;
+  border-color: #2f5e3d;
+  border-width: 2px;
+  border-radius: 5px;
+  margin-left: 6%;
+  margin-top: 5%;
 }
 
 .edit-pricelist-form .rules-btn{

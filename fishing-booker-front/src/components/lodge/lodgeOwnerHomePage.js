@@ -1,22 +1,22 @@
-import Entities from "../entities";
+
 import { useState, useEffect } from "react";
-import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "../navbar";
+import { Link} from "react-router-dom";
 import React from 'react'
 import '../../css/homePage.css';
-import lodge1 from '../../images/lodge1.jpg';
-import lodge2 from '../../images/lodge2.jpg';
 import deleteImg from '../../images/trash.png';
-import editImg from '../../images/pencil.png'
 import addImg from '../../images/plus.png'
 import axios from "axios";
 import AddLodgeFrom from "./addLodgeForm";
 import DeleteLodgeForm from "./deleteLodgeForm";
 import noImg from '../../images/noProfilePicture.jpg';
+import { useToasts } from "react-toast-notifications";
+import star from "../../images/star.png";
 
 const LodgeOwnerHomePage = () => {
 
     const SERVER_URL = process.env.REACT_APP_API; 
+
+    const { addToast } = useToasts();
 
     const [user, setUser]  =useState([]);
     const [lodges, setLodges] = useState([]);
@@ -26,8 +26,10 @@ const LodgeOwnerHomePage = () => {
     const [addLodge, setAddLodge] = useState(false);
     const [deleteLodgeForm, setDeleteLodgeForm] = useState(false);
 
-    useEffect(() => {
+    const [lodgeName, setLodgeName] = useState("");
+    const [url, setUrl] = useState(SERVER_URL + '/lodges');
 
+    useEffect(() => {
         const headers = {'Content-Type' : 'application/json',
                      'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
@@ -35,7 +37,7 @@ const LodgeOwnerHomePage = () => {
         .then(response => {
             setUser(response.data);
             var user = response.data;
-
+        
             axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
                 .then(response => {
                     setLodges(response.data); 
@@ -50,14 +52,56 @@ const LodgeOwnerHomePage = () => {
                     }
                     setLodges(allLodges);
                 });
-        
         });
 
     }, [])
 
+
+    useEffect(() => {
+
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(url, {headers: headers})
+            .then(response => {
+                console.log(response.data);
+                var lodges = response.data;
+                    var allLodges = [];
+                    for(let lodge of lodges){
+                        if(lodge.profileImage == ""){
+                            lodge.profileImage = noImg;
+                        }
+                        allLodges.push(lodge);
+                    }
+                    setLodges(allLodges);
+            })
+        
+
+    }, [url])
+
+    const renderStars = (grade) => {
+        let stars = []
+        for (var i = 0; i < parseInt(grade); i++) {
+            stars.push(<img key={i} src={star}/>)
+        }
+        return stars;
+    }
+    
+
     const deleteLodge = (id) => {
         setLodgeId(id);
-        setDeleteLodgeForm(true);
+        
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + '/reservations/checkEntityFutureReservations/' + id, {headers: headers})
+            .then(response => {
+                var availableDelete = response.data;
+                if(availableDelete === false){
+                    setLodgeId(id);
+                    setDeleteLodgeForm(true);
+                } else {
+                    addToast("It is not available to delete lodge, because there are future reservations!", { appearance: "error" });
+                }
+            });
     }
 
     const allLodges = lodges.length ? (
@@ -69,13 +113,11 @@ const LodgeOwnerHomePage = () => {
                             <img  src={lodge.profileImage}  />
                         </div>
                         <Link to={'/lodge/' + lodge.id} style={{textDecoration: 'none', color: 'black'}}><div className="title">{lodge.name}</div></Link>
-                        
+                        <div className="stars" style={{'margin-left': '0%', 'margin-top': '1%'}}>{renderStars(lodge.averageGrade)} </div>
                         <div className="buttons">
-                            <Link to="#deleteLodge" onClick={() => deleteLodge(lodge.id)}>
-                                <button title="Delete lodge">
-                                    <img src={deleteImg}/>
-                                </button>
-                            </Link>
+                            <button title="Delete lodge" onClick={() => deleteLodge(lodge.id)}>
+                                <img src={deleteImg}/>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -92,16 +134,23 @@ const LodgeOwnerHomePage = () => {
                 
             <div className="container-home">
                 
-                <div className="title">Welcome Lodge Owner!</div>
+                <div className="title">Welcome {user.username}!</div>
 
                 <div className="input-box-lodge">
-                    <input type="text" placeholder="Search..."/>
+                    <input type="search" placeholder="Enter lodge name " value={lodgeName}
+                        onChange={(e) => {
+                            setLodgeName(e.target.value)
+                            setUrl(SERVER_URL + '/lodges/searchLodge?name=' + lodgeName + "&owner=" + user.id);
+                            if(e.target.value === ''){
+                                setUrl(SERVER_URL + '/lodges/ownerLodges/' + user.id);
+                            }
+                        }}
+                    />
                     <div className="modal-place">
-                        <Link to="#addLodge" onClick={() => setAddLodge(true)}>
-                            <button title="Add lodge">
-                                <img src={addImg}/>
-                            </button>
-                        </Link>
+                        <button title="Add lodge" onClick={() => setAddLodge(true)}>
+                            <img src={addImg}/>
+                        </button>
+                        
                         <AddLodgeFrom modalIsOpen={addLodge} setModalIsOpen={setAddLodge} />
                     </div>
                     

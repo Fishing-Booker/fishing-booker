@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.reservationPeriod.AddReservationPeriodDTO;
+import com.example.fishingbooker.DTO.reservationPeriod.GetReservationPeriodDTO;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
 import com.example.fishingbooker.IService.IReservationPeriodService;
 import com.example.fishingbooker.Model.ReservationEntity;
@@ -10,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,7 @@ public class ReservationPeriodController {
     private ReservationEntityService entityService;
 
     @PostMapping("/addReservationPeriod")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public ResponseEntity<String> addReservationPeriod(@RequestBody AddReservationPeriodDTO period){
         periodService.save(period);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -36,13 +38,13 @@ public class ReservationPeriodController {
     @GetMapping("/freePeriods/{owner}/{entity}")
     public List<ReservationPeriodDTO> getFreePeriods(@PathVariable Integer owner, @PathVariable String entity){
         ReservationEntity resEntity = entityService.findOwnerEntityByName(entity, owner);
-        List<ReservationPeriodDTO> periods = periodService.findFreePeriods(resEntity.getId());
-        for (ReservationPeriodDTO period : periods) {
-            System.out.println(period.getStartDate());
-            System.out.println(period.getEndDate());
-        }
-        System.out.println("\n");
-        return periods;
+        return periodService.findFreePeriods(resEntity.getId());
+    }
+
+    @GetMapping("/allFreePeriods/{owner}/{entity}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
+    public List<ReservationPeriodDTO> getAllFreePeriods(@PathVariable Integer owner, @PathVariable Integer entity){
+        return periodService.findAllFreePeriods(entity);
     }
 
     @PostMapping("/availablePeriods")
@@ -56,5 +58,21 @@ public class ReservationPeriodController {
         return periodService.findFreePeriodsForShipAndOwner(resEntity.getId(), owner);
     }
 
+    @GetMapping("/entityPeriods/{entity}")
+    public List<GetReservationPeriodDTO> getEntityPeriods(@PathVariable Integer entity){
+        return periodService.findEntityPeriods(entity);
+    }
+
+    @DeleteMapping("/deletePeriod/{id}/{entity}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
+    public void deletePeriod(@PathVariable Integer id, @PathVariable Integer entity){
+        periodService.deletePeriod(entity, id);
+    }
+
+    @GetMapping("/checkIsPeriodFree/{id}")
+    @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
+    public boolean checkIsPeriodAvailable(@PathVariable Integer id){
+        return periodService.isPeriodAvailable(id);
+    }
 
 }

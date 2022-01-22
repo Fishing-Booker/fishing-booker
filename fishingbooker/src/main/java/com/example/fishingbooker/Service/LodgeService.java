@@ -108,7 +108,7 @@ public class LodgeService implements ILodgeService {
     public void updateLodge(UpdateLodgeDTO dto, Integer lodgeId) {
         locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
-        lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), lodgeId);
+        lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), dto.getCancelConditions(), lodgeId);
     }
 
     @Override
@@ -117,6 +117,19 @@ public class LodgeService implements ILodgeService {
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
         for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
+        }
+        return lodgesDTO;
+    }
+
+    @Override
+    public List<LodgeDTO> searchLodgesByName(String name, Integer owner) throws IOException {
+        List<Lodge> lodges = lodgeRepository .searchByName(name);
+        List<LodgeDTO> lodgesDTO = new ArrayList<>();
+        for (Lodge l : lodges) {
+            if(l.getOwner().getId() == owner && !l.isDeleted()){
+                lodgesDTO.add(new LodgeDTO(l.getId(), l.getOwner().getId(), l.getName(), l.getLocation(), l.getDescription(),
+                        l.getAverageGrade(), imageService.getEntityProfileImage(l.getId()), l.getMaxPersons()));
+            }
         }
         return lodgesDTO;
     }

@@ -12,12 +12,13 @@ public class ReservationActionDTO {
     private Integer maxPersons;
     private String bookedBy;
     private boolean isBooked;
+    private String regularService;
 
     public ReservationActionDTO() {
     }
 
     public ReservationActionDTO(Integer actionId, Date startDate, Date endDate, double price, String additionalServices,
-                                Integer maxPersons, String bookedBy, boolean isBooked) {
+                                Integer maxPersons, String bookedBy, boolean isBooked, String regularService) {
         this.actionId = actionId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -26,6 +27,7 @@ public class ReservationActionDTO {
         this.maxPersons = maxPersons;
         this.bookedBy = bookedBy;
         this.isBooked = isBooked;
+        this.regularService = regularService;
     }
 
     public Integer getActionId() {
@@ -90,5 +92,13 @@ public class ReservationActionDTO {
 
     public void setBooked(boolean booked) {
         isBooked = booked;
+    }
+
+    public String getRegularService() {
+        return regularService;
+    }
+
+    public void setRegularService(String regularService) {
+        this.regularService = regularService;
     }
 }

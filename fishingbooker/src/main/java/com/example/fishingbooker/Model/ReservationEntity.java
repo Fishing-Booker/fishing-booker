@@ -1,6 +1,7 @@
 package com.example.fishingbooker.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,7 @@ public class ReservationEntity {
     private String rules;
 
     @Column(name = "cancel_conditions")
-    private String cancelConditions;
+    private double cancelConditions;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -43,15 +44,15 @@ public class ReservationEntity {
     private Integer maxPersons;
 
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<ReservationPeriod> reservationPeriods;
+    private List<ReservationPeriod> reservationPeriods = new ArrayList<>();
 
     public ReservationEntity() { }
 
     public ReservationEntity(Integer id, User owner, String name, Location location, String description, String rules,
-                             String cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
+                             double cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
         this.id = id;
         this.owner = owner;
         this.name = name;
@@ -121,11 +122,11 @@ public class ReservationEntity {
         this.rules = rules;
     }
 
-    public String getCancelConditions() {
+    public double getCancelConditions() {
         return cancelConditions;
     }
 
-    public void setCancelConditions(String cancelConditions) {
+    public void setCancelConditions(double cancelConditions) {
         this.cancelConditions = cancelConditions;
     }
 

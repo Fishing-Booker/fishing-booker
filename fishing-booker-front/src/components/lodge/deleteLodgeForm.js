@@ -9,8 +9,7 @@ const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const deleteLodge = () => {
-        const headers = {'Content-Type' : 'application/json',
-                     'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        const headers = {'Content-Type' : 'application/json', 'Authorization' : `Bearer ${localStorage.jwtToken}`}
 
         axios.delete(SERVER_URL + '/lodges/deleteLodge/' + lodgeId, { headers: headers})    
         .then(response => {setModalIsOpen(false); window.location.reload();});
@@ -30,16 +29,12 @@ const DeleteLogdeForm = ({modalIsOpen, setModalIsOpen, lodgeId}) => {
                                 Are you sure you want to delete this lodge?
                             </div>
                             <div className="buttons">
-                                <Link to="/" onClick={() => setModalIsOpen(false)}>
-                                    <button className="cancel" >
-                                        Cancel
-                                    </button>
-                                </Link>
-                                <Link to="/" onClick={() => deleteLodge()}>
-                                    <button className="delete" >
-                                        Delete
-                                    </button>
-                                </Link><br/><br/>
+                                <button className="cancel" onClick={() => setModalIsOpen(false)}>
+                                    Cancel
+                                </button>
+                                <button className="delete" onClick={() => deleteLodge()}>
+                                    Delete
+                                </button><br/><br/><br/>
                             </div>
                         </div>
                         </div>
