@@ -3,12 +3,10 @@ import '../css/addingForm.css'
 import Modal from 'react-modal'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
 const UploadImage = ({modalIsOpen, setModalIsOpen, entityId}) => {
     const [uploadedImage, setUploadedImage] = useState("");
-    const SERVER_URL = process.env.REACT_APP_API; 
-    const {adventureId} = useParams();
+    const SERVER_URL = process.env.REACT_APP_API;
     const [base64, setBase64] = useState("");
 
     const [user, setUser] = useState([]);
@@ -17,7 +15,7 @@ const UploadImage = ({modalIsOpen, setModalIsOpen, entityId}) => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => setUser(response.data))
+            .then(response => setUser(response.data));
     }, [])
 
     const values = {

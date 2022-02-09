@@ -64,7 +64,7 @@ const UserProfilePage = () => {
     }
 
     const onSaveClick = () => {
-        if(name == "" || surname == "" || username == "" || email == "" || address == "" || city == "" || country == "" || phoneNumber == ""){
+        if(name === "" || surname === "" || username === "" || email === "" || address === "" || city === "" || country === "" || phoneNumber === ""){
             addToast("All fields are required", { appearance: "error"})
         } else {
             setVisibility(false);

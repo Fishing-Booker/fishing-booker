@@ -3,9 +3,11 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.DTO.EntityDTO;
 import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.DTO.UserDTO;
+import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.IRepository.*;
 import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.IRoleService;
+import com.example.fishingbooker.IService.IUserCategoryService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.*;
 import net.bytebuddy.utility.RandomString;
@@ -52,6 +54,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
     IImageService imageService;
+
+    @Autowired
+    IUserCategoryService userCategoryService;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -106,8 +111,18 @@ public class UserService implements IUserService, UserDetailsService {
 
         String verificationCode = RandomString.make(64);
         u.setVerificationCode(verificationCode);
+        this.userRepository.save(u);
+        addCategory(u.getUsername());
+        return u;
+    }
 
-        return this.userRepository.save(u);
+    private void addCategory(String userUsername){
+        User user = userRepository.findByUsername(userUsername);
+        UserCategory userCategory = new UserCategory();
+        userCategory.setCategoryType(CategoryType.wood);
+        userCategory.setClient(user);
+        userCategory.setPoints(0);
+        userCategoryService.add(userCategory);
     }
 
     @Override

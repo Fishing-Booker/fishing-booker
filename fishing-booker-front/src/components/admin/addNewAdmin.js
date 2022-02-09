@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useHistory} from "react-router-dom";
+import React, { useState } from 'react'
+import { useHistory} from "react-router-dom";
 import '../../css/addingForm.css';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -9,7 +9,6 @@ const AddNewAdminForm = ({modalIsOpen, setModalIsOpen}) => {
   const SERVER_URL = process.env.REACT_APP_API; 
   const { addToast } = useToasts();
   const history = useHistory();
-  const url = window.location.href;
   const [role, setRole] = useState("ROLE_ADMIN");
   const [name, setName] = useState("")
   const [surname, setSurname] = useState("")
@@ -20,10 +19,10 @@ const AddNewAdminForm = ({modalIsOpen, setModalIsOpen}) => {
   const [city, setCity] = useState("")
   const [country, setCountry] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-  const [isDeleted, setIsDeleted] = useState(false)
-  const [isApproved, setIsApproved] = useState(false)
-  const [isFirstLogin, setIsFirstLogin] = useState(true);
-  const [registrationReason, setRegistrationReason] = useState("")
+  const [isDeleted] = useState(false)
+  const [isApproved] = useState(false)
+  const [isFirstLogin] = useState(true);
+  const [registrationReason] = useState("")
 
   const values = {
     name, 

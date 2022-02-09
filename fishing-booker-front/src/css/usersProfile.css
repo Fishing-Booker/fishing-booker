@@ -436,6 +436,23 @@ li p {
   margin-bottom: 1%;
 }
 
+.add-loyalty-btn{
+  height: 40px;
+  width: 4%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #688cbe;
+  margin-left: 73%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
 .withBorder .accept-request{
   height: 40px;
   width: 10%;
