@@ -18,4 +18,7 @@ public interface ILocationRepository extends JpaRepository<Location, Integer> {
     @Transactional
     void updateLodge(String address, String city, String country, Integer locationId);
 
+    @Query("SELECT l FROM Location l WHERE l.id = ?1")
+    Location findLocationById(Integer locationId);
+
 }

@@ -72,6 +72,7 @@ import LodgeOwnerCalendar from "./lodge/lodgeOwnerCalendar";
 import LodgeReservationHistory from "./lodge/lodgeReservationHistory";
 import ShipReservationHistory from "./ship/shipReservationHistory";
 import ReservationReport from "./admin/reservationReport";
+import LodgeLocation from "./lodge/lodgeLocation";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -136,6 +137,7 @@ const FrontPage = () => {
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/lodge/:lodgeId"><LodgeProfile/></Route>
                         <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
+                        <Route path="/lodgeLocation/:lodgeId"><LodgeLocation/></Route>
                         <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist/:lodgeId"><LodgePriceList/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
