@@ -17,9 +17,6 @@ const ShipProfile = () => {
 
     const [name, setName] = useState("");
     const [locationId, setLocationId] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
     const [shipType, setShipType] = useState("");
     const [length, setLength] = useState(0);
@@ -35,9 +32,6 @@ const ShipProfile = () => {
     const editedShip = {
         name, 
         locationId,
-        address, 
-        city,
-        country,
         description,
         shipType,
         length,
@@ -57,9 +51,6 @@ const ShipProfile = () => {
                 console.log(ship);
                 setName(ship.name);
                 setLocationId(ship.location.id);
-                setAddress(ship.location.address);
-                setCity(ship.location.city);
-                setCountry(ship.location.country);
                 setDescription(ship.description);
                 setShipType(ship.shipType);
                 setLength(ship.length);
@@ -151,18 +142,6 @@ const ShipProfile = () => {
                         ) : (
                             <div></div>
                         )}
-                        <div className="data">
-                            <h4>Address</h4>
-                            <input type="text" onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
-                        </div>
-                        <div className="data">
-                            <h4>City</h4>
-                            <input type="text" onChange={(e) => {setCity(e.target.value)}}  value={city} disabled={disabledEdit}/>
-                        </div>
-                        <div className="data">
-                            <h4>Country</h4>
-                            <input type="text" onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
-                        </div>
                         <div className="data">
                             <h4>Description</h4>
                             <textarea type="text" onChange={(e) => {setDescription(e.target.value)}} value={description} disabled={disabledEdit}/>

@@ -1,8 +1,7 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.ship.AddShipDTO;
-import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.ship.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;

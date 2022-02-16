@@ -1,12 +1,9 @@
-package com.example.fishingbooker.DTO;
+package com.example.fishingbooker.DTO.ship;
 
 public class UpdateShipDTO {
 
     private String name;
     private Integer locationId;
-    private String address;
-    private String city;
-    private String country;
     private String description;
     private String shipType;
     private double length;
@@ -18,14 +15,10 @@ public class UpdateShipDTO {
     public UpdateShipDTO() {
     }
 
-    public UpdateShipDTO(String name, Integer locationId, String address, String city, String country,
-                         String description, String shipType, double length, Integer engineNumber, double enginePower,
-                         double maxSpeed, Integer capacity) {
+    public UpdateShipDTO(String name, Integer locationId, String description, String shipType, double length,
+                         Integer engineNumber, double enginePower, double maxSpeed, Integer capacity) {
         this.name = name;
         this.locationId = locationId;
-        this.address = address;
-        this.city = city;
-        this.country = country;
         this.description = description;
         this.shipType = shipType;
         this.length = length;
@@ -49,30 +42,6 @@ public class UpdateShipDTO {
 
     public void setLocationId(Integer locationId) {
         this.locationId = locationId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getDescription() {

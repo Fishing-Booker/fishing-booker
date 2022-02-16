@@ -1,10 +1,6 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.NavigationEquipmentDTO;
-import com.example.fishingbooker.DTO.UpdateShipDTO;
-import com.example.fishingbooker.DTO.lodge.LocationDTO;
-import com.example.fishingbooker.DTO.lodge.LodgeDTO;
-import com.example.fishingbooker.DTO.lodge.OwnerDTO;
+import com.example.fishingbooker.DTO.ship.UpdateShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
@@ -13,7 +9,6 @@ import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.Mapper.ShipMapper;
-import com.example.fishingbooker.Model.Lodge;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +65,6 @@ public class ShipService implements IShipService {
 
     @Override
     public void updateShip(UpdateShipDTO dto, Integer shipId) {
-        //locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         shipRepository.updateShip(dto.getName(), dto.getDescription(), dto.getShipType(), dto.getLength(),
                 dto.getEngineNumber(), dto.getEnginePower(), dto.getMaxSpeed(), dto.getCapacity(), shipId);
     }
