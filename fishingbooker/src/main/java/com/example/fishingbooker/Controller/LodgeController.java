@@ -28,19 +28,19 @@ import java.util.List;
 public class LodgeController {
 
     @Autowired
-    private IReservationEntityService entityService;
+    IReservationEntityService entityService;
 
     @Autowired
-    private LodgeService lodgeService;
+    LodgeService lodgeService;
 
     @Autowired
-    private IUserService userService;
+    IUserService userService;
 
     @Autowired
-    private IBedroomService bedroomService;
+    IBedroomService bedroomService;
 
     @Autowired
-    private ILocationService locationService;
+    ILocationService locationService;
 
     @GetMapping("/ownerLodges/{id}")
     @PreAuthorize("hasRole('LODGEOWNER')")
@@ -61,7 +61,7 @@ public class LodgeController {
 
         User owner = userService.findUserById(lodgeDTO.getOwner());
 
-        Location location = addLocation(lodgeDTO.getAddress(), lodgeDTO.getCity(), lodgeDTO.getCountry());
+        Location location = addLocation();
 
         Integer id = 0;
         if(entityService.findEntities().size() == 0) {
@@ -138,11 +138,11 @@ public class LodgeController {
         return lodgeService.getFirstLetters();
     }
 
-    private Location addLocation(String address, String city, String country){
+    private Location addLocation(){
         Location location = new Location();
-        location.setAddress(address);
-        location.setCity(city);
-        location.setCountry(country);
+        location.setAddress("");
+        location.setCity("");
+        location.setCountry("");
 
         return locationService.save(location);
     }
