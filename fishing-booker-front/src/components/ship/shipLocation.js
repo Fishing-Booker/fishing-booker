@@ -142,7 +142,7 @@ const ShipLocation = () => {
             
         </div>
     ) : (
-        <div>You didn't add location for your lodge</div>
+        <div>You didn't add location for your ship</div>
     )
 
 

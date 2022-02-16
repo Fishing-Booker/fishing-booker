@@ -4,9 +4,6 @@ public class AddShipDTO {
 
     private Integer owner;
     private String name;
-    private String address;
-    private String city;
-    private String country;
     private String description;
     private String shipType;
     private double length;
@@ -18,12 +15,10 @@ public class AddShipDTO {
     public AddShipDTO() {
     }
 
-    public AddShipDTO(Integer owner, String name, String address, String city, String country, String description, String shipType, double length, Integer engineNumber, double enginePower, double maxSpeed, Integer capacity) {
+    public AddShipDTO(Integer owner, String name, String description, String shipType, double length,
+                      Integer engineNumber, double enginePower, double maxSpeed, Integer capacity) {
         this.owner = owner;
         this.name = name;
-        this.address = address;
-        this.city = city;
-        this.country = country;
         this.description = description;
         this.shipType = shipType;
         this.length = length;
@@ -47,30 +42,6 @@ public class AddShipDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getDescription() {
