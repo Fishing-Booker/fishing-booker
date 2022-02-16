@@ -4,13 +4,11 @@ import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IReservationEntityService;
 import com.example.fishingbooker.Model.Location;
-import com.example.fishingbooker.Model.ReservationEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,7 +31,7 @@ public class LocationController {
 
     @PutMapping("/updateLocation")
     public ResponseEntity<String> updateEntityLocation(@RequestBody Location location){
-        locationService.changeLocation(location);
+        locationService.updateLocation(location);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

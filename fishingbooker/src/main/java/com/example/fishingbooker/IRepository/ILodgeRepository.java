@@ -1,7 +1,5 @@
 package com.example.fishingbooker.IRepository;
 
-import com.example.fishingbooker.DTO.UpdateLodgeDTO;
-import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
