@@ -41,7 +41,7 @@ public interface IAdventureRepository extends JpaRepository<Adventure, Integer> 
     @Query("update Adventure a set a.name=?1, a.description=?2, a.biography=?3, a.maxPersons=?4, a.cancelConditions=?5, a.fishingEquipment=?6 where a.id=?7")
     @Modifying
     @Transactional
-    void editAdventure(String name, String description, String biography, Integer maxPersons, String cancelConditions, String fisihingEquipment, Integer adventureId);
+    void editAdventure(String name, String description, String biography, Integer maxPersons, double cancelConditions, String fishingEquipment, Integer adventureId);
 
     @Query("select a.rules from Adventure a where a.id=?1")
     String getAdventureRules(Integer id);
