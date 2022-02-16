@@ -107,6 +107,7 @@ const ShipRules = () => {
                 <Link className="sidebar-link" to={"/shipNavEq/" + shipId}>Navigation equipment</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipFishEq/" + shipId}>Fishing equipment</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipImages/" + shipId}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/shipLocation/" + shipId}>Location</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipRules/" + shipId}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipPricelist/" + shipId}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to={"/shipActions/" + shipId}>Actions</Link><br/><br/>
