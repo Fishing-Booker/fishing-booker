@@ -50,7 +50,7 @@ public class AdventureController {
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Adventure> addAdventure(@RequestBody AdventureDTO adventureDTO) {
         User user = userService.findUserById(adventureDTO.getOwner());
-        Location location = addLocation(adventureDTO.getAddress(), adventureDTO.getCity(), adventureDTO.getCountry());
+        Location location = addLocation();
 
         Integer id = 0;
         if(entityService.findEntities().size() == 0) {
@@ -68,11 +68,11 @@ public class AdventureController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    private Location addLocation(String address, String city, String country){
+    private Location addLocation(){
         Location location = new Location();
-        location.setAddress(address);
-        location.setCity(city);
-        location.setCountry(country);
+        location.setAddress("");
+        location.setCity("");
+        location.setCountry("");
 
         return location = locationService.save(location);
     }
