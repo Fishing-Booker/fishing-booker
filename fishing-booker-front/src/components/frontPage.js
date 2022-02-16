@@ -74,6 +74,7 @@ import ShipReservationHistory from "./ship/shipReservationHistory";
 import ReservationReport from "./admin/reservationReport";
 import LodgeLocation from "./lodge/lodgeLocation";
 import ShipLocation from "./ship/shipLocation";
+import AdventureLocation from "./instructor/adventureLocation";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -179,6 +180,7 @@ const FrontPage = () => {
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/adventureProfile/:adventureId"><AdventureProfile/></Route>
                         <Route path="/adventureImages/:adventureId"><AdventureImages/></Route>
+                        <Route path="/adventureLocation/:adventureId"><AdventureLocation/></Route>
                         <Route path="/adventureRules/:adventureId"><AdventureRules/></Route>
                         <Route path="/adventurePricelist/:adventureId"><AdventurePricelist/></Route>
                         <Route path="/adventureActions/:adventureId"><AdventureActions/></Route>
