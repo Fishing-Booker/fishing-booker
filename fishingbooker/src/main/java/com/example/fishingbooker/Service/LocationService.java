@@ -31,4 +31,11 @@ public class LocationService implements ILocationService {
     public Location getLocationById(Integer locationId){
         return locationRepository.findLocationById(locationId);
     }
+
+    @Override
+    public void changeLocation(Location location){
+        locationRepository.changeLocation(location.getAddress(), location.getCity(), location.getCountry(),
+                location.getLongitude(), location.getLatitude(), location.getId());
+    }
+
 }

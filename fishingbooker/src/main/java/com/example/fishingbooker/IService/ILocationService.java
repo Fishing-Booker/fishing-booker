@@ -10,4 +10,6 @@ public interface ILocationService {
     void updateLocation(String address, String city, String country, Integer locationId);
 
     Location getLocationById(Integer locationId);
+
+    void changeLocation(Location location);
 }

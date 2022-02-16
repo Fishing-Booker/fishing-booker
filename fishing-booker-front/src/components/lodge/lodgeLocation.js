@@ -1,34 +1,47 @@
-import React, { useEffect, useState,} from 'react'
+import React, { useEffect, useState, useLayoutEffect} from 'react'
 import { Link, useParams} from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import '../../css/lodgeProfile.css';
 import axios from "axios";
 import L from 'leaflet';
-import AddLodgeLocation from './addLodgeLocation';
 
 const LodgeLocation = () => {
 
     const {lodgeId} = useParams();
 
+    const { addToast } = useToasts();
+
     const SERVER_URL = process.env.REACT_APP_API; 
 
     const GEOCODE_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
 
-    const [map, setMap] = useState([]);
+    const [id, setId] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState(0);
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+
+    const [oldlongitude, setOldLongitude] = useState(0);
+    const [oldlatitude, setOldLatitude] = useState(0);
 
     const [haveLocation, setHaveLocation] = useState(false);
 
-    const [newLocation, setNewLocation] = useState(false);
+    const location = {
+        id,
+        longitude,
+        latitude,
+        address,
+        city,
+        country
+    }
 
     useEffect(() => {
-
-        var container = L.DomUtil.get('map');
-        if(container != null){
-            container._leaflet_id = null;
-        }
+        
 
         var current_lat = 45.2635752;
         var current_long = 19.8434573;
-        var current_zoom = 16;
+        var current_zoom = 20;
         
 
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -36,45 +49,100 @@ const LodgeLocation = () => {
         axios.get(SERVER_URL + "/locations/entityLocation/" + lodgeId, {headers: headers})
             .then(response => {
                 var location = response.data;
+                setId(location.id);
+                setLongitude(location.longitude);
+                setLatitude(location.latitude);
+                setAddress(location.address);
+                setCity(location.city);
+                setCountry(location.country);
+
+                setOldLongitude(location.longitude);
+                setOldLatitude(location.latitude);
+
+                var container = L.DomUtil.get('map');
+                if(container != null){
+                    container._leaflet_id = null;
+                }
 
                 if(location.longitude!=0 && location.latitude!=0){
-
-                    setHaveLocation(true);
-
                     current_lat = location.latitude;
                     current_long = location.longitude;
-
-                    var center_lat = current_lat;
-                    var center_long = current_long;
-                    var center_zoom = current_zoom;
-
-
-                    let map = L.map('map', {
-                        center: [center_lat, center_long],
-                        zoom: center_zoom
+                    setHaveLocation(true);
+                    var map = L.map('map', {
+                        center: [current_lat, current_long],
+                        zoom: current_zoom
                     });
+                } else {
+                    var map = L.map('map', {
+                        center: [45.2635752, 19.8434573],
+                        zoom: current_zoom
+                    });
+                }
+                
 
-                    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                         attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     }).addTo(map);
 
-                    var marker = L.marker([current_lat, current_long])
+                var marker;
+                if(location.longitude!=0 && location.latitude!=0){
+                    marker = L.marker([current_lat, current_long])
                     marker.addTo(map);
+                }
 
-                } 
+                var coordinates = [0, 0];
+                async function onMapClick(e) {
+
+                    setHaveLocation(true);
+
+                    addToast("Don't forget to save changes", { appearance: "warning" });
+
+                    if (coordinates[0] !== 0 || (location.longitude!=0 && location.latitude!=0)) {
+                        map.removeLayer(marker);
+                    }
+                    coordinates = e.latlng.toString().substring(7, 25).split(", ");
+                    var lat = parseFloat(coordinates[0])
+                    setLatitude(lat);
+                    var long = parseFloat(coordinates[1])
+                    setLongitude(long);
+                    marker = L.marker([coordinates[0], coordinates[1]]);
+                    marker.addTo(map);
+                    var data = await (
+                    await fetch(GEOCODE_URL + `${coordinates[1]},${coordinates[0]}`)
+                    ).json();
+                    console.log(data.address);
+                    setAddress(data.address.Address);
+                    setCity(data.address.City);
+                    setCountry(data.address.CountryCode);
+                }
+                
+                map.on('click', onMapClick);
+
 
             }) 
 
 
-    })
+    }, [])
+
+    const saveLocation = () => {
+        if(oldlongitude!=longitude || oldlatitude!=latitude){
+            const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+            console.log(longitude);
+            console.log(latitude);
+            axios.put(SERVER_URL + "/locations/updateLocation", location, {headers: headers})
+            .then(response => {
+                window.location.reload();
+            })
+        }
+    }
 
     const initLocation = haveLocation ? (
-        <div id='map' className='map'/>
-    ): (
         <div>
-            <div>You didn't add location for your lodge!</div><br/><br/>
-            <button className="edit-profile-btn" onClick={() => setNewLocation(true)}>Add location</button>
+            {address}, {city}, {country}
+            
         </div>
+    ) : (
+        <div>You didn't add location for your lodge</div>
     )
 
 
@@ -121,13 +189,12 @@ const LodgeLocation = () => {
                     <h3>LODGE LOCATION</h3>
                     <div className="info_data-images">
                         {initLocation}
-                        
+                        <div id='map' className='map'/><br/>
+                        <button className="edit-profile-btn" style={{'marginLeft': '35%'}} onClick={() => saveLocation()}>Save location </button>
                     </div> <br/> <br/>
                     
                 </div>
             </div>
-
-            <AddLodgeLocation modalIsOpen={newLocation} setModalIsOpen={setNewLocation} />
 
         </div>
     )
