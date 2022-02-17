@@ -1,6 +1,6 @@
 package com.example.fishingbooker.IService;
 
-import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.ship.UpdateShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.Model.Ship;

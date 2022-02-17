@@ -1,8 +1,7 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.ship.AddShipDTO;
-import com.example.fishingbooker.DTO.UpdateShipDTO;
+import com.example.fishingbooker.DTO.ship.UpdateShipDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
@@ -30,16 +29,16 @@ import java.util.List;
 public class ShipController {
 
     @Autowired
-    private IShipService shipService;
+    IShipService shipService;
 
     @Autowired
-    private IUserService userService;
+    IUserService userService;
 
     @Autowired
-    private ILocationService locationService;
+    ILocationService locationService;
 
     @Autowired
-    private IReservationEntityService entityService;
+    IReservationEntityService entityService;
 
     @GetMapping("/ownerShips/{id}")
     public List<ShipDTO> getOwnerShips(@PathVariable Integer id) throws IOException {
@@ -64,7 +63,7 @@ public class ShipController {
 
         ship.setName(shipDTO.getName());
 
-        Location location = addLocation(shipDTO.getAddress(), shipDTO.getCity(), shipDTO.getCountry());
+        Location location = addLocation();
         ship.setLocation(location);
 
         ship.setDescription(shipDTO.getDescription());
@@ -95,11 +94,11 @@ public class ShipController {
         return new ResponseEntity<>(HttpStatus.CREATED);//201
     }
 
-    private Location addLocation(String address, String city, String country){
+    private Location addLocation(){
         Location location = new Location();
-        location.setAddress(address);
-        location.setCity(city);
-        location.setCountry(country);
+        location.setAddress("");
+        location.setCity("");
+        location.setCountry("");
 
         return locationService.save(location);
     }

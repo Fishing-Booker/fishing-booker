@@ -8,9 +8,6 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
     const [user, setUser] = useState({});
     const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
     const [biography, setBiography] = useState("");
     const [maxPersons, setMaxPersons] = useState("");
@@ -27,9 +24,6 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
     const newAdventure = {
         owner: user.id,
         name,
-        address,
-        city,
-        country,
         description,
         biography,
         maxPersons,
@@ -63,18 +57,6 @@ const AddAdventureForm = ({modalIsOpen, setModalIsOpen}) => {
                                 <div className="data">
                                     <h4>Name:</h4>
                                     <input type="text" required onChange={(e) => {setName(e.target.value)}}  value={name}/>
-                                </div>
-                                <div className="data">
-                                    <h4>Address:</h4>
-                                    <input type="text" required onChange={(e) => {setAddress(e.target.value)}} value={address}/>
-                                </div>
-                                <div className="data" >
-                                    <h4>City:</h4>
-                                    <input type="text" required onChange={(e) => {setCity(e.target.value)}} value={city}/>
-                                </div>
-                                <div className="data">
-                                    <h4>Country:</h4>
-                                    <input type="text" required onChange={(e) => {setCountry(e.target.value)}} value={country}/>
                                 </div>
                                 <div className="data">
                                     <h4>Description:</h4>

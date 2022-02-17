@@ -7,5 +7,7 @@ public interface ILocationService {
 
     Location findByAddress(String address, String city, String country);
 
-    void updateLocation(String address, String city, String country, Integer locationId);
+    Location getLocationById(Integer locationId);
+
+    void updateLocation(Location location);
 }

@@ -4,9 +4,6 @@ public class AddLodgeDTO {
 
     private Integer owner;
     private String name;
-    private String address;
-    private String city;
-    private String country;
     private Integer maxPersons;
     private String description;
     private double cancelConditions;
@@ -18,13 +15,10 @@ public class AddLodgeDTO {
     public AddLodgeDTO() {
     }
 
-    public AddLodgeDTO(Integer owner, String name, String address, String city, String country, Integer maxPersons,
-                       String description, double cancelConditions, String oneBed, String twoBed, String threeBed, String fourBed) {
+    public AddLodgeDTO(Integer owner, String name, Integer maxPersons, String description, double cancelConditions,
+                       String oneBed, String twoBed, String threeBed, String fourBed) {
         this.owner = owner;
         this.name = name;
-        this.address = address;
-        this.city = city;
-        this.country = country;
         this.maxPersons = maxPersons;
         this.description = description;
         this.cancelConditions = cancelConditions;
@@ -40,30 +34,6 @@ public class AddLodgeDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public Integer getMaxPersons() {

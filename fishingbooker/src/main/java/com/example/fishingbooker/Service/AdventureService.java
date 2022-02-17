@@ -101,8 +101,8 @@ public class AdventureService implements IAdventureService {
 
     @Override
     public void editAdventure(EditAdventureDTO dto) {
-        locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
-        adventureRepository.editAdventure(dto.getName(), dto.getDescription(), dto.getBiography(), dto.getMaxPersons(), dto.getCancelConditions(), dto.getFishingEquipment(), dto.getAdventureId());
+        adventureRepository.editAdventure(dto.getName(), dto.getDescription(), dto.getBiography(), dto.getMaxPersons(),
+                Double.parseDouble(dto.getCancelConditions()), dto.getFishingEquipment(), dto.getAdventureId());
     }
 
     @Override
