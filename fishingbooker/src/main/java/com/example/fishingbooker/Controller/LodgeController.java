@@ -1,7 +1,7 @@
 package com.example.fishingbooker.Controller;
 
 import com.example.fishingbooker.DTO.lodge.AddLodgeDTO;
-import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
@@ -28,19 +28,19 @@ import java.util.List;
 public class LodgeController {
 
     @Autowired
-    private IReservationEntityService entityService;
+    IReservationEntityService entityService;
 
     @Autowired
-    private LodgeService lodgeService;
+    LodgeService lodgeService;
 
     @Autowired
-    private IUserService userService;
+    IUserService userService;
 
     @Autowired
-    private IBedroomService bedroomService;
+    IBedroomService bedroomService;
 
     @Autowired
-    private ILocationService locationService;
+    ILocationService locationService;
 
     @GetMapping("/ownerLodges/{id}")
     @PreAuthorize("hasRole('LODGEOWNER')")
@@ -61,7 +61,7 @@ public class LodgeController {
 
         User owner = userService.findUserById(lodgeDTO.getOwner());
 
-        Location location = addLocation(lodgeDTO.getAddress(), lodgeDTO.getCity(), lodgeDTO.getCountry());
+        Location location = addLocation();
 
         Integer id = 0;
         if(entityService.findEntities().size() == 0) {
@@ -86,8 +86,9 @@ public class LodgeController {
     }
 
     @GetMapping("/search")
-    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location) {
-        return lodgeService.search(name, letter, location);
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location,
+                                               @RequestParam(required = false) Integer grade, @RequestParam(required = false) String sortType) {
+        return lodgeService.search(name, letter, location, grade, sortType);
     }
 
     @GetMapping("/searchLodge")
@@ -138,11 +139,11 @@ public class LodgeController {
         return lodgeService.getFirstLetters();
     }
 
-    private Location addLocation(String address, String city, String country){
+    private Location addLocation(){
         Location location = new Location();
-        location.setAddress(address);
-        location.setCity(city);
-        location.setCountry(country);
+        location.setAddress("");
+        location.setCity("");
+        location.setCountry("");
 
         return locationService.save(location);
     }
@@ -182,5 +183,10 @@ public class LodgeController {
         bedroom4.setRoomNumber(Integer.parseInt(fourBed));
         bedroom4.setLodge(lodge);
         bedroomService.save(bedroom4);
+    }
+
+    @GetMapping("/sort")
+    public List<LodgeInfoDTO> sortLodges(@RequestParam String type) {
+        return lodgeService.sortLodges(type);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.fishingbooker.IRepository;
 
-import com.example.fishingbooker.DTO.UpdateLodgeDTO;
-import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -41,10 +39,12 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '') " +
             "AND (LOWER(l.location.city) LIKE %:location% OR LOWER(l.location.city) LIKE '')" +
             "AND (LOWER(l.name) LIKE :letter% OR LOWER(l.name) LIKE '') " +
-            "ORDER BY l.id")
-    List<Lodge> search(@Param("name") String name, @Param("letter") String letter, @Param("location") String location);
+            "AND l.averageGrade= :grade " +
+            "AND l.isDeleted=false " +
+            "ORDER BY l.id, :type ASC ")
+    List<Lodge> search(@Param("name") String name, @Param("letter") String letter, @Param("location") String location, @Param("grade")double grade, @Param("type") String type);
 
-    @Query("SELECT DISTINCT SUBSTRING(l.name, 1, 1) AS letters FROM Lodge l")
+    @Query("SELECT DISTINCT SUBSTRING(l.name, 1, 1) AS letters FROM Lodge l WHERE l.isDeleted=false")
     List<String> getFirstLetters();
 
     @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false")
@@ -64,4 +64,15 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '')")
     List<Lodge> searchByName(@Param("name") String name);
 
+    @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false ORDER BY l.name ASC")
+    List<Lodge> sortByNameAscending();
+
+    @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false ORDER BY l.name DESC")
+    List<Lodge> sortByNameDescending();
+
+    @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false ORDER BY l.averageGrade ASC")
+    List<Lodge> sortByGradeAscending();
+
+    @Query("SELECT l FROM Lodge l WHERE l.isDeleted=false ORDER BY l.averageGrade DESC")
+    List<Lodge> sortByGradeDescending();
 }

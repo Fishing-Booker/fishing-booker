@@ -72,6 +72,9 @@ import LodgeOwnerCalendar from "./lodge/lodgeOwnerCalendar";
 import LodgeReservationHistory from "./lodge/lodgeReservationHistory";
 import ShipReservationHistory from "./ship/shipReservationHistory";
 import ReservationReport from "./admin/reservationReport";
+import LodgeLocation from "./lodge/lodgeLocation";
+import ShipLocation from "./ship/shipLocation";
+import AdventureLocation from "./instructor/adventureLocation";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -136,6 +139,7 @@ const FrontPage = () => {
                         <Route path="/profile"><UserProfilPage/></Route>
                         <Route path="/lodge/:lodgeId"><LodgeProfile/></Route>
                         <Route path="/lodgeImages/:lodgeId"><LodgeImages/></Route>
+                        <Route path="/lodgeLocation/:lodgeId"><LodgeLocation/></Route>
                         <Route path="/lodgeRules/:lodgeId"><LodgeRules/></Route>
                         <Route path="/lodgePricelist/:lodgeId"><LodgePriceList/></Route>
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
@@ -176,6 +180,7 @@ const FrontPage = () => {
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/adventureProfile/:adventureId"><AdventureProfile/></Route>
                         <Route path="/adventureImages/:adventureId"><AdventureImages/></Route>
+                        <Route path="/adventureLocation/:adventureId"><AdventureLocation/></Route>
                         <Route path="/adventureRules/:adventureId"><AdventureRules/></Route>
                         <Route path="/adventurePricelist/:adventureId"><AdventurePricelist/></Route>
                         <Route path="/adventureActions/:adventureId"><AdventureActions/></Route>
@@ -217,6 +222,7 @@ const FrontPage = () => {
                         <Route path="/changePassword/:id"><ChangePassword/></Route>
                         <Route path="/ship/:shipId"><ShipProfile/></Route>
                         <Route path="/shipImages/:shipId"><ShipImages/></Route>
+                        <Route path="/shipLocation/:shipId"><ShipLocation/></Route>
                         <Route path="/shipRules/:shipId"><ShipRules/></Route>
                         <Route path="/shipPricelist/:shipId"><ShipPriceList/></Route>
                         <Route path="/shipNavEq/:shipId"><ShipNavigationEquipment/></Route>

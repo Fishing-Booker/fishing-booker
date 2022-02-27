@@ -13,6 +13,7 @@ const Ships = () => {
     const [letters, setLetters] = useState([])
     const [location, setLocation] = useState('');
     const [date, setDate] = useState('')
+    const [grade, setGrade] = useState(null)
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -26,7 +27,7 @@ const Ships = () => {
         .then(response => setLetters(response.data));
 
         axios.get(url)
-            .then(response => {setShips(response.data); console.log(response.data);})
+            .then(response => setShips(response.data))
     }, [url])
 
     const renderStars = (grade) => {
@@ -42,14 +43,14 @@ const Ships = () => {
         if (childData === '') {
             setUrl(SERVER_URL + '/ships');
         } else {
-            setUrl(SERVER_URL + '/ships/search?name=' + name + '&letter=' + childData)
+            setUrl(SERVER_URL + '/ships/search?name=' + name + '&letter=' + childData + "&location=" + location + "&grade=" + grade)
         }
     }
 
     const getByDate = (date) => {
         var dto = { date }
         axios.post(SERVER_URL + '/ships/byDate', dto)
-            .then(response => {console.log(response.data); setShips(response.data)})
+            .then(response => setShips(response.data))
     }
 
     const allShips = ships.length ? (
@@ -69,6 +70,14 @@ const Ships = () => {
             )
         })
     ) : (<div><p>No results.</p></div>)
+
+    const handleChange = (e) => {
+        setUrl(SERVER_URL + '/ships/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + e.target.value)
+    }
+
+    const handleSort = (e) => {
+        setUrl(SERVER_URL + '/ships/sort?type=' + e.target.value);
+    }
 
     return (
         <div>
@@ -91,13 +100,20 @@ const Ships = () => {
                             setUrl(SERVER_URL + '/ships');
                     }}
                 ></input>
-                <select className="search-grade">
+                <select className="search-grade" value={grade} onChange={(e) => handleChange(e)}>
                     <option>Select ship grade</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                     <option value='4'>4</option>
                     <option value='5'>5</option>
+                </select>
+                <select className="search-grade" onChange={(e) => handleSort(e)}>
+                    <option>Sort ships</option>
+                    <option value='gradeA'>By grade (ascending)</option>
+                    <option value='gradeD'>By grade (descending)</option>
+                    <option value='nameA'>By name (ascending)</option>
+                    <option value='nameD'>By name (descending)</option>
                 </select>
             </div>
             {isLogged && <div className="card search">

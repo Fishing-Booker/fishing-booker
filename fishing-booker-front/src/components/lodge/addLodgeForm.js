@@ -16,9 +16,6 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     const [lodges, setLodges] = useState([]);
 
     const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
     const [maxPersons, setMaxPersons] = useState("0");
     const [description, setDescription] = useState("");
     const [cancelConditions, setCancelConditions] = useState("0");
@@ -45,9 +42,6 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
     const newLodge = {
         owner: user.id,
         name, 
-        address, 
-        city, 
-        country, 
         maxPersons,
         description,
         cancelConditions,
@@ -96,18 +90,6 @@ const AddLodgeFrom = ({modalIsOpen, setModalIsOpen}) => {
                                 <div className="data">
                                     <h4>Name:</h4>
                                     <input type="text" required onChange={(e) => {setName(e.target.value)}}  value={name}/>
-                                </div>
-                                <div className="data">
-                                    <h4>Address:</h4>
-                                    <input type="text" required onChange={(e) => {setAddress(e.target.value)}} value={address}/>
-                                </div>
-                                <div className="data" >
-                                    <h4>City:</h4>
-                                    <input type="text" required onChange={(e) => {setCity(e.target.value)}} value={city}/>
-                                </div>
-                                <div className="data">
-                                    <h4>Country:</h4>
-                                    <input type="text" required onChange={(e) => {setCountry(e.target.value)}} value={country}/>
                                 </div>
                                 <div className="data">
                                     <h4>Max persons:</h4>

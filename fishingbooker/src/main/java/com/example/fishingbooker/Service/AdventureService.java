@@ -81,8 +81,8 @@ public class AdventureService implements IAdventureService {
     }
 
     @Override
-    public List<AdventureInfoDTO> searchAndFilter(String name, String letter) {
-        List<Adventure> adventures = adventureRepository.searchAndFilter(name, letter);
+    public List<AdventureInfoDTO> searchAndFilter(String name, String letter, String location, Integer grade) {
+        List<Adventure> adventures = adventureRepository.searchAndFilter(name, letter, location, Double.valueOf(grade));
         List<AdventureInfoDTO> adventuresDTO = new ArrayList<>();
         for (Adventure adventure : adventures) {
             adventuresDTO.add(AdventureMapper.mapToDTO(adventure));
@@ -101,8 +101,8 @@ public class AdventureService implements IAdventureService {
 
     @Override
     public void editAdventure(EditAdventureDTO dto) {
-        locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
-        adventureRepository.editAdventure(dto.getName(), dto.getDescription(), dto.getBiography(), dto.getMaxPersons(), dto.getCancelConditions(), dto.getFishingEquipment(), dto.getAdventureId());
+        adventureRepository.editAdventure(dto.getName(), dto.getDescription(), dto.getBiography(), dto.getMaxPersons(),
+                Double.parseDouble(dto.getCancelConditions()), dto.getFishingEquipment(), dto.getAdventureId());
     }
 
     @Override
@@ -162,6 +162,33 @@ public class AdventureService implements IAdventureService {
     @Override
     public List<AdventureInfoDTO> getByReservationDate(Date date) {
         List<Adventure> adventures = adventureRepository.getByReservationDate(date);
+        List<AdventureInfoDTO> adventuresDTO = new ArrayList<>();
+        for (Adventure adventure : adventures) {
+            adventuresDTO.add(AdventureMapper.mapToDTO(adventure));
+        }
+        return adventuresDTO;
+    }
+
+    @Override
+    public List<AdventureInfoDTO> sortAdventures(String type) {
+        List<Adventure> adventures = new ArrayList<>();
+        switch (type) {
+            case "nameA":
+                adventures = adventureRepository.sortByNameAscending();
+                break;
+            case "nameD":
+                adventures = adventureRepository.sortByNameDescending();
+                break;
+            case "gradeA":
+                adventures = adventureRepository.sortByGradeAscending();
+                break;
+            case "gradeD":
+                adventures = adventureRepository.sortByGradeDescending();
+                break;
+            default:
+                break;
+        }
+
         List<AdventureInfoDTO> adventuresDTO = new ArrayList<>();
         for (Adventure adventure : adventures) {
             adventuresDTO.add(AdventureMapper.mapToDTO(adventure));

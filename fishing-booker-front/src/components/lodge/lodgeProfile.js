@@ -17,9 +17,6 @@ const LodgeProfile = () => {
 
     const [name, setName] = useState("");
     const [locationId, setLocationId] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
     const [maxPersons, setMaxPersons] = useState("");
     const [bedrooms, setBedrooms] = useState([]);
     const [allBedrooms, setAllBedrooms] = useState([]);
@@ -38,9 +35,6 @@ const LodgeProfile = () => {
     const editedLodge = {
         name, 
         locationId,
-        address, 
-        city,
-        country,
         maxPersons,
         description,
         cancelConditions,
@@ -69,9 +63,6 @@ const LodgeProfile = () => {
                 }
                 setBedrooms(bedrooms);
                 setLocationId(lodge.location.id);
-                setAddress(lodge.location.address);
-                setCity(lodge.location.city);
-                setCountry(lodge.location.country);
                 setMaxPersons(lodge.maxPersons);
                 setDescription(lodge.description);
                 setCancelConditions(lodge.cancelConditions);
@@ -189,6 +180,7 @@ const LodgeProfile = () => {
             <div className="left">
                 <h4>LODGE PROFILE</h4><br/>
                 <Link className="sidebar-link" to={"/lodgeImages/" + lodgeId}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/lodgeLocation/" + lodgeId}>Location</Link><br/><br/>
                 <Link className="sidebar-link" to={"/lodgeRules/" + lodgeId}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/lodgePricelist/" + lodgeId}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to={"/lodgeActions/" + lodgeId}>Actions</Link><br/><br/>
@@ -206,18 +198,6 @@ const LodgeProfile = () => {
                         ) : (
                             <div></div>
                         )}
-                        <div className="data">
-                            <h4>Address</h4>
-                            <input required onChange={(e) => {setAddress(e.target.value)}}  value={address} disabled={disabledEdit}/>
-                        </div>
-                        <div className="data">
-                            <h4>City</h4>
-                            <input required onChange={(e) => {setCity(e.target.value)}}  value={city} disabled={disabledEdit}/>
-                        </div>
-                        <div className="data">
-                            <h4>Country</h4>
-                            <input required onChange={(e) => {setCountry(e.target.value)}}  value={country} disabled={disabledEdit}/>
-                        </div>
                         <div className="data">
                             <h4>Max persons</h4>
                             <input type="number" min="0" onChange={(e) => {setMaxPersons(e.target.value)}}  value={maxPersons} disabled={disabledEdit}/>

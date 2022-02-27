@@ -50,7 +50,7 @@ public class AdventureController {
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<Adventure> addAdventure(@RequestBody AdventureDTO adventureDTO) {
         User user = userService.findUserById(adventureDTO.getOwner());
-        Location location = addLocation(adventureDTO.getAddress(), adventureDTO.getCity(), adventureDTO.getCountry());
+        Location location = addLocation();
 
         Integer id = 0;
         if(entityService.findEntities().size() == 0) {
@@ -68,11 +68,11 @@ public class AdventureController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    private Location addLocation(String address, String city, String country){
+    private Location addLocation(){
         Location location = new Location();
-        location.setAddress(address);
-        location.setCity(city);
-        location.setCountry(country);
+        location.setAddress("");
+        location.setCity("");
+        location.setCountry("");
 
         return location = locationService.save(location);
     }
@@ -95,8 +95,9 @@ public class AdventureController {
     }
 
     @GetMapping("/search")
-    public List<AdventureInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
-        return adventureService.searchAndFilter(name, letter);
+    public List<AdventureInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location,
+                                                   @RequestParam(required = false) Integer grade) {
+        return adventureService.searchAndFilter(name, letter, location, grade);
     }
 
     @GetMapping("/adventure/{id}")
@@ -138,5 +139,10 @@ public class AdventureController {
     @PostMapping("/byDate")
     public List<AdventureInfoDTO> getAdventuresByReservationDate(@RequestBody ReservationDateDTO dto) {
         return adventureService.getByReservationDate(dto.getDate());
+    }
+
+    @GetMapping("/sort")
+    public List<AdventureInfoDTO> sortAdventures(@RequestParam String type) {
+        return adventureService.sortAdventures(type);
     }
 }

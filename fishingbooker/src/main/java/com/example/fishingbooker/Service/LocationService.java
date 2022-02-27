@@ -23,7 +23,14 @@ public class LocationService implements ILocationService {
     }
 
     @Override
-    public void updateLocation(String address, String city, String country, Integer locationId) {
-        locationRepository.updateLodge(address, city, country, locationId);
+    public Location getLocationById(Integer locationId){
+        return locationRepository.findLocationById(locationId);
     }
+
+    @Override
+    public void updateLocation(Location location){
+        locationRepository.changeLocation(location.getAddress(), location.getCity(), location.getCountry(),
+                location.getLongitude(), location.getLatitude(), location.getId());
+    }
+
 }

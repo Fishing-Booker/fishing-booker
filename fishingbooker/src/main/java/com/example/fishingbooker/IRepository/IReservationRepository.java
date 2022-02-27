@@ -46,4 +46,10 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
 
     @Query("SELECT r FROM Reservation r WHERE (LOWER(r.client.username) LIKE %:username% OR LOWER(r.client.username) LIKE '')")
     List<Reservation> searchClients(@Param("username") String username);
+
+    @Query("SELECT r FROM Reservation r WHERE r.client.id=?1 ORDER BY r.startDate ASC")
+    List<Reservation> sortClientReservationsAsc(Integer clientId);
+
+    @Query("SELECT r FROM Reservation r WHERE r.client.id=?1 ORDER BY r.startDate DESC")
+    List<Reservation> sortClientReservationsDesc(Integer clientId);
 }

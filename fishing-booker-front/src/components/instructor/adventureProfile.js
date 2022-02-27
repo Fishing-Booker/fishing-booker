@@ -13,31 +13,20 @@ const AdventureProfile = () => {
     const [disabledEdit, setDisabledEdit] = useState(true);
 
     const [name, setName] = useState("");
-    const [location, setLocation] = useState("");
     const [maxPersons, setMaxPersons] = useState(0);
     const [description, setDescription] = useState("");
     const [biography, setBiography] = useState("");
     const [fishingEquipment, setFishingEquipment] = useState("");
     const [cancelConditions, setCancelConditions] = useState("");
-    const [locationId, setLocationId] = useState(0);
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
-
 
     const values = {
         adventureId,
         name,
-        locationId,
-        maxPersons,
         description,
         biography,
-        fishingEquipment,
+        maxPersons,
         cancelConditions,
-        address,
-        city,
-        country
-
+        fishingEquipment
     }
 
     useEffect(() => {
@@ -47,16 +36,18 @@ const AdventureProfile = () => {
             .then(response => {
                 setAdventure(response.data);
                 console.log(response.data);
-                setLocation(response.data.location);
             });
     }, []) 
 
     const saveChanges = () => {
-        setDisabledEdit(true);
         console.log(values);
         const headers = {'Content-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.put(SERVER_URL + '/adventures/editAdventure', values, {headers : headers})
+        .then(response => {
+            window.location.reload();
+            setDisabledEdit(true);
+        })
     }
 
     const onEditClick = () => {
@@ -67,10 +58,6 @@ const AdventureProfile = () => {
         setBiography(adventure.biography);
         setFishingEquipment(adventure.fishingEquipment);
         setCancelConditions(adventure.cancelConditions);
-        setLocationId(location.id);
-        setAddress(adventure.location.address);
-        setCity(adventure.location.city);
-        setCountry(adventure.location.country);
     }
 
    
@@ -80,6 +67,7 @@ const AdventureProfile = () => {
                 <h4>ADVENTURE PROFILE</h4><br/>
                 <Link className="sidebar-link" to={"/adventureProfile/"+ adventure.id}>Info</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureImages/" + adventure.id}>Images</Link><br/><br/>
+                <Link className="sidebar-link" to={"/adventureLocation/" + adventureId}>Location</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureRules/" + adventure.id}>Rules</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventurePricelist/" + adventure.id}>Pricelist</Link><br/><br/>
                 <Link className="sidebar-link" to={"/adventureActions/" + adventure.id}>Actions</Link><br/><br/>
@@ -88,21 +76,6 @@ const AdventureProfile = () => {
                 <div className="info">
                     <h3>{adventure.name}</h3>
                     <div className="info_data">
-                        <div className="data">
-                            <h4>Address</h4>
-                            <input hidden={disabledEdit} value={address} onChange={(e) => setAddress(e.target.value)}/>
-                            <label hidden={!disabledEdit}>{location.address}</label>
-                        </div> <br />
-                        <div className="data">
-                            <h4>City</h4>
-                            <input hidden={disabledEdit} value={city} onChange={(e) => setCity(e.target.value)}/>
-                            <label hidden={!disabledEdit}>{location.city}</label>
-                        </div> <br />
-                        <div className="data">
-                            <h4>Country</h4>
-                            <input hidden={disabledEdit} value={country} onChange={(e) => setCountry(e.target.value)}/>
-                            <label hidden={!disabledEdit}>{location.country}</label>
-                        </div> <br />
                         <div className="data">
                             <h4>Maximum number of persons</h4>
                             <input hidden={disabledEdit} value={maxPersons} onChange={(e) => setMaxPersons(e.target.value)}/>
@@ -138,7 +111,7 @@ const AdventureProfile = () => {
                             <button className="edit-profile-cancel" onClick={() => setDisabledEdit(true)}>
                                 Cancel
                             </button>
-                            <button className="edit-profile-save" onClick={saveChanges}>
+                            <button className="edit-profile-save" onClick={() => saveChanges()}>
                                 Save
                             </button>
                         </div>

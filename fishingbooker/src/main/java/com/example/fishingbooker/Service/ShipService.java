@@ -1,10 +1,6 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.NavigationEquipmentDTO;
-import com.example.fishingbooker.DTO.UpdateShipDTO;
-import com.example.fishingbooker.DTO.lodge.LocationDTO;
-import com.example.fishingbooker.DTO.lodge.LodgeDTO;
-import com.example.fishingbooker.DTO.lodge.OwnerDTO;
+import com.example.fishingbooker.DTO.ship.UpdateShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
 import com.example.fishingbooker.IRepository.IReservationPeriodOwnerRepository;
@@ -13,7 +9,6 @@ import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.Mapper.ShipMapper;
-import com.example.fishingbooker.Model.Lodge;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +65,6 @@ public class ShipService implements IShipService {
 
     @Override
     public void updateShip(UpdateShipDTO dto, Integer shipId) {
-        locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         shipRepository.updateShip(dto.getName(), dto.getDescription(), dto.getShipType(), dto.getLength(),
                 dto.getEngineNumber(), dto.getEnginePower(), dto.getMaxSpeed(), dto.getCapacity(), shipId);
     }
@@ -139,8 +133,8 @@ public class ShipService implements IShipService {
     }
 
     @Override
-    public List<ShipInfoDTO> searchAndFilter(String name, String letter) {
-        List<Ship> ships = shipRepository.searchAndFilter(name, letter);
+    public List<ShipInfoDTO> searchAndFilter(String name, String letter, String location, Integer grade) {
+        List<Ship> ships = shipRepository.searchAndFilter(name, letter, location, Double.valueOf(grade));
         List<ShipInfoDTO> shipsDTO = new ArrayList<>();
         for (Ship ship : ships) {
             shipsDTO.add(ShipMapper.mapToDTO(ship));
@@ -209,6 +203,33 @@ public class ShipService implements IShipService {
                 shipsDTO.add(new ShipDTO(s.getId(), s.getOwner().getId(), s.getName(), s.getLocation(), s.getDescription(),
                         s.getAverageGrade(), imageService.getEntityProfileImage(s.getId()), s.getMaxPersons()));
             }
+        }
+        return shipsDTO;
+    }
+
+    @Override
+    public List<ShipInfoDTO> sortShips(String type) {
+        List<Ship> ships = new ArrayList<>();
+        switch (type) {
+            case "nameA":
+                ships = shipRepository.sortByNameAscending();
+                break;
+            case "nameD":
+                ships = shipRepository.sortByNameDescending();
+                break;
+            case "gradeA":
+                ships = shipRepository.sortByGradeAscending();
+                break;
+            case "gradeD":
+                ships = shipRepository.sortByGradeDescending();
+                break;
+            default:
+                break;
+        }
+
+        List<ShipInfoDTO> shipsDTO = new ArrayList<>();
+        for (Ship ship : ships) {
+            shipsDTO.add(ShipMapper.mapToDTO(ship));
         }
         return shipsDTO;
     }

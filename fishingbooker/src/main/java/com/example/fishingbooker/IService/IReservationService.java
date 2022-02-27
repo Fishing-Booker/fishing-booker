@@ -46,4 +46,6 @@ public interface IReservationService {
     List<String> getEntityNamesOfActiveReservations(Integer ownerId);
 
     List<ReservationReportDTO> getReservationReport();
+
+    List<ReservationDTO> sortClientReservations(String type, Integer id);
 }

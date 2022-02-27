@@ -1,6 +1,6 @@
 package com.example.fishingbooker.Service;
 
-import com.example.fishingbooker.DTO.UpdateLodgeDTO;
+import com.example.fishingbooker.DTO.lodge.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.IRepository.ILodgeRepository;
@@ -22,22 +22,22 @@ import java.util.List;
 public class LodgeService implements ILodgeService {
 
     @Autowired
-    private ILodgeRepository lodgeRepository;
+    ILodgeRepository lodgeRepository;
 
     @Autowired
-    private IReservationEntityRepository entityRepository;
+    IReservationEntityRepository entityRepository;
 
     @Autowired
-    private BedroomService bedroomService;
+    BedroomService bedroomService;
 
     @Autowired
-    private LocationService locationService;
+    LocationService locationService;
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
-    private IImageService imageService;
+    IImageService imageService;
 
     @Override
     public Lodge save(Lodge lodge) {
@@ -106,14 +106,13 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public void updateLodge(UpdateLodgeDTO dto, Integer lodgeId) {
-        locationService.updateLocation(dto.getAddress(), dto.getCity(), dto.getCountry(), dto.getLocationId());
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
         lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), dto.getCancelConditions(), lodgeId);
     }
 
     @Override
-    public List<LodgeInfoDTO> search(String name, String letter, String location) {
-        List<Lodge> lodges = lodgeRepository.search(name, letter, location);
+    public List<LodgeInfoDTO> search(String name, String letter, String location, Integer grade, String sortType) {
+        List<Lodge> lodges = lodgeRepository.search(name, letter, location, Double.valueOf(grade), sortType);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
         for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
@@ -185,5 +184,32 @@ public class LodgeService implements ILodgeService {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return  lodgesDTO;
+    }
+
+    @Override
+    public List<LodgeInfoDTO> sortLodges(String type) {
+        List<Lodge> lodges = new ArrayList<>();
+        switch (type) {
+            case "nameA":
+                lodges = lodgeRepository.sortByNameAscending();
+                break;
+            case "nameD":
+                lodges = lodgeRepository.sortByNameDescending();
+                break;
+            case "gradeA":
+                lodges = lodgeRepository.sortByGradeAscending();
+                break;
+            case "gradeD":
+                lodges = lodgeRepository.sortByGradeDescending();
+                break;
+            default:
+                break;
+        }
+
+        List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
+        for (Lodge lodge : lodges) {
+            lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
+        }
+        return lodgesDTO;
     }
 }
