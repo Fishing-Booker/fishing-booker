@@ -191,4 +191,9 @@ public class ShipController {
     public List<ShipDTO> getSearchedLodges(@RequestParam(required = false) String name, @RequestParam(required = false) Integer owner) throws IOException {
         return shipService.searchShipsByName(name, owner);
     }
+
+    @GetMapping("/sort")
+    public List<ShipInfoDTO> sortShips(@RequestParam String type) {
+        return shipService.sortShips(type);
+    }
 }

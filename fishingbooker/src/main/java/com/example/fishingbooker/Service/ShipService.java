@@ -209,6 +209,28 @@ public class ShipService implements IShipService {
 
     @Override
     public List<ShipInfoDTO> sortShips(String type) {
-        return null;
+        List<Ship> ships = new ArrayList<>();
+        switch (type) {
+            case "nameA":
+                ships = shipRepository.sortByNameAscending();
+                break;
+            case "nameD":
+                ships = shipRepository.sortByNameDescending();
+                break;
+            case "gradeA":
+                ships = shipRepository.sortByGradeAscending();
+                break;
+            case "gradeD":
+                ships = shipRepository.sortByGradeDescending();
+                break;
+            default:
+                break;
+        }
+
+        List<ShipInfoDTO> shipsDTO = new ArrayList<>();
+        for (Ship ship : ships) {
+            shipsDTO.add(ShipMapper.mapToDTO(ship));
+        }
+        return shipsDTO;
     }
 }

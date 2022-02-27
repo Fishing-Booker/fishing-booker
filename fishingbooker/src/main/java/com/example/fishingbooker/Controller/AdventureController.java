@@ -140,4 +140,9 @@ public class AdventureController {
     public List<AdventureInfoDTO> getAdventuresByReservationDate(@RequestBody ReservationDateDTO dto) {
         return adventureService.getByReservationDate(dto.getDate());
     }
+
+    @GetMapping("/sort")
+    public List<AdventureInfoDTO> sortAdventures(@RequestParam String type) {
+        return adventureService.sortAdventures(type);
+    }
 }

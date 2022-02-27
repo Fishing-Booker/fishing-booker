@@ -27,7 +27,7 @@ const Lodges = () => {
             .then(response => setLetters(response.data));
 
         axios.get(url)
-            .then(response => {setLodges(response.data); console.log(response.data);})
+            .then(response => setLodges(response.data))
 
     }, [url])
 
@@ -50,7 +50,7 @@ const Lodges = () => {
     const getByDate = (date) => {
         var dto = { date }
         axios.post(SERVER_URL + '/lodges/byDate', dto)
-            .then(response => {console.log(response.data); setLodges(response.data)})
+            .then(response => setLodges(response.data))
     }
 
     const allLodges = lodges.length ? (
