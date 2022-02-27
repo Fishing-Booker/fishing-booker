@@ -34,4 +34,11 @@ public class LoyaltyProgrammeController {
         return loyaltyProgrammeService.get();
     }
 
+    @PutMapping("/edit")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
+    public ResponseEntity<LoyaltyProgramme> editLoyaltyProgramme(@RequestBody LoyaltyProgrammeDTO loyaltyProgrammeDTO){
+        loyaltyProgrammeService.edit(loyaltyProgrammeDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

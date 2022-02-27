@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminFirstLogin from './adminFirstLogin';
 import AddLoyaltyProgramme from './addLoyaltyProgramme';
+import { useToasts } from "react-toast-notifications";
 
 const AdminHomepage = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -18,6 +19,9 @@ const AdminHomepage = () => {
     const [silverLimit, setSilverLimit] = useState(0)
     const [bronzeLimit, setBronzeLimit] = useState(0)
     const [goldLimit, setGoldLimit] = useState(0)
+    const [canEdit, setCanEdit] = useState(true)
+
+    const { addToast } = useToasts();
   
 
   const values = {
@@ -44,7 +48,9 @@ const AdminHomepage = () => {
                 axios.get(SERVER_URL + "/loyaltyProgramme/get", {headers: headers})
                 .then(r => {
                     setLoyaltyProgramme(r.data);
-                    if(r.data == null) {
+                    if(r.data === "") {
+                        setLoyaltyProgramme(values)
+                        setCanEdit(false)
                         setAddLoy(true);
                     } else {
                         setOwnerIncome(r.data.ownerIncome)
@@ -57,6 +63,43 @@ const AdminHomepage = () => {
                 });
             });
     }, [SERVER_URL])
+
+    const editLoyaltyProg = () => {
+        if(!validate()) return;
+        const headers = {'Content-Type' : 'application/json',
+                             'Authorization' : `Bearer ${localStorage.jwtToken}`}
+        axios.put(SERVER_URL + "/loyaltyProgramme/edit", values, {headers: headers})
+        .then(response => {
+            window.location.reload();
+            addToast("You successfully edited loyalty programme!", { appearance: "success" });
+            setIsEditing(false)
+        })
+        .catch(error => {
+            addToast("Something wrong happened", { appearance: "error" });
+           });;
+    }
+
+    const validate = () => {
+        if(values.ownerIncome < 0 || values.ownerIncome > 100) {
+            addToast("Invalid input for owner income!", { appearance: "error" });
+            return false;
+        } else if(values.clientIncome < 0 || values.clientIncome > 100) {
+            addToast("Invalid input for client income!", { appearance: "error" });
+            return false;
+        } else if(values.bronzeLimit < 0){
+            addToast("Invalid input for bronze limit!", { appearance: "error" });
+            return false;
+        } else if(values.silverLimit < 0 || values.silverLimit < values.bronzeLimit) {
+            addToast("Invalid input for silver limit", { appearance: "error" });
+            return false;
+        } else if(values.goldLimit < 0 || values.goldLimit < values.silverLimit){
+            addToast("Invalid input for gold limit!", { appearance: "error" });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     return(
         <div>
             <div className="container-home1">
@@ -80,9 +123,9 @@ const AdminHomepage = () => {
                             <p style={{color: 'black', fontWeight: '700', fontSize: '18px', marginTop: '15px'}}>Gold limit: {!isEditing && <p style={{color: 'blue', fontWeight: '700', fontSize: '20px', marginTop: '15px'}}> {loyaltyProgramme.goldLimit} points</p>} </p>
                             {isEditing && <div> <input className='edit-loyalty-input' type="number" onChange={(e) => {setGoldLimit(e.target.value)}} value={goldLimit}/> points </div>}
                         </div>
-                        {!isEditing && <button className="edit-loyalty-btn" onClick={(e) => {setIsEditing(true)}}>edit</button>}
+                        {!isEditing && canEdit && <button className="edit-loyalty-btn" onClick={(e) => {setIsEditing(true)}}>edit</button>}
                         {isEditing && <button className="cancel-loyalty-btn" onClick={(e) => {setIsEditing(false)}}>cancel</button>}
-                        {isEditing && <button className="confirm-loyalty-btn" onClick={(e) => {setIsEditing(false)}}>confirm</button>}
+                        {isEditing && <button className="confirm-loyalty-btn" onClick={(e) => {editLoyaltyProg()}}>confirm</button>}
                     </div>
                 </div>
             <AddLoyaltyProgramme modalIsOpen={addLoyalty} setModalIsOpen={setAddLoyalty}/>

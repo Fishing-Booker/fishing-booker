@@ -11,6 +11,7 @@ public class LoyaltyProgrammeMapper {
         loyaltyProgramme.setGoldLimit(dto.getGoldLimit());
         loyaltyProgramme.setClientIncome(dto.getClientIncome());
         loyaltyProgramme.setOwnerIncome(dto.getOwnerIncome());
+        loyaltyProgramme.setId(1);
         return loyaltyProgramme;
     }
 }

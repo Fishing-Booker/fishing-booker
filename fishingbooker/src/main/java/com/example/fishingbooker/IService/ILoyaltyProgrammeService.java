@@ -8,7 +8,7 @@ public interface ILoyaltyProgrammeService {
 
     LoyaltyProgramme get();
 
-    void edit(LoyaltyProgramme loyaltyProgramme);
+    void edit(LoyaltyProgrammeDTO loyaltyProgrammeDTO);
 
     void delete();
 }

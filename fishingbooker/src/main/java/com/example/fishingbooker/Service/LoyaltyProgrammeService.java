@@ -26,16 +26,25 @@ public class LoyaltyProgrammeService implements ILoyaltyProgrammeService {
     @Override
     public LoyaltyProgramme get() {
         List<LoyaltyProgramme> programs = loyaltyProgrammeRepository.findAll();
-        return programs.get(0);
+        if(programs.size()==0) {
+            return null;
+        } else {
+            return programs.get(0);
+        }
     }
 
     @Override
-    public void edit(LoyaltyProgramme loyaltyProgramme) {
-        loyaltyProgrammeRepository.editLoyaltyProgramme(loyaltyProgramme);
+    public void edit(LoyaltyProgrammeDTO loyaltyProgrammeDTO) {
+        LoyaltyProgramme loyaltyProgramme = LoyaltyProgrammeMapper.mapDTOToModel(loyaltyProgrammeDTO);
+        List<LoyaltyProgramme> oldLP = loyaltyProgrammeRepository.findAll();
+        loyaltyProgrammeRepository.deleteLoyaltyProgramme(oldLP.get(0).getId());
+        loyaltyProgrammeRepository.save(loyaltyProgramme);
+
     }
 
     @Override
     public void delete() {
-        loyaltyProgrammeRepository.deleteLoyaltyProgramme();
+        List<LoyaltyProgramme> oldLP = loyaltyProgrammeRepository.findAll();
+        loyaltyProgrammeRepository.deleteLoyaltyProgramme(oldLP.get(0).getId());
     }
 }

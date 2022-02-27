@@ -10,13 +10,8 @@ import javax.transaction.Transactional;
 public interface ILoyaltyProgrammeRepository extends JpaRepository<LoyaltyProgramme, Integer> {
     LoyaltyProgramme save(LoyaltyProgramme loyaltyProgramme);
 
-    @Query("update LoyaltyProgramme l set l=?1 where l.id=1")
+    @Query("delete from LoyaltyProgramme l where l.id=?1")
     @Modifying
     @Transactional
-    void editLoyaltyProgramme(LoyaltyProgramme loyaltyProgramme);
-
-    @Query("delete from LoyaltyProgramme l where l.id=1")
-    @Modifying
-    @Transactional
-    void deleteLoyaltyProgramme();
+    void deleteLoyaltyProgramme(Integer id);
 }
