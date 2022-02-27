@@ -10,7 +10,7 @@ const AddLoyaltyProgramme = ({modalIsOpen, setModalIsOpen}) => {
     const SERVER_URL = process.env.REACT_APP_API; 
   const { addToast } = useToasts();
   const history = useHistory();
-  const [systemIncome, setSystemIncome] = useState(0)
+  const [ownerIncome, setOwnerIncome] = useState(0)
   const [clientIncome, setClientIncome] = useState(0)
   const [silverLimit, setSilverLimit] = useState(0)
   const [bronzeLimit, setBronzeLimit] = useState(0)
@@ -18,7 +18,7 @@ const AddLoyaltyProgramme = ({modalIsOpen, setModalIsOpen}) => {
   
 
   const values = {
-    systemIncome, 
+    ownerIncome, 
     clientIncome,
     bronzeLimit,
     silverLimit,
@@ -26,7 +26,14 @@ const AddLoyaltyProgramme = ({modalIsOpen, setModalIsOpen}) => {
   }
 
   const handleSubmit = (e) => {
-    
+    console.log(values);
+    const headers = {'Content-Type' : 'application/json',
+                             'Authorization' : `Bearer ${localStorage.jwtToken}`}
+    axios.post(SERVER_URL + "/loyaltyProgramme/add", values, { headers: headers})
+        .then(response => {
+            setModalIsOpen(false);
+            addToast("You added loyalty programme successfully!", { appearance: "success" });
+        });
   }
 
     return (
@@ -43,23 +50,23 @@ const AddLoyaltyProgramme = ({modalIsOpen, setModalIsOpen}) => {
                       <div className="info_data">
                         <div className="data">
                           <h4>System income (% from reservation): </h4>
-                          <input type="number" min={0} max={100} required onChange={(e) => {setSystemIncome(e.target.value)}}  value={systemIncome} />
+                          <input type="number" min={0} max={100} required onChange={(e) => {setOwnerIncome(e.target.value)}}  value={ownerIncome} />
                         </div>
                         <div className="data">
                           <h4>Client points (% from reservation): </h4>
                           <input type="number" min={0} max={100} required onChange={(e) => {setClientIncome(e.target.value)}}  value={clientIncome} />
                         </div>
                         <div className="data">
-                          <h4>Bronze (down limit): </h4>
-                          <input type="number" min={0} max={100} required onChange={(e) => {setBronzeLimit(e.target.value)}}  value={bronzeLimit} />
+                          <h4>Bronze (lower limit): </h4>
+                          <input type="number" min={0} required onChange={(e) => {setBronzeLimit(e.target.value)}}  value={bronzeLimit} />
                         </div>
                         <div className="data">
-                          <h4>Silver (down limit): </h4>
-                          <input type="number" min={0} max={100} required onChange={(e) => {setSilverLimit(e.target.value)}}  value={silverLimit}/>
+                          <h4>Silver (lower limit): </h4>
+                          <input type="number" min={0} required onChange={(e) => {setSilverLimit(e.target.value)}}  value={silverLimit}/>
                         </div>
                         <div className="data">
-                          <h4>Gold (down limit): </h4>
-                          <input type="number" min={0} max={100} required onChange={(e) => {setGoldLimit(e.target.value)}}  value={goldLimit} />
+                          <h4>Gold (lower limit): </h4>
+                          <input type="number" min={0} required onChange={(e) => {setGoldLimit(e.target.value)}}  value={goldLimit} />
                         </div>
                         <input type="submit" className="submit"/>
                       </div>

@@ -453,6 +453,57 @@ li p {
   margin-top: 1%;
 }
 
+.edit-loyalty-btn{
+  height: 40px;
+  width: 15%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #688cbe;
+  margin-left: 90%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+.confirm-loyalty-btn{
+  height: 40px;
+  width: 15%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #688cbe;
+  margin-left: 1%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+.cancel-loyalty-btn{
+  height: 40px;
+  width: 15%;
+  border-radius: 20px;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #688cbe;
+  margin-left: 69%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
 .withBorder .accept-request{
   height: 40px;
   width: 10%;
@@ -498,6 +549,13 @@ li p {
   background: #5078ad;
   margin-bottom: 10px;
   margin-left: 90%;
+}
+
+.edit-loyalty-input {
+  width: 30%;
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 1%;
 }
 
 

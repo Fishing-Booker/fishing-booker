@@ -33,6 +33,20 @@
     overflow-y: scroll;
     margin-bottom: 20px;
   }
+
+  .container-home-loy{
+    max-width: 50%;
+    max-height: 600px;
+    width: 100%;
+    height: 90%;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    margin-left: 10px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+  }
   
   ::-webkit-scrollbar {
     width: 10px;
