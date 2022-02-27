@@ -77,6 +77,11 @@ public class ReservationController {
         return reservationService.getClientReservations(id);
     }
 
+    @GetMapping("/{id}/sort")
+    public List<ReservationDTO> sortClientReservations(@RequestParam String type, @PathVariable Integer id) {
+        return reservationService.sortClientReservations(type, id);
+    }
+
     @PostMapping("/makeReservation")
     public ResponseEntity<String> makeReservation(@RequestBody ClientReservationDTO dto) {
         reservationService.makeReservation(dto);

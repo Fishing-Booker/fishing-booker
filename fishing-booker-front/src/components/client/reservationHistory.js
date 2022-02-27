@@ -11,6 +11,7 @@ const ReservationHistory = () => {
     const [modalReportIsOpen, setModalReportIsOpen] = useState(false)
     const [entityId, setEntityId] = useState('')
     const [clientId, setClientId] = useState('')
+    const [url, setUrl] = useState(SERVER_URL + '/reservations');
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -20,7 +21,7 @@ const ReservationHistory = () => {
                 axios.get(SERVER_URL + "/reservations/" + response.data.id)
                     .then(res => setReservations(res.data))
             })
-    }, [])
+    }, [url])
 
     const allReservations = reservations.length ? (
         reservations.map((reservation, index) => {
@@ -43,7 +44,12 @@ const ReservationHistory = () => {
             )
         })
     ) : (<div><p style={{marginLeft: '30px'}}>You don't have any reservations.</p></div>)
-
+    
+    const handleSort = (e) => {
+        setUrl(SERVER_URL + '/reservations/' + clientId +'/sort?type=' + e.target.value);
+        axios.get(SERVER_URL + '/reservations/' + clientId +'/sort?type=' + e.target.value)
+            .then(res => setReservations(res.data))
+    }
 
     return (
         <div>
@@ -52,6 +58,13 @@ const ReservationHistory = () => {
             marginLeft: '50px',
             position: 'absolute'}}>
             <h1 className="title-reservation">Reservation history</h1> <br></br>
+
+            <select className="search-date" onChange={(e) => handleSort(e)}>
+                <option>Sort reservations</option>
+                <option value='dateA'>By date (ascending)</option>
+                <option value='dateD'>By date (descending)</option>
+            </select>
+
             {allReservations}
             <ReservationRating modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} entityId={entityId} />
             <ReservationReport modalIsOpen={modalReportIsOpen} setModalIsOpen={setModalReportIsOpen} entityId={entityId} clientId={clientId} />

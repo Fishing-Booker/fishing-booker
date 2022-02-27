@@ -201,6 +201,22 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
+    public List<ReservationDTO> sortClientReservations(String type, Integer id) {
+        List<ReservationDTO> reservationsDTO = new ArrayList<>();
+        List<Reservation> reservations = new ArrayList<>();
+        if (type.equals("dateA")) {
+            reservations = reservationRepository.sortClientReservationsAsc(id);
+        } else if (type.equals("dateD")) {
+            reservations = reservationRepository.sortClientReservationsDesc(id);
+        }
+
+        for (Reservation reservation : reservations) {
+            reservationsDTO.add(ReservationMapper.mapToDTO(reservation));
+        }
+        return reservationsDTO;
+    }
+
+    @Override
     public void makeReservation(ClientReservationDTO dto) {
         Reservation reservation = ReservationMapper.mapDTOToModel(dto);
         reservation.setClient(userRepository.getById(dto.getClientId()));
