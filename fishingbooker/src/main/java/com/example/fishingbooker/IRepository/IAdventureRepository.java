@@ -1,6 +1,7 @@
 package com.example.fishingbooker.IRepository;
 
 import com.example.fishingbooker.Model.Adventure;
+import com.example.fishingbooker.Model.Lodge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,13 +28,16 @@ public interface IAdventureRepository extends JpaRepository<Adventure, Integer> 
     @Query("SELECT a from Adventure a WHERE a.isDeleted=false")
     List<Adventure> getAll();
 
-    @Query("SELECT DISTINCT SUBSTRING(a.name, 1, 1) AS letters FROM Adventure a")
+    @Query("SELECT DISTINCT SUBSTRING(a.name, 1, 1) AS letters FROM Adventure a WHERE a.isDeleted=false")
     List<String> getFirstLetters();
 
     @Query("SELECT a FROM Adventure a WHERE (LOWER(a.name) LIKE %:name% OR LOWER(a.name) LIKE '')" +
             "AND (LOWER(a.name) LIKE :letter% OR LOWER(a.name) LIKE '')" +
+            "AND (LOWER(a.location.city) LIKE %:location% OR LOWER(a.location.city) LIKE '')" +
+            "AND a.averageGrade= :grade " +
+            "AND a.isDeleted=false " +
             "ORDER BY a.id")
-    List<Adventure> searchAndFilter(@Param("name") String name, @Param("letter") String letter);
+    List<Adventure> searchAndFilter(@Param("name") String name, @Param("letter") String letter, @Param("location") String location, @Param("grade") double grade);
 
     @Query("select a from Adventure a where a.id=?1")
     Adventure findAdventureById(Integer id);
@@ -55,4 +59,16 @@ public interface IAdventureRepository extends JpaRepository<Adventure, Integer> 
             "JOIN ReservationPeriodOwner p ON a.owner.id=p.owner.id " +
             "WHERE ?1 BETWEEN p.startDate AND p.endDate")
     List<Adventure> getByReservationDate(Date date);
+
+    @Query("SELECT a FROM Adventure a WHERE a.isDeleted=false ORDER BY a.name ASC")
+    List<Adventure> sortByNameAscending();
+
+    @Query("SELECT a FROM Adventure a WHERE a.isDeleted=false ORDER BY a.name DESC")
+    List<Adventure> sortByNameDescending();
+
+    @Query("SELECT a FROM Adventure a WHERE a.isDeleted=false ORDER BY a.averageGrade ASC")
+    List<Adventure> sortByGradeAscending();
+
+    @Query("SELECT a FROM Adventure a WHERE a.isDeleted=false ORDER BY a.averageGrade DESC")
+    List<Adventure> sortByGradeDescending();
 }

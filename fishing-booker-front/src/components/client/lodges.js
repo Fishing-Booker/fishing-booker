@@ -13,6 +13,7 @@ const Lodges = () => {
     const [letters, setLetters] = useState([])
     const [url, setUrl] = useState(SERVER_URL + '/lodges');
     const [date, setDate] = useState('')
+    const [grade, setGrade] = useState(0)
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -27,6 +28,7 @@ const Lodges = () => {
 
         axios.get(url)
             .then(response => {setLodges(response.data); console.log(response.data);})
+
     }, [url])
 
     const renderStars = (grade) => {
@@ -41,7 +43,7 @@ const Lodges = () => {
         if (childData === '') {
             setUrl(SERVER_URL + '/lodges');
         } else {
-            setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData + "&location=" + location)
+            setUrl(SERVER_URL + '/lodges/search?name=' + name + '&letter=' + childData + "&location=" + location + "&grade=" + grade)
         }
     }
 
@@ -69,6 +71,15 @@ const Lodges = () => {
         })
     ) : (<div><p>No results.</p></div>)
 
+    const handleChange = (e) => {
+        setGrade(e.target.value)
+        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + e.target.value)
+    }
+
+    const handleSort = (e) => {
+        setUrl(SERVER_URL + '/lodges/sort?type=' + e.target.value);
+    }
+
     return (
         <div>
             <div className="card search">
@@ -76,7 +87,7 @@ const Lodges = () => {
                     onChange={(e) => {
                         console.log(e.target.value)
                         setName(e.target.value);
-                        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location);
+                        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + grade);
                         if (e.target.value === '')
                             setUrl(SERVER_URL + '/lodges');
                     }}></input>
@@ -84,18 +95,25 @@ const Lodges = () => {
                     onChange={(e) => {
                         console.log(e.target.value)
                         setLocation(e.target.value);
-                        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location)
+                        setUrl(SERVER_URL + '/lodges/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + grade)
                         if (e.target.value === '') 
                             setUrl(SERVER_URL + '/lodges');
                     }}
                 ></input>
-                <select className="search-grade">
+                <select className="search-grade" onChange={(e) => handleChange(e)}>
                     <option>Select lodge grade</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                     <option value='4'>4</option>
                     <option value='5'>5</option>
+                </select>
+                <select className="search-grade" onChange={(e) => handleSort(e)}>
+                    <option>Sort lodges</option>
+                    <option value='gradeA'>By grade (ascending)</option>
+                    <option value='gradeD'>By grade (descending)</option>
+                    <option value='nameA'>By name (ascending)</option>
+                    <option value='nameD'>By name (descending)</option>
                 </select>
             </div>
             {isLogged && <div className="card search">

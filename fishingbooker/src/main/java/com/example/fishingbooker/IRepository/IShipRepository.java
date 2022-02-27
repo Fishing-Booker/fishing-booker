@@ -42,13 +42,16 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
     @Query("SELECT s FROM Ship s WHERE s.isDeleted=false")
     List<Ship> getAll();
 
-    @Query("SELECT DISTINCT SUBSTRING(s.name, 1, 1) AS letters FROM Ship s")
+    @Query("SELECT DISTINCT SUBSTRING(s.name, 1, 1) AS letters FROM Ship s WHERE s.isDeleted=false")
     List<String> getFirstLetters();
 
     @Query("SELECT s FROM Ship s WHERE (LOWER(s.name) LIKE %:name% OR LOWER(s.name) LIKE '')" +
             "AND (LOWER(s.name) LIKE :letter% OR LOWER(s.name) LIKE '')" +
+            "AND (LOWER(s.location.city) LIKE %:location% OR LOWER(s.location.city) LIKE '') " +
+            "AND s.averageGrade= :grade " +
+            "AND s.isDeleted=false " +
             "ORDER BY s.id")
-    List<Ship> searchAndFilter(@Param("name") String name, @Param("letter") String letter);
+    List<Ship> searchAndFilter(@Param("name") String name, @Param("letter") String letter, @Param("location") String location, @Param("grade") double grade);
 
     @Query("SELECT s FROM ReservationPeriodOwner p " +
             "LEFT OUTER JOIN Ship s ON p.owner.id=s.owner.id " +
@@ -68,4 +71,16 @@ public interface IShipRepository extends JpaRepository<Ship, Integer> {
 
     @Query("SELECT s FROM Ship s WHERE (LOWER(s.name) LIKE %:name% OR LOWER(s.name) LIKE '')")
     List<Ship> searchByName(@Param("name") String name);
+
+    @Query("SELECT s FROM Ship s WHERE s.isDeleted=false ORDER BY s.name ASC")
+    List<Ship> sortByNameAscending();
+
+    @Query("SELECT s FROM Ship s WHERE s.isDeleted=false ORDER BY s.name DESC")
+    List<Ship> sortByNameDescending();
+
+    @Query("SELECT s FROM Ship s WHERE s.isDeleted=false ORDER BY s.averageGrade ASC")
+    List<Ship> sortByGradeAscending();
+
+    @Query("SELECT s FROM Ship s WHERE s.isDeleted=false ORDER BY s.averageGrade DESC")
+    List<Ship> sortByGradeDescending();
 }

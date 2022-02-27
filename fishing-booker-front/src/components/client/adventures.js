@@ -13,6 +13,7 @@ const Adventures = () => {
     const [letters, setLetters] = useState([])
     const [url, setUrl] = useState(SERVER_URL + '/adventures');
     const [date, setDate] = useState('')
+    const [grade, setGrade] = useState('')
     
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -42,7 +43,7 @@ const Adventures = () => {
         if (childData === '') {
             setUrl(SERVER_URL + '/adventures');
         } else {
-            setUrl(SERVER_URL + '/adventures/search?name=' + name + '&letter=' + childData)
+            setUrl(SERVER_URL + '/adventures/search?name=' + name + '&letter=' + childData + "&location=" + location + "&grade=" + grade)
         }
     }
 
@@ -70,6 +71,10 @@ const Adventures = () => {
         })
     ) : (<div><p>No results.</p></div>)
 
+    const handleChange = (e) => {
+        setUrl(SERVER_URL + '/adventures/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + e.target.value)
+    }
+
     return (
         <div>
             <div className="card search">
@@ -77,7 +82,7 @@ const Adventures = () => {
                     onChange={(e) => {
                         console.log(e.target.value)
                     setName(e.target.value);
-                    setUrl(SERVER_URL + '/adventures/search?name=' + name + "&letter=" + "&location=" + location);
+                    setUrl(SERVER_URL + '/adventures/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + grade);
                     if (e.target.value === '') {
                         setUrl(SERVER_URL + '/adventures');
                     }
@@ -86,12 +91,12 @@ const Adventures = () => {
                     onChange={(e) => {
                         console.log(e.target.value)
                         setLocation(e.target.value);
-                        setUrl(SERVER_URL + '/adventures/search?name=' + name + "&letter=" + "&location=" + location)
+                        setUrl(SERVER_URL + '/adventures/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + grade)
                         if (e.target.value === '') 
                             setUrl(SERVER_URL + '/adventures');
                     }}
                 ></input>
-                <select className="search-grade">
+                <select className="search-grade" value={grade} onChange={(e) => handleChange(e)}>
                     <option>Select adventure grade</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>

@@ -13,6 +13,7 @@ const Ships = () => {
     const [letters, setLetters] = useState([])
     const [location, setLocation] = useState('');
     const [date, setDate] = useState('')
+    const [grade, setGrade] = useState(null)
 
     useEffect(() => {
         let token = localStorage.getItem('jwtToken');
@@ -42,7 +43,7 @@ const Ships = () => {
         if (childData === '') {
             setUrl(SERVER_URL + '/ships');
         } else {
-            setUrl(SERVER_URL + '/ships/search?name=' + name + '&letter=' + childData)
+            setUrl(SERVER_URL + '/ships/search?name=' + name + '&letter=' + childData + "&location=" + location + "&grade=" + grade)
         }
     }
 
@@ -70,6 +71,10 @@ const Ships = () => {
         })
     ) : (<div><p>No results.</p></div>)
 
+    const handleChange = (e) => {
+        setUrl(SERVER_URL + '/ships/search?name=' + name + "&letter=" + "&location=" + location + "&grade=" + e.target.value)
+    }
+
     return (
         <div>
             <div className="card search">
@@ -91,7 +96,7 @@ const Ships = () => {
                             setUrl(SERVER_URL + '/ships');
                     }}
                 ></input>
-                <select className="search-grade">
+                <select className="search-grade" value={grade} onChange={(e) => handleChange(e)}>
                     <option>Select ship grade</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>

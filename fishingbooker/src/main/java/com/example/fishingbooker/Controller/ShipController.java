@@ -146,8 +146,9 @@ public class ShipController {
     }
 
     @GetMapping("/search")
-    public List<ShipInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
-        return shipService.searchAndFilter(name, letter);
+    public List<ShipInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location,
+                                              @RequestParam(required = false) Integer grade) {
+        return shipService.searchAndFilter(name, letter, location, grade);
     }
 
     @GetMapping("/ship")

@@ -86,8 +86,9 @@ public class LodgeController {
     }
 
     @GetMapping("/search")
-    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location) {
-        return lodgeService.search(name, letter, location);
+    public List<LodgeInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location,
+                                               @RequestParam(required = false) Integer grade, @RequestParam(required = false) String sortType) {
+        return lodgeService.search(name, letter, location, grade, sortType);
     }
 
     @GetMapping("/searchLodge")
@@ -182,5 +183,10 @@ public class LodgeController {
         bedroom4.setRoomNumber(Integer.parseInt(fourBed));
         bedroom4.setLodge(lodge);
         bedroomService.save(bedroom4);
+    }
+
+    @GetMapping("/sort")
+    public List<LodgeInfoDTO> sortLodges(@RequestParam String type) {
+        return lodgeService.sortLodges(type);
     }
 }

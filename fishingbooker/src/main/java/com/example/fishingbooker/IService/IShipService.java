@@ -31,7 +31,7 @@ public interface IShipService {
 
     List<String> getFirstLetters();
 
-    List<ShipInfoDTO> searchAndFilter(String name, String letter);
+    List<ShipInfoDTO> searchAndFilter(String name, String letter, String location, Integer grade);
 
     ShipInfoDTO getById(Integer id);
 
@@ -46,4 +46,6 @@ public interface IShipService {
     List<String> getOwnerShipNames(Integer ownerId);
 
     List<ShipDTO> searchShipsByName(String name, Integer owner) throws IOException;
+
+    List<ShipInfoDTO> sortShips(String type);
 }

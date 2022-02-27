@@ -30,7 +30,7 @@ public interface ILodgeService {
 
     List<LodgeInfoDTO> getAll();
 
-    List<LodgeInfoDTO> search(String name, String letter, String location);
+    List<LodgeInfoDTO> search(String name, String letter, String location, Integer grade, String sortType);
     
     List<String> getFirstLetters();
 
@@ -42,4 +42,5 @@ public interface ILodgeService {
 
     List<LodgeDTO> searchLodgesByName(String name, Integer ownerId) throws IOException;
 
+    List<LodgeInfoDTO> sortLodges(String type);
 }

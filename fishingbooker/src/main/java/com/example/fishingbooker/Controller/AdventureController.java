@@ -95,8 +95,9 @@ public class AdventureController {
     }
 
     @GetMapping("/search")
-    public List<AdventureInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter) {
-        return adventureService.searchAndFilter(name, letter);
+    public List<AdventureInfoDTO> getSearchResults(@RequestParam(required = false) String name, @RequestParam(required = false) String letter, @RequestParam(required = false) String location,
+                                                   @RequestParam(required = false) Integer grade) {
+        return adventureService.searchAndFilter(name, letter, location, grade);
     }
 
     @GetMapping("/adventure/{id}")

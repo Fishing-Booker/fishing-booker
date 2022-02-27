@@ -24,7 +24,7 @@ public interface IAdventureService {
 
     List<String> getFirstLetters();
 
-    List<AdventureInfoDTO> searchAndFilter(String name, String letter);
+    List<AdventureInfoDTO> searchAndFilter(String name, String letter, String location, Integer grade);
 
     Adventure findById(Integer id);
 
@@ -39,4 +39,6 @@ public interface IAdventureService {
     void deleteRule(Integer ruleIndex, Integer adventureId);
 
     List<AdventureInfoDTO> getByReservationDate(Date date);
+
+    List<AdventureInfoDTO> sortAdventures(String type);
 }

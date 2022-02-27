@@ -133,8 +133,8 @@ public class ShipService implements IShipService {
     }
 
     @Override
-    public List<ShipInfoDTO> searchAndFilter(String name, String letter) {
-        List<Ship> ships = shipRepository.searchAndFilter(name, letter);
+    public List<ShipInfoDTO> searchAndFilter(String name, String letter, String location, Integer grade) {
+        List<Ship> ships = shipRepository.searchAndFilter(name, letter, location, Double.valueOf(grade));
         List<ShipInfoDTO> shipsDTO = new ArrayList<>();
         for (Ship ship : ships) {
             shipsDTO.add(ShipMapper.mapToDTO(ship));
@@ -205,5 +205,10 @@ public class ShipService implements IShipService {
             }
         }
         return shipsDTO;
+    }
+
+    @Override
+    public List<ShipInfoDTO> sortShips(String type) {
+        return null;
     }
 }
