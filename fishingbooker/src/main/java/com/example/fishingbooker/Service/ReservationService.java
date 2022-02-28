@@ -8,9 +8,11 @@ import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
+import com.example.fishingbooker.IService.ICanceledReservationService;
 import com.example.fishingbooker.IService.IEmailService;
 import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Mapper.ReservationMapper;
+import com.example.fishingbooker.Model.CanceledReservation;
 import com.example.fishingbooker.Model.Reservation;
 import com.example.fishingbooker.Model.ReservationEntity;
 import com.example.fishingbooker.Model.User;
@@ -36,6 +38,9 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private IEmailService emailService;
+
+    @Autowired
+    private ICanceledReservationService canceledReservationService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -246,6 +251,8 @@ public class ReservationService implements IReservationService {
 
     @Override
     public void cancelReservation(Integer id) {
+        Reservation reservation = reservationRepository.getReservationById(id);
+        canceledReservationService.save(new CanceledReservation(reservation.getStartDate(), reservation.getEndDate(), reservation.getClient(), reservation.getReservationEntity()));
         reservationRepository.cancelReservation(id);
     }
 
