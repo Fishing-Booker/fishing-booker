@@ -52,4 +52,7 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
 
     @Query("SELECT r FROM Reservation r WHERE r.client.id=?1 ORDER BY r.startDate DESC")
     List<Reservation> sortClientReservationsDesc(Integer clientId);
+
+    @Query("SELECT r FROM Reservation r WHERE r.id=?1 AND r.isBooked=true")
+    Reservation getReservationById(Integer id);
 }
