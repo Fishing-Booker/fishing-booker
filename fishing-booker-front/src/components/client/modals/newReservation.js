@@ -120,6 +120,11 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
                         window.location.reload();
                       }, 3000)
                 })
+                .catch(function (error) {
+                    if (error.response.status == 302) {
+                        addToast("It is not possible to make a reservation in a period of canceled reservation!", { appearance: "error" });
+                    }
+                })
         } else if (numberOfGuests > maxGuests) {
             addToast("It is not possible to make a reservation for that number of guests! Please try again!", { appearance: "error" });
         } else {

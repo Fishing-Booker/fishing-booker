@@ -4,6 +4,7 @@ import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.ReservationDateDTO;
 import com.example.fishingbooker.DTO.reservation.*;
+import com.example.fishingbooker.IService.ICanceledReservationService;
 import com.example.fishingbooker.IService.IReservationPeriodOwnerService;
 import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Model.Reservation;
@@ -29,6 +30,9 @@ public class ReservationController {
 
     @Autowired
     private IReservationPeriodOwnerService ownerService;
+
+    @Autowired
+    private ICanceledReservationService canceledReservationService;
 
     @PostMapping("/addReservation")
     @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
@@ -84,6 +88,8 @@ public class ReservationController {
 
     @PostMapping("/makeReservation")
     public ResponseEntity<String> makeReservation(@RequestBody ClientReservationDTO dto) {
+        if (canceledReservationService.doesCanceledReservationExist(dto.getClientId(), dto.getEntityId(), dto.getStartDate(), dto.getEndDate()))
+            return new ResponseEntity<>(HttpStatus.FOUND);
         reservationService.makeReservation(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
