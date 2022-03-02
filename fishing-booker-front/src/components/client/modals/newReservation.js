@@ -23,17 +23,23 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
     const [choosenServicesR, setChoosenServicesR] = useState("");
     const [additionalServices, setAdditionalServices] = useState("");
     const [regularService, setRegularService] = useState("");
+    const [penalties, setPenalties] = useState("");
 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
-            .then(response => setClientId(response.data.id))
+            .then(response => {
+                setClientId(response.data.id);
+                axios.get(SERVER_URL + '/penalties?clientId=' + response.data.id)
+                .then(response => {setPenalties(response.data); console.log(response.data)});
+            })
+            
 
         axios.get(SERVER_URL + "/prices/additionalServices2/" + entityId, { headers: headers })
         .then(response => {
             setServices(response.data);
         })
-
+        
         axios.get(SERVER_URL + "/prices/regularServices/" + entityId, { headers: headers })
             .then(response => {
                 setServicesR(response.data);
@@ -111,7 +117,7 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
         dto.additionalServices = setServicesAsString();
         dto.regularService = changeRegularServiceFormat();
         console.log(dto)
-        if (isInRangeOne(moment(startDate).format()) && isInRangeOne(moment(endDate).format()) && numberOfGuests <= maxGuests) {
+        if (isInRangeOne(moment(startDate).format()) && isInRangeOne(moment(endDate).format()) && numberOfGuests <= maxGuests && penalties < 3) {
             axios.post(SERVER_URL + "/reservations/makeReservation", dto)
                 .then(response => {
                     addToast("Successfull reservation! You will get an email with additional information.", { appearance: "success" });
@@ -127,6 +133,8 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
                 })
         } else if (numberOfGuests > maxGuests) {
             addToast("It is not possible to make a reservation for that number of guests! Please try again!", { appearance: "error" });
+        } else if (penalties >= 3) {
+            addToast("It is not possible to make a reservation! You have 3 or more penalties!", { appearance: "error" });
         } else {
             addToast("It is not possible to make a reservation in selected period! Please try again!", { appearance: "error" });
         }
