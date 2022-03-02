@@ -2,7 +2,6 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.IRepository.IPenaltyRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
-import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IPenaltyService;
 import com.example.fishingbooker.Model.Penalty;
 import com.example.fishingbooker.Model.User;
@@ -32,4 +31,8 @@ public class PenaltyService implements IPenaltyService {
         }
     }
 
+    @Override
+    public Integer findClientPenalties(Integer clientId) {
+        return penaltyRepository.findClientPenalties(clientId).getPenalties();
+    }
 }
