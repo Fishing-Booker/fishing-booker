@@ -17,6 +17,7 @@ const UserProfilePage = () => {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
+    const [penalties, setPenalties] = useState("");
     const values = {
         name, 
         surname,
@@ -43,6 +44,8 @@ const UserProfilePage = () => {
                 .then(response => {
                     setRole(response.data);
                 });
+                axios.get(SERVER_URL + '/penalties?clientId=' + user.id)
+                    .then(response => setPenalties(response.data));
                 })
             .catch(error => {
                 addToast("Server is not running!", { appearance: "error" });
@@ -146,6 +149,13 @@ const UserProfilePage = () => {
                             {!isEditting && <label>{user.country}</label>}
                             {isEditting && <input  value={country} onChange={(e) => setCountry(e.target.value)}/>}
                         </div>
+                        {(role === "ROLE_CLIENT") && 
+                            <div className="data">
+                                <h4>Penalties</h4>
+                                {!isEditting && <label>{penalties}</label>}
+                                {isEditting && <input disabled value={penalties} />}
+                            </div>
+                        }
                     </div>
                     {!isEditting && <button className="edit-profile-btn" onClick={onEditClick}>Edit profile</button>} <br />
                     {isEditting && <button className="edit-profile-btn" onClick={onSaveClick}>Save changes</button>} <br/>
