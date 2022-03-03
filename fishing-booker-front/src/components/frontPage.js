@@ -96,6 +96,7 @@ const FrontPage = () => {
             axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers})
             .then(response => {
                 var user = response.data;
+
                 axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
                 .then(response => {
                     setRole(response.data);

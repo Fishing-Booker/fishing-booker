@@ -45,12 +45,12 @@ const UserProfilePage = () => {
                     setRole(response.data);
                 });
                 
-                var today = new Date();
-                const day = today.getDate();
-                if (day === 1) {
-                    axios.put(SERVER_URL + "/penalties", user.id, { headers: headers })
-                        .then(response => setIsFirstDay(true));
-                }
+                // var today = new Date();
+                // const day = today.getDate();
+                // if (day === 1) {
+                //     axios.put(SERVER_URL + "/penalties", user.id, { headers: headers })
+                //         .then(response => setIsFirstDay(true));
+                // }
 
                 axios.get(SERVER_URL + '/penalties?clientId=' + user.id)
                     .then(response => setPenalties(response.data));
