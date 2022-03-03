@@ -6,4 +6,5 @@ public interface IPenaltyService {
 
     Integer findClientPenalties(Integer clientId);
 
+    void annulPenalties(Integer clientId);
 }

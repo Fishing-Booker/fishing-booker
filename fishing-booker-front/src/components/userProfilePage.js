@@ -18,6 +18,9 @@ const UserProfilePage = () => {
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [penalties, setPenalties] = useState("");
+    const [role, setRole] = useState("");
+    const [isFirstDay, setIsFirstDay] = useState(false)
+
     const values = {
         name, 
         surname,
@@ -29,9 +32,7 @@ const UserProfilePage = () => {
         country,
         phoneNumber
     }
-
-    const [role, setRole] = useState("");
-    
+ 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -39,18 +40,27 @@ const UserProfilePage = () => {
             .then(response => {
                 setUser(response.data);
                 var user = response.data
-                console.log(response.status);
                 axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
                 .then(response => {
                     setRole(response.data);
                 });
+                
+                var today = new Date();
+                const day = today.getDate();
+                if (day === 1) {
+                    axios.put(SERVER_URL + "/penalties", user.id, { headers: headers })
+                        .then(response => setIsFirstDay(true));
+                }
+
                 axios.get(SERVER_URL + '/penalties?clientId=' + user.id)
                     .then(response => setPenalties(response.data));
                 })
+                
             .catch(error => {
                 addToast("Server is not running!", { appearance: "error" });
             })
-    }, [])
+
+    }, [isFirstDay])
 
     const [isEditting, setVisibility] = useState(false);
 
