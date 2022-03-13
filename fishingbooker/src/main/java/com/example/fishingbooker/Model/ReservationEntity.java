@@ -14,14 +14,14 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 
     @Column(name = "name")
     private String name;
 
-    @OneToOne(targetEntity = Location.class, optional = false)
+    @OneToOne(targetEntity = Location.class, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
@@ -43,10 +43,10 @@ public class ReservationEntity {
     @Column(name = "max_persons")
     private Integer maxPersons;
 
-    @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Image.class, mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = ReservationPeriod.class, mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<ReservationPeriod> reservationPeriods = new ArrayList<>();
 
     public ReservationEntity() { }

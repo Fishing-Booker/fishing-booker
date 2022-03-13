@@ -21,11 +21,11 @@ public class Reservation {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     //@JoinColumn(name="client_id", referencedColumnName = "user_id")
     private User client;
 

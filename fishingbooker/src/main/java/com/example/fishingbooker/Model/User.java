@@ -9,8 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
-@Table(name="user")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name="users")
 public class User implements Serializable, UserDetails {
 
     @Id
@@ -54,7 +53,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "is_first_login")
     private boolean isFirstLogin;
 
-    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     /*@JoinTable(name = "users_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")) */

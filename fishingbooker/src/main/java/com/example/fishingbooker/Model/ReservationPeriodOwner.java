@@ -18,7 +18,7 @@ public class ReservationPeriodOwner {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 

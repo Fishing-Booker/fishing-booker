@@ -16,7 +16,7 @@ public class ShipOwnerReservation {
     //@JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private Reservation reservation;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 

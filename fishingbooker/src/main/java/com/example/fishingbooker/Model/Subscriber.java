@@ -15,7 +15,7 @@ public class Subscriber {
     //@JoinColumn(name="client_id", referencedColumnName = "user_id")
     private User client;
 
-    @ManyToOne(targetEntity = ReservationEntity.class, optional = false)
+    @ManyToOne(targetEntity = ReservationEntity.class, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 

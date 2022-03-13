@@ -11,7 +11,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Lodge  extends ReservationEntity{
 
-    @OneToMany(mappedBy = "lodge", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Bedroom.class, mappedBy = "lodge", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Bedroom> bedrooms = new ArrayList<>();
 
     public Lodge() {

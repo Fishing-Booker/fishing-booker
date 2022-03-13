@@ -18,11 +18,11 @@ public class CanceledReservation {
     @Column(name = "end_date")
     private Date endDate;
 
-    @OneToOne(targetEntity = User.class, optional = false)
+    @OneToOne(targetEntity = User.class, optional = false, cascade = {CascadeType.ALL})
     //@JoinColumn(name = "client_id", referencedColumnName = "user_id")
     private User client;
 
-    @OneToOne(targetEntity = ReservationEntity.class, optional = false)
+    @OneToOne(targetEntity = ReservationEntity.class, optional = false, cascade = {CascadeType.MERGE})
     //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity entity;
 
