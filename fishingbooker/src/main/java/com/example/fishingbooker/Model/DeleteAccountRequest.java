@@ -23,6 +23,10 @@ public class DeleteAccountRequest {
     @Column(name = "disapproved")
     private Boolean isDisapproved;
 
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
+
     public DeleteAccountRequest() {}
 
     public DeleteAccountRequest(Integer id, String userId, String deleteReason, Boolean isAccepted, Boolean isDisapproved) {

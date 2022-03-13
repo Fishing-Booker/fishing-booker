@@ -14,9 +14,13 @@ import com.example.fishingbooker.Mapper.CompliantResponseMapper;
 import com.example.fishingbooker.Model.Complaint;
 import com.example.fishingbooker.Model.ComplaintResponse;
 import com.example.fishingbooker.Model.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,8 @@ public class ComplaintService implements IComplaintService {
 
     @Autowired
     private IComplaintResponseRepository complaintResponseRepository;
+
+    protected final Log logger = LogFactory.getLog(getClass());
 
     @Override
     public Complaint addComplaint(ComplaintDTO dto) {
@@ -59,15 +65,20 @@ public class ComplaintService implements IComplaintService {
     }
 
     @Override
+    @Transactional
     public void sendCompliantResponse(CompliantResponseDTO dto) {
-        User client = userService.findUserById(dto.getClientId());
-        User owner = userService.findUserById(dto.getOwnerId());
-        userService.sendEmailCompliantResponse(client, dto.getText());
-        userService.sendEmailCompliantResponse(owner, dto.getText());
-        ComplaintResponse complaintResponse = CompliantResponseMapper.mapDTOtoModel(dto);
-        complaintResponse.setComplaint(complaintRepository.getById(dto.getCompliantId()));
-        complaintResponseRepository.save(complaintResponse);
-        complaintRepository.updateComplaintToResponded(dto.getCompliantId());
+        try {
+            User client = userService.findUserById(dto.getClientId());
+            User owner = userService.findUserById(dto.getOwnerId());
+            userService.sendEmailCompliantResponse(client, dto.getText());
+            userService.sendEmailCompliantResponse(owner, dto.getText());
+            ComplaintResponse complaintResponse = CompliantResponseMapper.mapDTOtoModel(dto);
+            complaintResponse.setComplaint(complaintRepository.getById(dto.getCompliantId()));
+            complaintResponseRepository.save(complaintResponse);
+            complaintRepository.updateComplaintToResponded(dto.getCompliantId());
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - complaint.");
+        }
     }
 
 

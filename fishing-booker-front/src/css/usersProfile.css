@@ -455,7 +455,7 @@ li p {
 
 .edit-loyalty-btn{
   height: 40px;
-  width: 15%;
+  width: 18%;
   border-radius: 20px;
   border: none;
   color: #fff;
@@ -465,14 +465,14 @@ li p {
   cursor: pointer;
   transition: all 0.3s ease;
   background: #688cbe;
-  margin-left: 90%;
+  margin-left: 87%;
   margin-bottom: 1%;
   margin-top: 1%;
 }
 
 .confirm-loyalty-btn{
   height: 40px;
-  width: 15%;
+  width: 18%;
   border-radius: 20px;
   border: none;
   color: #fff;
@@ -489,7 +489,7 @@ li p {
 
 .cancel-loyalty-btn{
   height: 40px;
-  width: 15%;
+  width: 18%;
   border-radius: 20px;
   border: none;
   color: #fff;
@@ -499,9 +499,7 @@ li p {
   cursor: pointer;
   transition: all 0.3s ease;
   background: #688cbe;
-  margin-left: 69%;
-  margin-bottom: 1%;
-  margin-top: 1%;
+  margin-left: 63%;
 }
 
 .withBorder .accept-request{

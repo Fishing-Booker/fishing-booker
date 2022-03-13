@@ -11,6 +11,10 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
+
     @Column(name = "text")
     private String text;
 

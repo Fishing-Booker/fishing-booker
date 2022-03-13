@@ -8,9 +8,13 @@ import com.example.fishingbooker.IService.IDeleteAccountRequestService;
 import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Model.DeleteAccountRequest;
 import com.example.fishingbooker.Model.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,8 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
 
     @Autowired
     IUserRepository userRepository;
+
+    protected final Log logger = LogFactory.getLog(getClass());
 
     @Override
     public DeleteAccountRequest save(DeleteAccountRequestDTO deleteAccountRequestDTO) {
@@ -43,18 +49,28 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
     }
 
     @Override
+    @Transactional
     public void rejectDeleteRequest(ResponseDTO responseDTO) {
-        repository.disapprove(responseDTO.getRequestId());
-        User user = userRepository.findByUsername(responseDTO.getUserUsername());
-        userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
+        try {
+            repository.disapprove(responseDTO.getRequestId());
+            User user = userRepository.findByUsername(responseDTO.getUserUsername());
+            userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - delete request.");
+        }
     }
 
     @Override
+    @Transactional
     public void approveDeleteRequest(ResponseDTO responseDTO) {
-        repository.approve(responseDTO.getRequestId());
-        User user = userRepository.findByUsername(responseDTO.getUserUsername());
-        userRepository.deleteByUsername(user.getUsername());
-        userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
+        try {
+            repository.approve(responseDTO.getRequestId());
+            User user = userRepository.findByUsername(responseDTO.getUserUsername());
+            userRepository.deleteByUsername(user.getUsername());
+            userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - delete request.");
+        }
     }
 
     @Override

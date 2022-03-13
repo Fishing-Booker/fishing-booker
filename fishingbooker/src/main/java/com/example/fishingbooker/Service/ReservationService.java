@@ -10,12 +10,10 @@ import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.ICanceledReservationService;
 import com.example.fishingbooker.IService.IEmailService;
+import com.example.fishingbooker.IService.ILoyaltyProgrammeService;
 import com.example.fishingbooker.IService.IReservationService;
 import com.example.fishingbooker.Mapper.ReservationMapper;
-import com.example.fishingbooker.Model.CanceledReservation;
-import com.example.fishingbooker.Model.Reservation;
-import com.example.fishingbooker.Model.ReservationEntity;
-import com.example.fishingbooker.Model.User;
+import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +39,9 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private ICanceledReservationService canceledReservationService;
+
+    @Autowired
+    private ILoyaltyProgrammeService loyaltyProgrammeService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -339,5 +340,11 @@ public class ReservationService implements IReservationService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    private void setUserPoints(String userUsername, double reservationPrice) {
+        User user = userRepository.findByUsername(userUsername);
+        LoyaltyProgramme loyaltyProgramme = loyaltyProgrammeService.get();
+
     }
 }
