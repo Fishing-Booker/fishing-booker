@@ -19,8 +19,8 @@ public class ReservationPeriod {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, optional = false)
+    //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
     public ReservationPeriod() {

@@ -13,8 +13,8 @@ public class ComplaintResponse {
     @Column(name = "text")
     private String response;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "complaint_id", referencedColumnName = "id")
+    @ManyToOne(targetEntity = Complaint.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "complaint_id", referencedColumnName = "id")
     private Complaint complaint;
 
     public ComplaintResponse() {

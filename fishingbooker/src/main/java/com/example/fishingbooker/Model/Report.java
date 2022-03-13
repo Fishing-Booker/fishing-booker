@@ -14,8 +14,8 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservation_id", referencedColumnName = "id")
+    @ManyToOne(targetEntity = Reservation.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private Reservation reservation;
 
     @Column(name = "text")

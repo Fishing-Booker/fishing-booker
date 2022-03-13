@@ -18,8 +18,8 @@ public class ReservationPeriodOwner {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, optional = false)
+    //@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 
     public ReservationPeriodOwner() {

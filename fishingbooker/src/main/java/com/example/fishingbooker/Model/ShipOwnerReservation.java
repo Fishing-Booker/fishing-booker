@@ -12,12 +12,12 @@ public class ShipOwnerReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservation_id", referencedColumnName = "id")
+    @ManyToOne(targetEntity = Reservation.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private Reservation reservation;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
+    //@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 
     public ShipOwnerReservation() {

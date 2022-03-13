@@ -18,12 +18,12 @@ public class CanceledReservation {
     @Column(name = "end_date")
     private Date endDate;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
+    @OneToOne(targetEntity = User.class, optional = false)
+    //@JoinColumn(name = "client_id", referencedColumnName = "user_id")
     private User client;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    @OneToOne(targetEntity = ReservationEntity.class, optional = false)
+    //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity entity;
 
     public CanceledReservation() {

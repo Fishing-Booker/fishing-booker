@@ -11,8 +11,8 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
     @Column(name = "grade")
@@ -27,8 +27,8 @@ public class Rating {
     @Column(name = "is_disapproved")
     private boolean isDisapproved;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "client_id", referencedColumnName = "user_id")
     private User user;
 
 

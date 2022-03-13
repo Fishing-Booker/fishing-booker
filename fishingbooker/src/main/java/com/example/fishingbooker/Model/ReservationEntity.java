@@ -14,15 +14,15 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "owner_id", referencedColumnName = "user_id")
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.ALL})
+    //@JoinColumn(name = "owner_id", referencedColumnName = "user_id")
     private User owner;
 
     @Column(name = "name")
     private String name;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @OneToOne(targetEntity = Location.class, optional = false)
+    //@JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
     @Column(name = "description")
