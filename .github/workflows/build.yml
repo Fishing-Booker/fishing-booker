@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_KEY: 'Fishing-Booker_fishing-booker'
-  PROJECT_PATH: 'fishingbooker'
+  PROJECT_PATH: 'fishingbooker' 
 
 jobs:
   build:
