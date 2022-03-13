@@ -109,7 +109,7 @@ public class LodgeService implements ILodgeService {
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
         lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), dto.getCancelConditions(), lodgeId);
     }
-    
+
 
     @Override
     public List<LodgeInfoDTO> search(String name, String letter, String location, Integer grade, String sortType) {
