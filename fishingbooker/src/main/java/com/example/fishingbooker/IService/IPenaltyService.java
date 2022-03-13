@@ -4,4 +4,7 @@ public interface IPenaltyService {
 
     void addSkippedReservationPenalty(Integer reservationId);  //for skipping reservation
 
+    Integer findClientPenalties(Integer clientId);
+
+    void annulPenalties(Integer clientId);
 }

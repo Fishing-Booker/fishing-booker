@@ -17,4 +17,8 @@ public interface IPenaltyRepository extends JpaRepository<Penalty, Integer> {
     @Transactional
     void updatePenalty(Integer penalties, Integer clientId);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Penalty p SET p.penalties=0 WHERE p.client.id=?1")
+    void annulPenalties(Integer clientId);
 }

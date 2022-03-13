@@ -2,12 +2,14 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.IRepository.IPenaltyRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
-import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.IPenaltyService;
 import com.example.fishingbooker.Model.Penalty;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PenaltyService implements IPenaltyService {
@@ -32,4 +34,19 @@ public class PenaltyService implements IPenaltyService {
         }
     }
 
+    @Override
+    public Integer findClientPenalties(Integer clientId) {
+        List<Penalty> penalties = penaltyRepository.findAll();
+        for (Penalty penalty : penalties) {
+            if (Objects.equals(penalty.getClient().getId(), clientId)) {
+                return penaltyRepository.findClientPenalties(clientId).getPenalties();
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void annulPenalties(Integer clientId) {
+        penaltyRepository.annulPenalties(clientId);
+    }
 }

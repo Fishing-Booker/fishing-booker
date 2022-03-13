@@ -17,6 +17,10 @@ const UserProfilePage = () => {
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
+    const [penalties, setPenalties] = useState("");
+    const [role, setRole] = useState("");
+    const [isFirstDay, setIsFirstDay] = useState(false)
+
     const values = {
         name, 
         surname,
@@ -28,9 +32,7 @@ const UserProfilePage = () => {
         country,
         phoneNumber
     }
-
-    const [role, setRole] = useState("");
-    
+ 
     useEffect(() => {
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
@@ -38,16 +40,27 @@ const UserProfilePage = () => {
             .then(response => {
                 setUser(response.data);
                 var user = response.data
-                console.log(response.status);
                 axios.get(SERVER_URL + `/users/getRole/${user.id}`, {headers:headers})
                 .then(response => {
                     setRole(response.data);
                 });
+                
+                // var today = new Date();
+                // const day = today.getDate();
+                // if (day === 1) {
+                //     axios.put(SERVER_URL + "/penalties", user.id, { headers: headers })
+                //         .then(response => setIsFirstDay(true));
+                // }
+
+                axios.get(SERVER_URL + '/penalties?clientId=' + user.id)
+                    .then(response => setPenalties(response.data));
                 })
+                
             .catch(error => {
                 addToast("Server is not running!", { appearance: "error" });
             })
-    }, [])
+
+    }, [isFirstDay])
 
     const [isEditting, setVisibility] = useState(false);
 
@@ -146,6 +159,13 @@ const UserProfilePage = () => {
                             {!isEditting && <label>{user.country}</label>}
                             {isEditting && <input  value={country} onChange={(e) => setCountry(e.target.value)}/>}
                         </div>
+                        {(role === "ROLE_CLIENT") && 
+                            <div className="data">
+                                <h4>Penalties</h4>
+                                {!isEditting && <label>{penalties}</label>}
+                                {isEditting && <input disabled value={penalties} />}
+                            </div>
+                        }
                     </div>
                     {!isEditting && <button className="edit-profile-btn" onClick={onEditClick}>Edit profile</button>} <br />
                     {isEditting && <button className="edit-profile-btn" onClick={onSaveClick}>Save changes</button>} <br/>
