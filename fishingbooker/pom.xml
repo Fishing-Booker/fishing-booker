@@ -16,6 +16,7 @@
 	<properties>
 		<sonar.organization>fishingbooker</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -119,16 +120,6 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.0</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>1.8</source>
-					<target>1.8</target>
 				</configuration>
 			</plugin>
 
