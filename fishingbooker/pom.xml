@@ -113,6 +113,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${project.parent.version}</version>
+				<failIfNoTests>false</failIfNoTests>
 				<configuration>
 					<excludes>
 						<exclude>
@@ -120,14 +121,6 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.0.0-M3</version>
-				<configuration>
-					<failIfNoTests>false</failIfNoTests>
 				</configuration>
 			</plugin>
 		</plugins>
