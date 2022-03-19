@@ -11,6 +11,10 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;

@@ -9,6 +9,9 @@ import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Mapper.RatingMapper;
 import com.example.fishingbooker.Model.Rating;
 import com.example.fishingbooker.Model.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +23,15 @@ import java.util.Optional;
 public class RatingService implements IRatingService {
 
     @Autowired
-    IRatingRepository ratingRepository;
+    private IRatingRepository ratingRepository;
 
     @Autowired
-    IReservationEntityService reservationEntityService;
+    private IReservationEntityService reservationEntityService;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
+
+    protected final Log logger = LogFactory.getLog(getClass());
 
     @Override
     public Rating addRating(RatingDTO dto) {
@@ -64,13 +69,21 @@ public class RatingService implements IRatingService {
 
     @Override
     public void approveRating(RatingInfoDTO dto) {
-        ratingRepository.approveRating(dto.getId());
-        Rating r = ratingRepository.getById(dto.getId());
-        userService.sendEmailApprovedComment(r.getUser(), dto);
+        try {
+            ratingRepository.approveRating(dto.getId());
+            Rating r = ratingRepository.getById(dto.getId());
+            userService.sendEmailApprovedComment(r.getUser(), dto);
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - rating.");
+        }
     }
 
     @Override
     public void disapproveRating(Integer ratingId) {
-        ratingRepository.disapproveRating(ratingId);
+        try {
+            ratingRepository.disapproveRating(ratingId);
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - rating.");
+        }
     }
 }
