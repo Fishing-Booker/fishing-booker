@@ -15,6 +15,7 @@ import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,6 +69,7 @@ public class RatingService implements IRatingService {
     }
 
     @Override
+    @Transactional
     public void approveRating(RatingInfoDTO dto) {
         try {
             ratingRepository.approveRating(dto.getId());
@@ -79,6 +81,7 @@ public class RatingService implements IRatingService {
     }
 
     @Override
+    @Transactional
     public void disapproveRating(Integer ratingId) {
         try {
             ratingRepository.disapproveRating(ratingId);
