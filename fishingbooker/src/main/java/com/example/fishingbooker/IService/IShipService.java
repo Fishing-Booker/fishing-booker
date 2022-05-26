@@ -3,6 +3,7 @@ package com.example.fishingbooker.IService;
 import com.example.fishingbooker.DTO.ship.UpdateShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipDTO;
 import com.example.fishingbooker.DTO.ship.ShipInfoDTO;
+import com.example.fishingbooker.Model.Shio;
 import com.example.fishingbooker.Model.Ship;
 
 import java.util.Date;
@@ -48,4 +49,10 @@ public interface IShipService {
     List<ShipDTO> searchShipsByName(String name, Integer owner) throws IOException;
 
     List<ShipInfoDTO> sortShips(String type);
+
+    Ship fetchById(Integer id);
+
+    void deleteById(Integer id);
+
+    void updateShip(Ship ship);
 }

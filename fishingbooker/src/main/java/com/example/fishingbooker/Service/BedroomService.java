@@ -3,7 +3,6 @@ package com.example.fishingbooker.Service;
 import com.example.fishingbooker.IRepository.IBedroomRepository;
 import com.example.fishingbooker.IService.IBedroomService;
 import com.example.fishingbooker.Model.Bedroom;
-import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

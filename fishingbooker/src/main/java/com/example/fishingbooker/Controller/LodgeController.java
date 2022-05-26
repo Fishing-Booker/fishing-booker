@@ -50,14 +50,14 @@ public class LodgeController {
 
     @DeleteMapping("/deleteLodge/{id}")
     @PreAuthorize("hasRole('LODGEOWNER')")
-    public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
+    public ResponseEntity<Shio> deleteLodge(@PathVariable Integer id){
         lodgeService.deleteLodge(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/addLodge")
     @PreAuthorize("hasRole('LODGEOWNER')")
-    public ResponseEntity<Lodge> addLodge(@RequestBody AddLodgeDTO lodgeDTO){
+    public ResponseEntity<Shio> addLodge(@RequestBody AddLodgeDTO lodgeDTO){
 
         User owner = userService.findUserById(lodgeDTO.getOwner());
 
@@ -70,7 +70,7 @@ public class LodgeController {
             id = entityService.setId();
         }
 
-        Lodge lodge = new Lodge(id, owner, lodgeDTO.getName(), location, lodgeDTO.getDescription(),
+        Shio lodge = new Shio(id, owner, lodgeDTO.getName(), location, lodgeDTO.getDescription(),
                 "", lodgeDTO.getCancelConditions(), 0.0, lodgeDTO.getMaxPersons(), new ArrayList<>());
 
         lodgeService.save(lodge);
@@ -104,7 +104,7 @@ public class LodgeController {
 
     @GetMapping("/lodge/{id}")
     @PreAuthorize("hasRole('LODGEOWNER')")
-    public Lodge findLodge(@PathVariable Integer id){
+    public Shio findLodge(@PathVariable Integer id){
         return lodgeService.findById(id);
     }
 
@@ -129,7 +129,7 @@ public class LodgeController {
 
     @PutMapping("/updateLodge/{id}")
     @PreAuthorize("hasRole('LODGEOWNER')")
-    public ResponseEntity<Lodge> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
+    public ResponseEntity<Shio> updateLodge(@RequestBody UpdateLodgeDTO lodge, @PathVariable Integer id){
         lodgeService.updateLodge(lodge, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -159,7 +159,7 @@ public class LodgeController {
         return lodgeService.getOwnerLodgeNames(id);
     }
 
-    private void addBedrooms(Lodge lodge, String oneBed, String twoBed, String threeBed, String fourBed){
+    private void addBedrooms(Shio lodge, String oneBed, String twoBed, String threeBed, String fourBed){
         Bedroom bedroom1 = new Bedroom();
         bedroom1.setBedroomType(BedroomType.oneBed);
         bedroom1.setRoomNumber(Integer.parseInt(oneBed));
