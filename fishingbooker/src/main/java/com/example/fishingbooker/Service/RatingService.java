@@ -15,6 +15,7 @@ import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,11 +40,11 @@ public class RatingService implements IRatingService {
         rating.setReservationEntity(reservationEntityService.getEntityById(dto.getEntityId()));
         rating.setUser(userService.findUserById(dto.getClientId()));
         Rating r = ratingRepository.save(rating);
-        reservationEntityService.updateEntityAverageGrade(dto.getEntityId(), calculateGrade(dto.getEntityId()));
+        //reservationEntityService.updateEntityAverageGrade(dto.getEntityId(), calculateGrade(dto.getEntityId()));
         return r;
     }
 
-    private double calculateGrade(Integer entityId){
+    public double calculateGrade(Integer entityId){
         List<Rating> ratings = ratingRepository.findAll();
         double sum = 0;
         for (Rating r : ratings) {
@@ -68,22 +69,27 @@ public class RatingService implements IRatingService {
     }
 
     @Override
-    public void approveRating(RatingInfoDTO dto) {
+    @Transactional
+    public Rating approveRating(RatingInfoDTO dto) {
         try {
-            ratingRepository.approveRating(dto.getId());
-            Rating r = ratingRepository.getById(dto.getId());
+            Rating r = ratingRepository.approveRating(dto.getId());
             userService.sendEmailApprovedComment(r.getUser(), dto);
+            reservationEntityService.updateEntityAverageGrade(r.getReservationEntity().getId(), calculateGrade(r.getReservationEntity().getId()));
+            return r;
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - rating.");
         }
+        return null;
     }
 
     @Override
-    public void disapproveRating(Integer ratingId) {
+    @Transactional
+    public Rating disapproveRating(Integer ratingId) {
         try {
-            ratingRepository.disapproveRating(ratingId);
+            return ratingRepository.disapproveRating(ratingId);
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - rating.");
         }
+        return null;
     }
 }

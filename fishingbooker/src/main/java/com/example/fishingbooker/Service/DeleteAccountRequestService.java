@@ -50,27 +50,29 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
 
     @Override
     @Transactional
-    public void rejectDeleteRequest(ResponseDTO responseDTO) {
+    public DeleteAccountRequest rejectDeleteRequest(ResponseDTO responseDTO) {
         try {
-            repository.disapprove(responseDTO.getRequestId());
             User user = userRepository.findByUsername(responseDTO.getUserUsername());
             userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
+            return repository.disapprove(responseDTO.getRequestId());
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - delete request.");
         }
+        return null;
     }
 
     @Override
     @Transactional
-    public void approveDeleteRequest(ResponseDTO responseDTO) {
+    public DeleteAccountRequest approveDeleteRequest(ResponseDTO responseDTO) {
         try {
-            repository.approve(responseDTO.getRequestId());
             User user = userRepository.findByUsername(responseDTO.getUserUsername());
             userRepository.deleteByUsername(user.getUsername());
             userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
+            return repository.approve(responseDTO.getRequestId());
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - delete request.");
         }
+        return null;
     }
 
     @Override

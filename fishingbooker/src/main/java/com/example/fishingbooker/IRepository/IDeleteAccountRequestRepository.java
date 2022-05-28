@@ -23,11 +23,11 @@ public interface IDeleteAccountRequestRepository extends JpaRepository<DeleteAcc
     @Query("UPDATE DeleteAccountRequest req SET req.isAccepted = true WHERE req.id = ?1")
     @Modifying
     @Transactional
-    void approve(Integer id);
+    DeleteAccountRequest approve(Integer id);
 
     @Query("UPDATE DeleteAccountRequest req SET req.isDisapproved = true WHERE req.id = ?1")
     @Modifying
     @Transactional
-    void disapprove(Integer id);
+    DeleteAccountRequest disapprove(Integer id);
 
 }

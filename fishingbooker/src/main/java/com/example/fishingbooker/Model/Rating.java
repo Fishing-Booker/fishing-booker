@@ -1,9 +1,12 @@
 package com.example.fishingbooker.Model;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "rating")
+@AllArgsConstructor
 public class Rating {
 
     @Id
@@ -46,6 +49,14 @@ public class Rating {
         this.comment = comment;
         this.isApproved = false;
         this.isDisapproved = false;
+    }
+
+    public Rating(Integer id, Integer grade, String comment, boolean isApproved, boolean isDisapproved) {
+        this.id = id;
+        this.grade = grade;
+        this.comment = comment;
+        this.isApproved = isApproved;
+        this.isDisapproved = isDisapproved;
     }
 
     public Integer getId() {

@@ -50,7 +50,8 @@ public class ComplaintService implements IComplaintService {
         complaint.setClient(userService.findUserById(dto.getClientId()));
         complaint.setReservationEntity(entityService.getEntityById(dto.getEntityId()));
         complaint.setResponded(false);
-        return complaintRepository.save(complaint);
+        var c =  complaintRepository.save(complaint);
+        return c;
     }
 
     @Override

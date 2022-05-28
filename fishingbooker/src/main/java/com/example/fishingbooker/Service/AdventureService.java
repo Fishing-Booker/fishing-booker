@@ -214,14 +214,15 @@ public class AdventureService implements IAdventureService {
     @Override
     @CachePut(value = "adventure", key = "'AdventureInCache'+#adventure.id")
     public void updateAdventure(Adventure adventure) {
-        adventureRepository.editAdventure(
+        /*adventureRepository.editAdventure(
                 adventure.getName(),
                 adventure.getDescription(),
                 adventure.getDescription(),
                 adventure.getMaxPersons(),
                 adventure.getCancelConditions(),
                 adventure.getFishingEquipment(),
-                adventure.getId());
+                adventure.getId());*/
+        adventureRepository.save(adventure);
     }
 
 

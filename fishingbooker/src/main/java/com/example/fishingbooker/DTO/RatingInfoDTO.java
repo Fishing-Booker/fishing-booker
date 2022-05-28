@@ -1,5 +1,8 @@
 package com.example.fishingbooker.DTO;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class RatingInfoDTO {
     private Integer id;
     private String comment;
