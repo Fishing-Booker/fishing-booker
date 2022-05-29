@@ -58,8 +58,6 @@ public class ShipService implements IShipService {
     public Ship findById(Integer shipId) {
         Ship ship = shipRepository.findShipById(shipId);
         ship.setOwner(null);
-        ship.setImages(null);
-        ship.setReservationPeriods(null);
         return ship;
     }
 

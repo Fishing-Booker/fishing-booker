@@ -33,9 +33,9 @@ public class RatingService implements IRatingService {
         Rating rating = RatingMapper.mapDTOToModel(dto);
         rating.setReservationEntity(reservationEntityService.getEntityById(dto.getEntityId()));
         rating.setUser(userService.findUserById(dto.getClientId()));
-        Rating r = ratingRepository.save(rating);
+        ratingRepository.save(rating);
         reservationEntityService.updateEntityAverageGrade(dto.getEntityId(), calculateGrade(dto.getEntityId()));
-        return r;
+        return new Rating();
     }
 
     private double calculateGrade(Integer entityId){

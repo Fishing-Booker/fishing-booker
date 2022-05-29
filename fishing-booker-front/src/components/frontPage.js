@@ -56,7 +56,7 @@ import UserList from "./admin/userList";
 import UserInfo from "./admin/userInfo";
 import AdminHomepage from "./admin/adminHomepage";
 import LodgeReservationActions from "./client/lodgeReservationActions";
-import ShipReservationActions from "./client/shipReservationActions";
+import ShipReservationAction from "./client/shipReservationAction";
 import AdventureReservationActions from "./client/adventureReservationActions";
 import ShipImages from "./ship/shipImages";
 import InstructorReservations from "./instructor/instructorReservations";
@@ -205,7 +205,7 @@ const FrontPage = () => {
                             <Route path="/ship-reservation/:id"><ShipReservation/></Route>
                             <Route path="/adventure-reservation/:id"><AdventureReservation/></Route>
                             <Route path="/lodge-actions/:id"><LodgeReservationActions/></Route>
-                            <Route path="/ship-actions/:id"><ShipReservationActions/></Route>
+                            <Route path="/ship-actions/:id"><ShipReservationAction/></Route>
                             <Route path="/adventure-actions/:id"><AdventureReservationActions/></Route>
                             <div className="row-search">
                                 <Route path="/adventures"><Adventures/></Route>

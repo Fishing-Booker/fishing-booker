@@ -73,7 +73,6 @@ public class ShipController {
         ship.setAverageGrade(0.0);
         ship.setMaxPersons(shipDTO.getCapacity());
         ship.setNavigationEquipment("");
-        ship.setImages(new ArrayList<>());
 
         ship.setShipType(shipDTO.getShipType());
         ship.setLength(shipDTO.getLength());

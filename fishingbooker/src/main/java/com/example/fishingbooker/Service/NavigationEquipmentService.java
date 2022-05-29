@@ -51,7 +51,6 @@ public class NavigationEquipmentService implements INavigationEquipmentService {
     private Ship getShip(Integer shipId, Integer ownerId){
         Ship ship = shipService.findById(shipId);
         ship.setOwner(userService.findUserById(ownerId));
-        ship.setImages(new ArrayList<>());
         return ship;
     }
 }

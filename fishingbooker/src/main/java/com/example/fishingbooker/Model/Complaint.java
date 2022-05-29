@@ -18,11 +18,11 @@ public class Complaint {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
-    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "client_id", referencedColumnName = "user_id")
     private User client;
 
