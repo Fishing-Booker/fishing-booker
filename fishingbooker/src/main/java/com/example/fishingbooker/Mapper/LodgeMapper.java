@@ -3,10 +3,10 @@ package com.example.fishingbooker.Mapper;
 import com.example.fishingbooker.DTO.lodge.LocationDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
 import com.example.fishingbooker.DTO.lodge.OwnerDTO;
-import com.example.fishingbooker.Model.Shio;
+import com.example.fishingbooker.Model.Lodge;
 
 public class LodgeMapper {
-    public static LodgeInfoDTO mapToDTO(Shio lodge) {
+    public static LodgeInfoDTO mapToDTO(Lodge lodge) {
         LodgeInfoDTO dto = new LodgeInfoDTO();
         dto.setId(lodge.getId());
         dto.setName(lodge.getName());

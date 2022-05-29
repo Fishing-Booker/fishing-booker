@@ -47,7 +47,7 @@ public class ShipController {
 
     @DeleteMapping("/deleteShip/{id}")
     @PreAuthorize("hasRole('SHIPOWNER')")
-    public ResponseEntity<Shio> deleteLodge(@PathVariable Integer id){
+    public ResponseEntity<Lodge> deleteLodge(@PathVariable Integer id){
         shipService.deleteShip(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

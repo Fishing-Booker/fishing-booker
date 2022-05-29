@@ -26,7 +26,7 @@
     </cache>
     <cache alias="lodge" uses-template="default">
         <key-type>java.lang.Integer</key-type>
-        <value-type>com.example.fishingbooker.Model.Shio</value-type>
+        <value-type>com.example.fishingbooker.Model.Lodge</value-type>
         <resources>
             <heap>2</heap>
         </resources>

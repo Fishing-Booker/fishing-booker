@@ -347,9 +347,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     private List<EntityDTO> setLodges(Integer userId) throws IOException {
         List<EntityDTO> dtos = new ArrayList<>();
-        List<Shio> lodges = lodgeRepository.findOwnerLodges(userId);
+        List<Lodge> lodges = lodgeRepository.findOwnerLodges(userId);
         Integer index = 1;
-        for (Shio l : lodges) {
+        for (Lodge l : lodges) {
             Location location = locationRepository.getById(l.getLocation().getId());
             EntityDTO dto = new EntityDTO(index++, l.getId(), userId, l.getName(), location.getAddress() + ", " + location.getCity() + ", " + location.getCountry(), l.getDescription(), l.getCancelConditions(), l.getAverageGrade(), l.getMaxPersons(), imageService.getEntityProfileImage(l.getId()));
             dtos.add(dto);
@@ -388,8 +388,8 @@ public class UserService implements IUserService, UserDetailsService {
                 shipRepository.deleteShip(s.getId());
             }
         } else if (rolename.equals("ROLE_LODGEOWNER")) {
-            List<Shio> lodges = lodgeRepository.findOwnerLodges(userId);
-            for (Shio l : lodges) {
+            List<Lodge> lodges = lodgeRepository.findOwnerLodges(userId);
+            for (Lodge l : lodges) {
                 lodgeRepository.deleteLodge(l.getId());
             }
         }

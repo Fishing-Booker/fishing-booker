@@ -9,7 +9,6 @@ import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.Mapper.ShipMapper;
-import com.example.fishingbooker.Model.Shio;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;

@@ -21,12 +21,12 @@ public class Bedroom {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name="entity_id", referencedColumnName = "entity_id")
-    private Shio lodge;
+    private Lodge lodge;
 
     public Bedroom() {
     }
 
-    public Bedroom(Integer id, BedroomType bedroomType, Integer roomNumber, Shio lodge) {
+    public Bedroom(Integer id, BedroomType bedroomType, Integer roomNumber, Lodge lodge) {
         this.id = id;
         this.bedroomType = bedroomType;
         this.roomNumber = roomNumber;
@@ -61,7 +61,7 @@ public class Bedroom {
         this.roomNumber = roomNumber;
     }
 
-    public void setLodge(Shio lodge) {
+    public void setLodge(Lodge lodge) {
         this.lodge = lodge;
     }
 }

@@ -8,7 +8,7 @@ import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILodgeService;
 import com.example.fishingbooker.Mapper.LodgeMapper;
-import com.example.fishingbooker.Model.Shio;
+import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -43,19 +43,19 @@ public class LodgeService implements ILodgeService {
     IImageService imageService;
 
     @Override
-    public Shio save(Shio lodge) {
+    public Lodge save(Lodge lodge) {
         return lodgeRepository.save(lodge);
     }
 
     @Override
-    public List<Shio> findAll() {
+    public List<Lodge> findAll() {
         return this.lodgeRepository.findAll();
     }
 
     @Override
     public List<LodgeDTO> findOwnerLodges(Integer ownerId) throws IOException {
         List<LodgeDTO> lodges = new ArrayList<>();
-        for (Shio l : lodgeRepository.findOwnerLodges(ownerId)) {
+        for (Lodge l : lodgeRepository.findOwnerLodges(ownerId)) {
             lodges.add(new LodgeDTO(l.getId(), l.getOwner().getId(), l.getName(), l.getLocation(), l.getDescription(),
                     l.getAverageGrade(), imageService.getEntityProfileImage(l.getId()), l.getMaxPersons()));
         }
@@ -68,8 +68,8 @@ public class LodgeService implements ILodgeService {
     }
 
     @Override
-    public Shio findById(Integer lodgeId) {
-        Shio lodge = lodgeRepository.findLodgeById(lodgeId);
+    public Lodge findById(Integer lodgeId) {
+        Lodge lodge = lodgeRepository.findLodgeById(lodgeId);
         lodge.setOwner(null);
         lodge.setImages(null);
         lodge.setBedrooms(bedroomService.findLodgeBedrooms(lodgeId));
@@ -116,9 +116,9 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public List<LodgeInfoDTO> search(String name, String letter, String location, Integer grade, String sortType) {
-        List<Shio> lodges = lodgeRepository.search(name, letter, location, Double.valueOf(grade), sortType);
+        List<Lodge> lodges = lodgeRepository.search(name, letter, location, Double.valueOf(grade), sortType);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-        for (Shio lodge : lodges) {
+        for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return lodgesDTO;
@@ -126,9 +126,9 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public List<LodgeDTO> searchLodgesByName(String name, Integer owner) throws IOException {
-        List<Shio> lodges = lodgeRepository .searchByName(name);
+        List<Lodge> lodges = lodgeRepository .searchByName(name);
         List<LodgeDTO> lodgesDTO = new ArrayList<>();
-        for (Shio l : lodges) {
+        for (Lodge l : lodges) {
             if(l.getOwner().getId() == owner && !l.isDeleted()){
                 lodgesDTO.add(new LodgeDTO(l.getId(), l.getOwner().getId(), l.getName(), l.getLocation(), l.getDescription(),
                         l.getAverageGrade(), imageService.getEntityProfileImage(l.getId()), l.getMaxPersons()));
@@ -144,7 +144,7 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public LodgeInfoDTO getById(Integer id) {
-        Shio lodge = lodgeRepository.getLodgeById(id);
+        Lodge lodge = lodgeRepository.getLodgeById(id);
         return LodgeMapper.mapToDTO(lodge);
     }
 
@@ -164,9 +164,9 @@ public class LodgeService implements ILodgeService {
     }
 
     public List<LodgeInfoDTO> getAll() {
-        List<Shio> lodges = lodgeRepository.getAll();
+        List<Lodge> lodges = lodgeRepository.getAll();
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-        for (Shio lodge : lodges) {
+        for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return lodgesDTO;
@@ -182,9 +182,9 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public List<LodgeInfoDTO> getByReservationDate(Date date) {
-        List<Shio> lodges = lodgeRepository.getByReservationDate(date);
+        List<Lodge> lodges = lodgeRepository.getByReservationDate(date);
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-        for (Shio lodge : lodges) {
+        for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return  lodgesDTO;
@@ -192,7 +192,7 @@ public class LodgeService implements ILodgeService {
 
     @Override
     public List<LodgeInfoDTO> sortLodges(String type) {
-        List<Shio> lodges = new ArrayList<>();
+        List<Lodge> lodges = new ArrayList<>();
         switch (type) {
             case "nameA":
                 lodges = lodgeRepository.sortByNameAscending();
@@ -211,7 +211,7 @@ public class LodgeService implements ILodgeService {
         }
 
         List<LodgeInfoDTO> lodgesDTO = new ArrayList<>();
-        for (Shio lodge : lodges) {
+        for (Lodge lodge : lodges) {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return lodgesDTO;
@@ -219,7 +219,7 @@ public class LodgeService implements ILodgeService {
 
     @Override
     @Cacheable(value = "lodge", key = "'LodgeInCache'+#id")
-    public Shio fetchById(Integer id) {
+    public Lodge fetchById(Integer id) {
         return lodgeRepository.findById(id).get();
     }
 
@@ -231,7 +231,7 @@ public class LodgeService implements ILodgeService {
 
     @Override
     @CachePut(value = "lodge", key = "'LodgeInCache'+#lodge.id")
-    public void updateLodge(Shio lodge) {
+    public void updateLodge(Lodge lodge) {
         lodgeRepository.updateLodge(lodge.getName(),
                 lodge.getMaxPersons(),
                 lodge.getDescription(),
