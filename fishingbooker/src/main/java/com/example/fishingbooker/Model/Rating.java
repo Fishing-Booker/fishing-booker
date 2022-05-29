@@ -1,15 +1,22 @@
 package com.example.fishingbooker.Model;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "rating")
+@AllArgsConstructor
 public class Rating {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
 
     @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
@@ -42,6 +49,14 @@ public class Rating {
         this.comment = comment;
         this.isApproved = false;
         this.isDisapproved = false;
+    }
+
+    public Rating(Integer id, Integer grade, String comment, boolean isApproved, boolean isDisapproved) {
+        this.id = id;
+        this.grade = grade;
+        this.comment = comment;
+        this.isApproved = isApproved;
+        this.isDisapproved = isDisapproved;
     }
 
     public Integer getId() {

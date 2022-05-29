@@ -9,8 +9,12 @@ import com.example.fishingbooker.IService.IImageService;
 import com.example.fishingbooker.IService.ILocationService;
 import com.example.fishingbooker.IService.IShipService;
 import com.example.fishingbooker.Mapper.ShipMapper;
+import com.example.fishingbooker.Model.Shio;
 import com.example.fishingbooker.Model.Ship;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -230,5 +234,31 @@ public class ShipService implements IShipService {
             shipsDTO.add(ShipMapper.mapToDTO(ship));
         }
         return shipsDTO;
+    }
+
+    @Override
+    @Cacheable(value = "ship", key = "'ShipInCache'+#id")
+    public Ship fetchById(Integer id) {
+        return shipRepository.findById(id).get();
+    }
+
+    @Override
+    @CacheEvict(value = "ship", key = "'ShipInCache'+#id")
+    public void deleteById(Integer id) {
+        shipRepository.deleteById(id);
+    }
+
+    @Override
+    @CachePut(value = "ship", key = "'ShipInCache'+#ship.id")
+    public void updateShip(Ship ship) {
+        shipRepository.updateShip(ship.getName(),
+                ship.getDescription(),
+                ship.getShipType(),
+                ship.getLength(),
+                ship.getEngineNumber(),
+                ship.getEnginePower(),
+                ship.getMaxSpeed(),
+                0,
+                ship.getId());
     }
 }

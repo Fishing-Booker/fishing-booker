@@ -3,22 +3,22 @@ package com.example.fishingbooker.IService;
 import com.example.fishingbooker.DTO.lodge.UpdateLodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeInfoDTO;
-import com.example.fishingbooker.Model.Lodge;
+import com.example.fishingbooker.Model.Shio;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 public interface ILodgeService {
-    Lodge save(Lodge lodge);
+    Shio save(Shio lodge);
 
-    List<Lodge> findAll();
+    List<Shio> findAll();
 
     List<LodgeDTO> findOwnerLodges(Integer ownerId) throws IOException;
 
     void deleteLodge(Integer lodgeId);
 
-    Lodge findById(Integer lodgeId);
+    Shio findById(Integer lodgeId);
 
     List<String> findLodgeRules(Integer lodgeId);
 
@@ -43,4 +43,10 @@ public interface ILodgeService {
     List<LodgeDTO> searchLodgesByName(String name, Integer ownerId) throws IOException;
 
     List<LodgeInfoDTO> sortLodges(String type);
+
+    Shio fetchById(Integer id);
+
+    void deleteById(Integer id);
+
+    void updateLodge(Shio lodge);
 }

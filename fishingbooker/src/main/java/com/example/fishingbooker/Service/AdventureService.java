@@ -12,6 +12,9 @@ import com.example.fishingbooker.Mapper.AdventureMapper;
 import com.example.fishingbooker.Model.Adventure;
 import com.example.fishingbooker.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -193,4 +196,32 @@ public class AdventureService implements IAdventureService {
         }
         return adventuresDTO;
     }
+
+    @Override
+    @Cacheable(value = "adventure", key = "'AdventureInCache'+#id")
+    public Adventure fetchById(Integer id) {
+        return adventureRepository.findById(id).get();
+    }
+
+    @Override
+    @CacheEvict(value = "adventure", key = "'AdventureInCache'+#id")
+    public void deleteById(Integer id) {
+        adventureRepository.deleteById(id);
+    }
+
+    @Override
+    @CachePut(value = "adventure", key = "'AdventureInCache'+#adventure.id")
+    public void updateAdventure(Adventure adventure) {
+        /*adventureRepository.editAdventure(
+                adventure.getName(),
+                adventure.getDescription(),
+                adventure.getDescription(),
+                adventure.getMaxPersons(),
+                adventure.getCancelConditions(),
+                adventure.getFishingEquipment(),
+                adventure.getId());*/
+        adventureRepository.save(adventure);
+    }
+
+
 }

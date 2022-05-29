@@ -4,8 +4,7 @@ import com.example.fishingbooker.DTO.ReportAdminDTO;
 import com.example.fishingbooker.DTO.ReportDTO;
 import com.example.fishingbooker.IService.IPenaltyService;
 import com.example.fishingbooker.IService.IReportService;
-import com.example.fishingbooker.Model.Lodge;
-import com.example.fishingbooker.Model.Report;
+import com.example.fishingbooker.Model.Shio;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ public class ReportController {
 
     @PostMapping("/addReport")
     @PreAuthorize("hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
-    public ResponseEntity<Lodge> addReport(@RequestBody ReportDTO report){
+    public ResponseEntity<Shio> addReport(@RequestBody ReportDTO report){
         reportService.addReport(report);
         if(report.isSkippedReservation()){
             penaltyService.addSkippedReservationPenalty(report.getReservationId());

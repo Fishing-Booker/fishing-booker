@@ -11,7 +11,7 @@ public interface IRatingService {
 
     List<RatingInfoDTO> findAll();
 
-    void approveRating(RatingInfoDTO dto);
+    Rating approveRating(RatingInfoDTO dto);
 
-    void disapproveRating(Integer ratingId);
+    Rating disapproveRating(Integer ratingId);
 }

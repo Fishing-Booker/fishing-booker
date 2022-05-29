@@ -1,7 +1,6 @@
 package com.example.fishingbooker.Model;
 
 import com.example.fishingbooker.Enum.BedroomType;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -27,7 +26,7 @@ public class Bedroom {
     public Bedroom() {
     }
 
-    public Bedroom(Integer id, BedroomType bedroomType, Integer roomNumber, Lodge lodge) {
+    public Bedroom(Integer id, BedroomType bedroomType, Integer roomNumber, Shio lodge) {
         this.id = id;
         this.bedroomType = bedroomType;
         this.roomNumber = roomNumber;
@@ -62,7 +61,7 @@ public class Bedroom {
         this.roomNumber = roomNumber;
     }
 
-    public void setLodge(Lodge lodge) {
+    public void setLodge(Shio lodge) {
         this.lodge = lodge;
     }
 }

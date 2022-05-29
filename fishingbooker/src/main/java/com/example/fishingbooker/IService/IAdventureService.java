@@ -41,4 +41,10 @@ public interface IAdventureService {
     List<AdventureInfoDTO> getByReservationDate(Date date);
 
     List<AdventureInfoDTO> sortAdventures(String type);
+
+    Adventure fetchById(Integer id);
+
+    void deleteById(Integer id);
+
+    void updateAdventure(Adventure adventure);
 }
