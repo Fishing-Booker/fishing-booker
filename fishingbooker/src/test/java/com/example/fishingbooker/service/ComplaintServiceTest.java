@@ -47,7 +47,7 @@ public class ComplaintServiceTest {
         ReservationEntity adventure = new ReservationEntity(1, user, "Adventure",
                 new Location(1, 253.5, 12.0, "address", "city", "country"),
                 "description", "rules", 2, 4.5,
-                10, new ArrayList<Image>());
+                10);
 
         Complaint complaint = new Complaint(1, complaintDTO.getText(), adventure, user, false);
 
