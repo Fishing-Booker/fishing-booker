@@ -1,0 +1,31 @@
+version: 2.1
+
+on:
+  push:
+    branches: [feat/deployment]
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package -f ./fishingbooker/pom.xml
+      - run:
+          name: Test
+          command: mvn test -f ./fishingbooker/pom.xml
+
+orbs:
+  heroku: circleci/heroku@1.2.6
+workflows:
+  heroku_deploy:
+    jobs:
+      - build-and-test
+      - heroku/deploy-via-git:
+          filters:
+            branches:
+              only:
+                - feat/deployment
+          requires:
+            - build-and-test
