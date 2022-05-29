@@ -65,7 +65,7 @@ public class RatingServiceTest {
         ReservationEntity adventure = new ReservationEntity(1, owner, "Adventure",
                 new Location(1, 253.5, 12.0, "address", "city", "country"),
                 "description", "rules", 2, 4.5,
-                10, new ArrayList<Image>());
+                10);
 
         Rating rating = new Rating(1, 1, adventure, 5, "", false, false, client);
         RatingInfoDTO dto = new RatingInfoDTO(rating.getId(), rating.getComment(), rating.getGrade(), rating.getReservationEntity().getName(), client.getName());
@@ -94,7 +94,7 @@ public class RatingServiceTest {
         ReservationEntity adventure = new ReservationEntity(1, owner, "Adventure",
                 new Location(1, 253.5, 12.0, "address", "city", "country"),
                 "description", "rules", 2, 4.5,
-                10, new ArrayList<Image>());
+                10);
 
         Rating rating = new Rating(1, 1, adventure, 5, "", false, false, client);
         when(ratingRepositoryMock.findAll()).thenReturn(Arrays.asList(rating));

@@ -1,0 +1,48 @@
+<config
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3
+            http://www.ehcache.org/schema/ehcache-core-3.7.xsd">
+
+    <persistence directory="cache-example/cache" />
+
+    <cache-template name="default">
+        <expiry>
+            <ttl unit="seconds">15</ttl>
+        </expiry>
+        <resources>
+            <heap>1000</heap>
+            <offheap unit="MB">10</offheap>
+            <disk persistent="true" unit="MB">20</disk>
+        </resources>
+    </cache-template>
+
+    <cache alias="adventure" uses-template="default">
+        <key-type>java.lang.Integer</key-type>
+        <value-type>com.example.fishingbooker.Model.Adventure</value-type>
+        <resources>
+            <heap>2</heap>
+        </resources>
+    </cache>
+    <cache alias="lodge" uses-template="default">
+        <key-type>java.lang.Integer</key-type>
+        <value-type>com.example.fishingbooker.Model.Lodge</value-type>
+        <resources>
+            <heap>2</heap>
+        </resources>
+    </cache>
+    <cache alias="ship" uses-template="default">
+        <key-type>java.lang.Integer</key-type>
+        <value-type>com.example.fishingbooker.Model.Ship</value-type>
+        <resources>
+            <heap>2</heap>
+        </resources>
+    </cache>
+    <cache alias="entity" uses-template="default">
+        <key-type>java.lang.Integer</key-type>
+        <value-type>com.example.fishingbooker.Model.ReservationEntity</value-type>
+        <resources>
+            <heap>2</heap>
+        </resources>
+    </cache>
+</config>

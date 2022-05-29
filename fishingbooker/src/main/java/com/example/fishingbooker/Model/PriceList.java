@@ -13,8 +13,8 @@ public class PriceList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})
+    //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
     @Column(name = "service_name")

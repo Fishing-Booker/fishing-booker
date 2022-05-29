@@ -99,7 +99,6 @@ public class UserController {
     }
 
     @PutMapping("/deleteUser/{id}")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -11,8 +11,8 @@ public class NavigationEquipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "ship_id", referencedColumnName = "entity_id")
+    @ManyToOne(targetEntity = Ship.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    //@JoinColumn(name = "ship_id", referencedColumnName = "entity_id")
     private Ship ship;
 
     @Column(name = "name")

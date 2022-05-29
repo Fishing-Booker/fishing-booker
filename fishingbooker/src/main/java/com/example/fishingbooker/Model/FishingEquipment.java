@@ -11,8 +11,8 @@ public class FishingEquipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
+    @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    //@JoinColumn(name = "entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
     @Column(name = "name")

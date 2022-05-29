@@ -8,10 +8,7 @@ import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
-import com.example.fishingbooker.IService.ICanceledReservationService;
-import com.example.fishingbooker.IService.IEmailService;
-import com.example.fishingbooker.IService.ILoyaltyProgrammeService;
-import com.example.fishingbooker.IService.IReservationService;
+import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Mapper.ReservationMapper;
 import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +39,9 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private ILoyaltyProgrammeService loyaltyProgrammeService;
+
+    @Autowired
+    private IReservationEntityService entityService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -83,9 +83,10 @@ public class ReservationService implements IReservationService {
             }
             Date date = new Date();
             if(r.getEndDate().after(date)) {
+                ReservationEntityDTO entity = entityService.findEntityById(entityId);
                 reservations.add(new ReservationDTO(r.getId(), r.getStartDate(), r.getEndDate(), bookedBy, entityId,
-                        r.getReservationEntity().getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(),
-                        reservationType, r.getMaxPersons()));
+                        entity.getName(), r.getAdditionalServices(), r.getRegularService(), r.getPrice(), reservationType,
+                        r.getMaxPersons()));
             }
         }
         return reservations;
@@ -253,8 +254,13 @@ public class ReservationService implements IReservationService {
     @Override
     public void cancelReservation(Integer id) {
         Reservation reservation = reservationRepository.getReservationById(id);
+        if(reservation.getReservationType() == ReservationType.quickReservation) {
+            Integer ownerId = reservation.getReservationEntity().getOwner().getId();
+            reservationRepository.cancelAction(id, ownerId);
+        } else {
+            reservationRepository.cancelReservation(id);
+        }
         canceledReservationService.save(new CanceledReservation(reservation.getStartDate(), reservation.getEndDate(), reservation.getClient(), reservation.getReservationEntity()));
-        reservationRepository.cancelReservation(id);
     }
 
     private boolean isReservationActive(ReservationDTO reservation){

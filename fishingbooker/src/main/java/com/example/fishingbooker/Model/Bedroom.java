@@ -19,8 +19,8 @@ public class Bedroom {
     @Column(name = "room_number")
     private Integer roomNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinColumn(name="entity_id", referencedColumnName = "entity_id")
+    @ManyToOne(targetEntity = Lodge.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    //@JoinColumn(name="entity_id", referencedColumnName = "entity_id")
     private Lodge lodge;
 
     public Bedroom() {

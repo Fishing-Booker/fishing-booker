@@ -137,7 +137,7 @@ const UserProfilePage = () => {
                         <div className="data">
                             <h4>Email</h4>
                             {!isEditting && <label>{user.email}</label>}
-                            {isEditting && <input  value={email} onChange={(e) => setEmail(e.target.value)}/>}
+                            {isEditting && <input value={email} onChange={(e) => setEmail(e.target.value)}/>}
                         </div>
                         <div className="data">
                             <h4>Phone Number</h4>

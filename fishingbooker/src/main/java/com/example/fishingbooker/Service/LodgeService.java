@@ -71,9 +71,7 @@ public class LodgeService implements ILodgeService {
     public Lodge findById(Integer lodgeId) {
         Lodge lodge = lodgeRepository.findLodgeById(lodgeId);
         lodge.setOwner(null);
-        lodge.setImages(null);
         lodge.setBedrooms(bedroomService.findLodgeBedrooms(lodgeId));
-        lodge.setReservationPeriods(null);
         return lodge;
     }
 

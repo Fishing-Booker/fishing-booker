@@ -40,7 +40,7 @@ public class RatingService implements IRatingService {
         rating.setReservationEntity(reservationEntityService.getEntityById(dto.getEntityId()));
         rating.setUser(userService.findUserById(dto.getClientId()));
         Rating r = ratingRepository.save(rating);
-        //reservationEntityService.updateEntityAverageGrade(dto.getEntityId(), calculateGrade(dto.getEntityId()));
+        reservationEntityService.updateEntityAverageGrade(dto.getEntityId(), calculateGrade(dto.getEntityId()));
         return r;
     }
 
