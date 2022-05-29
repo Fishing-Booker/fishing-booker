@@ -9,9 +9,13 @@ import com.example.fishingbooker.IService.IUserService;
 import com.example.fishingbooker.Mapper.RatingMapper;
 import com.example.fishingbooker.Model.Rating;
 import com.example.fishingbooker.Model.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,25 +24,27 @@ import java.util.Optional;
 public class RatingService implements IRatingService {
 
     @Autowired
-    IRatingRepository ratingRepository;
+    private IRatingRepository ratingRepository;
 
     @Autowired
-    IReservationEntityService reservationEntityService;
+    private IReservationEntityService reservationEntityService;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
+
+    protected final Log logger = LogFactory.getLog(getClass());
 
     @Override
     public Rating addRating(RatingDTO dto) {
         Rating rating = RatingMapper.mapDTOToModel(dto);
         rating.setReservationEntity(reservationEntityService.getEntityById(dto.getEntityId()));
         rating.setUser(userService.findUserById(dto.getClientId()));
-        ratingRepository.save(rating);
+        Rating r = ratingRepository.save(rating);
         reservationEntityService.updateEntityAverageGrade(dto.getEntityId(), calculateGrade(dto.getEntityId()));
-        return new Rating();
+        return r;
     }
 
-    private double calculateGrade(Integer entityId){
+    public double calculateGrade(Integer entityId){
         List<Rating> ratings = ratingRepository.findAll();
         double sum = 0;
         for (Rating r : ratings) {
@@ -63,14 +69,27 @@ public class RatingService implements IRatingService {
     }
 
     @Override
-    public void approveRating(RatingInfoDTO dto) {
-        ratingRepository.approveRating(dto.getId());
-        Rating r = ratingRepository.getById(dto.getId());
-        userService.sendEmailApprovedComment(r.getUser(), dto);
+    @Transactional
+    public Rating approveRating(RatingInfoDTO dto) {
+        try {
+            Rating r = ratingRepository.approveRating(dto.getId());
+            userService.sendEmailApprovedComment(r.getUser(), dto);
+            reservationEntityService.updateEntityAverageGrade(r.getReservationEntity().getId(), calculateGrade(r.getReservationEntity().getId()));
+            return r;
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - rating.");
+        }
+        return null;
     }
 
     @Override
-    public void disapproveRating(Integer ratingId) {
-        ratingRepository.disapproveRating(ratingId);
+    @Transactional
+    public Rating disapproveRating(Integer ratingId) {
+        try {
+            return ratingRepository.disapproveRating(ratingId);
+        } catch (OptimisticEntityLockException e) {
+            logger.debug("Optimistic lock exception - rating.");
+        }
+        return null;
     }
 }

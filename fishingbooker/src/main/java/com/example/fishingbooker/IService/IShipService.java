@@ -48,4 +48,10 @@ public interface IShipService {
     List<ShipDTO> searchShipsByName(String name, Integer owner) throws IOException;
 
     List<ShipInfoDTO> sortShips(String type);
+
+    Ship fetchById(Integer id);
+
+    void deleteById(Integer id);
+
+    void updateShip(Ship ship);
 }

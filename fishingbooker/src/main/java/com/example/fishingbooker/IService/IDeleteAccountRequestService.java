@@ -9,7 +9,7 @@ import java.util.List;
 public interface IDeleteAccountRequestService {
     DeleteAccountRequest save(DeleteAccountRequestDTO deleteAccountRequestDTO);
     List<DeleteAccountRequest> findAll();
-    void rejectDeleteRequest(ResponseDTO responseDTO);
-    void approveDeleteRequest(ResponseDTO responseDTO);
+    DeleteAccountRequest rejectDeleteRequest(ResponseDTO responseDTO);
+    DeleteAccountRequest approveDeleteRequest(ResponseDTO responseDTO);
     List<DeleteAccountRequest> findAllUnprocessed();
 }

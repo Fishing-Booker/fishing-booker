@@ -43,4 +43,10 @@ public interface ILodgeService {
     List<LodgeDTO> searchLodgesByName(String name, Integer ownerId) throws IOException;
 
     List<LodgeInfoDTO> sortLodges(String type);
+
+    Lodge fetchById(Integer id);
+
+    void deleteById(Integer id);
+
+    void updateLodge(Lodge lodge);
 }

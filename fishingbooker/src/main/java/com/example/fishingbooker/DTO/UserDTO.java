@@ -1,5 +1,10 @@
 package com.example.fishingbooker.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class UserDTO {
     private Integer serialNumber;
     private Integer id;

@@ -5,7 +5,6 @@ import com.example.fishingbooker.DTO.ReportDTO;
 import com.example.fishingbooker.IService.IPenaltyService;
 import com.example.fishingbooker.IService.IReportService;
 import com.example.fishingbooker.Model.Lodge;
-import com.example.fishingbooker.Model.Report;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

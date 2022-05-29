@@ -10,6 +10,9 @@ import com.example.fishingbooker.IService.ILodgeService;
 import com.example.fishingbooker.Mapper.LodgeMapper;
 import com.example.fishingbooker.Model.Lodge;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -107,6 +110,7 @@ public class LodgeService implements ILodgeService {
         bedroomService.updateBedroom(dto.getOneBed(), dto.getTwoBed(), dto.getThreeBed(), dto.getFourBed(), lodgeId);
         lodgeRepository.updateLodge(dto.getName(), dto.getMaxPersons(), dto.getDescription(), dto.getCancelConditions(), lodgeId);
     }
+
 
     @Override
     public List<LodgeInfoDTO> search(String name, String letter, String location, Integer grade, String sortType) {
@@ -209,5 +213,27 @@ public class LodgeService implements ILodgeService {
             lodgesDTO.add(LodgeMapper.mapToDTO(lodge));
         }
         return lodgesDTO;
+    }
+
+    @Override
+    @Cacheable(value = "lodge", key = "'LodgeInCache'+#id")
+    public Lodge fetchById(Integer id) {
+        return lodgeRepository.findById(id).get();
+    }
+
+    @Override
+    @CacheEvict(value = "lodge", key = "'LodgeInCache'+#id")
+    public void deleteById(Integer id) {
+        lodgeRepository.deleteById(id);
+    }
+
+    @Override
+    @CachePut(value = "lodge", key = "'LodgeInCache'+#lodge.id")
+    public void updateLodge(Lodge lodge) {
+        lodgeRepository.updateLodge(lodge.getName(),
+                lodge.getMaxPersons(),
+                lodge.getDescription(),
+                lodge.getCancelConditions(),
+                lodge.getId());
     }
 }
