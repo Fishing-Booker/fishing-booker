@@ -35,8 +35,11 @@ const UserInfo = () => {
     const deleteUser = (id) => {
         const headers = {'Content-Type': 'application/json',
                          'Authorization': `Bearer ${localStorage.jwtToken}`}
-        axios.put(SERVER_URL + "/users/deleteUser/" + userId, { headers: headers });
-        history.push('/');
+        console.log(userId)
+        axios.put(SERVER_URL + "/users/deleteUser/" + userId, { headers: headers })
+            .then(
+                history.push('/')
+            )
     }
 
     const deleteEntity = (id) => {

@@ -13,7 +13,7 @@ public class ComplaintResponse {
     @Column(name = "text")
     private String response;
 
-    @ManyToOne(targetEntity = Complaint.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Complaint.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "complaint_id", referencedColumnName = "id")
     private Complaint complaint;
 

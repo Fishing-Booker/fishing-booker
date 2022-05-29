@@ -43,16 +43,10 @@ public class ReservationEntity {
     @Column(name = "max_persons")
     private Integer maxPersons;
 
-    @OneToMany(targetEntity = Image.class, mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Image> images = new ArrayList<>();
-
-    @OneToMany(targetEntity = ReservationPeriod.class, mappedBy = "reservationEntity", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<ReservationPeriod> reservationPeriods = new ArrayList<>();
-
     public ReservationEntity() { }
 
     public ReservationEntity(Integer id, User owner, String name, Location location, String description, String rules,
-                             double cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
+                             double cancelConditions, double averageGrade, Integer maxPersons) {
         this.id = id;
         this.owner = owner;
         this.name = name;
@@ -63,7 +57,6 @@ public class ReservationEntity {
         this.isDeleted = false;
         this.averageGrade = averageGrade;
         this.maxPersons = maxPersons;
-        this.images = images;
     }
 
     public Integer getMaxPersons() {
@@ -72,14 +65,6 @@ public class ReservationEntity {
 
     public void setMaxPersons(Integer maxPersons) {
         this.maxPersons = maxPersons;
-    }
-
-    public List<ReservationPeriod> getReservationPeriods() {
-        return reservationPeriods;
-    }
-
-    public void setReservationPeriods(List<ReservationPeriod> reservationPeriods) {
-        this.reservationPeriods = reservationPeriods;
     }
 
     public Integer getId() {
@@ -152,13 +137,5 @@ public class ReservationEntity {
 
     public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
-    }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
     }
 }

@@ -31,7 +31,7 @@ public class FishingEquipmentController {
     @PreAuthorize("hasRole('SHIPOWNER')")
     public ResponseEntity<String> addFishingEquipment(@RequestBody AddFishingEquipmentDTO fishEquipment){
         fishingEquipmentService.addFishingEquipment(fishEquipment);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Successfully added", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteFishingEquipment/{id}/{eqId}")

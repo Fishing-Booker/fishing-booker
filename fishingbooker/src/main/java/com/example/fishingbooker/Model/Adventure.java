@@ -20,7 +20,7 @@ public class Adventure extends ReservationEntity {
 
     public Adventure(Integer id, User owner, String name, Location location, String description, String rules,
                      double cancelConditions, double averageGrade, String biography, Integer maxPersons, List<Image> images, String fishingEquipment) {
-        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons, images);
+        super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons);
         this.biography = biography;
         this.fishingEquipment = fishingEquipment;
     }

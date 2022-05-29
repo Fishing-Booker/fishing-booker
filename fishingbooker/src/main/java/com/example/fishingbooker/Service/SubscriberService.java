@@ -39,6 +39,9 @@ public class SubscriberService implements ISubscriberService {
     private IReservationEntityService reservationEntityService;
 
     @Autowired
+    private IUserRepository userRepository;
+
+    @Autowired
     JavaMailSender mailSender;
 
     @Override
@@ -126,7 +129,7 @@ public class SubscriberService implements ISubscriberService {
 
     @Override
     public void sendEmailWithActionReservationInfo(Integer clientId) {
-        User client = subscriberRepository.getSubscriber(clientId);
+        User client = userRepository.getById(clientId);
         String subject = "Action reservation!";
         String sender = "Fishing Booker";
 

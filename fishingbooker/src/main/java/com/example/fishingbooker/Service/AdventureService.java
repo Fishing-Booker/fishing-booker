@@ -93,9 +93,7 @@ public class AdventureService implements IAdventureService {
     @Override
     public Adventure findById(Integer id) {
         Adventure adventure = adventureRepository.findAdventureById(id);
-        adventure.setImages(null);
         adventure.setOwner(null);
-        adventure.setReservationPeriods(null);
         return adventure;
     }
 

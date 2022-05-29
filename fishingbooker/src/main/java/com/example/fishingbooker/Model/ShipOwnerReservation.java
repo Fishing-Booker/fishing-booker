@@ -12,7 +12,7 @@ public class ShipOwnerReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(targetEntity = Reservation.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Reservation.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "reservation_id", referencedColumnName = "id")
     private Reservation reservation;
 

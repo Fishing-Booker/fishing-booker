@@ -55,4 +55,11 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
 
     @Query("SELECT r FROM Reservation r WHERE r.id=?1 AND r.isBooked=true")
     Reservation getReservationById(Integer id);
+
+    @Query("UPDATE Reservation r " +
+            "SET r.client.id = ?2, r.isBooked = false " +
+            "WHERE r.id = ?1")
+    @Modifying
+    @Transactional
+    void cancelAction(Integer reservationId, Integer ownerId);
 }

@@ -38,8 +38,11 @@ public class FishingEquipmentService implements IFishingEquipmentService {
     public void addFishingEquipment(AddFishingEquipmentDTO fishEquipment) {
         FishingEquipment fishingEquipment = new FishingEquipment();
         fishingEquipment.setName(fishEquipment.getName());
-        fishingEquipment.setReservationEntity(getEntity(fishEquipment.getEntityId(), fishEquipment.getOwnerId()));
-        fishingEquipmentRepository.save(fishingEquipment);
+        ReservationEntity entity = getEntity(fishEquipment.getEntityId(), fishEquipment.getOwnerId());
+        fishingEquipment.setReservationEntity(entity);
+        FishingEquipment f = fishingEquipmentRepository.save(fishingEquipment);
+        String name = f.getName();
+        System.out.println(name);
     }
 
     @Override
