@@ -10,6 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebCongif implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:3000", "https://fishing-booker-frontend.herokuapp.com").allowedMethods("GET", "POST", "PUT", "DELETE");
+        registry.addMapping("/**").allowedOrigins("http://localhost:3000", "https://fishing-booker-frontend.herokuapp.com", "http://fishing-booker-frontend.herokuapp.com").allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }
