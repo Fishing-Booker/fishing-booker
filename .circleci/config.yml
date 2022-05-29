@@ -21,11 +21,11 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - build
+      - build-and-test
       - heroku/deploy-via-git:
           filters:
             branches:
               only:
                 - feat/deployment
           requires:
-            - build
+            - build-and-test
