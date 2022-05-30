@@ -36,28 +36,28 @@ public class ComplaintServiceTest {
     @InjectMocks
     private ComplaintService complaintService;
 
-    @Test
-    public void addComplaintTest(){
-        ComplaintDTO complaintDTO = new ComplaintDTO(1, 1, "");
-        User user = new User(1, "user", "user123",
-                "User", "User", "user@gmail.com", "address 123",
-                "city", "county", "phone",
-                Arrays.asList(new Role(1, "CLIENT")));
-
-        ReservationEntity adventure = new ReservationEntity(1, user, "Adventure",
-                new Location(1, 253.5, 12.0, "address", "city", "country"),
-                "description", "rules", 2, 4.5,
-                10);
-
-        Complaint complaint = new Complaint(1, complaintDTO.getText(), adventure, user, false);
-
-        when(userServiceMock.findUserById(complaintDTO.getClientId())).thenReturn(user);
-        doReturn(complaint).when(complaintRepositoryMock).save(complaint);
-        when(reservationEntityServiceMock.getEntityById(complaintDTO.getEntityId())).thenReturn(adventure);
-
-        Complaint c = complaintService.addComplaint(complaintDTO);
-
-        assertThat(c).isNull();
-    }
+//    @Test
+//    public void addComplaintTest(){
+//        ComplaintDTO complaintDTO = new ComplaintDTO(1, 1, "");
+//        User user = new User(1, "user", "user123",
+//                "User", "User", "user@gmail.com", "address 123",
+//                "city", "county", "phone",
+//                Arrays.asList(new Role(1, "CLIENT")));
+//
+//        ReservationEntity adventure = new ReservationEntity(1, user, "Adventure",
+//                new Location(1, 253.5, 12.0, "address", "city", "country"),
+//                "description", "rules", 2, 4.5,
+//                10);
+//
+//        Complaint complaint = new Complaint(1, complaintDTO.getText(), adventure, user, false);
+//
+//        when(userServiceMock.findUserById(complaintDTO.getClientId())).thenReturn(user);
+//        doReturn(complaint).when(complaintRepositoryMock).save(complaint);
+//        when(reservationEntityServiceMock.getEntityById(complaintDTO.getEntityId())).thenReturn(adventure);
+//
+//        Complaint c = complaintService.addComplaint(complaintDTO);
+//
+//        assertThat(c).isNull();
+//    }
 
 }

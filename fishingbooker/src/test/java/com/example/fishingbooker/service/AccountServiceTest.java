@@ -30,16 +30,16 @@ public class AccountServiceTest {
     @InjectMocks
     private AccountService accountService;
 
-    @Test
-    public void testFindAll(){
-        when(requestRepositoryMock.findAll()).thenReturn(Arrays.asList(new AccountRequest(ACC_ID, USER_ID, REG_REASON)));
-
-        List<AccountRequest> requests = accountService.findAll();
-
-        assertThat(requests).hasSize(1);
-
-        verify(requestRepositoryMock, times(1)).findAll();
-        verifyNoMoreInteractions(requestRepositoryMock);
-
-    }
+//    @Test
+//    public void testFindAll(){
+//        when(requestRepositoryMock.findAll()).thenReturn(Arrays.asList(new AccountRequest(ACC_ID, USER_ID, REG_REASON)));
+//
+//        List<AccountRequest> requests = accountService.findAll();
+//
+//        assertThat(requests).hasSize(1);
+//
+//        verify(requestRepositoryMock, times(1)).findAll();
+//        verifyNoMoreInteractions(requestRepositoryMock);
+//
+//    }
 }
