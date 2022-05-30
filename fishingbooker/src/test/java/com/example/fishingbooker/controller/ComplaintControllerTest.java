@@ -1,6 +1,6 @@
 package com.example.fishingbooker.controller;
 
-import com.example.fishingbooker.Model.AccountRequest;
+import com.example.fishingbooker.DTO.CompliantResponseDTO;
 import com.example.fishingbooker.util.TestUtil;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -22,8 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.transaction.Transactional;
 
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -31,8 +28,8 @@ import static org.hamcrest.Matchers.hasSize;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class AccountControllerTest {
-    private static final String URL_PREFIX = "/requests";
+public class ComplaintControllerTest {
+    private static final String URL_PREFIX = "/complaints";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -52,44 +49,30 @@ public class AccountControllerTest {
     @Transactional
     @Rollback(value = true)
     @WithMockUser(authorities = "ROLE_ADMIN")
-    public void testGetAllRequests() throws Exception{
-        mockMvc.perform(get(URL_PREFIX + "/getAll"))
+    public void testGetComplaints() throws Exception {
+        mockMvc.perform(get(URL_PREFIX + "/get"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(1)))
+                .andExpect(jsonPath("$.[*].text").value(hasItem("I dont like this")));
     }
 
     @Test
     @Transactional
     @Rollback(value = true)
     @WithMockUser(authorities = "ROLE_ADMIN")
-    public void testApproveRequest() throws Exception {
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setId(1);
-        accountRequest.setRegistrationReason("I want to be part of your platform");
-        accountRequest.setUserId("nadja");
+    public void testRespondComplaint() throws Exception {
+        CompliantResponseDTO dto = new CompliantResponseDTO();
+        dto.setClientId(5);
+        dto.setOwnerId(8);
+        dto.setText("Complaint reponse");
+        dto.setCompliantId(1);
 
-        String json = TestUtil.json(accountRequest);
+        String json = TestUtil.json(dto);
 
-        mockMvc.perform(put(URL_PREFIX + "/approve").contentType(contentType).content(json))
-                .andExpect(status().isOk());
+        mockMvc.perform(post(URL_PREFIX + "/respond").contentType(contentType).content(json))
+                .andExpect(status().is(201));
     }
-
-    @Test
-    @Transactional
-    @Rollback(value = true)
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    public void testRejectRequest() throws Exception {
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setId(2);
-        accountRequest.setRegistrationReason("I want to be part of your platform");
-        accountRequest.setUserId("milan");
-
-        String json = TestUtil.json(accountRequest);
-
-        mockMvc.perform(put(URL_PREFIX + "/reject").contentType(contentType).content(json))
-                .andExpect(status().isOk());
-    }
-
 
 }

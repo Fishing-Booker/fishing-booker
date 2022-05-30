@@ -1,17 +1,14 @@
 package com.example.fishingbooker.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseDTO {
     private Integer requestId;
     private String userUsername;
     private String response;
-
-    ResponseDTO() {}
-
-    public ResponseDTO(Integer requestId, String userUsername, String response) {
-        this.requestId = requestId;
-        this.userUsername = userUsername;
-        this.response = response;
-    }
 
     public Integer getRequestId() {
         return requestId;

@@ -1,6 +1,5 @@
 package com.example.fishingbooker.controller;
-
-import com.example.fishingbooker.Model.AccountRequest;
+import com.example.fishingbooker.DTO.ResponseDTO;
 import com.example.fishingbooker.util.TestUtil;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +10,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -31,8 +28,8 @@ import static org.hamcrest.Matchers.hasSize;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class AccountControllerTest {
-    private static final String URL_PREFIX = "/requests";
+public class DeleteRequestControllerTest {
+    private static final String URL_PREFIX = "/deleteRequests";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -48,11 +45,12 @@ public class AccountControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
+
     @Test
     @Transactional
     @Rollback(value = true)
     @WithMockUser(authorities = "ROLE_ADMIN")
-    public void testGetAllRequests() throws Exception{
+    public void testGetAllDeleteRequests() throws Exception{
         mockMvc.perform(get(URL_PREFIX + "/getAll"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
@@ -64,15 +62,16 @@ public class AccountControllerTest {
     @Rollback(value = true)
     @WithMockUser(authorities = "ROLE_ADMIN")
     public void testApproveRequest() throws Exception {
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setId(1);
-        accountRequest.setRegistrationReason("I want to be part of your platform");
-        accountRequest.setUserId("nadja");
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setRequestId(1);
+        responseDTO.setUserUsername("zoran");
+        responseDTO.setResponse("Response approve");
 
-        String json = TestUtil.json(accountRequest);
+        String json = TestUtil.json(responseDTO);
 
         mockMvc.perform(put(URL_PREFIX + "/approve").contentType(contentType).content(json))
                 .andExpect(status().isOk());
+
     }
 
     @Test
@@ -80,16 +79,15 @@ public class AccountControllerTest {
     @Rollback(value = true)
     @WithMockUser(authorities = "ROLE_ADMIN")
     public void testRejectRequest() throws Exception {
-        AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setId(2);
-        accountRequest.setRegistrationReason("I want to be part of your platform");
-        accountRequest.setUserId("milan");
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setRequestId(2);
+        responseDTO.setUserUsername("nadja");
+        responseDTO.setResponse("Response reject");
 
-        String json = TestUtil.json(accountRequest);
+        String json = TestUtil.json(responseDTO);
 
         mockMvc.perform(put(URL_PREFIX + "/reject").contentType(contentType).content(json))
                 .andExpect(status().isOk());
+
     }
-
-
 }
