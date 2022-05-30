@@ -2,7 +2,7 @@ version: 2.1
 
 on:
   push:
-    branches: [feat/deployment]
+    branches: [develop]
 jobs:
   build-and-test:
     docker:
@@ -26,6 +26,6 @@ workflows:
           filters:
             branches:
               only:
-                - feat/deployment
+                - develop
           requires:
             - build-and-test
