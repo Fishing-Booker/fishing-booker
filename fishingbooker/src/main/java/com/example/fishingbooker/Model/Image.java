@@ -8,7 +8,8 @@ public class Image {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "imageSeqGen", sequenceName = "imageSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "imageSeqGen")
     private Integer id;
 
     @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
@@ -26,6 +27,12 @@ public class Image {
 
     public Image(Integer id, ReservationEntity reservationEntity, String path) {
         this.id = id;
+        this.reservationEntity = reservationEntity;
+        this.path = path;
+        this.isDeleted = false;
+    }
+
+    public Image( ReservationEntity reservationEntity, String path) {
         this.reservationEntity = reservationEntity;
         this.path = path;
         this.isDeleted = false;

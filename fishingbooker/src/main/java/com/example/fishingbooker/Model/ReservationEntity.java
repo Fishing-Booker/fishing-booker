@@ -11,7 +11,9 @@ public class ReservationEntity {
 
     @Id
     @Column(name = "entity_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "reservationEntitySeqGen", sequenceName = "reservationEntitySeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservationEntitySeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE})

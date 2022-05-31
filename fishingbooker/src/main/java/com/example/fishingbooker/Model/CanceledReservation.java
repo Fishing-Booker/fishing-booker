@@ -9,7 +9,9 @@ public class CanceledReservation {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "canceledReservationSeqGen", sequenceName = "canceledReservationSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "canceledReservationSeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "start_date")

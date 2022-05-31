@@ -112,7 +112,7 @@ public class UserService implements IUserService, UserDetailsService {
         String verificationCode = RandomString.make(64);
         u.setVerificationCode(verificationCode);
         this.userRepository.save(u);
-        //addCategory(u.getUsername());
+        addCategory(u.getUsername());
         return u;
     }
 
