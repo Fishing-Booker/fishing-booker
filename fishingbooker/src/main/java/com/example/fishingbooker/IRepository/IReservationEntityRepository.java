@@ -1,10 +1,11 @@
 package com.example.fishingbooker.IRepository;
 
 import com.example.fishingbooker.Model.ReservationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.data.jpa.repository.*;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -29,4 +30,8 @@ public interface IReservationEntityRepository extends JpaRepository<ReservationE
     @Modifying
     @Transactional
     void updateGrade(double averageGrade, Integer entityId);
+
+    @Query("SELECT e FROM ReservationEntity e WHERE e.id = ?1 ")
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    ReservationEntity getLocked(Integer id) throws PessimisticLockingFailureException;
 }
