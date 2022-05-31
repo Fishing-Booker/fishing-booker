@@ -37,8 +37,8 @@ public interface ILodgeRepository extends JpaRepository<Lodge, Integer> {
     void updateLodge(String name, Integer maxPersons, String description, double cancelConditions, Integer lodgeId);
 
     @Query("SELECT l FROM Lodge l WHERE (LOWER(l.name) LIKE %:name% OR LOWER(l.name) LIKE '') " +
-            "AND (LOWER(l.location.city) LIKE %:location% OR LOWER(l.location.city) LIKE '')" +
-            "AND (LOWER(l.name) LIKE :letter% OR LOWER(l.name) LIKE '') " +
+            "AND (LOWER(l.location.city) LIKE %:location% OR LOWER(l.location.city) LIKE '') " +
+            "AND (UPPER(l.name) LIKE :letter% OR UPPER(l.name) LIKE '') " +
             "AND l.averageGrade= :grade " +
             "AND l.isDeleted=false " +
             "ORDER BY l.id, :type ASC ")

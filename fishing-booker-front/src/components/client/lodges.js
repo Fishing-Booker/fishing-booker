@@ -29,6 +29,7 @@ const Lodges = () => {
         axios.get(url)
             .then(response => setLodges(response.data))
 
+        console.log(url)
     }, [url])
 
     const renderStars = (grade) => {
