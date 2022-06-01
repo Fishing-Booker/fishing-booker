@@ -16,8 +16,8 @@ public class Image {
     //@JoinColumn(name="entity_id", referencedColumnName = "entity_id")
     private ReservationEntity reservationEntity;
 
-    @Column(name = "path")
-    private String path;
+    @Column(name = "base64", columnDefinition="TEXT")
+    private String base64;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -25,16 +25,16 @@ public class Image {
     public Image() {
     }
 
-    public Image(Integer id, ReservationEntity reservationEntity, String path) {
+    public Image(Integer id, ReservationEntity reservationEntity, String base64) {
         this.id = id;
         this.reservationEntity = reservationEntity;
-        this.path = path;
+        this.base64 = base64;
         this.isDeleted = false;
     }
 
-    public Image( ReservationEntity reservationEntity, String path) {
+    public Image( ReservationEntity reservationEntity, String base64) {
         this.reservationEntity = reservationEntity;
-        this.path = path;
+        this.base64 = base64;
         this.isDeleted = false;
     }
 
@@ -54,12 +54,12 @@ public class Image {
         this.reservationEntity = reservationEntity;
     }
 
-    public String getPath() {
-        return path;
+    public String getBase64() {
+        return base64;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setBase64(String path) {
+        this.base64 = path;
     }
 
     public boolean isDeleted() {

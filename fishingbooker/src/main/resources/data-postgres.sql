@@ -60,9 +60,9 @@ INSERT INTO bedroom VALUES (nextval('bedroom_seq_gen'),1,1,1);
 INSERT INTO bedroom VALUES (nextval('bedroom_seq_gen'),2,1,1);
 INSERT INTO bedroom VALUES (nextval('bedroom_seq_gen'),3,0,1);
 
-INSERT INTO image VALUES (nextval('image_seq_gen'),false,'/images/Avantura na Dunavu1.jpg',3);
-INSERT INTO image VALUES (nextval('image_seq_gen'),false,'/images/Plovite sa Kacom2.jpg',2);
-INSERT INTO image VALUES (nextval('image_seq_gen'),false,'/images/Vikendica kod Milana3.jpg',1);
+-- INSERT INTO image VALUES (nextval('image_seq_gen'),false,'/images/Avantura na Dunavu1.jpg',3);
+-- INSERT INTO image VALUES (nextval('image_seq_gen'),false,'/images/Plovite sa Kacom2.jpg',2);
+-- INSERT INTO image VALUES (nextval('image_seq_gen'),false,'/images/Vikendica kod Milana3.jpg',1);
 
 INSERT INTO ship VALUES (3,200,50,50,'','recni brod',2);
 
