@@ -5,10 +5,7 @@ import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.IRepository.*;
-import com.example.fishingbooker.IService.IImageService;
-import com.example.fishingbooker.IService.IRoleService;
-import com.example.fishingbooker.IService.IUserCategoryService;
-import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +54,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
     IUserCategoryService userCategoryService;
+
+    @Autowired
+    IOwnerIncomeService ownerIncomeService;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -112,7 +112,9 @@ public class UserService implements IUserService, UserDetailsService {
         String verificationCode = RandomString.make(64);
         u.setVerificationCode(verificationCode);
         this.userRepository.save(u);
+        System.out.println(userDTO.getRole());
         addCategory(u.getUsername());
+        if(userDTO.getRole().equals("ROLE_INSTRUCTOR") ||userDTO.getRole().equals("ROLE_SHIPOWNER") || userDTO.getRole().equals("ROLE_LODGEOWNER"))ownerIncomeService.initializeOwnerIncome(u.getUsername());
         return u;
     }
 
@@ -120,10 +122,11 @@ public class UserService implements IUserService, UserDetailsService {
         User user = userRepository.findByUsername(userUsername);
         UserCategory userCategory = new UserCategory();
         userCategory.setCategoryType(CategoryType.wood);
-        userCategory.setClient(user);
+        userCategory.setUser(user);
         userCategory.setPoints(0);
         userCategoryService.add(userCategory);
     }
+
 
     @Override
     public User saveAdmin(UserDTO userDTO) {

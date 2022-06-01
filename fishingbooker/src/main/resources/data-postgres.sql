@@ -16,7 +16,6 @@ INSERT INTO users VALUES (nextval('user_seq_gen'),'Tolstojeva 21','Novi Sad','Se
 INSERT INTO users VALUES (nextval('user_seq_gen'),'Vojvode Supljikca 5','Novi Sad','Serbia','isausermailsmn@gmail.com',false, false, true,'Nadja','$2a$10$R1gtmE5FiSFicg5q1ZArY.yz72jDg6lIG3v4NSDfHQ5x5LeZ6lP9.','063569874','Nedic','nadja','E54heSJ72vKYkSceZHXtTmSkTNrydbC5cALRsiRxFRWUV3sJZG02lDDOlM1odMfZ');
 INSERT INTO users VALUES (nextval('user_seq_gen'),'Veselina Maslese 20','Novi Sad','Serbia','isausermailsmn@gmail.com',true, false, true,'Zoran','$2a$10$u043ToE5JwoXsEAgQSsooOynNOX2cJJ4wBSa3adcFp90jXZevPhbu','0637319017','Zoric','zoran','4OdrmXVz6LQrUJrfTxXaaUPVXBPxVC1gyKXqRUYa3UZQa9s5EcvOgWPGOwvz1oKX');
 
-
 INSERT INTO users_roles VALUES (1,1);
 INSERT INTO users_roles VALUES (2,3);
 INSERT INTO users_roles VALUES (3,3);
@@ -27,6 +26,24 @@ INSERT INTO users_roles VALUES (7,5);
 INSERT INTO users_roles VALUES (8,6);
 INSERT INTO users_roles VALUES (9,4);
 INSERT INTO users_roles VALUES (10,2);
+
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 1);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 2);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 3);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 4);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 5);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 6);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 7);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 8);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 9);
+INSERT INTO user_category VALUES (nextval('user_category_seq_gen'), 0, 0, 10);
+
+INSERT INTO owner_income VALUES (nextval('owner_income_seq_gen'), 0, 0, 4);
+INSERT INTO owner_income VALUES (nextval('owner_income_seq_gen'), 0, 0, 5);
+INSERT INTO owner_income VALUES (nextval('owner_income_seq_gen'), 0, 0, 6);
+INSERT INTO owner_income VALUES (nextval('owner_income_seq_gen'), 0, 0, 7);
+INSERT INTO owner_income VALUES (nextval('owner_income_seq_gen'), 0, 0, 8);
+INSERT INTO owner_income VALUES (nextval('owner_income_seq_gen'), 0, 0, 9);
 
 INSERT INTO location VALUES (nextval('location_seq_gen'),'Kralja Petra 5','Novi Sad','Srbija',0,0);
 INSERT INTO location VALUES (nextval('location_seq_gen'),'Marko Miljanova 6','Novi Sad','Srbija',0,0);
