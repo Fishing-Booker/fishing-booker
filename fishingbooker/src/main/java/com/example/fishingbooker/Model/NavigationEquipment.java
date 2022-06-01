@@ -8,7 +8,9 @@ public class NavigationEquipment {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "navigationEquipmentSeqGen", sequenceName = "navigationEquipmentSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "navigationEquipmentSeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(targetEntity = Ship.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})

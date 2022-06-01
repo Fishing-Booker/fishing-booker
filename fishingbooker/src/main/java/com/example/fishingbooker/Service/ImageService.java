@@ -57,8 +57,7 @@ public class ImageService implements IImageService {
         List<Image> images = imageRepository.findEnitityImages(entityId);
         List<ImageDTO> imageDTOS = new ArrayList<>();
         for (Image i: images) {
-            String base64 = encodeImageToBase64(i.getPath());
-            ImageDTO dto = new ImageDTO(i.getId(), base64);
+            ImageDTO dto = new ImageDTO(i.getId(), i.getBase64());
             imageDTOS.add(dto);
         }
         return imageDTOS;
@@ -68,10 +67,7 @@ public class ImageService implements IImageService {
     public String getEntityProfileImage(Integer entityId) throws IOException {
         List<Image> images = imageRepository.findEnitityImages(entityId);
         if(images.isEmpty()) return "";
-        Image profileImage = images.get(0);
-        String base64 = encodeImageToBase64(profileImage.getPath());
-        ImageDTO dto = new ImageDTO(profileImage.getId(), base64);
-        return dto.getBase64();
+        return images.get(0).getBase64();
     }
 
     @Override
@@ -79,48 +75,14 @@ public class ImageService implements IImageService {
         imageRepository.deleteImage(imageId);
     }
 
-    public void saveImage(UploadImageDTO uploadImageDTO) throws IOException {
+    public void saveImage(UploadImageDTO uploadImageDTO){
         ReservationEntity reservationEntity = setEntity(uploadImageDTO.getEntityId(), uploadImageDTO.getOwner());
-        String basePath = new File("images/").getAbsolutePath();
-        String path = basePath + "/" + reservationEntity.getName() + setId() + ".jpg";
-        decodeImageFromBase64(uploadImageDTO.getBase64(), path);
-        String relativePath = "/images/" + reservationEntity.getName() + setId() + ".jpg";
-
         reservationEntity.setOwner(userService.findUserById(uploadImageDTO.getOwner()));
-        Image image = new Image(setId(), reservationEntity, relativePath);
-
+        Image image = new Image();
+        image.setReservationEntity(reservationEntity);
+        image.setBase64(uploadImageDTO.getBase64());
+        image.setDeleted(false);
         save(image);
-    }
-
-   private void decodeImageFromBase64(String base64String, String imagePath) throws IOException {
-        String part[] = base64String.split(",");
-        byte[] data = Base64.getDecoder().decode(part[1]);
-
-        try (OutputStream stream = new FileOutputStream(imagePath)) {
-            stream.write(data);
-        }
-    }
-
-    public String encodeImageToBase64(String relativePath) throws IOException {
-        String path = getImagePath(relativePath);
-        File file = new File(path);
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int) file.length()];
-            fileInputStreamReader.read(bytes);
-            String base64String= new String(Base64.getEncoder().encode(bytes), "UTF-8");
-            String header = "data:image/jpeg;base64,";
-            return header + base64String;
-        } catch (IOException e) { e.printStackTrace(); }
-
-        return "";
-    }
-
-    private String getImagePath(String relativePath) {
-        String basePath = new File("images/").getAbsolutePath();
-        String[] paths = relativePath.split("/"); //path is like /images/cottageNameIndex.jpg
-        StringBuilder path = new StringBuilder().append(basePath).append("/").append(paths[2]);
-        return path.toString();
     }
 
     private ReservationEntity setEntity(Integer entityId, Integer ownerId){

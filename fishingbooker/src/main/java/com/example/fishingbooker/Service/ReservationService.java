@@ -4,9 +4,11 @@ import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.reservation.*;
+import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
+import com.example.fishingbooker.IRepository.IUserCategoryRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Mapper.ReservationMapper;
@@ -42,6 +44,15 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private IReservationEntityService entityService;
+
+    @Autowired
+    private IUserCategoryRepository userCategoryRepository;
+
+    @Autowired
+    private IUserCategoryService userCategoryService;
+
+    @Autowired
+    private IOwnerIncomeService ownerIncomeService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -228,8 +239,25 @@ public class ReservationService implements IReservationService {
         Reservation reservation = ReservationMapper.mapDTOToModel(dto);
         reservation.setClient(userRepository.getById(dto.getClientId()));
         reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
+        reservation.setPrice(calculateDiscount(reservation.getClient().getId(),dto.getPrice()));
         reservationRepository.save(reservation);
         emailService.sendEmailAfterReservation(dto.getClientId());
+        ownerIncomeService.updateOwnerIncome(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+        userCategoryService.updateClientPoints(reservation.getClient().getId(), dto.getPrice());
+        userCategoryService.updateOwnerPoints(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+    }
+
+    private double calculateDiscount(Integer clientId, double oldPrice){
+        UserCategory userCategory = userCategoryRepository.getUserCategoryByClientId(clientId);
+        if(userCategory.getCategoryType() == CategoryType.bronze) {
+            return oldPrice*0.95;
+        } else if(userCategory.getCategoryType() == CategoryType.silver){
+            return oldPrice*0.9;
+        } else if (userCategory.getCategoryType() == CategoryType.gold){
+            return oldPrice*0.85;
+        } else {
+            return oldPrice;
+        }
     }
 
     @Override

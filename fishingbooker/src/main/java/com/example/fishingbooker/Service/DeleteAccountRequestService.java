@@ -54,7 +54,8 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
         try {
             User user = userRepository.findByUsername(responseDTO.getUserUsername());
             userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
-            return repository.disapprove(responseDTO.getRequestId());
+            repository.disapprove(responseDTO.getRequestId());
+            return repository.findById(responseDTO.getRequestId()).get();
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - delete request.");
         }
@@ -68,7 +69,8 @@ public class DeleteAccountRequestService implements IDeleteAccountRequestService
             User user = userRepository.findByUsername(responseDTO.getUserUsername());
             userRepository.deleteByUsername(user.getUsername());
             userService.sendEmailResponseDeleteReq(user, responseDTO.getResponse());
-            return repository.approve(responseDTO.getRequestId());
+            repository.approve(responseDTO.getRequestId());
+            return repository.findById(responseDTO.getRequestId()).get();
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - delete request.");
         }

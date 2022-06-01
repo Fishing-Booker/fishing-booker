@@ -42,7 +42,8 @@ public class RatingServiceTest {
     public void disapproveRatingTest(){
         Rating rating = new Rating(1,5, "", false, false);
 
-        when(ratingRepositoryMock.disapproveRating(rating.getId())).thenReturn(new Rating(1, 5, "", false, true));
+        doNothing().when(ratingRepositoryMock).disapproveRating(rating.getId());
+        when(ratingRepositoryMock.findById(rating.getId())).thenReturn(java.util.Optional.of(new Rating(1, 5, "", false, true)));
 
         Rating r = ratingService.disapproveRating(rating.getId());
 
@@ -70,7 +71,8 @@ public class RatingServiceTest {
         Rating rating = new Rating(1, 1, adventure, 5, "", false, false, client);
         RatingInfoDTO dto = new RatingInfoDTO(rating.getId(), rating.getComment(), rating.getGrade(), rating.getReservationEntity().getName(), client.getName());
 
-        when(ratingRepositoryMock.approveRating(rating.getId())).thenReturn(new Rating(1, 1, adventure, 5, "", true, false, client));
+        doNothing().when(ratingRepositoryMock).approveRating(rating.getId());
+        when(ratingRepositoryMock.findById(rating.getId())).thenReturn(java.util.Optional.of(new Rating(1, 1, adventure, 5, "", true, false, client)));
         doNothing().when(reservationEntityServiceMock).updateEntityAverageGrade(rating.getReservationEntity().getId(), 0);
         when(ratingRepositoryMock.findAll()).thenReturn(Arrays.asList(rating));
 

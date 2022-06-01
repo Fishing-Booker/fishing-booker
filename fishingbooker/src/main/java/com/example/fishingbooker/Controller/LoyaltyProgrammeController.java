@@ -1,7 +1,9 @@
 package com.example.fishingbooker.Controller;
 
+import com.example.fishingbooker.DTO.SystemIncomeDTO;
 import com.example.fishingbooker.DTO.loyaltyProgramme.LoyaltyProgrammeDTO;
 import com.example.fishingbooker.IService.ILoyaltyProgrammeService;
+import com.example.fishingbooker.IService.IOwnerIncomeService;
 import com.example.fishingbooker.Model.LoyaltyProgramme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class LoyaltyProgrammeController {
     @Autowired
     private ILoyaltyProgrammeService loyaltyProgrammeService;
 
+    @Autowired
+    private IOwnerIncomeService ownerIncomeService;
+
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
     public ResponseEntity<LoyaltyProgramme> addLoyaltyProgramme(@RequestBody LoyaltyProgrammeDTO loyaltyProgramme){
@@ -39,6 +44,12 @@ public class LoyaltyProgrammeController {
     public ResponseEntity<LoyaltyProgramme> editLoyaltyProgramme(@RequestBody LoyaltyProgrammeDTO loyaltyProgrammeDTO){
         loyaltyProgrammeService.edit(loyaltyProgrammeDTO);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/getSystemIncome")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DEFADMIN')")
+    public SystemIncomeDTO getSystemIncome(){
+        return ownerIncomeService.getSystemIncome();
     }
 
 }

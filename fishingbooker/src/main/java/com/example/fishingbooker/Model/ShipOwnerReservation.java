@@ -9,7 +9,9 @@ public class ShipOwnerReservation {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "shipOwnerSeqGen", sequenceName = "shipOwnerSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shipOwnerSeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(targetEntity = Reservation.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
