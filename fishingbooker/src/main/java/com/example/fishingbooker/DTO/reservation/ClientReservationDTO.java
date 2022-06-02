@@ -1,7 +1,10 @@
 package com.example.fishingbooker.DTO.reservation;
 
+import lombok.AllArgsConstructor;
+
 import java.util.Date;
 
+@AllArgsConstructor
 public class ClientReservationDTO {
     private Integer clientId;
     private Integer entityId;
@@ -22,6 +25,8 @@ public class ClientReservationDTO {
         this.endDate = endDate;
         this.numberOfGuests = numberOfGuests;
     }
+
+
 
     public Integer getClientId() {
         return clientId;

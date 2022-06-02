@@ -1,6 +1,7 @@
 package com.example.fishingbooker.controller;
 
 import com.example.fishingbooker.DTO.CompliantResponseDTO;
+import com.example.fishingbooker.DTO.RatingDTO;
 import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.util.TestUtil;
 import org.junit.jupiter.api.TestInstance;
@@ -75,5 +76,17 @@ public class RatingControllerTest {
 
         mockMvc.perform(put(URL_PREFIX + "/approve").contentType(contentType).content(json))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = true)
+    public void testAddRating() throws Exception {
+        RatingDTO ratingDTO = new RatingDTO(3, "Sve pohvale!", 5, 1, 11);
+
+        String json = TestUtil.json(ratingDTO);
+
+        mockMvc.perform(post(URL_PREFIX + "/add").contentType(contentType).content(json))
+                .andExpect(status().isCreated());
     }
 }
