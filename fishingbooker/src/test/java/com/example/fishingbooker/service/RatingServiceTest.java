@@ -1,6 +1,7 @@
 package com.example.fishingbooker.service;
 
 import com.example.fishingbooker.DTO.DeleteAccountRequestDTO;
+import com.example.fishingbooker.DTO.RatingDTO;
 import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.IRepository.IRatingRepository;
 import com.example.fishingbooker.Model.*;
@@ -104,6 +105,44 @@ public class RatingServiceTest {
         List<RatingInfoDTO> ratings = ratingService.findAll();
 
         assertThat(ratings).hasSize(1);
+
+    }
+
+    @Test
+    public void addRatingTest() {
+        User client = new User(1, "petar", "petar123",
+                "Petar", "Petrovic", "petar@gmail.com", "Bulvear oslobodjenja 123",
+                "Novi Sad", "Srbija", "0612345678",
+                Arrays.asList(new Role(1, "CLIENT")));
+
+        ReservationEntity adventure = new ReservationEntity(1, new User(), "Adventure",
+                new Location(1, 253.5, 12.0, "address", "city", "country"),
+                "description", "rules", 2, 4.5,
+                10);
+
+        RatingDTO ratingDTO = new RatingDTO(1, "Sve je super!", 5,  1, 2);
+        Rating rating = new Rating(1, 1, adventure, 5, ratingDTO.getComment(), false, false, client);
+
+        when(ratingRepositoryMock.save(rating)).thenReturn(rating);
+
+        //assertThat(ratingService.findAll()).hasSize(1);
+        assertThat(ratingService.addRating(ratingDTO)).isNull();
+    }
+
+    @Test
+    public void calculateGradeTest() {
+        ReservationEntity adventure = new ReservationEntity(1, new User(), "Adventure",
+                new Location(1, 253.5, 12.0, "address", "city", "country"),
+                "description", "rules", 2, 4.5,
+                10);
+
+        Rating rating1 = new Rating(1, 1, adventure, 5, "Sve je super!", false, false, new User());
+        Rating rating2 = new Rating(2, 1, adventure, 4, "OK", false, false, new User());
+        Rating rating3 = new Rating(3, 1, adventure, 3, "Moze to i bolje", false, false, new User());
+
+        when(ratingRepositoryMock.findAll()).thenReturn(Arrays.asList(rating1, rating2, rating3));
+
+        assertThat(ratingService.calculateGrade(adventure.getId())).isEqualTo(4);
 
     }
 }

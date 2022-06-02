@@ -289,6 +289,7 @@ public class ReservationService implements IReservationService {
             reservationRepository.cancelReservation(id);
         }
         canceledReservationService.save(new CanceledReservation(reservation.getStartDate(), reservation.getEndDate(), reservation.getClient(), reservation.getReservationEntity()));
+
     }
 
     private boolean isReservationActive(ReservationDTO reservation){
@@ -380,5 +381,14 @@ public class ReservationService implements IReservationService {
         User user = userRepository.findByUsername(userUsername);
         LoyaltyProgramme loyaltyProgramme = loyaltyProgrammeService.get();
 
+    }
+
+    @Override
+    public List<Reservation> findAll() {
+        return reservationRepository.findAll();
+    }
+
+    public void cancelRegularReservation(Integer id) {
+        this.reservationRepository.cancelReservation(id);
     }
 }

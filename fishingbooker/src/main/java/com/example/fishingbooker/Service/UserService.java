@@ -28,8 +28,8 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService, UserDetailsService {
 
-    @Autowired
-    IUserRepository userRepository;
+    //@Autowired
+    private final IUserRepository userRepository;
 
     @Autowired
     IRoleService roleService;
@@ -60,6 +60,10 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Optional<User> findById(Integer id) {
@@ -492,4 +496,9 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
+    public User doesExist(Integer id) {
+        User found = userRepository.getById(id);
+        return found;
+    }
 }

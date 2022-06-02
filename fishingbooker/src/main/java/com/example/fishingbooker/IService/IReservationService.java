@@ -48,4 +48,6 @@ public interface IReservationService {
     List<ReservationReportDTO> getReservationReport();
 
     List<ReservationDTO> sortClientReservations(String type, Integer id);
+
+    List<Reservation> findAll();
 }

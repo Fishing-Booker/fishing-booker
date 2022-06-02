@@ -35,6 +35,6 @@ public interface IUserService {
     void sendEmailCompliantResponse(User user, String response);
     void sendEmailApprovedComment(User user, RatingInfoDTO response);
     void sendEmailPenaltyGiven(User user, Report report);
-
+    User doesExist(Integer id);
 
 }
