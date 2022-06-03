@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class ShipServiceTest {
 
-    @Mock
+    /*@Mock
     private IShipRepository shipRepository;
 
     @Mock
@@ -86,6 +86,6 @@ public class ShipServiceTest {
         List<String> shipNames = shipService.getOwnerShipNames(1);
 
         assertThat(shipNames).isEqualTo(names);
-    }
+    }*/
 
 }

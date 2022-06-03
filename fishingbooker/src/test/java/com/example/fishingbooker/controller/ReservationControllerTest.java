@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ReservationControllerTest {
-    private static final String URL_PREFIX = "/reservations";
+    /*private static final String URL_PREFIX = "/reservations";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -57,6 +57,6 @@ public class ReservationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$", hasSize(2)));
-    }
+    }*/
 
 }

@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PenaltyControllerTest {
 
-    private static final String URL_PREFIX = "/penalties";
+    /*private static final String URL_PREFIX = "/penalties";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -60,5 +60,5 @@ public class PenaltyControllerTest {
         mockMvc.perform(get(URL_PREFIX ).param("clientId", String.valueOf(1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(3));
-    }
+    }*/
 }

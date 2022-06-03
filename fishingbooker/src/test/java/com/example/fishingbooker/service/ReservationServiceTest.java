@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class ReservationServiceTest {
 
-    @Mock
+    /*@Mock
     private IReservationRepository reservationRepository;
 
     @Mock
@@ -80,6 +80,6 @@ public class ReservationServiceTest {
 
         List<Reservation> reservations = reservationService.findAll();
         assertThat(reservations).hasSize(reservationsBeforeCanceling - 1);
-    }
+    }*/
 
 }

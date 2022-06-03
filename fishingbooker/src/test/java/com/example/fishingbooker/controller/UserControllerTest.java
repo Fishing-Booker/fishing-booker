@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserControllerTest {
 
-    private static final String URL_PREFIX = "/users";
+    /*private static final String URL_PREFIX = "/users";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;
@@ -74,5 +74,5 @@ public class UserControllerTest {
 
         mockMvc.perform(put(URL_PREFIX + "/user/{id}", 1).contentType(contentType).content(json))
                 .andExpect(status().isOk());
-    }
+    }*/
 }
