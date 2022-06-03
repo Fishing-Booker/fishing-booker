@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class RatingServiceTest {
-    /*@Mock
+    @Mock
     private IRatingRepository ratingRepositoryMock;
 
     @Mock
@@ -144,5 +144,5 @@ public class RatingServiceTest {
 
         assertThat(ratingService.calculateGrade(adventure.getId())).isEqualTo(4);
 
-    }*/
+    }
 }

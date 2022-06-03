@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ShipControllerTest {
 
-    /*private static final String URL_PREFIX = "/ships";
+    private static final String URL_PREFIX = "/ships";
 
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype());
     private MockMvc mockMvc;
@@ -95,6 +95,6 @@ public class ShipControllerTest {
         mockMvc.perform(put(URL_PREFIX + "/addRule/{id}", 2)
                         .contentType(contentType).content(jsonRule))
                 .andExpect(status().isOk());
-    }*/
+    }
 
 }

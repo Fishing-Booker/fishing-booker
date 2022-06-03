@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SubscriberControllerTest {
-    /*private static final String URL_PREFIX = "/subscribe";
+    private static final String URL_PREFIX = "/subscribe";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -62,5 +62,5 @@ public class SubscriberControllerTest {
                 .param("userId", String.valueOf(3)))
                 .andExpect(jsonPath("$").value(true))
                 .andExpect(status().isOk());
-    }*/
+    }
 }

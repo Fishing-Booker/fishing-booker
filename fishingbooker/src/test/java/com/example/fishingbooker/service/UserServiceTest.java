@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 public class UserServiceTest {
 
-    /*@Mock
+    @Mock
     private IUserRepository userRepository;
 
     @Mock
@@ -63,5 +63,5 @@ public class UserServiceTest {
 
         Assertions.assertEquals(doesExist, userMock);
         //assertTrue(userMock.equals(doesExist));
-    }*/
+    }
 }

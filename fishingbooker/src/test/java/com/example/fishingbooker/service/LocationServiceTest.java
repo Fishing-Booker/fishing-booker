@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class LocationServiceTest {
 
-    /*@Mock
+    @Mock
     private ILocationRepository locationRepository;
 
     @Mock
@@ -65,5 +65,5 @@ public class LocationServiceTest {
             }
         }
         return null;
-    }*/
+    }
 }

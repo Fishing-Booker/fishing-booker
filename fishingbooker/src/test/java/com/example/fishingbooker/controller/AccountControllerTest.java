@@ -32,7 +32,7 @@ import static org.hamcrest.Matchers.hasSize;
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AccountControllerTest {
-    /*private static final String URL_PREFIX = "/requests";
+    private static final String URL_PREFIX = "/requests";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype());
@@ -89,7 +89,7 @@ public class AccountControllerTest {
 
         mockMvc.perform(put(URL_PREFIX + "/reject").contentType(contentType).content(json))
                 .andExpect(status().isOk());
-    }*/
+    }
 
 
 }
