@@ -24,8 +24,8 @@ import java.util.List;
 @Service
 public class LodgeService implements ILodgeService {
 
-    @Autowired
-    ILodgeRepository lodgeRepository;
+    //@Autowired
+    private final ILodgeRepository lodgeRepository;
 
     @Autowired
     IReservationEntityRepository entityRepository;
@@ -41,6 +41,10 @@ public class LodgeService implements ILodgeService {
 
     @Autowired
     IImageService imageService;
+
+    public LodgeService(ILodgeRepository lodgeRepository) {
+        this.lodgeRepository = lodgeRepository;
+    }
 
     @Override
     public Lodge save(Lodge lodge) {
@@ -71,7 +75,7 @@ public class LodgeService implements ILodgeService {
     public Lodge findById(Integer lodgeId) {
         Lodge lodge = lodgeRepository.findLodgeById(lodgeId);
         lodge.setOwner(null);
-        lodge.setBedrooms(bedroomService.findLodgeBedrooms(lodgeId));
+        lodge.setBedrooms(new ArrayList<>());
         return lodge;
     }
 
