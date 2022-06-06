@@ -17,7 +17,7 @@ public interface IReservationPeriodRepository extends JpaRepository<ReservationP
 
     @Query("SELECT p " +
             "FROM ReservationPeriod p " +
-            "WHERE p.reservationEntity.id=?1 AND (?2 BETWEEN p.startDate AND p.endDate) AND (?3 BETWEEN p.startDate AND p.endDate)")
+            "WHERE p.reservationEntity.id=?1 AND ((?2 BETWEEN p.startDate AND p.endDate) AND (?3 BETWEEN p.startDate AND p.endDate))")
     List<ReservationPeriod> findPeriodsByDate(Integer entityId, Date startDate, Date endDate);
 
     @Query("delete from ReservationPeriod p where p.id=?1")

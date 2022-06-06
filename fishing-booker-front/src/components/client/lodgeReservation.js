@@ -28,6 +28,9 @@ const LodgeReservation = () => {
     const [start, setStart] = useState('')
     const [end, setEnd] = useState('')
     const [maxGuests, setMaxGuests] = useState('')
+    const [images, setImages] = useState([])
+    const [servicesAdditional, setServicesAdditional] = useState([]);
+    const [servicesRegular, setServicesRegular] = useState([]);
 
     useEffect(() => {
         axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
@@ -50,6 +53,23 @@ const LodgeReservation = () => {
                 axios.post(SERVER_URL + "/subscribe/isSubscribed", subscriberDTO)
                     .then(response => setIsSubscribed(response.data))
             })
+
+        axios.get(SERVER_URL + '/images/getImages/' + id, {headers:headers})
+            .then(response => {
+                setImages(response.data);
+                console.log(response.data);
+        
+            });
+        
+        axios.get(SERVER_URL + "/prices/additionalServices2/" + entityId, { headers: headers })
+            .then(response => {
+                setServicesAdditional(response.data);
+            });
+        
+        axios.get(SERVER_URL + "/prices/regularServices/" + entityId, { headers: headers })
+                .then(response => {
+                    setServicesRegular(response.data);
+            });
         
     }, [id, isSubscribed, modalIsOpen])
 
@@ -86,6 +106,44 @@ const LodgeReservation = () => {
             .then(response => {setAvailablePeriods(response.data); console.log(response.data)})
     }
 
+    const allImages = images.length ? (
+        images.map(image => {
+            return(
+                <div className="card-image" key={image.imageId}>
+                    <img src={image.base64} />
+                </div>
+            )
+        }) 
+    ): null;
+
+    const regularServices = servicesRegular.length ? (
+        servicesRegular.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
+
+    const additionalServices = servicesAdditional.length ? (
+        servicesAdditional.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
+
     const periods = availablePeriods.length ? (
         availablePeriods.map((period, index) => {
             return (
@@ -110,7 +168,11 @@ const LodgeReservation = () => {
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
             <p className="entity-info description">Max number of guests: {maxGuests}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
-            <br></br>
+            <p className="entity-info description">Regular services: {regularServices}</p>
+            <p className="entity-info description">Additional services: {additionalServices}</p>
+            <div className="info_data-images">
+                { allImages }
+            </div> <br></br>
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>
             <br></br>
