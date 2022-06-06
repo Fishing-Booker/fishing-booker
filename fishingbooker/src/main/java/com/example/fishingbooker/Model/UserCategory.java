@@ -3,7 +3,6 @@ package com.example.fishingbooker.Model;
 import com.example.fishingbooker.Enum.CategoryType;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name="user_category")
@@ -11,12 +10,14 @@ import java.util.List;
 public class UserCategory {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "userCategorySeqGen", sequenceName = "userCategorySeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userCategorySeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     //@JoinColumn(name="client_id", referencedColumnName = "user_id")
-    private User client;
+    private User user;
 
     @Column(name = "category_type")
     private CategoryType categoryType;
@@ -28,7 +29,7 @@ public class UserCategory {
 
     public UserCategory(Integer id, User client, CategoryType categoryType, double points) {
         this.id = id;
-        this.client = client;
+        this.user = client;
         this.categoryType = categoryType;
         this.points = points;
     }
@@ -41,12 +42,12 @@ public class UserCategory {
         this.id = id;
     }
 
-    public User getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(User client) {
-        this.client = client;
+    public void setUser(User client) {
+        this.user = client;
     }
 
     public CategoryType getCategoryType() {

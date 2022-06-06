@@ -72,7 +72,8 @@ public class RatingService implements IRatingService {
     @Transactional
     public Rating approveRating(RatingInfoDTO dto) {
         try {
-            Rating r = ratingRepository.approveRating(dto.getId());
+            Rating r = ratingRepository.findById(dto.getId()).get();
+            ratingRepository.approveRating(dto.getId());
             userService.sendEmailApprovedComment(r.getUser(), dto);
             reservationEntityService.updateEntityAverageGrade(r.getReservationEntity().getId(), calculateGrade(r.getReservationEntity().getId()));
             return r;
@@ -86,7 +87,8 @@ public class RatingService implements IRatingService {
     @Transactional
     public Rating disapproveRating(Integer ratingId) {
         try {
-            return ratingRepository.disapproveRating(ratingId);
+            ratingRepository.disapproveRating(ratingId);
+            return ratingRepository.findById(ratingId).get();
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception - rating.");
         }

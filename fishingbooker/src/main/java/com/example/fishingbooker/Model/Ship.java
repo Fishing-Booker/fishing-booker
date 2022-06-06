@@ -31,7 +31,7 @@ public class Ship extends ReservationEntity {
     }
 
     public Ship(Integer id, User owner, String name, Location location, String description, String rules, double cancelConditions,
-                double averageGrade, Integer maxPersons, List<Image> images, String shipType, double length, Integer engineNumber,
+                double averageGrade, Integer maxPersons, String shipType, double length, Integer engineNumber,
                 double enginePower, double maxSpeed, String navigationEquipment) {
         super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons);
         this.shipType = shipType;

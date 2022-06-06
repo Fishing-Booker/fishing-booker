@@ -5,9 +5,11 @@ import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.reservation.*;
 import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
+import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
+import com.example.fishingbooker.IRepository.IUserCategoryRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Mapper.ReservationMapper;
@@ -46,6 +48,15 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private IReservationEntityService entityService;
+
+    @Autowired
+    private IUserCategoryRepository userCategoryRepository;
+
+    @Autowired
+    private IUserCategoryService userCategoryService;
+
+    @Autowired
+    private IOwnerIncomeService ownerIncomeService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -242,15 +253,32 @@ public class ReservationService implements IReservationService {
             ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
             reservation.setClient(userRepository.getById(dto.getClientId()));
             reservation.setReservationEntity(entity);
+            reservation.setPrice(calculateDiscount(reservation.getClient().getId(),dto.getPrice()));
             if(isPeriodAvailable(reservation.getStartDate(), reservation.getEndDate(), entity.getId())){
                 reservationRepository.save(reservation);
+                ownerIncomeService.updateOwnerIncome(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                userCategoryService.updateClientPoints(reservation.getClient().getId(), dto.getPrice());
+                userCategoryService.updateOwnerPoints(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
                 emailService.sendEmailAfterReservation(dto.getClientId());
             } else {
                 throw new PessimisticLockingFailureException("Entity already reserved");
             }
         } catch(PessimisticLockingFailureException e) {
             System.out.println(e.getMessage());
-            throw new PessimisticLockingFailureException("Entity already reserved");
+            throw new PessimisticLockingFailureException("Entity already reserved");       
+        }
+    }
+
+    private double calculateDiscount(Integer clientId, double oldPrice){
+        UserCategory userCategory = userCategoryRepository.getUserCategoryByClientId(clientId);
+        if(userCategory.getCategoryType() == CategoryType.bronze) {
+            return oldPrice*0.95;
+        } else if(userCategory.getCategoryType() == CategoryType.silver){
+            return oldPrice*0.9;
+        } else if (userCategory.getCategoryType() == CategoryType.gold){
+            return oldPrice*0.85;
+        } else {
+            return oldPrice;
         }
     }
 
@@ -320,6 +348,7 @@ public class ReservationService implements IReservationService {
             reservationRepository.cancelReservation(id);
         }
         canceledReservationService.save(new CanceledReservation(reservation.getStartDate(), reservation.getEndDate(), reservation.getClient(), reservation.getReservationEntity()));
+
     }
 
     private boolean isReservationActive(ReservationDTO reservation){
@@ -411,5 +440,14 @@ public class ReservationService implements IReservationService {
         User user = userRepository.findByUsername(userUsername);
         LoyaltyProgramme loyaltyProgramme = loyaltyProgrammeService.get();
 
+    }
+
+    @Override
+    public List<Reservation> findAll() {
+        return reservationRepository.findAll();
+    }
+
+    public void cancelRegularReservation(Integer id) {
+        this.reservationRepository.cancelReservation(id);
     }
 }

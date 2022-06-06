@@ -5,10 +5,7 @@ import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.IRepository.*;
-import com.example.fishingbooker.IService.IImageService;
-import com.example.fishingbooker.IService.IRoleService;
-import com.example.fishingbooker.IService.IUserCategoryService;
-import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +28,8 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService, UserDetailsService {
 
-    @Autowired
-    IUserRepository userRepository;
+    //@Autowired
+    private final IUserRepository userRepository;
 
     @Autowired
     IRoleService roleService;
@@ -59,7 +56,14 @@ public class UserService implements IUserService, UserDetailsService {
     IUserCategoryService userCategoryService;
 
     @Autowired
+    IOwnerIncomeService ownerIncomeService;
+
+    @Autowired
     private JavaMailSender mailSender;
+
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Optional<User> findById(Integer id) {
@@ -112,7 +116,9 @@ public class UserService implements IUserService, UserDetailsService {
         String verificationCode = RandomString.make(64);
         u.setVerificationCode(verificationCode);
         this.userRepository.save(u);
-        //addCategory(u.getUsername());
+        System.out.println(userDTO.getRole());
+        addCategory(u.getUsername());
+        if(userDTO.getRole().equals("ROLE_INSTRUCTOR") ||userDTO.getRole().equals("ROLE_SHIPOWNER") || userDTO.getRole().equals("ROLE_LODGEOWNER"))ownerIncomeService.initializeOwnerIncome(u.getUsername());
         return u;
     }
 
@@ -120,10 +126,11 @@ public class UserService implements IUserService, UserDetailsService {
         User user = userRepository.findByUsername(userUsername);
         UserCategory userCategory = new UserCategory();
         userCategory.setCategoryType(CategoryType.wood);
-        userCategory.setClient(user);
+        userCategory.setUser(user);
         userCategory.setPoints(0);
         userCategoryService.add(userCategory);
     }
+
 
     @Override
     public User saveAdmin(UserDTO userDTO) {
@@ -173,7 +180,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -221,7 +228,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -245,7 +252,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -293,7 +300,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -417,7 +424,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -447,7 +454,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -476,7 +483,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -489,4 +496,9 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
+    public User doesExist(Integer id) {
+        User found = userRepository.getById(id);
+        return found;
+    }
 }

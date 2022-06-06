@@ -114,8 +114,8 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
     const handleSubmit = () => {
         console.log(moment(startDate).format())
         console.log(moment(endDate).format())
-        dto.additionalServices = setServicesAsString();
-        dto.regularService = changeRegularServiceFormat();
+        if(choosenServices !== []) dto.additionalServices = setServicesAsString();
+        if(choosenServicesR !== "") dto.regularService = changeRegularServiceFormat();
         console.log(dto)
         if (isInRangeOne(moment(startDate).format()) && isInRangeOne(moment(endDate).format()) && numberOfGuests <= maxGuests && penalties < 3) {
             axios.post(SERVER_URL + "/reservations/makeReservation", dto)
