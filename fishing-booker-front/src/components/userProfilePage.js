@@ -3,6 +3,7 @@ import { useState,useEffect } from 'react';
 import './../css/usersProfile.css';
 import { Link, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
+import UserCategory from './userCategory';
 
 const UserProfilePage = () => {
     const SERVER_URL = process.env.REACT_APP_API;
@@ -19,7 +20,11 @@ const UserProfilePage = () => {
     const [country, setCountry] = useState("");
     const [penalties, setPenalties] = useState("");
     const [role, setRole] = useState("");
-    const [isFirstDay, setIsFirstDay] = useState(false)
+    const [isFirstDay, setIsFirstDay] = useState(false);
+    const [categoryName, setCategoryName] = useState("");
+    const [points, setPoints] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [userCategory, setUserCategory] = useState([]);
 
     const values = {
         name, 
@@ -31,6 +36,11 @@ const UserProfilePage = () => {
         city,
         country,
         phoneNumber
+    }
+
+    const category = {
+        points,
+        categoryName
     }
  
     useEffect(() => {
@@ -54,6 +64,21 @@ const UserProfilePage = () => {
 
                 axios.get(SERVER_URL + '/penalties?clientId=' + user.id)
                     .then(response => setPenalties(response.data));
+                })
+
+                axios.get(SERVER_URL + '/users/userCategory', {headers: headers})
+                .then(res => {
+                    setUserCategory(res.data)
+                    console.log(res.data)
+                    if(res.data.category == 'wood') {
+                        setDiscount(0)
+                    } else if(res.data.category == 'bronze'){
+                        setDiscount(5)
+                    } else if(res.data.category == 'silver'){
+                        setDiscount(10)
+                    } else if(res.data.category == 'gold'){
+                        setDiscount(15)
+                    }
                 })
                 
             .catch(error => {
@@ -113,7 +138,8 @@ const UserProfilePage = () => {
                 <h4>{user.name} {user.surname}</h4>
                 <p>{user.role}</p><br/>
                 <Link to={`/changePassword/${user.id}`}>Change password</Link> <br/><br/>
-                {(role !== "ROLE_ADMIN" || role !== "ROLE_DEFADMIN") && <Link to={`/deleteAccount/${user.id}`}>Delete your account</Link>}
+                {(role !== "ROLE_ADMIN" || role !== "ROLE_DEFADMIN") && <Link to={`/deleteAccount/${user.id}`}>Delete your account</Link>} <br /> <br />
+                <Link to={`/category`}>Category</Link>
             </div>
             <div className="right">
                 <div className="info">
@@ -158,6 +184,18 @@ const UserProfilePage = () => {
                             <h4>Country</h4>
                             {!isEditting && <label>{user.country}</label>}
                             {isEditting && <input  value={country} onChange={(e) => setCountry(e.target.value)}/>}
+                        </div>
+                        <div className="data">
+                            <h4>Category</h4>
+                            <label>{userCategory.category}</label>
+                        </div>
+                        <div className="data">
+                            <h4>Points</h4>
+                            <label>{userCategory.points}</label>
+                        </div>
+                        <div className="data">
+                            <h4>Discount</h4>
+                            <label>{discount} %</label>
                         </div>
                         {(role === "ROLE_CLIENT") && 
                             <div className="data">
