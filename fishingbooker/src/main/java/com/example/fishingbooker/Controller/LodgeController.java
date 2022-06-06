@@ -149,6 +149,7 @@ public class LodgeController {
     }
 
     @GetMapping("/lodge")
+    @PreAuthorize("hasRole('CLIENT')")
     public LodgeInfoDTO getById(@RequestParam Integer id) {
         return lodgeService.getById(id);
     }

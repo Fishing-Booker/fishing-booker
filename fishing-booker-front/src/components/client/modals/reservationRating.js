@@ -36,8 +36,9 @@ const ReservationRating = ({modalIsOpen, setModalIsOpen, entityId}) => {
     }
 
     const handleSubmit = () => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         console.log(dto);
-        axios.post(SERVER_URL + "/rating/add", dto)
+        axios.post(SERVER_URL + "/rating/add", dto, { headers: headers })
             .then(response => console.log(response.data))
         addToast("Your comment is successfully recorded!", { appearance: "success" });
         setModalIsOpen(false);

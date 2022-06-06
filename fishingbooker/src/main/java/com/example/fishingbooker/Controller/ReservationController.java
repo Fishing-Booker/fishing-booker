@@ -77,6 +77,7 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
     public List<ReservationDTO> getClientReservations(@PathVariable Integer id) {
         return reservationService.getClientReservations(id);
     }
@@ -95,11 +96,13 @@ public class ReservationController {
     }
 
     @PostMapping("/currentReservations")
+    @PreAuthorize("hasRole('CLIENT')")
     public List<ReservationDTO> getCurrentReservations(@RequestBody ReservationDateDTO dto) {
         return reservationService.getCurrentReservation(dto.getDate(), dto.getClientId());
     }
 
     @DeleteMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<String> cancelReservation(@PathVariable Integer id) {
         reservationService.cancelReservation(id);
         return new ResponseEntity<>(HttpStatus.OK);

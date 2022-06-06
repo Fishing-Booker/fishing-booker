@@ -11,10 +11,11 @@ const LodgeReservationActions = () => {
     const [isBooked, setIsBooked] = useState(false)
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/actions/available/" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/actions/available/" + id, { headers: headers })
             .then(response => {setActions(response.data); console.log(response.data)})
 
-        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data);
@@ -22,9 +23,10 @@ const LodgeReservationActions = () => {
     }, [!isBooked])
 
     const handleClick = (actionId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var dto = { actionId: actionId, clientId: user.id}
         console.log(dto)
-        axios.post(SERVER_URL + "/actions/makeReservation", dto)
+        axios.post(SERVER_URL + "/actions/makeReservation", dto, { headers: headers })
             .then(response => setIsBooked(true))
     }
 

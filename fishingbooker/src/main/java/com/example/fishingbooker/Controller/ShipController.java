@@ -151,6 +151,7 @@ public class ShipController {
     }
 
     @GetMapping("/ship")
+    @PreAuthorize("hasRole('CLIENT')")
     public ShipInfoDTO getById(@RequestParam Integer id) {
         return shipService.getById(id);
     }

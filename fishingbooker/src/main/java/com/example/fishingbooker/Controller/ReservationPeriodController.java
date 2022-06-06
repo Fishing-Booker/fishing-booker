@@ -48,6 +48,7 @@ public class ReservationPeriodController {
     }
 
     @PostMapping("/availablePeriods")
+    @PreAuthorize("hasRole('CLIENT')")
     public List<ReservationPeriodDTO> getAvailablePeriods(@RequestBody ReservationPeriodDTO dto) {
         return periodService.getAvailablePeriods(dto.getEntityId(), dto.getStartDate(), dto.getEndDate());
     }

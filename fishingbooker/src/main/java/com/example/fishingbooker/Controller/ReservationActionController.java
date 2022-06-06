@@ -53,6 +53,7 @@ public class ReservationActionController {
     }
 
     @PostMapping("/makeReservation")
+    @PreAuthorize("hasRole('CLIENT') || hasRole('LODGEOWNER') || hasRole('SHIPOWNER') || hasRole('INSTRUCTOR')")
     public ResponseEntity<String> makeReservation(@RequestBody MakeReservationDTO dto) throws MessagingException, UnsupportedEncodingException {
         System.out.println(dto.getActionId());
         System.out.println(dto.getClientId());
@@ -61,6 +62,7 @@ public class ReservationActionController {
     }
 
     @GetMapping("/available/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
     public List<ReservationActionDTO> getAvailableActions(@PathVariable Integer id) {
         return actionService.getAvailableActions(id);
     }

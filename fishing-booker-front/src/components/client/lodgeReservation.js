@@ -34,7 +34,9 @@ const LodgeReservation = () => {
     const [servicesRegular, setServicesRegular] = useState([]);
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/lodges/lodge?id=" + id, {headers: headers})
             .then(response => {
                 setLodge(response.data); 
                 setAddress(response.data.location.address);
@@ -46,7 +48,6 @@ const LodgeReservation = () => {
                 setMaxGuests(response.data.maxPersons)
             });
         
-        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data); 
@@ -83,8 +84,9 @@ const LodgeReservation = () => {
     }
 
     const handleSubscribe = (entityId, userId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var subscriberDTO = {entityId, userId}
-        axios.post(SERVER_URL + "/subscribe", subscriberDTO)
+        axios.post(SERVER_URL + "/subscribe", subscriberDTO, {headers: headers})
             .then(() => {
                 addToast("You are successfully subscribed.", { appearance: "success" });
                 setIsSubscribed(true);
@@ -92,7 +94,8 @@ const LodgeReservation = () => {
     }
 
     const handleUnsubscribe = (entityId, userId) => {
-        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId, {headers: headers})
             .then(() => {
                 addToast("You are no longer subscribed.", { appearance: "success" });
                 setIsSubscribed(false);
@@ -100,10 +103,11 @@ const LodgeReservation = () => {
     }
 
     const seeAvailableReservations = (startDate, endDate) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var ownerId = 3;
         var periodDTO = { startDate, endDate, entityId : id, ownerId }
         console.log(periodDTO)
-        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
+        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO, {headers: headers})
             .then(response => {setAvailablePeriods(response.data); console.log(response.data)})
     }
 
