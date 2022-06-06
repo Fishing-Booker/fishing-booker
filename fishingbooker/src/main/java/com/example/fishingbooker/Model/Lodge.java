@@ -28,6 +28,11 @@ public class Lodge  extends ReservationEntity{
         super(id, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons);
     }
 
+    public Lodge(User owner, String name, Location location, String description, String rules,
+                 double cancelConditions, double averageGrade, Integer maxPersons, List<Image> images) {
+        super(0, owner, name, location, description, rules, cancelConditions, averageGrade, maxPersons);
+    }
+
     public List<Bedroom> getBedrooms() {
         return bedrooms;
     }

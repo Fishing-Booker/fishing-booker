@@ -75,6 +75,9 @@ import ReservationReport from "./admin/reservationReport";
 import LodgeLocation from "./lodge/lodgeLocation";
 import ShipLocation from "./ship/shipLocation";
 import AdventureLocation from "./instructor/adventureLocation";
+import LodgeReports from "./lodge/lodgeReports";
+import ShipReports from "./ship/shipReports";
+import AdventureReports from "./instructor/adventureReports";
 
 const FrontPage = () => {
     const SERVER_URL = process.env.REACT_APP_API; 
@@ -156,6 +159,7 @@ const FrontPage = () => {
                         <Route path="/lodgeReservationCalendar/:lodgeId"><LodgeReservationCalendar/></Route>
                         <Route path="/reservationHistory"><LodgeReservationHistory/></Route>
                         <Route path="/lodgeOwnerCalendar"><LodgeOwnerCalendar/></Route>
+                        <Route path="/lodgeReports"><LodgeReports/></Route>
                     </Switch>
 
                 }
@@ -188,6 +192,7 @@ const FrontPage = () => {
                         <Route path="/instructorsCalendar"><InstructorsCalendar/></Route>
                         <Route path="/reservations"><InstructorReservations/></Route>
                         <Route path="/reservationHistory"><ReservationHistoryOwner/></Route>
+                        <Route path="/adventureReports" ><AdventureReports/></Route>
                     </Switch>
                 }
 
@@ -234,6 +239,7 @@ const FrontPage = () => {
                         <Route path="/shipOwnerReservations"><ShipOwnerReservations/></Route>
                         <Route path="/shipReservations"><ShipReservations/></Route>
                         <Route path="/reservationHistory"><ShipReservationHistory/></Route>
+                        <Route path="/shipReports"><ShipReports/></Route>
                     </Switch>
                 }
                 
