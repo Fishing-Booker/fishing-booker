@@ -1,11 +1,17 @@
-const express = require('express'); //Line 1
-const app = express(); //Line 2
-const port = process.env.PORT || 5000; //Line 3
+const express = require('express');
+const app = express();
+const path = require('path');
+const serverStatic = require('serve-static');
+const port = process.env.PORT || 3000; 
 
-// This displays message that the server running and listening to specified port
-app.listen(port, () => console.log('Listening on port' `${port}`)); //Line 6
+app.use('/', serverStatic(path.join(__dirname, 'build')));
+app.get('/*', function (req, res) { 
+    res.sendFile(path.join(__dirname, 'build', 'index.html')); 
+  }); 
 
-// create a GET route
-app.get('/express_backend', (req, res) => { //Line 9
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
-}); 
+
+app.listen(process.env.PORT || 3000, function() { 
+        console.log("Express server listening on port %d in %s mode", port, app.settings.env);
+    });
+
+
