@@ -138,7 +138,6 @@ public class ReservationActionService implements IReservationActionService {
         } catch (OptimisticEntityLockException e) {
             logger.debug("Optimistic lock exception");
         }
-
     }
 
     @Override
