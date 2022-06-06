@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Letters from "../letters";
 
 const Lodges = () => {
-    const SERVER_URL = process.env.REACT_APP_API;
+    const SERVER_URL = process.env.production.REACT_APP_API;
     const [lodges, setLodges] = useState([])
     const [isLogged, setIsLogged] = useState(false);
     const [name, setName] = useState('');
