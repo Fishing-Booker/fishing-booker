@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.62673883.chunk.css",
+    "main.js": "/static/js/main.2862536c.chunk.js",
+    "main.js.map": "/static/js/main.2862536c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.afd1ae3d.js",
+    "runtime-main.js.map": "/static/js/runtime-main.afd1ae3d.js.map",
+    "static/js/2.207fbc2a.chunk.js": "/static/js/2.207fbc2a.chunk.js",
+    "static/js/2.207fbc2a.chunk.js.map": "/static/js/2.207fbc2a.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.62673883.chunk.css.map": "/static/css/main.62673883.chunk.css.map",
+    "static/js/2.207fbc2a.chunk.js.LICENSE.txt": "/static/js/2.207fbc2a.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/static/media/lodge1.28a67e87.jpg",
+    "static/media/comment.8e64a878.png": "/static/media/comment.8e64a878.png",
+    "static/media/info.1c2d2f5f.png": "/static/media/info.1c2d2f5f.png",
+    "static/media/lodge2.aa62b39c.jpg": "/static/media/lodge2.aa62b39c.jpg",
+    "static/media/lodgeImg2.cfbefc8a.png": "/static/media/lodgeImg2.cfbefc8a.png",
+    "static/media/lodgeImg3.9bb0d178.jpg": "/static/media/lodgeImg3.9bb0d178.jpg",
+    "static/media/noProfilePicture.1287f47e.jpg": "/static/media/noProfilePicture.1287f47e.jpg",
+    "static/media/trash.c4e35861.png": "/static/media/trash.c4e35861.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.afd1ae3d.js",
+    "static/js/2.207fbc2a.chunk.js",
+    "static/css/main.62673883.chunk.css",
+    "static/js/main.2862536c.chunk.js"
+  ]
+}
