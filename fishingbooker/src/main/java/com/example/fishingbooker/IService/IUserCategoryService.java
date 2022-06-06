@@ -10,4 +10,6 @@ public interface IUserCategoryService {
     void updateClientPoints(Integer clientId, double price);
 
     void updateOwnerPoints(Integer ownerId, double price);
+
+    UserCategory get(Integer clientId);
 }

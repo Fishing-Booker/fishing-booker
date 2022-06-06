@@ -2,6 +2,7 @@ package com.example.fishingbooker.IService;
 
 import com.example.fishingbooker.DTO.EntityDTO;
 import com.example.fishingbooker.DTO.RatingInfoDTO;
+import com.example.fishingbooker.DTO.UserCategoryDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Model.Report;
 import com.example.fishingbooker.Model.User;
@@ -63,5 +64,7 @@ public interface IUserService {
     User doesExist(Integer id);
 
     User findByEmail(String email);
+
+    UserCategoryDTO getUserCategory(Integer id);
 
 }

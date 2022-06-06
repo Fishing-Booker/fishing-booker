@@ -1,9 +1,6 @@
 package com.example.fishingbooker.Controller;
 
-import com.example.fishingbooker.DTO.DeleteAccountRequestDTO;
-import com.example.fishingbooker.DTO.EntityDTO;
-import com.example.fishingbooker.DTO.PasswordDTO;
-import com.example.fishingbooker.DTO.UserDTO;
+import com.example.fishingbooker.DTO.*;
 import com.example.fishingbooker.IService.IDeleteAccountRequestService;
 import com.example.fishingbooker.IService.IRoleService;
 import com.example.fishingbooker.IService.IUserService;
@@ -109,6 +106,13 @@ public class UserController {
     public ResponseEntity<String> deleteUsersEntity(@PathVariable Integer entityId, @PathVariable Integer userId) {
         userService.deleteUserEntity(entityId, userId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/userCategory")
+    @PreAuthorize("hasRole('CLIENT')")
+    public UserCategoryDTO getUserCategory(Principal user) {
+        User user1 = this.userService.findByUsername(user.getName());
+        return this.userService.getUserCategory(user1.getId());
     }
 
 
