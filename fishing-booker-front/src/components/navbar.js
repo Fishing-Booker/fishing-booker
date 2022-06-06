@@ -55,6 +55,7 @@ const Navbar = () => {
 
                         {userRole==="ROLE_LODGEOWNER" && <li><Link to="/lodgeReservations">RESERVATIONS</Link></li>}
                         {userRole==="ROLE_LODGEOWNER" && <li><Link to={`/reservationHistory`}>RESERVATION HISTORY</Link></li>}
+                        {userRole==="ROLE_LODGEOWNER" && <li><Link to={`/lodgeReports`}>REPORTS</Link></li>}
 
                         {userRole==="ROLE_SHIPOWNER" && <li><Link to="/shipReservations">RESERVATIONS</Link></li>}
                         {userRole==="ROLE_SHIPOWNER" && <li><Link to="/shipOwnerReservationCalendar">MY CALENDAR</Link></li>}
