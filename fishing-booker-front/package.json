@@ -16,11 +16,13 @@
     "chart.js": "^3.8.0",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
+    "express": "^4.18.1",
     "grommet": "^2.18.0",
     "image-to-base64": "^2.2.0",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "openlayers": "^4.6.5",
+    "path": "^0.12.7",
     "react": "^17.0.2",
     "react-awesome-calendar": "^1.0.14",
     "react-chartjs-2": "^4.1.0",
@@ -35,6 +37,7 @@
     "react-toast-notifications": "^2.5.1",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.0",
+    "serve-static": "^1.15.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -42,6 +45,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "postinstall": "react-scripts build",
     "serve": "react-scripts start"
   },
   "eslintConfig": {
