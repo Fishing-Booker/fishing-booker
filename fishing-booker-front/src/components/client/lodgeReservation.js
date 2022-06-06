@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import { format } from "date-fns";
 import Modal from 'react-modal';
 import NewReservation from "./modals/newReservation";
+import EntityLocation from "./entityLocation";
 
 Modal.setAppElement('#root')
 const LodgeReservation = () => {
@@ -158,18 +159,23 @@ const LodgeReservation = () => {
 
     return (
         <div className="card entity-details">
-            {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
-            {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(lodge.id, user.id)}>Subscribe</a>}
-            <p className="entity-info name" style={{marginTop: '2%'}}>{lodge.name}
-                <div className="stars">{renderStars(lodge.averageGrade)} </div>
-            </p>
-            <p className="entity-info location">{address}, {city}, {country}</p>
-            <p className="entity-info description">{lodge.description}</p>
-            <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
-            <p className="entity-info description">Max number of guests: {maxGuests}</p>
-            <p className="entity-info description">Price: 1,000.00 </p>
-            <p className="entity-info description">Regular services: {regularServices}</p>
-            <p className="entity-info description">Additional services: {additionalServices}</p>
+            <div style={{display: 'flex'}}>
+                <div>
+                {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
+                {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(lodge.id, user.id)}>Subscribe</a>}
+                <p className="entity-info name" style={{marginTop: '2%'}}>{lodge.name}
+                    <div className="stars">{renderStars(lodge.averageGrade)} </div>
+                </p>
+                <p className="entity-info location">{address}, {city}, {country}</p>
+                <p className="entity-info description">{lodge.description}</p>
+                <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
+                <p className="entity-info description">Max number of guests: {maxGuests}</p>
+                <p className="entity-info description">Price: 1,000.00 </p>
+                <p className="entity-info description">Regular services: {regularServices}</p>
+                <p className="entity-info description">Additional services: {additionalServices}</p>
+                </div>
+                <EntityLocation entityId={id} />
+            </div>
             <div className="info_data-images">
                 { allImages }
             </div> <br></br>
