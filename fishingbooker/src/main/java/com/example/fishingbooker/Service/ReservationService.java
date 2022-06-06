@@ -140,18 +140,18 @@ public class ReservationService implements IReservationService {
         return reservations;
     }
 
-    @Transactional
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     @Override
     public void save(AddReservationDTO dto) {
         Reservation reservation = new Reservation();
         ReservationEntity entity = setReservationEntity(dto.getEntityName(), dto.getOwner());
+        reservation.setStartDate(dto.getStartDate());
+        reservation.setEndDate(dto.getEndDate());
+        reservation.setClient(userRepository.findByUsername(dto.getClientUsername()));
+        reservation.setReservationType(ReservationType.regularReservation);
         try {
             entity = entityRepository.getLocked(entity.getId());
-            reservation.setStartDate(dto.getStartDate());
-            reservation.setEndDate(dto.getEndDate());
-            reservation.setClient(userRepository.findByUsername(dto.getClientUsername()));
             reservation.setReservationEntity(entity);
-            reservation.setReservationType(ReservationType.regularReservation);
             reservationRepository.save(reservation);
         } catch (PessimisticLockingFailureException e) {
             System.out.println(e.getMessage());
@@ -270,13 +270,13 @@ public class ReservationService implements IReservationService {
         return true;
     }
 
-    @Transactional
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     @Override
     public Reservation makeReservationOwner(OwnerReservationDTO dto) {
         Reservation reservation = ReservationMapper.ownerMapDTOToModel(dto);
+        reservation.setClient(userRepository.getById(dto.getClientId()));
         try {
             ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
-            reservation.setClient(userRepository.getById(dto.getClientId()));
             reservation.setReservationEntity(entity);
             emailService.sendEmailAfterReservation(dto.getClientId());
             return reservationRepository.save(reservation);

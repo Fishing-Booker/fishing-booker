@@ -33,5 +33,6 @@ public interface IReservationEntityRepository extends JpaRepository<ReservationE
 
     @Query("SELECT e FROM ReservationEntity e WHERE e.id = ?1 ")
     @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
     ReservationEntity getLocked(Integer id) throws PessimisticLockingFailureException;
 }

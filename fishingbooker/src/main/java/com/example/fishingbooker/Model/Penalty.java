@@ -12,6 +12,10 @@ public class Penalty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
+
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "client_id", referencedColumnName = "user_id")
     private User client;

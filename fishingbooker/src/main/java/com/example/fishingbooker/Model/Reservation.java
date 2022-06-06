@@ -15,6 +15,10 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
+
     @Column(name = "start_date")
     private Date startDate;
 
