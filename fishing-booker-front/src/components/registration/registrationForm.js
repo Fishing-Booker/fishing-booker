@@ -6,7 +6,7 @@ import React from 'react'
 import axios from 'axios';
 
 const RegistrationForm = () => {
-  const SERVER_URL = process.env.production.REACT_APP_API;
+  const SERVER_URL = process.env.REACT_APP_API;
   const { addToast } = useToasts();
   const history = useHistory();
   const url = window.location.href;
