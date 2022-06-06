@@ -21,7 +21,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     Boolean existsByEmail(String email);
 
-    @Query("select u from User u where u.isDeleted=false")
+    @Query("select u from User u where u.isDeleted = false")
     List<User> findAll();
 
     User save(User user);
@@ -65,4 +65,12 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Transactional
     void adminsFirstLogin(Integer id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT u FROM User u WHERE u.isDeleted = false")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "15000")})
+    List<User> findAllLocked();
+
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
 }

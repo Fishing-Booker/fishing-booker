@@ -10,6 +10,7 @@ import com.example.fishingbooker.Model.AccountRequest;
 import com.example.fishingbooker.Model.User;
 import com.example.fishingbooker.config.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -66,10 +67,15 @@ public class AuthenticationController {
             throw new ResourceConflictException(userRequest.getUsername(), "Username already exists");
         }
 
-        User user = this.userService.save(userRequest);
-        userService.sendVerificationEmail(user);
-
-        return new ResponseEntity<>(user, HttpStatus.CREATED);//201
+        try {
+            User user = this.userService.save(userRequest);
+            userService.sendVerificationEmail(user);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);//201
+        } catch (PessimisticLockingFailureException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/registerOwner")
