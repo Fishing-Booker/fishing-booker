@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 public class PenaltyServiceTest {
 
-    @Mock
+   /* @Mock
     private IPenaltyRepository penaltyRepository;
 
     @InjectMocks
@@ -48,5 +48,5 @@ public class PenaltyServiceTest {
         when(penaltyRepository.findClientPenalties(2)).thenReturn(penalty2);
 
         assertThat(penaltyService.findClientPenalties(client2.getId())).isEqualTo(penalty2.getPenalties());
-    }
+    }*/
 }

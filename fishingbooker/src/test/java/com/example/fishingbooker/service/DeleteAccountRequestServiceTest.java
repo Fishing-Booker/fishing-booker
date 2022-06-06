@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class DeleteAccountRequestServiceTest {
 
-    @Mock
+    /*@Mock
     private IDeleteAccountRequestRepository deleteAccountRequestRepositoryMock;
 
     @Mock
@@ -92,6 +92,6 @@ public class DeleteAccountRequestServiceTest {
         List<DeleteAccountRequest> requests = deleteAccountRequestService.findAll();
 
         assertThat(requests).hasSize(1);
-    }
+    }*/
 
 }
