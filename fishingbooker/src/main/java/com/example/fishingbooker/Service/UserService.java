@@ -5,13 +5,11 @@ import com.example.fishingbooker.DTO.RatingInfoDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.IRepository.*;
-import com.example.fishingbooker.IService.IImageService;
-import com.example.fishingbooker.IService.IRoleService;
-import com.example.fishingbooker.IService.IUserCategoryService;
-import com.example.fishingbooker.IService.IUserService;
+import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -31,8 +30,8 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService, UserDetailsService {
 
-    @Autowired
-    IUserRepository userRepository;
+    //@Autowired
+    private final IUserRepository userRepository;
 
     @Autowired
     IRoleService roleService;
@@ -59,7 +58,14 @@ public class UserService implements IUserService, UserDetailsService {
     IUserCategoryService userCategoryService;
 
     @Autowired
+    IOwnerIncomeService ownerIncomeService;
+
+    @Autowired
     private JavaMailSender mailSender;
+
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Optional<User> findById(Integer id) {
@@ -92,38 +98,50 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User save(UserDTO userDTO) {
-        User u = new User();
-        u.setUsername(userDTO.getUsername());
-        u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        u.setEmail(userDTO.getEmail());
-        u.setName(userDTO.getName());
-        u.setSurname(userDTO.getSurname());
-        u.setAddress(userDTO.getAddress());
-        u.setApproved(false);
-        u.setFirstLogin(true);
-        u.setCity(userDTO.getCity());
-        u.setCountry(userDTO.getCountry());
-        u.setDeleted(false);
-        u.setPhoneNumber(userDTO.getPhoneNumber());
-        List<Role> roles = roleService.findByName(userDTO.getRole());
-        u.setRoles(roles);
+    @Transactional
+    public User save(UserDTO userDTO) throws PessimisticLockingFailureException {
+        try {
+            if (findByEmail(userDTO.getEmail()) == null) {
+                User u = new User();
+                u.setUsername(userDTO.getUsername());
+                u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+                u.setEmail(userDTO.getEmail());
+                u.setName(userDTO.getName());
+                u.setSurname(userDTO.getSurname());
+                u.setAddress(userDTO.getAddress());
+                u.setApproved(false);
+                u.setFirstLogin(true);
+                u.setCity(userDTO.getCity());
+                u.setCountry(userDTO.getCountry());
+                u.setDeleted(false);
+                u.setPhoneNumber(userDTO.getPhoneNumber());
+                List<Role> roles = roleService.findByName(userDTO.getRole());
+                u.setRoles(roles);
 
-        String verificationCode = RandomString.make(64);
-        u.setVerificationCode(verificationCode);
-        this.userRepository.save(u);
-        //addCategory(u.getUsername());
-        return u;
+                String verificationCode = RandomString.make(64);
+                u.setVerificationCode(verificationCode);
+                this.userRepository.save(u);
+                System.out.println(userDTO.getRole());
+                addCategory(u.getUsername());
+                if(userDTO.getRole().equals("ROLE_INSTRUCTOR") ||userDTO.getRole().equals("ROLE_SHIPOWNER") || userDTO.getRole().equals("ROLE_LODGEOWNER"))ownerIncomeService.initializeOwnerIncome(u.getUsername());
+                return u;
+            }
+
+        } catch (Exception e) {
+            throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
+        }
+        throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
     }
 
     private void addCategory(String userUsername){
         User user = userRepository.findByUsername(userUsername);
         UserCategory userCategory = new UserCategory();
         userCategory.setCategoryType(CategoryType.wood);
-        userCategory.setClient(user);
+        userCategory.setUser(user);
         userCategory.setPoints(0);
         userCategoryService.add(userCategory);
     }
+
 
     @Override
     public User saveAdmin(UserDTO userDTO) {
@@ -173,7 +191,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -221,7 +239,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -245,7 +263,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -293,7 +311,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -417,7 +435,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -447,7 +465,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -476,7 +494,7 @@ public class UserService implements IUserService, UserDetailsService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);
@@ -489,4 +507,22 @@ public class UserService implements IUserService, UserDetailsService {
         mailSender.send(message);
     }
 
+    @Override
+    public User doesExist(Integer id) {
+        User found = userRepository.getById(id);
+        return found;
+    }
+
+    @Override
+    @Transactional
+    public User findByEmail(String email) {
+        try {
+            for (User user : userRepository.findAllLocked()) {
+                if (user.getEmail().equals(email)) return user;
+            }
+        } catch (Exception e) {
+            throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
+        }
+        return null;
+    }
 }

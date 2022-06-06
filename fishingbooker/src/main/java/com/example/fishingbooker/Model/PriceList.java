@@ -10,7 +10,9 @@ public class PriceList {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "pricelistSeqGen", sequenceName = "pricelistSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pricelistSeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(targetEntity = ReservationEntity.class, fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})

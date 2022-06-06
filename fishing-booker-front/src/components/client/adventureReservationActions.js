@@ -22,9 +22,10 @@ const AdventureReservationActions = () => {
     }, [!isBooked])
 
     const handleClick = (actionId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var dto = { actionId: actionId, clientId: user.id}
         console.log(dto)
-        axios.post(SERVER_URL + "/actions/makeReservation", dto)
+        axios.post(SERVER_URL + "/actions/makeReservation", dto, {headers: headers})
             .then(response => setIsBooked(true))
     }
 

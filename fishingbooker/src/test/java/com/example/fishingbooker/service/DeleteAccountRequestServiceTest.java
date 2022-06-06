@@ -50,7 +50,8 @@ public class DeleteAccountRequestServiceTest {
         when(userRepositoryMock.findByUsername(user.getUsername())).thenReturn(user);
         doNothing().when(userRepositoryMock).deleteByUsername(user.getUsername());
         doNothing().when(userServiceMock).sendEmailResponseDeleteReq(user,"");
-        when(deleteAccountRequestRepositoryMock.approve(deleteAccountRequest.getId())).thenReturn(new DeleteAccountRequest(1, user.getUsername(), "", true, false));
+        doNothing().when(deleteAccountRequestRepositoryMock).approve(deleteAccountRequest.getId());
+        when(deleteAccountRequestRepositoryMock.findById(deleteAccountRequest.getId())).thenReturn(java.util.Optional.of(new DeleteAccountRequest(1, user.getUsername(), "", true, false)));
 
         DeleteAccountRequest deleteAccountRequest1 = deleteAccountRequestService.approveDeleteRequest(dto);
 
@@ -69,7 +70,8 @@ public class DeleteAccountRequestServiceTest {
 
         when(userRepositoryMock.findByUsername(user.getUsername())).thenReturn(user);
         doNothing().when(userServiceMock).sendEmailResponseDeleteReq(user,"");
-        when(deleteAccountRequestRepositoryMock.disapprove(deleteAccountRequest.getId())).thenReturn(new DeleteAccountRequest(1, user.getUsername(), "", false, true));
+        doNothing().when(deleteAccountRequestRepositoryMock).disapprove(deleteAccountRequest.getId());
+        when(deleteAccountRequestRepositoryMock.findById(deleteAccountRequest.getId())).thenReturn(java.util.Optional.of(new DeleteAccountRequest(1, user.getUsername(), "", false, true)));
 
         DeleteAccountRequest deleteAccountRequest1 = deleteAccountRequestService.rejectDeleteRequest(dto);
 

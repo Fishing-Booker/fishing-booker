@@ -11,17 +11,24 @@ const ReservationReport = () => {
         axios.get(SERVER_URL + "/reservations/getReservationReportAdmin", { headers: headers })
             .then(response => {
                 setReservations(response.data);
-                calculateProfit(response.data);
+                calculateProfit();
             })
     }, [])
 
-    const calculateProfit = (reservs) => {
-        var sum = 0;
+    const calculateProfit = () => {
+        /*var sum = 0;
         reservs.forEach(element => {
             sum += element.price/10;
         });
         setProfit(sum);
-        sum = 0;
+        sum = 0;*/
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + "/loyaltyProgramme/getSystemIncome", { headers: headers })
+            .then(response => {
+                var sum = 0;
+                sum = response.data.systemIncome
+                setProfit(sum);
+            })
     }
 
     const reservationList = reservations.length ? (

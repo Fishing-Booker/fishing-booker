@@ -2,10 +2,10 @@ package com.example.fishingbooker.IRepository;
 
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     Boolean existsByEmail(String email);
 
-    @Query("select u from User u where u.isDeleted=false")
+    @Query("select u from User u where u.isDeleted = false")
     List<User> findAll();
 
     User save(User user);
@@ -56,8 +56,21 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.id = ?1")
     User getById(Integer id);
 
+    @Query("SELECT u FROM User u WHERE u.id = ?1")
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
+    User getLocker(Integer id);
+
     @Query("update User u set u.isFirstLogin=false where u.id =?1")
     @Modifying
     @Transactional
     void adminsFirstLogin(Integer id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT u FROM User u WHERE u.isDeleted = false")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "15000")})
+    List<User> findAllLocked();
+
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
 }

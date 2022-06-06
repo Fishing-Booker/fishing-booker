@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import { format } from "date-fns";
 import Modal from 'react-modal';
 import NewReservation from "./modals/newReservation";
+import EntityLocation from "./entityLocation";
 
 Modal.setAppElement('#root')
 const LodgeReservation = () => {
@@ -28,9 +29,14 @@ const LodgeReservation = () => {
     const [start, setStart] = useState('')
     const [end, setEnd] = useState('')
     const [maxGuests, setMaxGuests] = useState('')
+    const [images, setImages] = useState([])
+    const [servicesAdditional, setServicesAdditional] = useState([]);
+    const [servicesRegular, setServicesRegular] = useState([]);
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/lodges/lodge?id=" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/lodges/lodge?id=" + id, {headers: headers})
             .then(response => {
                 setLodge(response.data); 
                 setAddress(response.data.location.address);
@@ -42,7 +48,6 @@ const LodgeReservation = () => {
                 setMaxGuests(response.data.maxPersons)
             });
         
-        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data); 
@@ -50,6 +55,23 @@ const LodgeReservation = () => {
                 axios.post(SERVER_URL + "/subscribe/isSubscribed", subscriberDTO)
                     .then(response => setIsSubscribed(response.data))
             })
+
+        axios.get(SERVER_URL + '/images/getImages/' + id, {headers:headers})
+            .then(response => {
+                setImages(response.data);
+                console.log(response.data);
+        
+            });
+        
+        axios.get(SERVER_URL + "/prices/additionalServices2/" + entityId, { headers: headers })
+            .then(response => {
+                setServicesAdditional(response.data);
+            });
+        
+        axios.get(SERVER_URL + "/prices/regularServices/" + entityId, { headers: headers })
+                .then(response => {
+                    setServicesRegular(response.data);
+            });
         
     }, [id, isSubscribed, modalIsOpen])
 
@@ -62,8 +84,9 @@ const LodgeReservation = () => {
     }
 
     const handleSubscribe = (entityId, userId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var subscriberDTO = {entityId, userId}
-        axios.post(SERVER_URL + "/subscribe", subscriberDTO)
+        axios.post(SERVER_URL + "/subscribe", subscriberDTO, {headers: headers})
             .then(() => {
                 addToast("You are successfully subscribed.", { appearance: "success" });
                 setIsSubscribed(true);
@@ -71,7 +94,8 @@ const LodgeReservation = () => {
     }
 
     const handleUnsubscribe = (entityId, userId) => {
-        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId, {headers: headers})
             .then(() => {
                 addToast("You are no longer subscribed.", { appearance: "success" });
                 setIsSubscribed(false);
@@ -79,12 +103,51 @@ const LodgeReservation = () => {
     }
 
     const seeAvailableReservations = (startDate, endDate) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var ownerId = 3;
         var periodDTO = { startDate, endDate, entityId : id, ownerId }
         console.log(periodDTO)
-        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
+        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO, {headers: headers})
             .then(response => {setAvailablePeriods(response.data); console.log(response.data)})
     }
+
+    const allImages = images.length ? (
+        images.map(image => {
+            return(
+                <div className="card-image" key={image.imageId}>
+                    <img src={image.base64} />
+                </div>
+            )
+        }) 
+    ): null;
+
+    const regularServices = servicesRegular.length ? (
+        servicesRegular.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
+
+    const additionalServices = servicesAdditional.length ? (
+        servicesAdditional.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
 
     const periods = availablePeriods.length ? (
         availablePeriods.map((period, index) => {
@@ -100,17 +163,26 @@ const LodgeReservation = () => {
 
     return (
         <div className="card entity-details">
-            {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
-            {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(lodge.id, user.id)}>Subscribe</a>}
-            <p className="entity-info name" style={{marginTop: '2%'}}>{lodge.name}
-                <div className="stars">{renderStars(lodge.averageGrade)} </div>
-            </p>
-            <p className="entity-info location">{address}, {city}, {country}</p>
-            <p className="entity-info description">{lodge.description}</p>
-            <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
-            <p className="entity-info description">Max number of guests: {maxGuests}</p>
-            <p className="entity-info description">Price: 1,000.00 </p>
-            <br></br>
+            <div style={{display: 'flex'}}>
+                <div>
+                {isSubscribed && <a className="subscribe-link" onClick={() => handleUnsubscribe(lodge.id, user.id)}>Unsubscribe</a>}
+                {!isSubscribed && <a className="subscribe-link" onClick={() => handleSubscribe(lodge.id, user.id)}>Subscribe</a>}
+                <p className="entity-info name" style={{marginTop: '2%'}}>{lodge.name}
+                    <div className="stars">{renderStars(lodge.averageGrade)} </div>
+                </p>
+                <p className="entity-info location">{address}, {city}, {country}</p>
+                <p className="entity-info description">{lodge.description}</p>
+                <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
+                <p className="entity-info description">Max number of guests: {maxGuests}</p>
+                <p className="entity-info description">Price: 1,000.00 </p>
+                <p className="entity-info description">Regular services: {regularServices}</p>
+                <p className="entity-info description">Additional services: {additionalServices}</p>
+                </div>
+                <EntityLocation entityId={id} />
+            </div>
+            <div className="info_data-images">
+                { allImages }
+            </div> <br></br>
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>
             <br></br>

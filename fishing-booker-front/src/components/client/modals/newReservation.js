@@ -30,7 +30,7 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setClientId(response.data.id);
-                axios.get(SERVER_URL + '/penalties?clientId=' + response.data.id)
+                axios.get(SERVER_URL + '/penalties?clientId=' + response.data.id, { headers: headers })
                 .then(response => {setPenalties(response.data); console.log(response.data)});
             })
             
@@ -114,8 +114,8 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
     const handleSubmit = () => {
         console.log(moment(startDate).format())
         console.log(moment(endDate).format())
-        dto.additionalServices = setServicesAsString();
-        dto.regularService = changeRegularServiceFormat();
+        if(choosenServices !== []) dto.additionalServices = setServicesAsString();
+        if(choosenServicesR !== "") dto.regularService = changeRegularServiceFormat();
         console.log(dto)
         if (isInRangeOne(moment(startDate).format()) && isInRangeOne(moment(endDate).format()) && numberOfGuests <= maxGuests && penalties < 3) {
             axios.post(SERVER_URL + "/reservations/makeReservation", dto)

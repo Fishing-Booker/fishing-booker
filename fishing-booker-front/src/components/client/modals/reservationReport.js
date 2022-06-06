@@ -15,7 +15,8 @@ const ReservationReport = ({modalIsOpen, setModalIsOpen, entityId, clientId}) =>
     }
 
     const handleSubmit = () => {
-        axios.post(SERVER_URL + "/complaints/add", dto)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.post(SERVER_URL + "/complaints/add", dto, { headers: headers })
             .then(response => console.log(response.data));
         addToast("Your complaint is successfully created!", { appearance: "success" });
         setModalIsOpen(false);

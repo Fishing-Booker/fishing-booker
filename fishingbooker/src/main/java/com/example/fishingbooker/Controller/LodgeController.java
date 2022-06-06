@@ -70,10 +70,10 @@ public class LodgeController {
             id = entityService.setId();
         }
 
-        Lodge lodge = new Lodge(id, owner, lodgeDTO.getName(), location, lodgeDTO.getDescription(),
+        Lodge lodge = new Lodge(owner, lodgeDTO.getName(), location, lodgeDTO.getDescription(),
                 "", lodgeDTO.getCancelConditions(), 0.0, lodgeDTO.getMaxPersons(), new ArrayList<>());
 
-        lodgeService.save(lodge);
+        lodge = lodgeService.save(lodge);
 
         addBedrooms(lodge, lodgeDTO.getOneBed(), lodgeDTO.getTwoBed(), lodgeDTO.getThreeBed(), lodgeDTO.getFourBed());
 
@@ -149,6 +149,7 @@ public class LodgeController {
     }
 
     @GetMapping("/lodge")
+    @PreAuthorize("hasRole('CLIENT')")
     public LodgeInfoDTO getById(@RequestParam Integer id) {
         return lodgeService.getById(id);
     }

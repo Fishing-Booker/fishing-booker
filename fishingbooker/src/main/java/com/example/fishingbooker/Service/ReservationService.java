@@ -4,15 +4,21 @@ import com.example.fishingbooker.DTO.ClientDTO;
 import com.example.fishingbooker.DTO.ReservationEntityDTO;
 import com.example.fishingbooker.DTO.lodge.LodgeDTO;
 import com.example.fishingbooker.DTO.reservation.*;
+import com.example.fishingbooker.DTO.reservationPeriod.ReservationPeriodDTO;
+import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.Enum.ReservationType;
 import com.example.fishingbooker.IRepository.IReservationEntityRepository;
 import com.example.fishingbooker.IRepository.IReservationRepository;
+import com.example.fishingbooker.IRepository.IUserCategoryRepository;
 import com.example.fishingbooker.IRepository.IUserRepository;
 import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Mapper.ReservationMapper;
 import com.example.fishingbooker.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +48,15 @@ public class ReservationService implements IReservationService {
 
     @Autowired
     private IReservationEntityService entityService;
+
+    @Autowired
+    private IUserCategoryRepository userCategoryRepository;
+
+    @Autowired
+    private IUserCategoryService userCategoryService;
+
+    @Autowired
+    private IOwnerIncomeService ownerIncomeService;
 
     @Override
     public List<ReservationDTO> findEntityReservations(Integer entityId) {
@@ -136,15 +151,22 @@ public class ReservationService implements IReservationService {
         return reservations;
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     @Override
     public void save(AddReservationDTO dto) {
         Reservation reservation = new Reservation();
+        ReservationEntity entity = setReservationEntity(dto.getEntityName(), dto.getOwner());
         reservation.setStartDate(dto.getStartDate());
         reservation.setEndDate(dto.getEndDate());
         reservation.setClient(userRepository.findByUsername(dto.getClientUsername()));
-        reservation.setReservationEntity(setReservationEntity(dto.getEntityName(), dto.getOwner()));
         reservation.setReservationType(ReservationType.regularReservation);
-        reservationRepository.save(reservation);
+        try {
+            entity = entityRepository.getLocked(entity.getId());
+            reservation.setReservationEntity(entity);
+            reservationRepository.save(reservation);
+        } catch (PessimisticLockingFailureException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -223,22 +245,87 @@ public class ReservationService implements IReservationService {
         return reservationsDTO;
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     @Override
     public void makeReservation(ClientReservationDTO dto) {
         Reservation reservation = ReservationMapper.mapDTOToModel(dto);
-        reservation.setClient(userRepository.getById(dto.getClientId()));
-        reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
-        reservationRepository.save(reservation);
-        emailService.sendEmailAfterReservation(dto.getClientId());
+        try {
+            ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
+            reservation.setClient(userRepository.getById(dto.getClientId()));
+            reservation.setReservationEntity(entity);
+            reservation.setPrice(calculateDiscount(reservation.getClient().getId(),dto.getPrice()));
+            if(isPeriodAvailable(reservation.getStartDate(), reservation.getEndDate(), entity.getId())){
+                reservationRepository.save(reservation);
+                ownerIncomeService.updateOwnerIncome(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                userCategoryService.updateClientPoints(reservation.getClient().getId(), dto.getPrice());
+                userCategoryService.updateOwnerPoints(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                emailService.sendEmailAfterReservation(dto.getClientId());
+            } else {
+                throw new PessimisticLockingFailureException("Entity already reserved");
+            }
+        } catch(PessimisticLockingFailureException e) {
+            System.out.println(e.getMessage());
+            throw new PessimisticLockingFailureException("Entity already reserved");       
+        }
     }
 
+    private double calculateDiscount(Integer clientId, double oldPrice){
+        UserCategory userCategory = userCategoryRepository.getUserCategoryByClientId(clientId);
+        if(userCategory.getCategoryType() == CategoryType.bronze) {
+            return oldPrice*0.95;
+        } else if(userCategory.getCategoryType() == CategoryType.silver){
+            return oldPrice*0.9;
+        } else if (userCategory.getCategoryType() == CategoryType.gold){
+            return oldPrice*0.85;
+        } else {
+            return oldPrice;
+        }
+    }
+
+    private boolean isPeriodAvailable(Date startDate, Date endDate, Integer entityId) {
+        List<ReservationDTO> reservations = findEntityReservations(entityId);
+        for(ReservationDTO reservation : reservations) {
+            if(reservation.getStartDate().before(startDate) && startDate.before(reservation.getEndDate())){ //start izmedju pocetka i kraja
+                return false;
+            }
+            if(reservation.getStartDate().before(endDate) && endDate.before(reservation.getEndDate())) {    //end izmedju pocetka i kraja
+                return false;
+            }
+            if(reservation.getStartDate().before(startDate) && endDate.before(reservation.getEndDate())) {  //start i end izmedju pocetka i kraja
+                return false;
+            }
+            if(reservation.getStartDate() == startDate) {  //poklapanje start-a
+                if(startDate.getTime() >= reservation.getStartDate().getTime()){
+                    return false;
+                }
+            }
+            if(reservation.getEndDate() == endDate) {  //poklapanje end-a
+                if(endDate.getTime() <= reservation.getEndDate().getTime()){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     @Override
     public Reservation makeReservationOwner(OwnerReservationDTO dto) {
         Reservation reservation = ReservationMapper.ownerMapDTOToModel(dto);
         reservation.setClient(userRepository.getById(dto.getClientId()));
-        reservation.setReservationEntity(entityRepository.findEntityById(dto.getEntityId()));
-        emailService.sendEmailAfterReservation(dto.getClientId());
-        return reservationRepository.save(reservation);
+        try {
+            ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
+            reservation.setReservationEntity(entity);
+            if(isPeriodAvailable(dto.getStartDate(), dto.getEndDate(), dto.getEntityId())) {
+                emailService.sendEmailAfterReservation(dto.getClientId());
+                return reservationRepository.save(reservation);
+            } else {
+                throw new PessimisticLockingFailureException("Entity already reserved");
+            }
+        } catch(PessimisticLockingFailureException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -261,6 +348,7 @@ public class ReservationService implements IReservationService {
             reservationRepository.cancelReservation(id);
         }
         canceledReservationService.save(new CanceledReservation(reservation.getStartDate(), reservation.getEndDate(), reservation.getClient(), reservation.getReservationEntity()));
+
     }
 
     private boolean isReservationActive(ReservationDTO reservation){
@@ -352,5 +440,14 @@ public class ReservationService implements IReservationService {
         User user = userRepository.findByUsername(userUsername);
         LoyaltyProgramme loyaltyProgramme = loyaltyProgrammeService.get();
 
+    }
+
+    @Override
+    public List<Reservation> findAll() {
+        return reservationRepository.findAll();
+    }
+
+    public void cancelRegularReservation(Integer id) {
+        this.reservationRepository.cancelReservation(id);
     }
 }

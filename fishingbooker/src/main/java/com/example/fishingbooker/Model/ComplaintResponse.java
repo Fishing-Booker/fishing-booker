@@ -7,7 +7,9 @@ import javax.persistence.*;
 public class ComplaintResponse {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "complaintResponseSeqGen", sequenceName = "complaintResponseSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "complaintResponseSeqGen")
     private Integer id;
 
     @Column(name = "text")

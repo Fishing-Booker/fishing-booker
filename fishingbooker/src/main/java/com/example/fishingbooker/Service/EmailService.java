@@ -34,7 +34,7 @@ public class EmailService implements IEmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(user.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);

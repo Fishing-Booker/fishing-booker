@@ -9,8 +9,14 @@ public class Penalty {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "penaltySeqGen", sequenceName = "penaltySeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "penaltySeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     //@JoinColumn(name = "client_id", referencedColumnName = "user_id")

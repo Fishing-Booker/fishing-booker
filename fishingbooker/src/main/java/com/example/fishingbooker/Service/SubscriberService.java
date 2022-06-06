@@ -112,7 +112,7 @@ public class SubscriberService implements ISubscriberService {
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
             try {
-                helper.setFrom("fishingbookernsm@gmail.com", sender);
+                helper.setFrom("fishingbookernsm@hotmail.com", sender);
                 helper.setTo(client.getEmail());
                 helper.setSubject(subject);
                 helper.setText(content, true);
@@ -141,7 +141,7 @@ public class SubscriberService implements ISubscriberService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setFrom("fishingbookernsm@gmail.com", sender);
+            helper.setFrom("fishingbookernsm@hotmail.com", sender);
             helper.setTo(client.getEmail());
             helper.setSubject(subject);
             helper.setText(content, true);

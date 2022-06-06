@@ -12,12 +12,12 @@ public interface IRatingRepository extends JpaRepository<Rating, Integer> {
     @Query("update Rating r set r.isApproved=true where r.id=?1")
     @Modifying
     @Transactional
-    Rating approveRating(Integer ratingId);
+    void approveRating(Integer ratingId);
 
     @Query("update Rating r set r.isDisapproved=true where r.id=?1")
     @Modifying
     @Transactional
-    Rating disapproveRating(Integer ratingId);
+    void disapproveRating(Integer ratingId);
 
     @Query("select r from Rating r where r.id=?1")
     Rating getById(Integer id);

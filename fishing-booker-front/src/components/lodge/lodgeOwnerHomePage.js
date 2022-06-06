@@ -37,6 +37,7 @@ const LodgeOwnerHomePage = () => {
         .then(response => {
             setUser(response.data);
             var user = response.data;
+            console.log(response.data)
         
             axios.get(SERVER_URL + '/lodges/ownerLodges/' + user.id, { headers: headers})    
                 .then(response => {

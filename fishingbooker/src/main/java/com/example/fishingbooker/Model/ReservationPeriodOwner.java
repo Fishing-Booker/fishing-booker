@@ -9,7 +9,9 @@ import java.util.Date;
 public class ReservationPeriodOwner {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "reservationPeriodOwnerSeqGen", sequenceName = "reservationPeriodOwnerSeqGen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservationPeriodOwnerSeqGen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "start_date")

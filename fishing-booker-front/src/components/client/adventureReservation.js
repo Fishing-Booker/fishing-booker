@@ -28,9 +28,14 @@ const AdventureReservation = () => {
     const [start, setStart] = useState('')
     const [end, setEnd] = useState('')
     const [maxPersons, setMaxPersons] = useState('')
+    const [images, setImages] = useState([])
+    const [servicesAdditional, setServicesAdditional] = useState([]);
+    const [servicesRegular, setServicesRegular] = useState([]);
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/adventures/adventure?id=" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/adventures/adventure?id=" + id, { headers: headers })
             .then(response => {
                 setAdventure(response.data); 
                 setAddress(response.data.location.address);
@@ -42,14 +47,30 @@ const AdventureReservation = () => {
                 setMaxPersons(response.data.maxPersons);
             });
         
-        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data); 
                 var subscriberDTO = {entityId, userId: response.data.id}
                 axios.post(SERVER_URL + "/subscribe/isSubscribed", subscriberDTO)
                     .then(response => setIsSubscribed(response.data))
-            })
+            });
+
+        axios.get(SERVER_URL + '/images/getImages/' + id, {headers:headers})
+        .then(response => {
+            setImages(response.data);
+            console.log(response.data);
+    
+        });
+        
+        axios.get(SERVER_URL + "/prices/additionalServices2/" + entityId, { headers: headers })
+            .then(response => {
+                setServicesAdditional(response.data);
+            });
+        
+        axios.get(SERVER_URL + "/prices/regularServices/" + entityId, { headers: headers })
+                .then(response => {
+                    setServicesRegular(response.data);
+            });
         
     }, [id, isSubscribed, modalIsOpen])
 
@@ -62,8 +83,9 @@ const AdventureReservation = () => {
     }
 
     const handleSubscribe = (entityId, userId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var subscriberDTO = {entityId, userId}
-        axios.post(SERVER_URL + "/subscribe", subscriberDTO)
+        axios.post(SERVER_URL + "/subscribe", subscriberDTO, { headers: headers })
             .then(() => {
                 addToast("You are successfully subscribed.", { appearance: "success" });
                 setIsSubscribed(true);
@@ -71,7 +93,8 @@ const AdventureReservation = () => {
     }
 
     const handleUnsubscribe = (entityId, userId) => {
-        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId, { headers: headers })
             .then(() => {
                 addToast("You are no longer subscribed.", { appearance: "success" });
                 setIsSubscribed(false);
@@ -80,10 +103,49 @@ const AdventureReservation = () => {
 
     const seeAvailableReservations = (startDate, endDate) => {
         var periodDTO = { entityId: id, startDate, endDate }
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         console.log(periodDTO)
-        axios.post(SERVER_URL + "/ownerPeriods/availablePeriods", periodDTO)
+        axios.post(SERVER_URL + "/ownerPeriods/availablePeriods", periodDTO, {headers: headers})
             .then(response => setAvailablePeriods(response.data))
     }
+
+    const allImages = images.length ? (
+        images.map(image => {
+            return(
+                <div className="card-image" key={image.imageId}>
+                    <img src={image.base64} />
+                </div>
+            )
+        }) 
+    ): null;
+
+    const regularServices = servicesRegular.length ? (
+        servicesRegular.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
+
+    const additionalServices = servicesAdditional.length ? (
+        servicesAdditional.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
 
     const periods = availablePeriods.length ? (
         availablePeriods.map((period, index) => {
@@ -109,6 +171,11 @@ const AdventureReservation = () => {
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
             <p className="entity-info description">Max number of persons: {maxPersons}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
+            <p className="entity-info description">Regular services: {regularServices}</p>
+            <p className="entity-info description">Additional services: {additionalServices}</p>
+            <div className="info_data-images">
+                { allImages }
+            </div>
             <br></br>
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>

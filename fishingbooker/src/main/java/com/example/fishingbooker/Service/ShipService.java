@@ -25,8 +25,8 @@ import java.util.List;
 @Service
 public class ShipService implements IShipService {
 
-    @Autowired
-    private IShipRepository shipRepository;
+    //@Autowired
+    private final IShipRepository shipRepository;
 
     @Autowired
     private ILocationService locationService;
@@ -36,6 +36,10 @@ public class ShipService implements IShipService {
 
     @Autowired
     private IImageService imageService;
+
+    public ShipService(IShipRepository shipRepository) {
+        this.shipRepository = shipRepository;
+    }
 
     @Override
     public Ship save(Ship ship) {

@@ -25,9 +25,16 @@ const ShipReservation = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [maxPersons, setMaxPersons] = useState('')
+    const [images, setImages] = useState([])
+    const [servicesAdditional, setServicesAdditional] = useState([]);
+    const [servicesRegular, setServicesRegular] = useState([]);
+    const [fishEq, setFishEq] = useState([]);
+    const [navEq, setNavEq] = useState([]);
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/ships/ship?id=" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
+        axios.get(SERVER_URL + "/ships/ship?id=" + id, { headers: headers })
             .then(response => {
                 setShip(response.data); 
                 setOwnerName(response.data.owner.name);
@@ -35,15 +42,43 @@ const ShipReservation = () => {
                 setEntityId(response.data.id)
                 setMaxPersons(response.data.maxPersons)
             });
-        
-        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setUser(response.data); 
                 var subscriberDTO = {entityId, userId: response.data.id}
                 axios.post(SERVER_URL + "/subscribe/isSubscribed", subscriberDTO)
                     .then(response => setIsSubscribed(response.data))
-            })
+            });
+
+        axios.get(SERVER_URL + '/images/getImages/' + id, {headers:headers})
+        .then(response => {
+            setImages(response.data);
+            console.log(response.data);
+    
+        });
+        
+        axios.get(SERVER_URL + "/prices/additionalServices2/" + id, { headers: headers })
+            .then(response => {
+                setServicesAdditional(response.data);
+            });
+        
+        axios.get(SERVER_URL + "/prices/regularServices/" + id, { headers: headers })
+                .then(response => {
+                    setServicesRegular(response.data);
+            });
+            
+        axios.get(SERVER_URL + '/fishEquipment/shipFishingEquipment/' + id, {headers: headers})
+        .then(response => {
+            setFishEq(response.data); 
+            console.log(response.data)
+        });
+
+        axios.get(SERVER_URL + '/ships/shipNavEq/' + id, {headers: headers})
+        .then(response => {
+            setNavEq(response.data); 
+            console.log(response.data)
+        });
         
     }, [id, isSubscribed, modalIsOpen])
 
@@ -56,8 +91,9 @@ const ShipReservation = () => {
     }
 
     const handleSubscribe = (entityId, userId) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var subscriberDTO = {entityId, userId}
-        axios.post(SERVER_URL + "/subscribe", subscriberDTO)
+        axios.post(SERVER_URL + "/subscribe", subscriberDTO, { headers: headers })
             .then(() => {
                 addToast("You are successfully subscribed.", { appearance: "success" });
                 setIsSubscribed(true);
@@ -65,7 +101,8 @@ const ShipReservation = () => {
     }
 
     const handleUnsubscribe = (entityId, userId) => {
-        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + userId, { headers: headers })
             .then(() => {
                 addToast("You are no longer subscribed.", { appearance: "success" });
                 setIsSubscribed(false);
@@ -73,11 +110,79 @@ const ShipReservation = () => {
     }
 
     const seeAvailableReservations = (startDate, endDate) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var periodDTO = { entityId: id, startDate, endDate }
         console.log(periodDTO)
-        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO)
+        axios.post(SERVER_URL + "/periods/availablePeriods", periodDTO, { headers: headers })
             .then(response => setAvailablePeriods(response.data))
     }
+
+    const allImages = images.length ? (
+        images.map(image => {
+            return(
+                <div className="card-image" key={image.imageId}>
+                    <img src={image.base64} />
+                </div>
+            )
+        }) 
+    ): null;
+
+    const regularServices = servicesRegular.length ? (
+        servicesRegular.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
+
+    const additionalServices = servicesAdditional.length ? (
+        servicesAdditional.map((service, index) => {
+            return (
+                <div key={index}>
+                    {service.service_name}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            None
+        </div>
+    );
+
+    
+    const allFishEq = fishEq.length ? (
+        fishEq.map(eq => {
+            return (
+                <div key={eq.id}>
+                    * {eq.equipment}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            No fishing equipment.
+        </div>
+    );
+
+    const allNavEq = navEq.length ? (
+        navEq.map((eq, index) => {
+            return (
+                <div key={index}>
+                    * {eq}
+                </div>
+            )
+        })
+    ) : (
+        <div>
+            No navigation equipment.
+        </div>
+    );
     
     const periods = availablePeriods.length ? (
         availablePeriods.map((period, index) => {
@@ -102,6 +207,13 @@ const ShipReservation = () => {
             <p className="entity-info description">Owner: {ownerName} {ownerSurname}</p>
             <p className="entity-info description">Max number of persons: {maxPersons}</p>
             <p className="entity-info description">Price: 1,000.00 </p>
+            <p className="entity-info description">Regular services: {regularServices}</p>
+            <p className="entity-info description">Additional services: {additionalServices}</p>
+            <p className="entity-info description">Fishing equipment: {allFishEq}</p>
+            <p className="entity-info description">Navigation equipment: {allNavEq}</p>
+            <div className="info_data-images">
+                { allImages }
+            </div>
             <br></br>
             <h4 style={{marginLeft: '3%'}}>Please enter reservation details:</h4>
             <div style={{borderBottom: '2px solid cadetblue', padding: '5px', width: '50vw', marginLeft: '30px'}}></div>
