@@ -257,14 +257,24 @@ public class ReservationService implements IReservationService {
     private boolean isPeriodAvailable(Date startDate, Date endDate, Integer entityId) {
         List<ReservationDTO> reservations = findEntityReservations(entityId);
         for(ReservationDTO reservation : reservations) {
-            if(reservation.getStartDate().before(startDate) && startDate.before(reservation.getEndDate())){
+            if(reservation.getStartDate().before(startDate) && startDate.before(reservation.getEndDate())){ //start izmedju pocetka i kraja
                 return false;
             }
-            if(reservation.getStartDate().before(endDate) && endDate.before(reservation.getEndDate())) {
+            if(reservation.getStartDate().before(endDate) && endDate.before(reservation.getEndDate())) {    //end izmedju pocetka i kraja
                 return false;
             }
-            if(reservation.getStartDate().before(startDate) && endDate.before(reservation.getEndDate())) {
+            if(reservation.getStartDate().before(startDate) && endDate.before(reservation.getEndDate())) {  //start i end izmedju pocetka i kraja
                 return false;
+            }
+            if(reservation.getStartDate() == startDate) {  //poklapanje start-a
+                if(startDate.getTime() >= reservation.getStartDate().getTime()){
+                    return false;
+                }
+            }
+            if(reservation.getEndDate() == endDate) {  //poklapanje end-a
+                if(endDate.getTime() <= reservation.getEndDate().getTime()){
+                    return false;
+                }
             }
         }
         return true;
@@ -278,8 +288,12 @@ public class ReservationService implements IReservationService {
         try {
             ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
             reservation.setReservationEntity(entity);
-            emailService.sendEmailAfterReservation(dto.getClientId());
-            return reservationRepository.save(reservation);
+            if(isPeriodAvailable(dto.getStartDate(), dto.getEndDate(), dto.getEntityId())) {
+                emailService.sendEmailAfterReservation(dto.getClientId());
+                return reservationRepository.save(reservation);
+            } else {
+                throw new PessimisticLockingFailureException("Entity already reserved");
+            }
         } catch(PessimisticLockingFailureException e) {
             System.out.println(e.getMessage());
         }
