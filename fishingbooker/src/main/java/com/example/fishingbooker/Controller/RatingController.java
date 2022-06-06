@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class RatingController {
     IRatingService ratingService;
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<Rating> addRating(@RequestBody RatingDTO dto) {
         ratingService.addRating(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

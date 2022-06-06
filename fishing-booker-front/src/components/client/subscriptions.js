@@ -13,7 +13,8 @@ const Subscriptions = () => {
     const [isSubscribed, setIsSubscribed] = useState(true)
 
     useEffect(() => {
-        axios.get(SERVER_URL + "/subscribe/subscriptions?id=" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.get(SERVER_URL + "/subscribe/subscriptions?id=" + id, { headers: headers })
             .then(response => setSubscriptions(response.data))
 
     }, [!isSubscribed])
@@ -27,7 +28,8 @@ const Subscriptions = () => {
     }
 
     const handleUnsubscribe = (entityId) => {
-        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + id)
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
+        axios.delete(SERVER_URL + "/subscribe/unsubscribe?entityId=" + entityId + "&userId=" + id, { headers: headers })
             .then(() => {
                 addToast("You are no longer subscribed.", { appearance: "success" });
                 setIsSubscribed(!isSubscribed);

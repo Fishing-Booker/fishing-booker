@@ -30,7 +30,7 @@ const NewReservation = ({modalIsOpen, setModalIsOpen, startOfPeriod, endOfPeriod
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setClientId(response.data.id);
-                axios.get(SERVER_URL + '/penalties?clientId=' + response.data.id)
+                axios.get(SERVER_URL + '/penalties?clientId=' + response.data.id, { headers: headers })
                 .then(response => {setPenalties(response.data); console.log(response.data)});
             })
             

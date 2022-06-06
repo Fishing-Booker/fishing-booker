@@ -17,18 +17,19 @@ const Reservation = () => {
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 var dto = { date: startDate, clientId: response.data.id }
-                axios.post(SERVER_URL + "/reservations/currentReservations", dto)
+                axios.post(SERVER_URL + "/reservations/currentReservations", dto, { headers: headers })
                     .then(res => setReservations(res.data))
             })
     }, [isCanceled])
 
     const handleCanceling = (start, id) => {
+        const headers = {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.jwtToken}`}
         var differenceInTime = new Date(start) - today;
         var differenceInDays = differenceInTime / (1000 * 3600 * 24)
         if (differenceInDays < 4) {
             addToast("It's not possible to cancel the reservation 3 days before its start!", { appearance: "error" })
         } else {
-            axios.delete(SERVER_URL + "/reservations/cancel/" + id)
+            axios.delete(SERVER_URL + "/reservations/cancel/" + id, { headers: headers })
                 .then(setIsCanceled(!isCanceled))
         }
     }

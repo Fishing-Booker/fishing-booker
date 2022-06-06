@@ -18,7 +18,7 @@ const ReservationHistory = () => {
         axios.get(SERVER_URL + "/users/getLoggedUser", { headers: headers })
             .then(response => {
                 setClientId(response.data.id);
-                axios.get(SERVER_URL + "/reservations/" + response.data.id)
+                axios.get(SERVER_URL + "/reservations/" + response.data.id, { headers: headers })
                     .then(res => setReservations(res.data))
             })
     }, [url])
