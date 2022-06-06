@@ -7,6 +7,7 @@ import Navbar from "./navbar";
 import React from 'react'
 import RegistrationType from "./registration/registrationType";
 import UserProfilPage from "./userProfilePage";
+import UserCategory from "./userCategory"
 import LodgeOwnerHomePage from "./lodge/lodgeOwnerHomePage";
 import LodgeProfile from "./lodge/lodgeProfile";
 import LodgeImages from "./lodge/lodgeImages";
@@ -160,6 +161,7 @@ const FrontPage = () => {
                         <Route path="/reservationHistory"><LodgeReservationHistory/></Route>
                         <Route path="/lodgeOwnerCalendar"><LodgeOwnerCalendar/></Route>
                         <Route path="/lodgeReports"><LodgeReports/></Route>
+                        <Route path="/category"><UserCategory/> </Route>
                     </Switch>
 
                 }
@@ -193,6 +195,7 @@ const FrontPage = () => {
                         <Route path="/reservations"><InstructorReservations/></Route>
                         <Route path="/reservationHistory"><ReservationHistoryOwner/></Route>
                         <Route path="/adventureReports" ><AdventureReports/></Route>
+                        <Route path="/category"><UserCategory/> </Route>
                     </Switch>
                 }
 
@@ -217,6 +220,7 @@ const FrontPage = () => {
                                 <Route path="/lodges"><Lodges/></Route>
                                 <Route path="/ships"><Ships/></Route>
                             </div>
+                            <Route path="/category"><UserCategory/> </Route>
                         </Switch>
                     </div>
                 }
@@ -240,6 +244,7 @@ const FrontPage = () => {
                         <Route path="/shipReservations"><ShipReservations/></Route>
                         <Route path="/reservationHistory"><ShipReservationHistory/></Route>
                         <Route path="/shipReports"><ShipReports/></Route>
+                        <Route path="/category"><UserCategory/> </Route>
                     </Switch>
                 }
                 

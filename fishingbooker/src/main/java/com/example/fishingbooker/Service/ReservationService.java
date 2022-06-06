@@ -253,12 +253,14 @@ public class ReservationService implements IReservationService {
             ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
             reservation.setClient(userRepository.getById(dto.getClientId()));
             reservation.setReservationEntity(entity);
-            reservation.setPrice(calculateDiscount(reservation.getClient().getId(),dto.getPrice()));
+            if (loyaltyProgrammeService.get() != null) reservation.setPrice(calculateDiscount(reservation.getClient().getId(),dto.getPrice()));
             if(isPeriodAvailable(reservation.getStartDate(), reservation.getEndDate(), entity.getId())){
                 reservationRepository.save(reservation);
-                ownerIncomeService.updateOwnerIncome(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
-                userCategoryService.updateClientPoints(reservation.getClient().getId(), dto.getPrice());
-                userCategoryService.updateOwnerPoints(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                if(loyaltyProgrammeService.get() != null) {
+                    ownerIncomeService.updateOwnerIncome(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                    userCategoryService.updateClientPoints(reservation.getClient().getId(), dto.getPrice());
+                    userCategoryService.updateOwnerPoints(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                }
                 emailService.sendEmailAfterReservation(dto.getClientId());
             } else {
                 throw new PessimisticLockingFailureException("Entity already reserved");
@@ -313,10 +315,16 @@ public class ReservationService implements IReservationService {
     public Reservation makeReservationOwner(OwnerReservationDTO dto) {
         Reservation reservation = ReservationMapper.ownerMapDTOToModel(dto);
         reservation.setClient(userRepository.getById(dto.getClientId()));
+        if (loyaltyProgrammeService.get() != null) reservation.setPrice(calculateDiscount(reservation.getClient().getId(),dto.getPrice()));
         try {
             ReservationEntity entity = entityRepository.getLocked(dto.getEntityId());
             reservation.setReservationEntity(entity);
             if(isPeriodAvailable(dto.getStartDate(), dto.getEndDate(), dto.getEntityId())) {
+                if (loyaltyProgrammeService.get() != null) {
+                    ownerIncomeService.updateOwnerIncome(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                    userCategoryService.updateClientPoints(reservation.getClient().getId(), dto.getPrice());
+                    userCategoryService.updateOwnerPoints(reservation.getReservationEntity().getOwner().getId(), reservation.getPrice());
+                }
                 emailService.sendEmailAfterReservation(dto.getClientId());
                 return reservationRepository.save(reservation);
             } else {

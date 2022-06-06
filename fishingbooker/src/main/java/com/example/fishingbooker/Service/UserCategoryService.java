@@ -64,6 +64,11 @@ public class UserCategoryService implements IUserCategoryService {
         userCategoryRepository.save(userCategory);
     }
 
+    @Override
+    public UserCategory get(Integer clientId) {
+        return userCategoryRepository.getUserCategoryByClientId(clientId);
+    }
+
     private CategoryType updateCategory(UserCategory category){
         LoyaltyProgramme loyaltyProgramme = loyaltyProgrammeService.get();
         if(category.getPoints() < loyaltyProgramme.getBronzeLimit()){
@@ -78,4 +83,6 @@ public class UserCategoryService implements IUserCategoryService {
             return CategoryType.gold;
         }
     }
+
+
 }

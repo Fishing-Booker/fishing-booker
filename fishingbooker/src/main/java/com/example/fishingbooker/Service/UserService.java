@@ -2,6 +2,7 @@ package com.example.fishingbooker.Service;
 
 import com.example.fishingbooker.DTO.EntityDTO;
 import com.example.fishingbooker.DTO.RatingInfoDTO;
+import com.example.fishingbooker.DTO.UserCategoryDTO;
 import com.example.fishingbooker.DTO.UserDTO;
 import com.example.fishingbooker.Enum.CategoryType;
 import com.example.fishingbooker.IRepository.*;
@@ -524,5 +525,11 @@ public class UserService implements IUserService, UserDetailsService {
             throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
         }
         return null;
+    }
+
+    @Override
+    public UserCategoryDTO getUserCategory(Integer id) {
+        UserCategory userCategory = userCategoryService.get(id);
+        return new UserCategoryDTO(userCategory.getPoints(), userCategory.getCategoryType().name());
     }
 }
