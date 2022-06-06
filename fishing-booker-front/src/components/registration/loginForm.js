@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useToasts } from "react-toast-notifications";
 
 const LoginForm = () => {
-  const SERVER_URL = process.env.REACT_APP_API;
+  const SERVER_URL = process.env.production.REACT_APP_API;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
