@@ -38,9 +38,9 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
     @Query("DELETE from Reservation r WHERE r.id=?1")
     void cancelReservation(Integer id);
 
-    @Query("UPDATE Reservation a SET a.isBooked=true, a.client.id=?2 WHERE a.id=?1")
     @Modifying
     @Transactional
+    @Query("UPDATE Reservation a SET a.isBooked=true, a.client.id=?2 WHERE a.id=?1")
     void makeReservation(Integer actionId, Integer clientId);
 
     @Query("SELECT r FROM Reservation r WHERE (LOWER(r.client.username) LIKE %:username% OR LOWER(r.client.username) LIKE '')")

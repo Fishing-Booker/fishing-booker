@@ -9,6 +9,7 @@ import com.example.fishingbooker.IService.*;
 import com.example.fishingbooker.Model.*;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -96,30 +98,39 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User save(UserDTO userDTO) {
-        User u = new User();
-        u.setUsername(userDTO.getUsername());
-        u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        u.setEmail(userDTO.getEmail());
-        u.setName(userDTO.getName());
-        u.setSurname(userDTO.getSurname());
-        u.setAddress(userDTO.getAddress());
-        u.setApproved(false);
-        u.setFirstLogin(true);
-        u.setCity(userDTO.getCity());
-        u.setCountry(userDTO.getCountry());
-        u.setDeleted(false);
-        u.setPhoneNumber(userDTO.getPhoneNumber());
-        List<Role> roles = roleService.findByName(userDTO.getRole());
-        u.setRoles(roles);
+    @Transactional
+    public User save(UserDTO userDTO) throws PessimisticLockingFailureException {
+        try {
+            if (findByEmail(userDTO.getEmail()) == null) {
+                User u = new User();
+                u.setUsername(userDTO.getUsername());
+                u.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+                u.setEmail(userDTO.getEmail());
+                u.setName(userDTO.getName());
+                u.setSurname(userDTO.getSurname());
+                u.setAddress(userDTO.getAddress());
+                u.setApproved(false);
+                u.setFirstLogin(true);
+                u.setCity(userDTO.getCity());
+                u.setCountry(userDTO.getCountry());
+                u.setDeleted(false);
+                u.setPhoneNumber(userDTO.getPhoneNumber());
+                List<Role> roles = roleService.findByName(userDTO.getRole());
+                u.setRoles(roles);
 
-        String verificationCode = RandomString.make(64);
-        u.setVerificationCode(verificationCode);
-        this.userRepository.save(u);
-        System.out.println(userDTO.getRole());
-        addCategory(u.getUsername());
-        if(userDTO.getRole().equals("ROLE_INSTRUCTOR") ||userDTO.getRole().equals("ROLE_SHIPOWNER") || userDTO.getRole().equals("ROLE_LODGEOWNER"))ownerIncomeService.initializeOwnerIncome(u.getUsername());
-        return u;
+                String verificationCode = RandomString.make(64);
+                u.setVerificationCode(verificationCode);
+                this.userRepository.save(u);
+                System.out.println(userDTO.getRole());
+                addCategory(u.getUsername());
+                if(userDTO.getRole().equals("ROLE_INSTRUCTOR") ||userDTO.getRole().equals("ROLE_SHIPOWNER") || userDTO.getRole().equals("ROLE_LODGEOWNER"))ownerIncomeService.initializeOwnerIncome(u.getUsername());
+                return u;
+            }
+
+        } catch (Exception e) {
+            throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
+        }
+        throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
     }
 
     private void addCategory(String userUsername){
@@ -500,5 +511,18 @@ public class UserService implements IUserService, UserDetailsService {
     public User doesExist(Integer id) {
         User found = userRepository.getById(id);
         return found;
+    }
+
+    @Override
+    @Transactional
+    public User findByEmail(String email) {
+        try {
+            for (User user : userRepository.findAllLocked()) {
+                if (user.getEmail().equals(email)) return user;
+            }
+        } catch (Exception e) {
+            throw new PessimisticLockingFailureException("Pessimistick lock - email already exists!");
+        }
+        return null;
     }
 }

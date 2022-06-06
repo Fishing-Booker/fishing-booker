@@ -80,8 +80,8 @@ INSERT INTO complaint VALUES (nextval('complaint_seq_gen'), false, 'I dont like 
 INSERT INTO rating VALUES (nextval('rating_seq_gen'), 'Great experience!', 5, false, false, 0, 1, 5);
 INSERT INTO rating VALUES (nextval('rating_seq_gen'), 'Bad experience!', 2, false, false, 0, 2, 5);
 
-INSERT INTO reservation VALUES (nextval('reservation_seq_gen'), 'wifi', '2022-06-27 15:10:49.239', true, 5, 250, '', 'regularReservation', '2022-05-27 15:10:49.239', 0,  1, 1);
-INSERT INTO reservation VALUES (nextval('reservation_seq_gen'), 'parking', '2022-06-20 15:10:49.239', true, 3, 175, '', 'regularReservation', '2022-06-10 15:10:49.239', 0,  1, 2);
+INSERT INTO reservation VALUES (nextval('reservation_seq_gen'), 'wifi', '2022-06-27 15:10:49.239', true, 5, 250, '', 'regularReservation', '2022-05-27 15:10:49.239', 0, 1, 1);
+INSERT INTO reservation VALUES (nextval('reservation_seq_gen'), 'parking', '2022-06-20 15:10:49.239', true, 3, 175, '', 'regularReservation', '2022-06-10 15:10:49.239', 0, 1, 2);
 
 INSERT INTO penalty VALUES (nextval('penalty_seq_gen'), 3, 0, 1);
 
